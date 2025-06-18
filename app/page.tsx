@@ -57,7 +57,7 @@ const AhiyaLanding = () => {
       title: "Mirror of Truth",
       subtitle: "See what your dreams reveal",
       description:
-        "AI that reflects wholeness, not fixes. Recognition over advice. You don&apos;t need more things to do—you need to be seen for who you already are.",
+        "AI that reflects wholeness, not fixes. Recognition over advice. You don't need more things to do—you need to be seen for who you already are.",
       details:
         "Experience that shows you who you already are rather than who you should become.",
       theme: "from-blue-500 to-indigo-600",
@@ -104,7 +104,7 @@ const AhiyaLanding = () => {
       description:
         "How the Tree of Knowledge story reveals the deepest truth about addiction, consciousness, and the journey home. Ancient wisdom for modern seeking.",
       preview:
-        "The story of the Tree of Knowledge isn&apos;t just ancient mythology. It&apos;s a precise map of how consciousness develops, why we suffer, and why we reach for things outside ourselves...",
+        "The story of the Tree of Knowledge isn't just ancient mythology. It's a precise map of how consciousness develops, why we suffer, and why we reach for things outside ourselves...",
       link: "/writings/sacred-wound",
       theme: "from-purple-500 to-indigo-600",
     },
@@ -230,11 +230,8 @@ const AhiyaLanding = () => {
             {projects.map((project, index) => (
               <div
                 key={project.id}
-                className={`group relative bg-white/5 backdrop-blur-xl border ${
-                  project.borderColor
-                } rounded-2xl p-6 hover:bg-white/10 transition-all duration-700 cursor-pointer hover:scale-[1.03] hover:shadow-2xl hover:border-opacity-60 animate-slide-in-up delay-${
-                  index * 200
-                }`}
+                className={`group relative bg-white/5 backdrop-blur-xl border ${project.borderColor} rounded-2xl p-6 hover:bg-white/10 transition-all duration-700 cursor-pointer hover:scale-[1.03] hover:shadow-2xl hover:border-opacity-60 opacity-0 animate-slide-in-up`}
+                style={{ animationDelay: `${index * 200}ms` }}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div
@@ -286,15 +283,6 @@ const AhiyaLanding = () => {
                 <div
                   className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${project.theme} opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none`}
                 />
-
-                {/* Subtle border glow */}
-                <div
-                  className={`absolute inset-0 rounded-2xl border-2 border-transparent bg-gradient-to-r ${project.theme} opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none`}
-                  style={{
-                    mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                    maskComposite: "exclude",
-                  }}
-                />
               </div>
             ))}
           </div>
@@ -320,9 +308,8 @@ const AhiyaLanding = () => {
             {writings.map((writing, index) => (
               <div
                 key={writing.id}
-                className={`group relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-700 cursor-pointer hover:scale-[1.03] hover:shadow-2xl hover:border-white/20 animate-slide-in-up delay-${
-                  (index + 2) * 200
-                }`}
+                className={`group relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-700 cursor-pointer hover:scale-[1.03] hover:shadow-2xl hover:border-white/20 opacity-0 animate-slide-in-up`}
+                style={{ animationDelay: `${(index + 2) * 200}ms` }}
               >
                 <div className="mb-4">
                   <div
