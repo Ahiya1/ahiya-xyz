@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 import {
   Mail,
@@ -357,7 +355,7 @@ const AhiyaLanding = () => {
                 <div className="relative">
                   <div className="bg-white/5 rounded-lg p-4 border border-white/10 group-hover:bg-white/10 group-hover:border-white/20 transition-all duration-500">
                     <p className="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
-                      "{writing.preview}"
+                      &quot;{writing.preview}&quot;
                     </p>
                   </div>
                 </div>
@@ -407,7 +405,8 @@ const AhiyaLanding = () => {
             </div>
 
             <p className="text-xs text-slate-500 mt-6 italic">
-              "Technology that makes humans more human, not more optimized."
+              &quot;Technology that makes humans more human, not more
+              optimized.&quot;
             </p>
           </div>
         </div>
