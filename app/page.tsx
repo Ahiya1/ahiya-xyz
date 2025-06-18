@@ -117,15 +117,7 @@ const AhiyaLanding = () => {
       {/* Cosmic background elements */}
       <div className="fixed inset-0 opacity-30">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-teal-500/5 animate-pulse" />
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 2px 2px, rgba(255,255,255,0.08) 1px, transparent 0)",
-            backgroundSize: "40px 40px",
-            animation: "float 20s ease-in-out infinite",
-          }}
-        />
+        <div className="absolute inset-0 opacity-20 bg-cosmic-texture animate-float" />
       </div>
 
       {/* Floating cosmic elements */}
@@ -238,11 +230,11 @@ const AhiyaLanding = () => {
             {projects.map((project, index) => (
               <div
                 key={project.id}
-                className={`group relative bg-white/5 backdrop-blur-xl border ${project.borderColor} rounded-2xl p-6 hover:bg-white/10 transition-all duration-700 cursor-pointer hover:scale-[1.03] hover:${project.glowColor} hover:shadow-2xl hover:border-opacity-60`}
-                style={{
-                  animationDelay: `${index * 200}ms`,
-                  animation: "slideInUp 0.8s ease-out forwards",
-                }}
+                className={`group relative bg-white/5 backdrop-blur-xl border ${
+                  project.borderColor
+                } rounded-2xl p-6 hover:bg-white/10 transition-all duration-700 cursor-pointer hover:scale-[1.03] hover:shadow-2xl hover:border-opacity-60 animate-slide-in-up delay-${
+                  index * 200
+                }`}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div
@@ -328,11 +320,9 @@ const AhiyaLanding = () => {
             {writings.map((writing, index) => (
               <div
                 key={writing.id}
-                className="group relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-700 cursor-pointer hover:scale-[1.03] hover:shadow-2xl hover:border-white/20"
-                style={{
-                  animationDelay: `${(index + 2) * 200}ms`,
-                  animation: "slideInUp 0.8s ease-out forwards",
-                }}
+                className={`group relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-700 cursor-pointer hover:scale-[1.03] hover:shadow-2xl hover:border-white/20 animate-slide-in-up delay-${
+                  (index + 2) * 200
+                }`}
               >
                 <div className="mb-4">
                   <div
@@ -426,72 +416,6 @@ const AhiyaLanding = () => {
           </p>
         </div>
       </footer>
-
-      {/* Enhanced CSS Animations */}
-      <style jsx>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px) rotate(0deg);
-          }
-          50% {
-            transform: translateY(-10px) rotate(180deg);
-          }
-        }
-
-        @keyframes slideInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes gentleGlow {
-          0%,
-          100% {
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
-          }
-          50% {
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
-          }
-        }
-
-        @keyframes cosmicBreath {
-          0%,
-          100% {
-            transform: scale(1);
-            filter: brightness(1);
-          }
-          50% {
-            transform: scale(1.02);
-            filter: brightness(1.1);
-          }
-        }
-
-        .line-clamp-3 {
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        /* Smooth scrolling */
-        html {
-          scroll-behavior: smooth;
-        }
-
-        /* Mobile navigation enhancement */
-        @media (max-width: 768px) {
-          .mobile-nav {
-            backdrop-filter: blur(20px);
-            background: rgba(15, 23, 42, 0.8);
-          }
-        }
-      `}</style>
     </div>
   );
 };
