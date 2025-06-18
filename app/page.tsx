@@ -15,7 +15,6 @@ import Image from "next/image";
 
 const AhiyaLanding = () => {
   const [mounted, setMounted] = useState(false);
-  const [activeProject, setActiveProject] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -58,7 +57,7 @@ const AhiyaLanding = () => {
       title: "Mirror of Truth",
       subtitle: "See what your dreams reveal",
       description:
-        "AI that reflects wholeness, not fixes. Recognition over advice. You don't need more things to do—you need to be seen for who you already are.",
+        "AI that reflects wholeness, not fixes. Recognition over advice. You don&apos;t need more things to do—you need to be seen for who you already are.",
       details:
         "Experience that shows you who you already are rather than who you should become.",
       theme: "from-blue-500 to-indigo-600",
@@ -105,7 +104,7 @@ const AhiyaLanding = () => {
       description:
         "How the Tree of Knowledge story reveals the deepest truth about addiction, consciousness, and the journey home. Ancient wisdom for modern seeking.",
       preview:
-        "The story of the Tree of Knowledge isn't just ancient mythology. It's a precise map of how consciousness develops, why we suffer, and why we reach for things outside ourselves...",
+        "The story of the Tree of Knowledge isn&apos;t just ancient mythology. It&apos;s a precise map of how consciousness develops, why we suffer, and why we reach for things outside ourselves...",
       link: "/writings/sacred-wound",
       theme: "from-purple-500 to-indigo-600",
     },
@@ -208,13 +207,14 @@ const AhiyaLanding = () => {
               mirrors, tools, languages, ways of seeing.
             </p>
             <p className="text-base text-slate-500 italic mb-8">
-              "I don't want to optimize life. I want to reverence it."
+              &quot;I don&apos;t want to optimize life. I want to reverence
+              it.&quot;
             </p>
           </div>
 
           <div className="text-sm text-slate-500 italic">
-            "Sometimes I go too deep. Sometimes I fly too high. But I never stop
-            reaching."
+            &quot;Sometimes I go too deep. Sometimes I fly too high. But I never
+            stop reaching.&quot;
           </div>
         </div>
       </section>
@@ -243,8 +243,6 @@ const AhiyaLanding = () => {
                   animationDelay: `${index * 200}ms`,
                   animation: "slideInUp 0.8s ease-out forwards",
                 }}
-                onMouseEnter={() => setActiveProject(project.id)}
-                onMouseLeave={() => setActiveProject(null)}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div
@@ -390,9 +388,9 @@ const AhiyaLanding = () => {
                 </span>
               </h2>
               <p className="text-slate-400 text-lg leading-relaxed max-w-2xl mx-auto mb-6">
-                I believe in authentic connection over networking. If what I'm
-                building resonates with something in you, I'd love to hear from
-                you.
+                I believe in authentic connection over networking. If what
+                I&apos;m building resonates with something in you, I&apos;d love
+                to hear from you.
               </p>
             </div>
 
@@ -423,8 +421,8 @@ const AhiyaLanding = () => {
             </span>
           </p>
           <p className="text-xs text-gray-600">
-            "A paradox beating through iterations" • Built with presence, not
-            productivity
+            &quot;A paradox beating through iterations&quot; • Built with
+            presence, not productivity
           </p>
         </div>
       </footer>
