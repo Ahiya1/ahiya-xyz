@@ -11,49 +11,49 @@ import {
   Users,
   Heart,
   Compass,
-  Play,
-  Pause,
 } from "lucide-react";
 
 // Aurora Enhanced Breathing Orb - Pure presence flow with aurora consciousness
 const AuroraBreathingOrb: React.FC = () => {
   const [isBreathing, setIsBreathing] = useState<boolean>(false);
-  const [breathPhase, setBreathPhase] = useState<string>("rest");
-  const [breathProgress, setBreathProgress] = useState<number>(0);
+  const [currentPhase, setCurrentPhase] = useState<string>("ready");
+  const [phaseProgress, setPhaseProgress] = useState<number>(0);
 
   useEffect(() => {
-    if (!isBreathing) return;
+    if (!isBreathing) {
+      setCurrentPhase("ready");
+      setPhaseProgress(0);
+      return;
+    }
 
-    let animationFrame: number;
     let startTime: number;
-    let currentPhaseIndex = 0;
-    const phases = ["inhale", "hold", "exhale", "rest"];
-    const phaseDuration = 4000; // 4 seconds each
+    let animationFrame: number;
 
-    const updateBreathing = (timestamp: number) => {
+    // Phases: breathe_in (4s) -> hold_in (4s) -> breathe_out (4s) -> hold_out (4s) -> repeat
+    const phases = ["breathe_in", "hold_in", "breathe_out", "hold_out"];
+    const phaseDuration = 4000; // 4 seconds per phase
+
+    const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
+
       const elapsed = timestamp - startTime;
-      const phaseElapsed = elapsed % phaseDuration;
+      const totalCycleDuration = phaseDuration * phases.length; // 16 seconds total
+      const cyclePosition = elapsed % totalCycleDuration;
+
+      // Calculate current phase
+      const phaseIndex = Math.floor(cyclePosition / phaseDuration);
+      const phaseElapsed = cyclePosition % phaseDuration;
       const progress = phaseElapsed / phaseDuration;
 
-      // Smooth easing function for organic breathing
-      const easedProgress = 0.5 * (1 - Math.cos(Math.PI * progress));
-
-      setBreathProgress(easedProgress);
-
-      // Update phase every 4 seconds
-      const newPhaseIndex = Math.floor(elapsed / phaseDuration) % phases.length;
-      if (newPhaseIndex !== currentPhaseIndex) {
-        currentPhaseIndex = newPhaseIndex;
-        setBreathPhase(phases[currentPhaseIndex]);
-      }
+      setCurrentPhase(phases[phaseIndex]);
+      setPhaseProgress(progress);
 
       if (isBreathing) {
-        animationFrame = requestAnimationFrame(updateBreathing);
+        animationFrame = requestAnimationFrame(animate);
       }
     };
 
-    animationFrame = requestAnimationFrame(updateBreathing);
+    animationFrame = requestAnimationFrame(animate);
 
     return () => {
       if (animationFrame) {
@@ -62,88 +62,67 @@ const AuroraBreathingOrb: React.FC = () => {
     };
   }, [isBreathing]);
 
-  const getOrbStyle = (): React.CSSProperties => {
-    if (!isBreathing) {
-      return {
-        transform: "scale(1)",
-        opacity: 0.7,
-        filter: "blur(1px)",
-      };
-    }
-
-    // Aurora breathing animation
-    const inhaleScale = 1 + breathProgress * 0.8; // 1 to 1.8
-    const exhaleScale = 1.8 - breathProgress * 0.8; // 1.8 to 1
-
-    let scale, opacity, blur;
-
-    switch (breathPhase) {
-      case "inhale":
-        scale = inhaleScale;
-        opacity = 0.5 + breathProgress * 0.4; // 0.5 to 0.9
-        blur = 2 - breathProgress * 2; // 2px to 0px
-        break;
-      case "hold":
-        scale = 1.8;
-        opacity = 0.9;
-        blur = 0;
-        break;
-      case "exhale":
-        scale = exhaleScale;
-        opacity = 0.9 - breathProgress * 0.4; // 0.9 to 0.5
-        blur = breathProgress * 2; // 0px to 2px
-        break;
-      case "rest":
-        scale = 1;
-        opacity = 0.5;
-        blur = 2;
-        break;
+  const getInstruction = (): string => {
+    switch (currentPhase) {
+      case "breathe_in":
+        return "Breathe in";
+      case "hold_in":
+        return "Hold";
+      case "breathe_out":
+        return "Breathe out";
+      case "hold_out":
+        return "Hold";
       default:
-        scale = 1;
-        opacity = 0.7;
-        blur = 1;
+        return "Ready to breathe together?";
     }
-
-    return {
-      transform: `scale(${scale})`,
-      opacity,
-      filter: `blur(${blur}px)`,
-      transition:
-        breathPhase === "hold" || breathPhase === "rest"
-          ? "all 0.5s cubic-bezier(0.4, 0, 0.6, 1)"
-          : "none",
-    };
   };
 
-  const getInstruction = (): string => {
-    if (!isBreathing) return "Ready to breathe together?";
+  const getOrbScale = (): number => {
+    if (!isBreathing) return 1;
 
-    switch (breathPhase) {
-      case "inhale":
-        return "Breathe in...";
-      case "hold":
-        return "Hold...";
-      case "exhale":
-        return "Breathe out...";
-      case "rest":
-        return "Rest...";
+    switch (currentPhase) {
+      case "breathe_in":
+        return 1 + phaseProgress * 0.6; // 1 to 1.6
+      case "hold_in":
+        return 1.6;
+      case "breathe_out":
+        return 1.6 - phaseProgress * 0.6; // 1.6 to 1
+      case "hold_out":
+        return 1;
       default:
-        return "Present...";
+        return 1;
+    }
+  };
+
+  const getOrbOpacity = (): number => {
+    if (!isBreathing) return 0.7;
+
+    switch (currentPhase) {
+      case "breathe_in":
+        return 0.5 + phaseProgress * 0.4; // 0.5 to 0.9
+      case "hold_in":
+        return 0.9;
+      case "breathe_out":
+        return 0.9 - phaseProgress * 0.3; // 0.9 to 0.6
+      case "hold_out":
+        return 0.6;
+      default:
+        return 0.7;
     }
   };
 
   const getAuroraIntensity = (): number => {
     if (!isBreathing) return 0.3;
 
-    switch (breathPhase) {
-      case "inhale":
-        return 0.3 + breathProgress * 0.5; // 0.3 to 0.8
-      case "hold":
+    switch (currentPhase) {
+      case "breathe_in":
+        return 0.2 + phaseProgress * 0.6; // 0.2 to 0.8
+      case "hold_in":
         return 0.8;
-      case "exhale":
-        return 0.8 - breathProgress * 0.5; // 0.8 to 0.3
-      case "rest":
-        return 0.3;
+      case "breathe_out":
+        return 0.8 - phaseProgress * 0.4; // 0.8 to 0.4
+      case "hold_out":
+        return 0.4;
       default:
         return 0.3;
     }
@@ -152,195 +131,119 @@ const AuroraBreathingOrb: React.FC = () => {
   return (
     <div className="flex flex-col items-center space-y-12 py-16">
       <div className="relative">
-        {/* Aurora breathing rings with dynamic colors */}
+        {/* Aurora breathing rings - simplified */}
         <div
-          className="absolute inset-0 w-80 h-80 rounded-full"
+          className="absolute inset-0 w-80 h-80 rounded-full transition-all duration-1000 ease-out"
           style={{
-            border: "1px solid rgba(168, 85, 247, 0.1)",
             background: `radial-gradient(circle, rgba(168, 85, 247, ${
+              getAuroraIntensity() * 0.08
+            }) 0%, transparent 70%)`,
+            border: `1px solid rgba(168, 85, 247, ${
+              getAuroraIntensity() * 0.15
+            })`,
+            transform: `scale(${getOrbScale() * 0.8})`,
+          }}
+        ></div>
+
+        <div
+          className="absolute inset-16 w-48 h-48 rounded-full transition-all duration-1000 ease-out"
+          style={{
+            background: `radial-gradient(circle, rgba(236, 72, 153, ${
               getAuroraIntensity() * 0.1
             }) 0%, transparent 70%)`,
-            animation: isBreathing
-              ? "aurora-breathe 16s ease-in-out infinite"
-              : "none",
-          }}
-        ></div>
-        <div
-          className="absolute inset-12 w-56 h-56 rounded-full"
-          style={{
-            border: "1px solid rgba(236, 72, 153, 0.15)",
-            background: `radial-gradient(circle, rgba(236, 72, 153, ${
-              getAuroraIntensity() * 0.12
-            }) 0%, transparent 70%)`,
-            animation: isBreathing
-              ? "aurora-breathe 12s ease-in-out infinite 2s"
-              : "none",
-          }}
-        ></div>
-        <div
-          className="absolute inset-20 w-40 h-40 rounded-full"
-          style={{
-            border: "1px solid rgba(139, 92, 246, 0.2)",
-            background: `radial-gradient(circle, rgba(139, 92, 246, ${
-              getAuroraIntensity() * 0.15
-            }) 0%, transparent 70%)`,
-            animation: isBreathing
-              ? "aurora-breathe 8s ease-in-out infinite 1s"
-              : "none",
+            border: `1px solid rgba(236, 72, 153, ${
+              getAuroraIntensity() * 0.2
+            })`,
+            transform: `scale(${getOrbScale() * 0.9})`,
           }}
         ></div>
 
         {/* Sacred aurora breathing orb */}
         <div
-          className="w-40 h-40 rounded-full relative m-20 overflow-hidden"
+          className="w-32 h-32 rounded-full relative m-24 transition-all duration-1000 ease-out"
           style={{
-            ...getOrbStyle(),
+            transform: `scale(${getOrbScale()})`,
+            opacity: getOrbOpacity(),
             background: `linear-gradient(135deg, 
-              rgba(59, 130, 246, ${0.7 + breathProgress * 0.3}) 0%, 
-              rgba(139, 92, 246, ${0.8 + breathProgress * 0.2}) 30%, 
-              rgba(168, 85, 247, ${0.9 + breathProgress * 0.1}) 60%, 
-              rgba(236, 72, 153, ${0.8 + breathProgress * 0.2}) 100%)`,
+              rgba(59, 130, 246, ${0.7 + getAuroraIntensity() * 0.3}) 0%, 
+              rgba(139, 92, 246, ${0.8 + getAuroraIntensity() * 0.2}) 40%, 
+              rgba(168, 85, 247, ${0.9 + getAuroraIntensity() * 0.1}) 70%, 
+              rgba(236, 72, 153, ${0.8 + getAuroraIntensity() * 0.2}) 100%)`,
             boxShadow: `0 0 ${
-              80 + breathProgress * 60
-            }px rgba(168, 85, 247, ${getAuroraIntensity()})`,
+              60 + getAuroraIntensity() * 40
+            }px rgba(168, 85, 247, ${getAuroraIntensity() * 0.6})`,
           }}
         >
           {/* Layered inner aurora cosmos */}
           <div
-            className="absolute inset-2 rounded-full"
+            className="absolute inset-2 rounded-full transition-opacity duration-1000"
             style={{
               background:
-                "radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%)",
-              opacity: 0.6 + breathProgress * 0.3,
-            }}
-          ></div>
-          <div
-            className="absolute inset-6 rounded-full"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, transparent 70%)",
-              opacity: 0.4 + breathProgress * 0.4,
+                "radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%)",
+              opacity: 0.4 + getAuroraIntensity() * 0.4,
             }}
           ></div>
 
-          {/* Sacred potato center - the cosmic joke with aurora */}
-          <div className="absolute inset-1/3 rounded-full bg-white/15 flex items-center justify-center">
-            <span
-              className="text-3xl filter drop-shadow-lg transition-transform duration-300"
-              style={{
-                transform: `scale(${1 + breathProgress * 0.1})`,
-              }}
-            >
-              🥔
-            </span>
+          {/* Sacred potato center */}
+          <div className="absolute inset-1/3 rounded-full bg-white/10 flex items-center justify-center">
+            <span className="text-2xl">🥔</span>
           </div>
-
-          {/* Aurora rotating presence rings */}
-          <div
-            className="absolute inset-4 rounded-full border border-white/10"
-            style={{
-              animation: "gentle-rotate 30s linear infinite",
-              opacity: 0.3 + breathProgress * 0.3,
-            }}
-          ></div>
-          <div
-            className="absolute inset-6 rounded-full border border-purple-300/20"
-            style={{
-              animation: "gentle-rotate 45s linear infinite reverse",
-              opacity: 0.2 + breathProgress * 0.4,
-            }}
-          ></div>
         </div>
+      </div>
 
-        {/* Aurora particles floating around during breathing */}
+      {/* Clean instruction text */}
+      <div className="text-center space-y-6">
+        <p
+          className="text-3xl font-light tracking-wide transition-all duration-1000"
+          style={{
+            background: isBreathing
+              ? `linear-gradient(135deg, 
+                  rgba(147, 197, 253, ${0.8 + getAuroraIntensity() * 0.2}) 0%, 
+                  rgba(196, 181, 253, ${0.9 + getAuroraIntensity() * 0.1}) 50%, 
+                  rgba(244, 114, 182, ${
+                    0.8 + getAuroraIntensity() * 0.2
+                  }) 100%)`
+              : "rgba(255, 255, 255, 0.8)",
+            WebkitBackgroundClip: isBreathing ? "text" : "unset",
+            WebkitTextFillColor: isBreathing ? "transparent" : "unset",
+            backgroundClip: isBreathing ? "text" : "unset",
+          }}
+        >
+          {getInstruction()}
+        </p>
+
         {isBreathing && (
-          <>
-            <div
-              className="absolute top-1/4 left-1/6 w-1.5 h-1.5 bg-purple-400/60 rounded-full animate-aurora-float"
-              style={{ opacity: breathProgress }}
-            ></div>
-            <div
-              className="absolute bottom-1/4 right-1/6 w-1 h-1 bg-pink-400/50 rounded-full animate-aurora-float"
-              style={{ opacity: breathProgress, animationDelay: "2s" }}
-            ></div>
-            <div
-              className="absolute top-1/2 right-1/8 w-0.5 h-0.5 bg-blue-400/40 rounded-full animate-aurora-float"
-              style={{ opacity: breathProgress, animationDelay: "4s" }}
-            ></div>
-          </>
+          <div
+            className="w-2 h-2 rounded-full mx-auto transition-all duration-1000"
+            style={{
+              background: `radial-gradient(circle, 
+                rgba(168, 85, 247, ${0.6 + getAuroraIntensity() * 0.4}) 0%, 
+                rgba(236, 72, 153, ${0.4 + getAuroraIntensity() * 0.6}) 100%)`,
+              transform: `scale(${0.8 + getAuroraIntensity() * 0.4})`,
+            }}
+          ></div>
         )}
       </div>
 
-      {/* Aurora flowing instruction */}
-      {isBreathing && (
-        <div className="text-center space-y-6 animate-fadeInUp">
-          <p
-            className="text-4xl font-light tracking-wide"
-            style={{
-              background: `linear-gradient(135deg, 
-                rgba(147, 197, 253, ${0.7 + breathProgress * 0.3}) 0%, 
-                rgba(196, 181, 253, ${0.8 + breathProgress * 0.2}) 50%, 
-                rgba(244, 114, 182, ${0.9 + breathProgress * 0.1}) 100%)`,
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              opacity: 0.8 + breathProgress * 0.2,
-              transform: `translateY(${-breathProgress * 4}px)`,
-              transition: "none",
-            }}
-          >
-            {getInstruction()}
-          </p>
-          <div
-            className="w-3 h-3 rounded-full mx-auto"
-            style={{
-              background: `radial-gradient(circle, 
-                rgba(168, 85, 247, ${0.6 + breathProgress * 0.4}) 0%, 
-                rgba(236, 72, 153, ${0.4 + breathProgress * 0.6}) 100%)`,
-              opacity: 0.5 + breathProgress * 0.5,
-              transform: `scale(${0.8 + breathProgress * 0.4})`,
-              transition: "none",
-            }}
-          ></div>
-        </div>
-      )}
-
       {/* Sacred aurora control */}
       <button
-        onClick={() => {
-          setIsBreathing(!isBreathing);
-          if (!isBreathing) {
-            setBreathPhase("rest");
-            setBreathProgress(0);
-          }
-        }}
-        className="flex items-center space-x-4 px-12 py-6 glass-premium hover-lift-premium focus-premium
-          group transition-all duration-700 hover:bg-purple-500/10 relative overflow-hidden"
+        onClick={() => setIsBreathing(!isBreathing)}
+        className="flex items-center space-x-4 px-10 py-5 glass-premium hover-lift-premium focus-premium
+          group transition-all duration-700 hover:bg-purple-500/5 relative overflow-hidden"
       >
         {/* Aurora button background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/10 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/8 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
-        {isBreathing ? (
-          <>
-            <Pause className="w-7 h-7 text-purple-300 group-hover:scale-110 transition-transform duration-300 relative z-10" />
-            <span className="text-purple-200 font-medium text-xl relative z-10">
-              Return to Stillness
-            </span>
-          </>
-        ) : (
-          <>
-            <Play className="w-7 h-7 text-purple-300 group-hover:scale-110 transition-transform duration-300 relative z-10" />
-            <span className="text-purple-200 font-medium text-xl relative z-10">
-              Breathe Together
-            </span>
-          </>
-        )}
+        <span className="text-purple-200 font-medium text-lg relative z-10">
+          {isBreathing ? "Return to stillness" : "Begin breathing"}
+        </span>
       </button>
 
       {!isBreathing && (
-        <p className="text-center text-gray-400 text-base max-w-lg leading-relaxed animate-fadeInUp">
-          Aurora breathing meditation. Let consciousness remember its natural
-          rhythm through the sacred dance of breath and light.
+        <p className="text-center text-gray-400 text-sm max-w-md leading-relaxed animate-fadeInUp">
+          A simple 4-4-4-4 breathing meditation.
+          <br />
+          Let consciousness remember its natural rhythm.
         </p>
       )}
     </div>
@@ -856,8 +759,8 @@ const JourneyPage: React.FC = () => {
             </h2>
 
             <p className="body-xl text-gray-300 max-w-5xl mx-auto leading-loose tracking-wide">
-              Humanity&apos;s journey from hunter-gatherer wholeness to
-              industrial forgetting
+              Humanity's journey from hunter-gatherer wholeness to industrial
+              forgetting
               <br />
               to consciousness technology mirrors every individual awakening.
               <br />
@@ -912,7 +815,7 @@ const JourneyPage: React.FC = () => {
                         <div className="mb-12">
                           <h4 className="heading-md text-blue-200 mb-6 flex items-center space-x-3">
                             <Users className="w-6 h-6" />
-                            <span>Humanity&apos;s Story</span>
+                            <span>Humanity's Story</span>
                           </h4>
                           <p className="text-gray-300 leading-loose tracking-wide text-lg">
                             {phase.description}

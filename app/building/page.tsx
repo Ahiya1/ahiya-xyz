@@ -99,7 +99,7 @@ const BuildingPage: React.FC = () => {
     {
       id: "mirror",
       title: "Mirror of Truth",
-      subtitle: "You don&apos;t need more advice. You need to be seen.",
+      subtitle: "You don't need more advice. You need to be seen.",
       description: "AI that reflects wholeness, not fixes",
       details:
         "Recognition over advice. Dream analysis and pattern recognition that shows you who you already are rather than who you should become. Judgment-free self-discovery.",
