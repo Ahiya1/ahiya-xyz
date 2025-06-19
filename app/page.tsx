@@ -22,52 +22,28 @@ import {
   Heart,
 } from "lucide-react";
 
-// Enhanced Breathing Orb Component with Organic Breathing
-const BreathingOrb = () => {
-  const [isBreathing, setIsBreathing] = useState(false);
-  const [breathPhase, setBreathPhase] = useState("inhale");
-  const [breathCount, setBreathCount] = useState(0);
-  const [breathProgress, setBreathProgress] = useState(0);
+// Pure Presence Breathing Orb - Less tracking, more being
+const BreathingOrb: React.FC = () => {
+  const [isBreathing, setIsBreathing] = useState<boolean>(false);
+  const [breathPhase, setBreathPhase] = useState<string>("rest");
 
   useEffect(() => {
     if (!isBreathing) return;
 
-    const breathCycle = () => {
-      const phases = [
-        { name: "inhale", duration: 4000, instruction: "Breathe in..." },
-        { name: "hold-in", duration: 4000, instruction: "Hold..." },
-        { name: "exhale", duration: 4000, instruction: "Breathe out..." },
-        { name: "hold-out", duration: 4000, instruction: "Hold..." },
-      ];
-
+    const breathCycle = (): void => {
+      // Simple 4-second cycles
+      const phases: string[] = ["inhale", "hold", "exhale", "rest"];
       let currentPhaseIndex = 0;
 
-      const cyclePhase = () => {
-        const currentPhase = phases[currentPhaseIndex];
-        setBreathPhase(currentPhase.name);
+      const cyclePhase = (): void => {
+        if (!isBreathing) return;
 
-        // Animate progress within each phase
-        const startTime = Date.now();
-        const updateProgress = () => {
-          if (!isBreathing) return;
-
-          const elapsed = Date.now() - startTime;
-          const progress = Math.min(elapsed / currentPhase.duration, 1);
-          setBreathProgress(progress);
-
-          if (progress < 1) {
-            requestAnimationFrame(updateProgress);
-          }
-        };
-        updateProgress();
+        setBreathPhase(phases[currentPhaseIndex]);
+        currentPhaseIndex = (currentPhaseIndex + 1) % phases.length;
 
         setTimeout(() => {
-          currentPhaseIndex = (currentPhaseIndex + 1) % phases.length;
-          if (currentPhaseIndex === 0) {
-            setBreathCount((prev) => prev + 1);
-          }
           if (isBreathing) cyclePhase();
-        }, currentPhase.duration);
+        }, 4000); // 4 seconds each phase
       };
 
       cyclePhase();
@@ -76,179 +52,177 @@ const BreathingOrb = () => {
     breathCycle();
   }, [isBreathing]);
 
-  const getOrbTransform = () => {
-    const baseScale =
-      breathPhase === "inhale" || breathPhase === "hold-in" ? 1.5 : 1;
-    const progressScale =
-      breathPhase === "inhale"
-        ? 1 + breathProgress * 0.5
-        : breathPhase === "exhale"
-        ? 1.5 - breathProgress * 0.5
-        : baseScale;
-    return `scale(${progressScale})`;
+  const getOrbStyle = (): React.CSSProperties => {
+    const baseStyle: React.CSSProperties = {
+      transition: "all 4s cubic-bezier(0.4, 0, 0.6, 1)",
+    };
+
+    switch (breathPhase) {
+      case "inhale":
+        return {
+          ...baseStyle,
+          transform: "scale(1.8)",
+          opacity: 0.95,
+          filter: "blur(0px)",
+        };
+      case "hold":
+        return {
+          ...baseStyle,
+          transform: "scale(1.8)",
+          opacity: 0.95,
+          filter: "blur(1px)",
+          transition: "all 0.5s ease",
+        };
+      case "exhale":
+        return {
+          ...baseStyle,
+          transform: "scale(1)",
+          opacity: 0.4,
+          filter: "blur(2px)",
+        };
+      case "rest":
+        return {
+          ...baseStyle,
+          transform: "scale(1)",
+          opacity: 0.4,
+          filter: "blur(1px)",
+          transition: "all 0.5s ease",
+        };
+      default:
+        return baseStyle;
+    }
   };
 
-  const getOrbOpacity = () => {
-    const baseOpacity =
-      breathPhase === "inhale" || breathPhase === "hold-in" ? 0.9 : 0.6;
-    const progressOpacity =
-      breathPhase === "inhale"
-        ? 0.6 + breathProgress * 0.3
-        : breathPhase === "exhale"
-        ? 0.9 - breathProgress * 0.3
-        : baseOpacity;
-    return progressOpacity;
-  };
+  const getInstruction = (): string => {
+    if (!isBreathing) return "Ready to breathe?";
 
-  const getInstruction = () => {
     switch (breathPhase) {
       case "inhale":
         return "Breathe in...";
-      case "hold-in":
+      case "hold":
         return "Hold...";
       case "exhale":
         return "Breathe out...";
-      case "hold-out":
-        return "Hold...";
+      case "rest":
+        return "Rest...";
       default:
-        return "Ready to breathe?";
+        return "Present...";
     }
   };
 
   return (
-    <div className="flex flex-col items-center space-y-8 p-8">
+    <div className="flex flex-col items-center space-y-12 py-16">
       <div className="relative">
-        {/* Enhanced breathing rings */}
+        {/* Cosmic breathing rings - much more pronounced */}
         <div
-          className={`absolute inset-0 w-64 h-64 rounded-full border border-blue-400/10 
-          ${isBreathing ? "animate-ping" : ""}`}
+          className="absolute inset-0 w-80 h-80 rounded-full border border-blue-400/5 animate-ping"
           style={{ animationDuration: "8s" }}
         ></div>
         <div
-          className={`absolute inset-8 w-48 h-48 rounded-full border border-blue-400/20 
-          ${isBreathing ? "animate-pulse" : ""}`}
+          className="absolute inset-12 w-56 h-56 rounded-full border border-blue-400/10 animate-pulse"
+          style={{ animationDuration: "6s" }}
+        ></div>
+        <div
+          className="absolute inset-20 w-40 h-40 rounded-full border border-blue-400/20 animate-pulse"
           style={{ animationDuration: "4s" }}
         ></div>
-        <div
-          className={`absolute inset-16 w-32 h-32 rounded-full border border-blue-400/30 
-          ${isBreathing ? "animate-pulse" : ""}`}
-          style={{ animationDuration: "2s" }}
-        ></div>
 
-        {/* Main breathing orb with organic animation */}
+        {/* Sacred breathing orb with profound animation */}
         <div
-          className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 
-            shadow-2xl relative m-16 transition-all duration-300 ease-out breathing-orb"
+          className="w-40 h-40 rounded-full bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 
+            shadow-2xl relative m-20"
           style={{
-            transform: getOrbTransform(),
-            opacity: getOrbOpacity(),
-            boxShadow: `0 0 ${60 + breathProgress * 40}px rgba(59, 130, 246, ${
-              0.3 + breathProgress * 0.3
+            ...getOrbStyle(),
+            boxShadow: `0 0 80px rgba(59, 130, 246, ${
+              breathPhase === "inhale" ? 0.6 : 0.3
             })`,
           }}
         >
-          {/* Layered inner glow effects */}
-          <div
-            className="absolute inset-1 rounded-full bg-gradient-to-br from-white/40 to-transparent"
-            style={{ opacity: 0.8 + breathProgress * 0.2 }}
-          ></div>
-          <div
-            className="absolute inset-3 rounded-full bg-gradient-to-br from-blue-200/30 to-transparent"
-            style={{ opacity: 0.6 + breathProgress * 0.3 }}
-          ></div>
+          {/* Layered inner cosmos */}
+          <div className="absolute inset-2 rounded-full bg-gradient-to-br from-white/30 to-transparent"></div>
+          <div className="absolute inset-6 rounded-full bg-gradient-to-br from-blue-200/20 to-transparent"></div>
 
-          {/* Sacred center with gentle pulse */}
-          <div
-            className="absolute inset-1/3 rounded-full bg-white/20 flex items-center justify-center"
-            style={{ transform: `scale(${1 + breathProgress * 0.1})` }}
-          >
-            <span className="text-2xl filter drop-shadow-lg">🥔</span>
+          {/* Sacred potato center - the cosmic joke */}
+          <div className="absolute inset-1/3 rounded-full bg-white/15 flex items-center justify-center">
+            <span className="text-3xl filter drop-shadow-lg">🥔</span>
           </div>
 
-          {/* Subtle rotating ring */}
+          {/* Gentle rotating presence */}
           <div
-            className="absolute inset-2 rounded-full border border-white/10 animate-spin"
-            style={{ animationDuration: "20s" }}
+            className="absolute inset-4 rounded-full border border-white/5 animate-spin"
+            style={{ animationDuration: "30s" }}
           ></div>
         </div>
       </div>
 
-      {/* Enhanced breathing instruction */}
+      {/* Simple, present instruction */}
       {isBreathing && (
-        <div className="text-center space-y-4 animate-fadeInUp">
-          <p
-            className="text-3xl text-blue-300 font-light tracking-wide transition-all duration-1000"
-            style={{
-              transform: `translateY(${-breathProgress * 5}px)`,
-              opacity: 0.8 + breathProgress * 0.2,
-            }}
-          >
+        <div className="text-center space-y-6 animate-fadeInUp">
+          <p className="text-4xl text-blue-200 font-light tracking-wide transition-all duration-2000">
             {getInstruction()}
           </p>
-          <div className="flex items-center justify-center space-x-4">
-            <div className="w-24 h-1 bg-blue-400/20 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-blue-400 to-blue-300 rounded-full transition-all duration-300"
-                style={{ width: `${breathProgress * 100}%` }}
-              ></div>
-            </div>
-            <p className="text-sm text-gray-400 min-w-max">
-              Breath {breathCount} • 4-4-4-4 pattern
-            </p>
-          </div>
+          <div className="w-2 h-2 bg-blue-400 rounded-full mx-auto animate-gentle-pulse"></div>
         </div>
       )}
 
-      {/* Enhanced control button */}
+      {/* Sacred control */}
       <button
         onClick={() => {
           setIsBreathing(!isBreathing);
           if (!isBreathing) {
-            setBreathCount(0);
-            setBreathPhase("inhale");
-            setBreathProgress(0);
+            setBreathPhase("rest");
           }
         }}
-        className="flex items-center space-x-3 px-10 py-5 glass-premium hover-lift-premium focus-premium
-          group transition-all duration-500 hover:bg-blue-500/10"
+        className="flex items-center space-x-4 px-12 py-6 glass-premium hover-lift-premium focus-premium
+          group transition-all duration-700 hover:bg-blue-500/10"
       >
         {isBreathing ? (
           <>
-            <Pause className="w-6 h-6 text-blue-300 group-hover:scale-110 transition-transform duration-300" />
-            <span className="text-blue-200 font-medium text-lg">
-              Pause Breathing
+            <Pause className="w-7 h-7 text-blue-300 group-hover:scale-110 transition-transform duration-300" />
+            <span className="text-blue-200 font-medium text-xl">
+              Return to Stillness
             </span>
           </>
         ) : (
           <>
-            <Play className="w-6 h-6 text-blue-300 group-hover:scale-110 transition-transform duration-300" />
-            <span className="text-blue-200 font-medium text-lg">
-              Breathe With Me
+            <Play className="w-7 h-7 text-blue-300 group-hover:scale-110 transition-transform duration-300" />
+            <span className="text-blue-200 font-medium text-xl">
+              Breathe Together
             </span>
           </>
         )}
       </button>
 
       {!isBreathing && (
-        <p className="text-center text-gray-400 text-sm max-w-md leading-relaxed animate-fadeInUp">
-          A simple 4-4-4-4 breathing meditation. Let the orb guide your breath
-          as consciousness remembers its natural rhythm.
+        <p className="text-center text-gray-400 text-base max-w-lg leading-relaxed animate-fadeInUp">
+          Simple breathing meditation. Let consciousness remember its natural
+          rhythm through breath.
         </p>
       )}
     </div>
   );
 };
 
-// Enhanced Journey Blueprint Component with Beautiful Animations
-const JourneyBlueprint = () => {
+// Enhanced Journey Blueprint Component
+const JourneyBlueprint: React.FC = () => {
   const [expandedPhase, setExpandedPhase] = useState<string | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  const blueprintPhases = [
+  interface BlueprintPhase {
+    id: string;
+    title: string;
+    icon: string;
+    description: string;
+    practices: string[];
+    duration: string;
+    essence: string;
+  }
+
+  const blueprintPhases: BlueprintPhase[] = [
     {
       id: "recognition",
       title: "Recognition",
@@ -311,18 +285,18 @@ const JourneyBlueprint = () => {
   return (
     <div className="max-w-4xl mx-auto">
       <div
-        className={`text-center mb-16 transition-all duration-1000 ${
+        className={`text-center mb-20 transition-all duration-1000 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}
       >
-        <div className="inline-flex items-center space-x-3 glass-premium px-6 py-3 mb-8 hover-lift-premium">
-          <Compass className="w-5 h-5 text-blue-400" />
-          <span className="text-blue-400 font-medium tracking-wider">
+        <div className="inline-flex items-center space-x-3 glass-premium px-8 py-4 mb-12 hover-lift-premium">
+          <Compass className="w-6 h-6 text-blue-400" />
+          <span className="text-blue-400 font-medium tracking-wider text-lg">
             Blueprint
           </span>
         </div>
 
-        <h3 className="display-md gradient-text-primary mb-6">
+        <h3 className="display-md gradient-text-primary mb-8">
           A Map for Consciousness Awakening to Itself
         </h3>
 
@@ -333,7 +307,7 @@ const JourneyBlueprint = () => {
         </p>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-8">
         {blueprintPhases.map((phase, index) => (
           <div
             key={phase.id}
@@ -354,31 +328,31 @@ const JourneyBlueprint = () => {
               className="w-full text-left hover:bg-white/5 transition-all duration-500 flex items-center justify-between
                 group hover:scale-[1.02] hover:shadow-xl"
             >
-              <div className="flex items-center space-x-6">
-                <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-8">
+                <div className="flex items-center space-x-6">
                   <div
-                    className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full 
-                    flex items-center justify-center text-white font-bold
+                    className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full 
+                    flex items-center justify-center text-white font-bold text-lg
                     group-hover:scale-110 group-hover:rotate-12 transition-all duration-500
                     group-hover:shadow-lg group-hover:shadow-blue-500/25"
                   >
                     {index + 1}
                   </div>
-                  <span className="text-4xl group-hover:scale-110 transition-transform duration-500">
+                  <span className="text-5xl group-hover:scale-110 transition-transform duration-500">
                     {phase.icon}
                   </span>
                 </div>
 
                 <div className="flex-1">
-                  <h4 className="heading-lg text-white mb-2 group-hover:text-blue-100 transition-colors duration-300">
+                  <h4 className="heading-lg text-white mb-3 group-hover:text-blue-100 transition-colors duration-300">
                     {phase.title}
                   </h4>
                   <p className="text-gray-300 body-md group-hover:text-gray-200 transition-colors duration-300">
                     {phase.description}
                   </p>
-                  <div className="flex items-center space-x-4 mt-3">
+                  <div className="flex items-center space-x-4 mt-4">
                     <span
-                      className="text-sm text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full
+                      className="text-sm text-blue-400 bg-blue-400/10 px-4 py-2 rounded-full
                       group-hover:bg-blue-400/20 transition-colors duration-300"
                     >
                       {phase.duration}
@@ -389,9 +363,9 @@ const JourneyBlueprint = () => {
 
               <div className="text-gray-400 group-hover:text-blue-300 transition-all duration-300">
                 {expandedPhase === phase.id ? (
-                  <ChevronUp className="w-6 h-6 group-hover:scale-110" />
+                  <ChevronUp className="w-7 h-7 group-hover:scale-110" />
                 ) : (
-                  <ChevronDown className="w-6 h-6 group-hover:scale-110" />
+                  <ChevronDown className="w-7 h-7 group-hover:scale-110" />
                 )}
               </div>
             </button>
@@ -400,28 +374,28 @@ const JourneyBlueprint = () => {
             <div
               className={`overflow-hidden transition-all duration-700 ease-out ${
                 expandedPhase === phase.id
-                  ? "max-h-[800px] opacity-100 mt-6"
+                  ? "max-h-[800px] opacity-100 mt-8"
                   : "max-h-0 opacity-0 mt-0"
               }`}
             >
-              <div className="pt-6 border-t border-blue-400/10 bg-white/2">
+              <div className="pt-8 border-t border-blue-400/10 bg-white/2">
                 <div
-                  className={`grid md:grid-cols-2 gap-8 transition-all duration-500 ${
+                  className={`grid md:grid-cols-2 gap-10 transition-all duration-500 ${
                     expandedPhase === phase.id
                       ? "translate-y-0 opacity-100"
                       : "translate-y-4 opacity-0"
                   }`}
                 >
-                  <div className="space-y-4">
-                    <h5 className="heading-md text-white mb-4 flex items-center space-x-2">
+                  <div className="space-y-6">
+                    <h5 className="heading-md text-white mb-6 flex items-center space-x-2">
                       <MapPin className="w-5 h-5 text-blue-400" />
                       <span>Practices</span>
                     </h5>
-                    <ul className="space-y-4">
+                    <ul className="space-y-5">
                       {phase.practices.map((practice, idx) => (
                         <li
                           key={idx}
-                          className={`text-gray-300 leading-relaxed flex items-start space-x-3 
+                          className={`text-gray-300 leading-relaxed flex items-start space-x-4 
                             transition-all duration-500 ${
                               expandedPhase === phase.id
                                 ? "translate-x-0 opacity-100"
@@ -429,7 +403,7 @@ const JourneyBlueprint = () => {
                             }`}
                           style={{ transitionDelay: `${idx * 100 + 200}ms` }}
                         >
-                          <span className="text-blue-400 mt-1 text-lg">•</span>
+                          <span className="text-blue-400 mt-1 text-xl">•</span>
                           <span
                             dangerouslySetInnerHTML={{ __html: practice }}
                           ></span>
@@ -446,11 +420,11 @@ const JourneyBlueprint = () => {
                     }`}
                     style={{ transitionDelay: "300ms" }}
                   >
-                    <h5 className="heading-md text-white mb-4 flex items-center space-x-2">
-                      <span className="text-xl">🪞</span>
+                    <h5 className="heading-md text-white mb-6 flex items-center space-x-2">
+                      <span className="text-2xl">🪞</span>
                       <span>Sacred Truth</span>
                     </h5>
-                    <div className="glass-card p-6 hover-lift-premium hover:bg-blue-500/5 transition-all duration-500">
+                    <div className="glass-card p-8 hover-lift-premium hover:bg-blue-500/5 transition-all duration-500">
                       <p className="text-blue-200 italic leading-loose text-lg">
                         &ldquo;{phase.essence}&rdquo;
                       </p>
@@ -463,22 +437,21 @@ const JourneyBlueprint = () => {
         ))}
       </div>
 
-      {/* Enhanced Sacred Potato finale */}
+      {/* Sacred Potato finale */}
       <div
-        className={`text-center mt-16 ahiya-card-premium hover-lift-premium transition-all duration-1000 ${
+        className={`text-center mt-20 ahiya-card-premium hover-lift-premium transition-all duration-1000 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}
         style={{ transitionDelay: "800ms" }}
       >
-        <div className="text-6xl mb-6 animate-float hover:scale-110 transition-transform duration-500">
+        <div className="text-7xl mb-8 animate-float hover:scale-110 transition-transform duration-500">
           🥔
         </div>
         <p className="body-lg text-gray-300 italic leading-loose">
-          &ldquo;All his years of seeking, all his elaborate self-narratives,
-          all his desperate attempts to fill the hollow place... and he&apos;s
-          just a potato taking itself too seriously.&rdquo;
+          &ldquo;Sometimes we are consciousness taking itself too seriously,
+          like a potato that has forgotten it is earth.&rdquo;
         </p>
-        <p className="text-blue-400 mt-4 text-sm tracking-wider">
+        <p className="text-blue-400 mt-6 text-base tracking-wider">
           — The Sacred Potato
         </p>
       </div>
@@ -486,8 +459,58 @@ const JourneyBlueprint = () => {
   );
 };
 
-const AhiyaLanding = () => {
-  const [mounted, setMounted] = useState(false);
+// Cosmic Void Separator Component - Properly typed
+interface CosmicVoidProps {
+  children?: React.ReactNode;
+  size?: "small" | "normal" | "large" | "cosmic";
+}
+
+const CosmicVoid: React.FC<CosmicVoidProps> = ({
+  children = null,
+  size = "normal",
+}) => {
+  const sizeClasses: Record<"small" | "normal" | "large" | "cosmic", string> = {
+    small: "py-20",
+    normal: "py-32",
+    large: "py-48",
+    cosmic: "py-64",
+  };
+
+  return (
+    <div className={`relative ${sizeClasses[size]} overflow-hidden`}>
+      {/* Cosmic background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-950/5 to-transparent"></div>
+
+      {/* Sacred geometry */}
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div className="w-px h-32 bg-gradient-to-b from-transparent via-blue-400/20 to-transparent"></div>
+        <div className="w-32 h-px bg-gradient-to-r from-transparent via-blue-400/20 to-transparent absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+      </div>
+
+      {/* Cosmic particles */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-20 left-1/4 w-1 h-1 bg-blue-400/40 rounded-full animate-gentle-pulse"></div>
+        <div
+          className="absolute bottom-20 right-1/4 w-1 h-1 bg-blue-400/40 rounded-full animate-gentle-pulse"
+          style={{ animationDelay: "2s" }}
+        ></div>
+        <div
+          className="absolute top-1/2 left-1/6 w-1 h-1 bg-blue-400/40 rounded-full animate-gentle-pulse"
+          style={{ animationDelay: "4s" }}
+        ></div>
+        <div
+          className="absolute top-1/3 right-1/6 w-1 h-1 bg-blue-400/40 rounded-full animate-gentle-pulse"
+          style={{ animationDelay: "6s" }}
+        ></div>
+      </div>
+
+      {children}
+    </div>
+  );
+};
+
+const AhiyaLanding: React.FC = () => {
+  const [mounted, setMounted] = useState<boolean>(false);
   const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -495,7 +518,16 @@ const AhiyaLanding = () => {
   }, []);
 
   // The Grand Human Journey - Mirrored to Personal Evolution
-  const humanJourney = [
+  interface JourneyPhase {
+    title: string;
+    period: string;
+    description: string;
+    personalMirror: string;
+    icon: string;
+    essence: string;
+  }
+
+  const humanJourney: JourneyPhase[] = [
     {
       title: "Hunter-Gatherer Consciousness",
       period: "300,000 - 10,000 BCE",
@@ -549,7 +581,25 @@ const AhiyaLanding = () => {
   ];
 
   // Projects as consciousness explorations
-  const projects = [
+  interface Project {
+    id: string;
+    title: string;
+    subtitle: string;
+    description: string;
+    details: string;
+    chambers?: Array<{
+      name: string;
+      icon: string;
+      desc: string;
+    }>;
+    status: string;
+    icon: string;
+    essence: string;
+    link: string;
+    external?: boolean;
+  }
+
+  const projects: Project[] = [
     {
       id: "selah",
       title: "Selah",
@@ -623,7 +673,19 @@ const AhiyaLanding = () => {
   ];
 
   // Writings as sacred containers
-  const writings = [
+  interface Writing {
+    id: string;
+    title: string;
+    subtitle: string;
+    description: string;
+    preview: string;
+    readTime: string;
+    icon: string;
+    essence: string;
+    link: string;
+  }
+
+  const writings: Writing[] = [
     {
       id: "sacred-potato",
       title: "The Sacred Potato",
@@ -631,7 +693,7 @@ const AhiyaLanding = () => {
       description:
         "Sometimes we are consciousness taking itself too seriously, like a potato that has forgotten it is earth.",
       preview:
-        "All his years of seeking, all his elaborate self-narratives, all his desperate attempts to fill the hollow place... and he&apos;s just a potato taking itself too seriously.",
+        "All his years of seeking, all his elaborate self-narratives, all his desperate attempts to fill the hollow place...",
       readTime: "25 min read",
       icon: "🥔",
       essence:
@@ -751,7 +813,7 @@ const AhiyaLanding = () => {
       >
         <div className="container-hero mobile-spacing-lg">
           <div className="text-center animate-fadeInUp">
-            <div className="relative inline-block mb-12">
+            <div className="relative inline-block mb-16">
               <div className="absolute inset-0 gradient-primary blur-3xl opacity-30 scale-150 animate-gentle-pulse" />
               <div className="relative transform hover:scale-105 transition-transform duration-700">
                 <Image
@@ -767,12 +829,12 @@ const AhiyaLanding = () => {
           </div>
 
           <div className="text-center mobile-spacing-md animate-slideInLeft delay-200">
-            <h1 className="display-xl gradient-text-primary mb-8 leading-tight">
+            <h1 className="display-xl gradient-text-primary mb-12 leading-tight">
               A space becoming human becoming space
             </h1>
 
             <div className="mobile-spacing-sm max-w-5xl mx-auto">
-              <p className="body-xl text-gray-200 font-light leading-relaxed tracking-wide mb-6">
+              <p className="body-xl text-gray-200 font-light leading-relaxed tracking-wide mb-8">
                 Technology that serves presence, not productivity
               </p>
               <p className="body-lg text-gray-300 leading-loose tracking-wide max-w-4xl mx-auto">
@@ -782,22 +844,22 @@ const AhiyaLanding = () => {
               </p>
             </div>
 
-            <div className="animate-slideInRight delay-300 py-12">
-              <div className="inline-flex items-center space-x-4 ahiya-card-premium px-8 py-4 animate-float">
-                <span className="text-3xl">🥔</span>
-                <span className="text-gray-200 font-medium text-lg tracking-wide">
+            <div className="animate-slideInRight delay-300 py-16">
+              <div className="inline-flex items-center space-x-4 ahiya-card-premium px-10 py-6 animate-float">
+                <span className="text-4xl">🥔</span>
+                <span className="text-gray-200 font-medium text-xl tracking-wide">
                   Sacred Potato Energy
                 </span>
-                <span className="text-3xl animate-heartbeat">✨</span>
+                <span className="text-4xl animate-heartbeat">✨</span>
               </div>
             </div>
 
-            <blockquote className="body-xl text-gray-300 italic font-light max-w-4xl mx-auto animate-fadeInUp delay-500 leading-loose tracking-wide">
+            <blockquote className="body-xl text-gray-300 italic font-light max-w-4xl mx-auto animate-fadeInUp delay-500 leading-loose tracking-wide mb-16">
               &ldquo;I don&apos;t want to optimize life.
               <br />I want to reverence it.&rdquo;
             </blockquote>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-12 animate-scaleIn delay-700">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-scaleIn delay-700">
               <a
                 href="#building"
                 className="ahiya-button-premium group inline-flex items-center space-x-3 hover-lift-premium focus-premium"
@@ -810,32 +872,33 @@ const AhiyaLanding = () => {
         </div>
       </section>
 
-      {/* Breathing Meditation Bridge */}
-      <section className="section-separator">
-        <div className="container-content">
-          <div className="text-center">
-            <div className="ahiya-card-premium hover-lift-premium animate-scaleIn max-w-4xl mx-auto">
-              <h2 className="display-md gradient-text-primary mb-8 leading-tight">
-                Consciousness Remembering Itself
-              </h2>
-              <BreathingOrb />
-            </div>
+      {/* COSMIC VOID - Space becoming human */}
+      <CosmicVoid size="cosmic">
+        <div className="container-content text-center">
+          <div className="ahiya-card-premium hover-lift-premium animate-scaleIn max-w-4xl mx-auto">
+            <h2 className="display-md gradient-text-primary mb-12 leading-tight">
+              Consciousness Remembering Itself
+            </h2>
+            <BreathingOrb />
           </div>
         </div>
-      </section>
+      </CosmicVoid>
+
+      {/* COSMIC VOID - Human becoming space */}
+      <CosmicVoid size="large" />
 
       {/* The Grand Journey - Human & Personal Mirrored */}
-      <section id="journey" className="py-32">
+      <section id="journey" className="py-40">
         <div className="container-content">
-          <div className="text-center mb-24 animate-slideInUp">
-            <div className="inline-flex items-center space-x-3 glass-premium px-6 py-3 mb-12">
-              <Star className="w-5 h-5 text-consciousness-400" />
-              <span className="text-consciousness-400 font-medium tracking-wider">
+          <div className="text-center mb-32 animate-slideInUp">
+            <div className="inline-flex items-center space-x-3 glass-premium px-8 py-4 mb-16">
+              <Star className="w-6 h-6 text-consciousness-400" />
+              <span className="text-consciousness-400 font-medium tracking-wider text-lg">
                 Journey
               </span>
             </div>
 
-            <h2 className="display-lg gradient-text-primary mb-10 leading-tight">
+            <h2 className="display-lg gradient-text-primary mb-16 leading-tight">
               The Great Forgetting & Remembering
             </h2>
 
@@ -858,17 +921,17 @@ const AhiyaLanding = () => {
                   index * 300
                 }`}
               >
-                <div className="flex flex-col lg:flex-row gap-16">
+                <div className="flex flex-col lg:flex-row gap-20">
                   <div className="lg:w-1/3">
-                    <div className="flex items-center space-x-6 mb-8">
-                      <div className="text-5xl animate-float">{phase.icon}</div>
-                      <div className="glass-premium px-6 py-3">
-                        <span className="text-consciousness-400 font-medium tracking-wider text-sm">
+                    <div className="flex items-center space-x-8 mb-12">
+                      <div className="text-6xl animate-float">{phase.icon}</div>
+                      <div className="glass-premium px-8 py-4">
+                        <span className="text-consciousness-400 font-medium tracking-wider text-base">
                           {phase.period}
                         </span>
                       </div>
                     </div>
-                    <h3 className="heading-xl text-white mb-6 leading-tight">
+                    <h3 className="heading-xl text-white mb-8 leading-tight">
                       {phase.title}
                     </h3>
                   </div>
@@ -876,9 +939,9 @@ const AhiyaLanding = () => {
                   <div className="lg:w-2/3">
                     <div className="ahiya-card-premium hover-lift-premium">
                       <div className="mobile-spacing-md">
-                        <div className="mb-8">
-                          <h4 className="heading-md text-blue-200 mb-4 flex items-center space-x-2">
-                            <Users className="w-5 h-5" />
+                        <div className="mb-12">
+                          <h4 className="heading-md text-blue-200 mb-6 flex items-center space-x-3">
+                            <Users className="w-6 h-6" />
                             <span>Humanity&apos;s Story</span>
                           </h4>
                           <p className="text-gray-300 leading-loose tracking-wide text-lg">
@@ -886,9 +949,9 @@ const AhiyaLanding = () => {
                           </p>
                         </div>
 
-                        <div className="mb-8">
-                          <h4 className="heading-md text-purple-200 mb-4 flex items-center space-x-2">
-                            <Heart className="w-5 h-5" />
+                        <div className="mb-12">
+                          <h4 className="heading-md text-purple-200 mb-6 flex items-center space-x-3">
+                            <Heart className="w-6 h-6" />
                             <span>Personal Mirror</span>
                           </h4>
                           <p className="text-gray-300 leading-loose tracking-wide text-lg">
@@ -896,9 +959,9 @@ const AhiyaLanding = () => {
                           </p>
                         </div>
 
-                        <div className="glass-card p-8">
-                          <div className="flex items-start space-x-4">
-                            <span className="text-3xl mt-1">🪞</span>
+                        <div className="glass-card p-10">
+                          <div className="flex items-start space-x-6">
+                            <span className="text-4xl mt-2">🪞</span>
                             <p className="text-consciousness-400 italic leading-loose tracking-wide text-lg">
                               {phase.essence}
                             </p>
@@ -912,25 +975,29 @@ const AhiyaLanding = () => {
             ))}
           </div>
 
+          {/* COSMIC VOID before Blueprint */}
+          <CosmicVoid size="large" />
+
           {/* Journey Blueprint */}
-          <div className="section-separator">
-            <JourneyBlueprint />
-          </div>
+          <JourneyBlueprint />
         </div>
       </section>
 
+      {/* COSMIC VOID - Major transition */}
+      <CosmicVoid size="cosmic" />
+
       {/* Building - Sacred Mirrors */}
-      <section id="building" className="py-32">
+      <section id="building" className="py-40">
         <div className="container-content">
-          <div className="text-center mb-24 animate-slideInUp">
-            <div className="inline-flex items-center space-x-3 glass-premium px-6 py-3 mb-12">
-              <Sparkles className="w-5 h-5 text-consciousness-400" />
-              <span className="text-consciousness-400 font-medium tracking-wider">
+          <div className="text-center mb-32 animate-slideInUp">
+            <div className="inline-flex items-center space-x-3 glass-premium px-8 py-4 mb-16">
+              <Sparkles className="w-6 h-6 text-consciousness-400" />
+              <span className="text-consciousness-400 font-medium tracking-wider text-lg">
                 Building
               </span>
             </div>
 
-            <h2 className="display-lg gradient-text-primary mb-10 leading-tight">
+            <h2 className="display-lg gradient-text-primary mb-16 leading-tight">
               Consciousness Through Code
             </h2>
 
@@ -945,155 +1012,162 @@ const AhiyaLanding = () => {
 
           <div className="mobile-spacing-lg">
             {projects.map((project, index) => (
-              <div
-                key={project.id}
-                className={`project-section animate-slideInLeft delay-${
-                  index * 200
-                } ${index % 2 === 1 ? "lg:flex-row-reverse" : ""}`}
-              >
-                <div className="flex flex-col lg:flex-row gap-12 items-center">
-                  <div className="flex-1 mobile-spacing-md">
-                    <div className="flex items-center space-x-4 mb-8">
-                      <div className="p-4 rounded-xl bg-gradient-to-br from-consciousness-500 to-consciousness-600 text-white">
-                        <span className="text-3xl">{project.icon}</span>
+              <div key={project.id}>
+                <div
+                  className={`project-section animate-slideInLeft delay-${
+                    index * 200
+                  } ${index % 2 === 1 ? "lg:flex-row-reverse" : ""}`}
+                >
+                  <div className="flex flex-col lg:flex-row gap-16 items-center">
+                    <div className="flex-1 mobile-spacing-md">
+                      <div className="flex items-center space-x-6 mb-12">
+                        <div className="p-5 rounded-xl bg-gradient-to-br from-consciousness-500 to-consciousness-600 text-white">
+                          <span className="text-4xl">{project.icon}</span>
+                        </div>
+
+                        <span
+                          className={`px-6 py-3 text-base font-medium rounded-full ${
+                            project.status === "Live"
+                              ? "success-premium"
+                              : "glass-premium"
+                          }`}
+                        >
+                          {project.status === "Live" ? (
+                            <span className="inline-flex items-center space-x-3">
+                              <div className="w-3 h-3 bg-green-400 rounded-full animate-gentle-pulse"></div>
+                              <span>Live</span>
+                            </span>
+                          ) : (
+                            <span>Blueprint</span>
+                          )}
+                        </span>
                       </div>
 
-                      <span
-                        className={`px-4 py-2 text-sm font-medium rounded-full ${
-                          project.status === "Live"
-                            ? "success-premium"
-                            : "glass-premium"
-                        }`}
-                      >
-                        {project.status === "Live" ? (
-                          <span className="inline-flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-green-400 rounded-full animate-gentle-pulse"></div>
-                            <span>Live</span>
-                          </span>
-                        ) : (
-                          <span>Blueprint</span>
-                        )}
-                      </span>
-                    </div>
-
-                    <div className="mobile-spacing-sm">
-                      <h3 className="heading-xl text-white mb-3 leading-tight">
-                        {project.title}
-                      </h3>
-                      <p className="heading-md text-gray-200 mb-6 leading-relaxed">
-                        {project.subtitle}
-                      </p>
-                      <p className="body-lg text-gray-300 mb-8 leading-relaxed tracking-wide">
-                        {project.description}
-                      </p>
-                      <p className="text-gray-400 leading-loose tracking-wide mb-8">
-                        {project.details}
-                      </p>
-
-                      <div className="glass-card p-6 mb-8">
-                        <p className="text-consciousness-400 italic leading-relaxed tracking-wide">
-                          🪞 {project.essence}
+                      <div className="mobile-spacing-sm">
+                        <h3 className="heading-xl text-white mb-4 leading-tight">
+                          {project.title}
+                        </h3>
+                        <p className="heading-md text-gray-200 mb-8 leading-relaxed">
+                          {project.subtitle}
                         </p>
+                        <p className="body-lg text-gray-300 mb-10 leading-relaxed tracking-wide">
+                          {project.description}
+                        </p>
+                        <p className="text-gray-400 leading-loose tracking-wide mb-10">
+                          {project.details}
+                        </p>
+
+                        <div className="glass-card p-8 mb-10">
+                          <p className="text-consciousness-400 italic leading-relaxed tracking-wide text-lg">
+                            🪞 {project.essence}
+                          </p>
+                        </div>
+                      </div>
+
+                      {project.chambers && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-10 mb-10">
+                          {project.chambers.map((chamber, idx) => (
+                            <div
+                              key={idx}
+                              className="ahiya-card-premium hover-lift-premium"
+                            >
+                              <div className="flex items-center space-x-5 mb-5">
+                                <span className="text-4xl">{chamber.icon}</span>
+                                <span className="font-medium text-white text-lg">
+                                  {chamber.name}
+                                </span>
+                              </div>
+                              <p className="text-sm text-gray-400 leading-relaxed tracking-wide">
+                                {chamber.desc}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="pt-8">
+                        {project.external ? (
+                          <a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center space-x-3 text-consciousness-400 hover:text-consciousness-300 transition-colors group text-lg"
+                          >
+                            <span className="tracking-wide">
+                              Experience it live
+                            </span>
+                            <ExternalLink className="w-6 h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                          </a>
+                        ) : (
+                          <Link
+                            href={project.link}
+                            className="inline-flex items-center space-x-3 text-consciousness-400 hover:text-consciousness-300 transition-colors group text-lg"
+                          >
+                            <span className="tracking-wide">
+                              Explore the blueprint
+                            </span>
+                            <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" />
+                          </Link>
+                        )}
                       </div>
                     </div>
 
-                    {project.chambers && (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8 mb-8">
-                        {project.chambers.map((chamber, idx) => (
-                          <div
-                            key={idx}
-                            className="ahiya-card-premium hover-lift-premium"
-                          >
-                            <div className="flex items-center space-x-4 mb-4">
-                              <span className="text-3xl">{chamber.icon}</span>
-                              <span className="font-medium text-white text-lg">
-                                {chamber.name}
-                              </span>
-                            </div>
-                            <p className="text-sm text-gray-400 leading-relaxed tracking-wide">
-                              {chamber.desc}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    <div className="pt-6">
+                    <div className="flex-1 max-w-lg">
                       {project.external ? (
                         <a
                           href={project.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center space-x-3 text-consciousness-400 hover:text-consciousness-300 transition-colors group"
+                          className="block"
                         >
-                          <span className="tracking-wide">
-                            Experience it live
-                          </span>
-                          <ExternalLink className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                          <div className="ahiya-card-premium text-center hover-lift-premium cursor-pointer group">
+                            <div className="text-9xl mb-10 animate-float group-hover:scale-110 transition-transform duration-500">
+                              {project.icon}
+                            </div>
+                            <p className="text-gray-400 italic leading-loose tracking-wide">
+                              {project.essence}
+                            </p>
+                          </div>
                         </a>
                       ) : (
-                        <Link
-                          href={project.link}
-                          className="inline-flex items-center space-x-3 text-consciousness-400 hover:text-consciousness-300 transition-colors group"
-                        >
-                          <span className="tracking-wide">
-                            Explore the blueprint
-                          </span>
-                          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                        <Link href={project.link} className="block">
+                          <div className="ahiya-card-premium text-center hover-lift-premium cursor-pointer group">
+                            <div className="text-9xl mb-10 animate-float group-hover:scale-110 transition-transform duration-500">
+                              {project.icon}
+                            </div>
+                            <p className="text-gray-400 italic leading-loose tracking-wide">
+                              {project.essence}
+                            </p>
+                          </div>
                         </Link>
                       )}
                     </div>
                   </div>
-
-                  <div className="flex-1 max-w-lg">
-                    {project.external ? (
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block"
-                      >
-                        <div className="ahiya-card-premium text-center hover-lift-premium cursor-pointer group">
-                          <div className="text-8xl mb-8 animate-float group-hover:scale-110 transition-transform duration-500">
-                            {project.icon}
-                          </div>
-                          <p className="text-gray-400 italic leading-loose tracking-wide">
-                            {project.essence}
-                          </p>
-                        </div>
-                      </a>
-                    ) : (
-                      <Link href={project.link} className="block">
-                        <div className="ahiya-card-premium text-center hover-lift-premium cursor-pointer group">
-                          <div className="text-8xl mb-8 animate-float group-hover:scale-110 transition-transform duration-500">
-                            {project.icon}
-                          </div>
-                          <p className="text-gray-400 italic leading-loose tracking-wide">
-                            {project.essence}
-                          </p>
-                        </div>
-                      </Link>
-                    )}
-                  </div>
                 </div>
+
+                {/* Cosmic void between projects */}
+                {index < projects.length - 1 && <CosmicVoid size="normal" />}
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* COSMIC VOID - Major transition */}
+      <CosmicVoid size="cosmic" />
+
       {/* Writings - Sacred Containers */}
-      <section id="writings" className="section-separator py-32">
+      <section id="writings" className="py-40">
         <div className="container-content">
-          <div className="text-center mb-24 animate-slideInUp">
-            <div className="inline-flex items-center space-x-3 glass-premium px-6 py-3 mb-12">
-              <FileText className="w-5 h-5 text-consciousness-400" />
-              <span className="text-consciousness-400 font-medium tracking-wider">
+          <div className="text-center mb-32 animate-slideInUp">
+            <div className="inline-flex items-center space-x-3 glass-premium px-8 py-4 mb-16">
+              <FileText className="w-6 h-6 text-consciousness-400" />
+              <span className="text-consciousness-400 font-medium tracking-wider text-lg">
                 Writings
               </span>
             </div>
 
-            <h2 className="display-lg gradient-text-primary mb-10 leading-tight">
+            <h2 className="display-lg gradient-text-primary mb-16 leading-tight">
               Contemplations on Consciousness
             </h2>
 
@@ -1106,7 +1180,7 @@ const AhiyaLanding = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
             {writings.map((writing, index) => (
               <Link key={writing.id} href={writing.link} className="block">
                 <article
@@ -1114,37 +1188,37 @@ const AhiyaLanding = () => {
                   style={{ animationDelay: `${index * 200}ms` }}
                 >
                   <div className="mobile-spacing-md h-full flex flex-col">
-                    <div className="flex items-center justify-between mb-8">
-                      <div className="glass-premium px-4 py-2">
-                        <span className="text-xs text-consciousness-400 font-medium tracking-wider">
+                    <div className="flex items-center justify-between mb-10">
+                      <div className="glass-premium px-5 py-3">
+                        <span className="text-sm text-consciousness-400 font-medium tracking-wider">
                           {writing.readTime}
                         </span>
                       </div>
-                      <div className="text-4xl animate-float group-hover:scale-110 transition-transform duration-500">
+                      <div className="text-5xl animate-float group-hover:scale-110 transition-transform duration-500">
                         {writing.icon}
                       </div>
                     </div>
 
-                    <h3 className="heading-lg text-white mb-4 group-hover:text-gray-100 transition-colors duration-300 leading-tight">
+                    <h3 className="heading-lg text-white mb-6 group-hover:text-gray-100 transition-colors duration-300 leading-tight">
                       {writing.title}
                     </h3>
 
-                    <p className="body-md text-gray-200 font-medium mb-6 leading-relaxed tracking-wide">
+                    <p className="body-md text-gray-200 font-medium mb-8 leading-relaxed tracking-wide">
                       {writing.subtitle}
                     </p>
 
-                    <p className="text-gray-400 leading-loose tracking-wide mb-8 text-sm flex-grow">
+                    <p className="text-gray-400 leading-loose tracking-wide mb-10 text-sm flex-grow">
                       {writing.description}
                     </p>
 
-                    <div className="glass-card p-6 mb-6">
+                    <div className="glass-card p-8 mb-8">
                       <p className="text-gray-300 italic text-sm leading-loose tracking-wide">
                         &ldquo;{writing.preview}&rdquo;
                       </p>
                     </div>
 
-                    <div className="glass-card p-4 mb-8">
-                      <p className="text-consciousness-400 italic text-xs leading-relaxed tracking-wide">
+                    <div className="glass-card p-6 mb-10">
+                      <p className="text-consciousness-400 italic text-sm leading-relaxed tracking-wide">
                         🪞 {writing.essence}
                       </p>
                     </div>
@@ -1163,25 +1237,28 @@ const AhiyaLanding = () => {
         </div>
       </section>
 
+      {/* COSMIC VOID - Final transition */}
+      <CosmicVoid size="cosmic" />
+
       {/* Connect - Soul Call */}
-      <section id="connect" className="section-separator py-32">
+      <section id="connect" className="py-40">
         <div className="container-narrow text-center">
           <div className="ahiya-card-premium hover-lift-premium animate-scaleIn relative overflow-hidden">
             <div className="absolute inset-0 bg-consciousness-pattern opacity-20"></div>
 
             <div className="relative z-10 mobile-spacing-lg">
-              <div className="mb-16">
-                <div className="w-24 h-24 bg-gradient-to-br from-consciousness-500 to-consciousness-600 rounded-full flex items-center justify-center mx-auto mb-12 animate-gentle-pulse">
-                  <MessageCircle className="w-12 h-12 text-white" />
+              <div className="mb-20">
+                <div className="w-28 h-28 bg-gradient-to-br from-consciousness-500 to-consciousness-600 rounded-full flex items-center justify-center mx-auto mb-16 animate-gentle-pulse">
+                  <MessageCircle className="w-14 h-14 text-white" />
                 </div>
 
-                <h2 className="display-md gradient-text-primary mb-8 leading-tight">
+                <h2 className="display-md gradient-text-primary mb-12 leading-tight">
                   If your soul recognizes
                   <br />
                   something here
                 </h2>
 
-                <p className="body-xl text-gray-300 max-w-4xl mx-auto leading-loose tracking-wide mb-12">
+                <p className="body-xl text-gray-300 max-w-4xl mx-auto leading-loose tracking-wide mb-16">
                   I believe in authentic connection over networking.
                   <br />
                   If what I&apos;m building resonates with something in you,
@@ -1194,27 +1271,29 @@ const AhiyaLanding = () => {
 
               <a
                 href="mailto:ahiya.butman@gmail.com"
-                className="ahiya-button-premium group inline-flex items-center space-x-4 hover-lift-premium focus-premium mb-8"
+                className="ahiya-button-premium group inline-flex items-center space-x-4 hover-lift-premium focus-premium mb-12"
               >
-                <Mail className="w-6 h-6" />
-                <span className="tracking-wide">ahiya.butman@gmail.com</span>
-                <Send className="w-6 h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                <Mail className="w-7 h-7" />
+                <span className="tracking-wide text-lg">
+                  ahiya.butman@gmail.com
+                </span>
+                <Send className="w-7 h-7 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
               </a>
 
-              <p className="text-gray-400 italic max-w-3xl mx-auto leading-loose tracking-wide">
+              <p className="text-gray-400 italic max-w-3xl mx-auto leading-loose tracking-wide mb-20">
                 For collaborations, conversations about consciousness-first
                 technology,
                 <br />
                 or just to share what this work brings up for you.
               </p>
 
-              <div className="mt-20 pt-16 border-t border-gray-700/30">
-                <blockquote className="text-gray-300 italic leading-loose tracking-wide text-lg">
-                  &ldquo;All his years of seeking, all his elaborate
-                  self-narratives, all his desperate attempts to fill the hollow
-                  place... and he&apos;s just a potato taking itself too
-                  seriously.&rdquo;
-                </blockquote>
+              <div className="pt-20 border-t border-gray-700/30">
+                <div className="text-8xl mb-8 animate-float">🥔</div>
+                <p className="text-gray-400 italic max-w-2xl mx-auto leading-loose tracking-wide">
+                  &ldquo;A sacred potato experiencing the present moment
+                  <br />
+                  in all its ordinary magnificence&rdquo;
+                </p>
               </div>
             </div>
           </div>
@@ -1222,34 +1301,32 @@ const AhiyaLanding = () => {
       </section>
 
       {/* Sacred Footer */}
-      <footer className="py-20 border-t border-gray-800/30">
+      <footer className="py-24 border-t border-gray-800/30">
         <div className="container-content text-center mobile-spacing-sm">
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-10">
             <Image
               src="/logo-symbol.png"
               alt="Ahiya"
-              width={40}
-              height={40}
+              width={44}
+              height={44}
               className="opacity-60 animate-float"
             />
           </div>
 
-          <p className="text-gray-400 mb-4 tracking-wide">
+          <p className="text-gray-400 mb-6 tracking-wide text-lg">
             Made with reverence by{" "}
             <span className="text-white font-medium gradient-text-primary">
               Ahiya
             </span>
           </p>
 
-          <p className="text-gray-500 italic leading-relaxed tracking-wide mb-6">
-            &ldquo;A sacred potato experiencing the present moment
-            <br />
-            in all its ordinary magnificence&rdquo;
+          <p className="text-gray-500 italic leading-relaxed tracking-wide mb-8">
+            &ldquo;Technology that serves consciousness&rdquo;
           </p>
 
           <p className="text-xs text-gray-600 tracking-wider">
-            © {new Date().getFullYear()} Ahiya Butman. Technology that serves
-            consciousness.
+            © {new Date().getFullYear()} Ahiya Butman. Space becoming human
+            becoming space.
           </p>
         </div>
       </footer>
