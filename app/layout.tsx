@@ -1,25 +1,38 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
+import { Inter, DM_Sans, Cormorant_Garamond } from "next/font/google";
+import { Metadata } from "next";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-  display: "swap",
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+});
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant",
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://ahiya.xyz"),
   title: "Ahiya - A Space Becoming Human",
   description:
     "Technology that serves presence, not productivity. Building mirrors, tools, languages, ways of seeing at the edge space where ambition meets awareness.",
   keywords: [
-    "consciousness",
-    "technology",
-    "meditation",
-    "contemplation",
-    "AI",
+    "consciousness technology",
+    "contemplative computing",
     "spiritual tech",
     "human-centered design",
+    "mindfulness apps",
+    "sacred technology",
+    "consciousness software",
+    "meditation technology",
   ],
   authors: [{ name: "Ahiya Butman" }],
   creator: "Ahiya Butman",
@@ -31,8 +44,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/logo-text.png",
-        width: 300,
-        height: 150,
+        width: 420,
+        height: 210,
         alt: "Ahiya - A space becoming human",
       },
     ],
@@ -63,28 +76,23 @@ export const metadata: Metadata = {
     maximumScale: 1,
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
+    icon: "/logo-symbol.png",
+    shortcut: "/logo-symbol.png",
     apple: "/logo-symbol.png",
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" className={inter.variable}>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-      </head>
-      <body className={`${inter.className} antialiased`}>{children}</body>
+    <html
+      lang="en"
+      className={`${inter.variable} ${dmSans.variable} ${cormorant.variable}`}
+    >
+      <body className={dmSans.className}>{children}</body>
     </html>
   );
 }
