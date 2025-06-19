@@ -41,7 +41,7 @@ const JourneyPage: React.FC = () => {
         keyMoments: [
           "Learning C.S., AI, mathematics, and languages with obsessive precision",
           "Building productivity tools and optimization systems",
-          "Army service in 8200 - elite intelligence unit",
+          "entitled to an army service in 8200 - elite intelligence unit",
           "Strong discipline, but increasingly rigid identity structures",
         ],
         insight:
