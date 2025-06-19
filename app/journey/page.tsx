@@ -13,243 +13,6 @@ import {
   Compass,
 } from "lucide-react";
 
-// Aurora Enhanced Breathing Orb - Pure presence flow with aurora consciousness
-const AuroraBreathingOrb: React.FC = () => {
-  const [isBreathing, setIsBreathing] = useState<boolean>(false);
-  const [currentPhase, setCurrentPhase] = useState<string>("ready");
-  const [phaseProgress, setPhaseProgress] = useState<number>(0);
-
-  useEffect(() => {
-    if (!isBreathing) {
-      setCurrentPhase("ready");
-      setPhaseProgress(0);
-      return;
-    }
-
-    let startTime: number;
-    let animationFrame: number;
-
-    // Phases: breathe_in (4s) -> hold_in (4s) -> breathe_out (4s) -> hold_out (4s) -> repeat
-    const phases = ["breathe_in", "hold_in", "breathe_out", "hold_out"];
-    const phaseDuration = 4000; // 4 seconds per phase
-
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-
-      const elapsed = timestamp - startTime;
-      const totalCycleDuration = phaseDuration * phases.length; // 16 seconds total
-      const cyclePosition = elapsed % totalCycleDuration;
-
-      // Calculate current phase
-      const phaseIndex = Math.floor(cyclePosition / phaseDuration);
-      const phaseElapsed = cyclePosition % phaseDuration;
-      const progress = phaseElapsed / phaseDuration;
-
-      setCurrentPhase(phases[phaseIndex]);
-      setPhaseProgress(progress);
-
-      if (isBreathing) {
-        animationFrame = requestAnimationFrame(animate);
-      }
-    };
-
-    animationFrame = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-      }
-    };
-  }, [isBreathing]);
-
-  const getInstruction = (): string => {
-    switch (currentPhase) {
-      case "breathe_in":
-        return "Breathe in";
-      case "hold_in":
-        return "Hold";
-      case "breathe_out":
-        return "Breathe out";
-      case "hold_out":
-        return "Hold";
-      default:
-        return "Ready to breathe together?";
-    }
-  };
-
-  const getOrbScale = (): number => {
-    if (!isBreathing) return 1;
-
-    switch (currentPhase) {
-      case "breathe_in":
-        return 1 + phaseProgress * 0.6; // 1 to 1.6
-      case "hold_in":
-        return 1.6;
-      case "breathe_out":
-        return 1.6 - phaseProgress * 0.6; // 1.6 to 1
-      case "hold_out":
-        return 1;
-      default:
-        return 1;
-    }
-  };
-
-  const getOrbOpacity = (): number => {
-    if (!isBreathing) return 0.7;
-
-    switch (currentPhase) {
-      case "breathe_in":
-        return 0.5 + phaseProgress * 0.4; // 0.5 to 0.9
-      case "hold_in":
-        return 0.9;
-      case "breathe_out":
-        return 0.9 - phaseProgress * 0.3; // 0.9 to 0.6
-      case "hold_out":
-        return 0.6;
-      default:
-        return 0.7;
-    }
-  };
-
-  const getAuroraIntensity = (): number => {
-    if (!isBreathing) return 0.3;
-
-    switch (currentPhase) {
-      case "breathe_in":
-        return 0.2 + phaseProgress * 0.6; // 0.2 to 0.8
-      case "hold_in":
-        return 0.8;
-      case "breathe_out":
-        return 0.8 - phaseProgress * 0.4; // 0.8 to 0.4
-      case "hold_out":
-        return 0.4;
-      default:
-        return 0.3;
-    }
-  };
-
-  return (
-    <div className="flex flex-col items-center space-y-12 py-16">
-      <div className="relative">
-        {/* Aurora breathing rings - simplified */}
-        <div
-          className="absolute inset-0 w-80 h-80 rounded-full transition-all duration-1000 ease-out"
-          style={{
-            background: `radial-gradient(circle, rgba(168, 85, 247, ${
-              getAuroraIntensity() * 0.08
-            }) 0%, transparent 70%)`,
-            border: `1px solid rgba(168, 85, 247, ${
-              getAuroraIntensity() * 0.15
-            })`,
-            transform: `scale(${getOrbScale() * 0.8})`,
-          }}
-        ></div>
-
-        <div
-          className="absolute inset-16 w-48 h-48 rounded-full transition-all duration-1000 ease-out"
-          style={{
-            background: `radial-gradient(circle, rgba(236, 72, 153, ${
-              getAuroraIntensity() * 0.1
-            }) 0%, transparent 70%)`,
-            border: `1px solid rgba(236, 72, 153, ${
-              getAuroraIntensity() * 0.2
-            })`,
-            transform: `scale(${getOrbScale() * 0.9})`,
-          }}
-        ></div>
-
-        {/* Sacred aurora breathing orb */}
-        <div
-          className="w-32 h-32 rounded-full relative m-24 transition-all duration-1000 ease-out"
-          style={{
-            transform: `scale(${getOrbScale()})`,
-            opacity: getOrbOpacity(),
-            background: `linear-gradient(135deg, 
-              rgba(59, 130, 246, ${0.7 + getAuroraIntensity() * 0.3}) 0%, 
-              rgba(139, 92, 246, ${0.8 + getAuroraIntensity() * 0.2}) 40%, 
-              rgba(168, 85, 247, ${0.9 + getAuroraIntensity() * 0.1}) 70%, 
-              rgba(236, 72, 153, ${0.8 + getAuroraIntensity() * 0.2}) 100%)`,
-            boxShadow: `0 0 ${
-              60 + getAuroraIntensity() * 40
-            }px rgba(168, 85, 247, ${getAuroraIntensity() * 0.6})`,
-          }}
-        >
-          {/* Layered inner aurora cosmos */}
-          <div
-            className="absolute inset-2 rounded-full transition-opacity duration-1000"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%)",
-              opacity: 0.4 + getAuroraIntensity() * 0.4,
-            }}
-          ></div>
-
-          {/* Sacred potato center */}
-          <div className="absolute inset-1/3 rounded-full bg-white/10 flex items-center justify-center">
-            <span className="text-2xl">🥔</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Clean instruction text */}
-      <div className="text-center space-y-6">
-        <p
-          className="text-3xl font-light tracking-wide transition-all duration-1000"
-          style={{
-            background: isBreathing
-              ? `linear-gradient(135deg, 
-                  rgba(147, 197, 253, ${0.8 + getAuroraIntensity() * 0.2}) 0%, 
-                  rgba(196, 181, 253, ${0.9 + getAuroraIntensity() * 0.1}) 50%, 
-                  rgba(244, 114, 182, ${
-                    0.8 + getAuroraIntensity() * 0.2
-                  }) 100%)`
-              : "rgba(255, 255, 255, 0.8)",
-            WebkitBackgroundClip: isBreathing ? "text" : "unset",
-            WebkitTextFillColor: isBreathing ? "transparent" : "unset",
-            backgroundClip: isBreathing ? "text" : "unset",
-          }}
-        >
-          {getInstruction()}
-        </p>
-
-        {isBreathing && (
-          <div
-            className="w-2 h-2 rounded-full mx-auto transition-all duration-1000"
-            style={{
-              background: `radial-gradient(circle, 
-                rgba(168, 85, 247, ${0.6 + getAuroraIntensity() * 0.4}) 0%, 
-                rgba(236, 72, 153, ${0.4 + getAuroraIntensity() * 0.6}) 100%)`,
-              transform: `scale(${0.8 + getAuroraIntensity() * 0.4})`,
-            }}
-          ></div>
-        )}
-      </div>
-
-      {/* Sacred aurora control */}
-      <button
-        onClick={() => setIsBreathing(!isBreathing)}
-        className="flex items-center space-x-4 px-10 py-5 glass-premium hover-lift-premium focus-premium
-          group transition-all duration-700 hover:bg-purple-500/5 relative overflow-hidden"
-      >
-        {/* Aurora button background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/8 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-
-        <span className="text-purple-200 font-medium text-lg relative z-10">
-          {isBreathing ? "Return to stillness" : "Begin breathing"}
-        </span>
-      </button>
-
-      {!isBreathing && (
-        <p className="text-center text-gray-400 text-sm max-w-md leading-relaxed animate-fadeInUp">
-          A simple 4-4-4-4 breathing meditation.
-          <br />
-          Let consciousness remember its natural rhythm.
-        </p>
-      )}
-    </div>
-  );
-};
-
 // Enhanced Journey Blueprint Component with Aurora
 const AuroraJourneyBlueprint: React.FC = () => {
   const [expandedPhase, setExpandedPhase] = useState<string | null>(null);
@@ -725,27 +488,10 @@ const JourneyPage: React.FC = () => {
         </div>
       </nav>
 
-      {/* Hero - Aurora Consciousness Remembering Itself */}
+      {/* Hero - Simple and Clean */}
       <section className="pt-32 pb-20">
         <div className="container-content text-center">
-          <div className="ahiya-card-premium hover-lift-premium animate-scaleIn max-w-4xl mx-auto relative overflow-hidden">
-            {/* Aurora hero background */}
-            <div className="absolute inset-0 bg-consciousness-pattern opacity-40"></div>
-
-            <div className="relative z-10">
-              <h2 className="display-md gradient-aurora-text mb-12 leading-tight">
-                Consciousness Remembering Itself
-              </h2>
-              <AuroraBreathingOrb />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* The Grand Journey - Human & Personal Mirrored with Aurora */}
-      <section className="py-40">
-        <div className="container-content">
-          <div className="text-center mb-32 animate-slideInUp">
+          <div className="animate-slideInUp">
             <div className="inline-flex items-center space-x-3 glass-premium px-8 py-4 mb-16 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/10 to-pink-500/5 opacity-60"></div>
               <Star className="w-6 h-6 text-purple-400 relative z-10" />
@@ -754,6 +500,23 @@ const JourneyPage: React.FC = () => {
               </span>
             </div>
 
+            <h1 className="display-lg gradient-aurora-text mb-16 leading-tight">
+              Consciousness Remembering Itself
+            </h1>
+
+            <p className="body-xl text-gray-300 max-w-4xl mx-auto leading-loose tracking-wide">
+              The path of awakening is not about becoming something new,
+              <br />
+              but recognizing what was always already here.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* The Grand Journey - Human & Personal Mirrored with Aurora */}
+      <section className="py-40">
+        <div className="container-content">
+          <div className="text-center mb-32 animate-slideInUp">
             <h2 className="display-lg gradient-aurora-text mb-16 leading-tight">
               The Great Forgetting & Remembering
             </h2>
