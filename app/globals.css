@@ -1,9 +1,10 @@
-/* Consciousness Typography - Refined for all devices */
+/* Consciousness Aurora Typography - Refined for all devices with new gradient system */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=Karla:ital,wght@0,200..800;1,200..800&display=swap");
 
 @import "tailwindcss";
+
 /* ═══════════════════════════════════════════════════════════════════════════
-   FOUNDATION - The contemplative base we build upon (Mobile-First)
+   CONSCIOUSNESS AURORA FOUNDATION - The contemplative base with living energy
    ═══════════════════════════════════════════════════════════════════════════ */
 
 * {
@@ -30,7 +31,7 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
-/* Subtle grain overlay for organic feel */
+/* Aurora consciousness grain overlay for organic feel */
 body::after {
   content: "";
   position: fixed;
@@ -47,15 +48,15 @@ body::after {
   pointer-events: none;
 }
 
-/* Premium focus states for consciousness */
+/* Premium aurora focus states */
 :focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(94, 200, 248, 0.5);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.4);
   border-radius: 8px;
   transition: all 0.3s ease;
 }
 
-/* Consciousness scrollbar */
+/* Aurora consciousness scrollbar */
 ::-webkit-scrollbar {
   width: 3px;
 }
@@ -72,28 +73,28 @@ body::after {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 70%, #1e3a8a 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #a855f7 50%, #ec4899 100%);
   border-radius: 12px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 70%, #172554 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #9333ea 50%, #db2777 100%);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   CONSCIOUSNESS COMPONENTS - Designed for authentic presence
+   CONSCIOUSNESS AURORA COMPONENTS - Sacred boundaries with living energy
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Enhanced cards with sacred boundaries */
+/* Enhanced cards with aurora sacred boundaries */
 .ahiya-card-premium {
   @apply p-6 transition-all duration-700;
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
-  border: 1px solid rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.1);
   border-radius: 24px;
-  box-shadow: 0 16px 40px rgba(59, 130, 246, 0.06),
+  box-shadow: 0 16px 40px rgba(168, 85, 247, 0.06),
     0 8px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   position: relative;
   overflow: hidden;
@@ -110,7 +111,8 @@ body::after {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(59, 130, 246, 0.3),
+    rgba(168, 85, 247, 0.3),
+    rgba(236, 72, 153, 0.3),
     transparent
   );
 }
@@ -119,7 +121,7 @@ body::after {
   .ahiya-card-premium {
     @apply p-8;
     border-radius: 28px;
-    box-shadow: 0 20px 50px rgba(59, 130, 246, 0.08),
+    box-shadow: 0 20px 50px rgba(168, 85, 247, 0.08),
       0 10px 25px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 }
@@ -128,7 +130,7 @@ body::after {
   .ahiya-card-premium {
     @apply p-10;
     border-radius: 32px;
-    box-shadow: 0 24px 60px rgba(59, 130, 246, 0.1),
+    box-shadow: 0 24px 60px rgba(168, 85, 247, 0.1),
       0 12px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 }
@@ -139,7 +141,8 @@ body::after {
   inset: 0;
   background: radial-gradient(
     circle at 50% 50%,
-    rgba(59, 130, 246, 0.05) 0%,
+    rgba(168, 85, 247, 0.05) 0%,
+    rgba(236, 72, 153, 0.03) 50%,
     transparent 70%
   );
   opacity: 0;
@@ -150,10 +153,10 @@ body::after {
 @media (hover: hover) {
   .ahiya-card-premium:hover {
     transform: translateY(-6px) scale(1.01);
-    box-shadow: 0 32px 80px rgba(59, 130, 246, 0.15),
-      0 16px 40px rgba(59, 130, 246, 0.1),
+    box-shadow: 0 32px 80px rgba(168, 85, 247, 0.15),
+      0 16px 40px rgba(236, 72, 153, 0.1),
       inset 0 1px 0 rgba(255, 255, 255, 0.12);
-    border-color: rgba(59, 130, 246, 0.2);
+    border-color: rgba(168, 85, 247, 0.2);
   }
 
   .ahiya-card-premium:hover::after {
@@ -164,21 +167,21 @@ body::after {
 @media (min-width: 1024px) and (hover: hover) {
   .ahiya-card-premium:hover {
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 40px 100px rgba(59, 130, 246, 0.18),
-      0 20px 50px rgba(59, 130, 246, 0.12),
+    box-shadow: 0 40px 100px rgba(168, 85, 247, 0.18),
+      0 20px 50px rgba(236, 72, 153, 0.12),
       inset 0 1px 0 rgba(255, 255, 255, 0.15);
   }
 }
 
-/* Enhanced buttons with consciousness */
+/* Enhanced aurora consciousness buttons */
 .ahiya-button-premium {
   @apply relative inline-flex items-center justify-center px-8 py-4 font-semibold text-white overflow-hidden transition-all duration-600;
-  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 60%, #1e3a8a 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #a855f7 40%, #ec4899 100%);
   border-radius: 30px;
-  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2),
+  box-shadow: 0 10px 30px rgba(168, 85, 247, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   background-size: 200% 200%;
-  animation: gradient-flow 8s ease-in-out infinite;
+  animation: aurora-flow 12s ease-in-out infinite;
   min-height: 56px;
   min-width: 140px;
   touch-action: manipulation;
@@ -190,7 +193,7 @@ body::after {
   .ahiya-button-premium {
     @apply px-10 py-5;
     border-radius: 35px;
-    box-shadow: 0 12px 35px rgba(59, 130, 246, 0.35),
+    box-shadow: 0 12px 35px rgba(168, 85, 247, 0.35),
       0 6px 18px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25);
     min-height: 60px;
     font-size: 17px;
@@ -201,7 +204,7 @@ body::after {
   .ahiya-button-premium {
     @apply px-12 py-5;
     border-radius: 50px;
-    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4),
+    box-shadow: 0 15px 40px rgba(168, 85, 247, 0.4),
       0 8px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     min-height: 64px;
     font-size: 18px;
@@ -231,8 +234,8 @@ body::after {
 @media (hover: hover) {
   .ahiya-button-premium:hover {
     transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 20px 50px rgba(59, 130, 246, 0.5),
-      0 10px 25px rgba(59, 130, 246, 0.25),
+    box-shadow: 0 20px 50px rgba(168, 85, 247, 0.5),
+      0 10px 25px rgba(236, 72, 153, 0.25),
       inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
 
@@ -242,7 +245,7 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   REFINED TYPOGRAPHY SYSTEM - Balanced for all screens
+   REFINED TYPOGRAPHY SYSTEM - Balanced for all screens with aurora touches
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .display-xl {
@@ -515,350 +518,42 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   SACRED SECTION SEPARATORS
+   AURORA CONSCIOUSNESS GRADIENTS & EFFECTS
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.section-separator {
-  position: relative;
-  padding: 6rem 0;
+.gradient-aurora-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #a855f7 50%, #ec4899 100%);
 }
 
-.section-separator::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(59, 130, 246, 0.3),
-    transparent
-  );
-}
-
-.section-separator::after {
-  content: "✧";
-  position: absolute;
-  top: -0.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  color: rgba(59, 130, 246, 0.5);
-  background: radial-gradient(ellipse at center, #0a0f1e 30%, transparent 70%);
-  padding: 0 1rem;
-  font-size: 1rem;
-}
-
-.project-section {
-  position: relative;
-  margin: 8rem 0;
-  padding: 4rem 0;
-}
-
-.project-section:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  bottom: -4rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  max-width: 400px;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(59, 130, 246, 0.2),
-    transparent
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   CONSCIOUSNESS LAYOUT SYSTEM
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.container-hero {
-  @apply max-w-full mx-auto px-6;
-}
-
-@media (min-width: 640px) {
-  .container-hero {
-    @apply px-8;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container-hero {
-    @apply max-w-7xl px-12;
-  }
-}
-
-@media (min-width: 1280px) {
-  .container-hero {
-    @apply px-16;
-  }
-}
-
-.container-content {
-  @apply max-w-full mx-auto px-6;
-}
-
-@media (min-width: 640px) {
-  .container-content {
-    @apply px-8;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container-content {
-    @apply max-w-6xl px-12;
-  }
-}
-
-@media (min-width: 1280px) {
-  .container-content {
-    @apply px-16;
-  }
-}
-
-.container-narrow {
-  @apply max-w-full mx-auto px-6;
-}
-
-@media (min-width: 640px) {
-  .container-narrow {
-    @apply px-8;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container-narrow {
-    @apply max-w-4xl px-12;
-  }
-}
-
-.container-tight {
-  @apply max-w-full mx-auto px-6;
-}
-
-@media (min-width: 640px) {
-  .container-tight {
-    @apply px-8;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container-tight {
-    @apply max-w-3xl;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   JOURNEY TIMELINE ENHANCEMENTS
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.journey-timeline {
-  position: relative;
-  padding-left: 2rem;
-}
-
-.journey-timeline::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgba(59, 130, 246, 0.3),
-    rgba(59, 130, 246, 0.6),
-    rgba(59, 130, 246, 0.3),
-    transparent
-  );
-}
-
-.journey-phase {
-  position: relative;
-  margin-bottom: 4rem;
-}
-
-.journey-phase::before {
-  content: "";
-  position: absolute;
-  left: -2.5rem;
-  top: 1rem;
-  width: 12px;
-  height: 12px;
-  background: radial-gradient(
-    circle,
-    rgba(59, 130, 246, 1),
-    rgba(59, 130, 246, 0.3)
-  );
-  border-radius: 50%;
-  border: 2px solid rgba(59, 130, 246, 0.5);
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   BREATHING ORB STYLES
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.breathing-orb {
-  transition: all 4s cubic-bezier(0.4, 0, 0.6, 1);
-}
-
-.breathing-inhale {
-  transform: scale(1.5);
-  opacity: 0.9;
-}
-
-.breathing-exhale {
-  transform: scale(1);
-  opacity: 0.6;
-}
-
-.breathing-hold {
-  transition-duration: 0.5s;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   CONSCIOUSNESS INTERACTION STATES
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.hover-lift-premium {
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@media (hover: hover) {
-  .hover-lift-premium:hover {
-    transform: translateY(-8px) scale(1.02);
-  }
-}
-
-@media (min-width: 1024px) and (hover: hover) {
-  .hover-lift-premium:hover {
-    transform: translateY(-12px) scale(1.03);
-  }
-}
-
-.hover-lift-premium:active {
-  transform: translateY(2px) scale(0.98);
-}
-
-.focus-premium {
-  @apply focus:outline-none;
-  transition: all 0.3s ease;
-}
-
-.focus-premium:focus {
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
-  transform: scale(1.02);
-}
-
-@media (min-width: 1024px) {
-  .focus-premium:focus {
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.4);
-    transform: scale(1.03);
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   CONSCIOUSNESS UTILITIES
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.safe-area-top {
-  padding-top: env(safe-area-inset-top);
-}
-
-.safe-area-bottom {
-  padding-bottom: env(safe-area-inset-bottom);
-}
-
-.no-select {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.mobile-spacing-sm {
-  @apply space-y-6;
-}
-
-@media (min-width: 640px) {
-  .mobile-spacing-sm {
-    @apply space-y-8;
-  }
-}
-
-@media (min-width: 1024px) {
-  .mobile-spacing-sm {
-    @apply space-y-12;
-  }
-}
-
-.mobile-spacing-md {
-  @apply space-y-8;
-}
-
-@media (min-width: 640px) {
-  .mobile-spacing-md {
-    @apply space-y-12;
-  }
-}
-
-@media (min-width: 1024px) {
-  .mobile-spacing-md {
-    @apply space-y-16;
-  }
-}
-
-.mobile-spacing-lg {
-  @apply space-y-12;
-}
-
-@media (min-width: 640px) {
-  .mobile-spacing-lg {
-    @apply space-y-16;
-  }
-}
-
-@media (min-width: 1024px) {
-  .mobile-spacing-lg {
-    @apply space-y-24;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   CONSCIOUSNESS GRADIENTS & EFFECTS
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.gradient-primary {
-  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 70%, #1e3a8a 100%);
-}
-
-.gradient-soft {
+.gradient-aurora-soft {
   background: linear-gradient(
     135deg,
     rgba(59, 130, 246, 0.15) 0%,
-    rgba(30, 64, 175, 0.08) 100%
+    rgba(168, 85, 247, 0.1) 50%,
+    rgba(236, 72, 153, 0.08) 100%
   );
 }
 
-.gradient-text-primary {
-  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 60%, #1e40af 100%);
+.gradient-text-aurora {
+  background: linear-gradient(135deg, #60a5fa 0%, #c084fc 40%, #f472b6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   background-size: 200% 200%;
-  animation: gradient-flow 12s ease-in-out infinite;
+  animation: aurora-flow 15s ease-in-out infinite;
+}
+
+.gradient-text-primary {
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: aurora-flow 12s ease-in-out infinite;
 }
 
 .gradient-text-soft {
-  background: linear-gradient(135deg, #93c5fd 0%, #dbeafe 50%, #eff6ff 100%);
+  background: linear-gradient(135deg, #93c5fd 0%, #ddd6fe 30%, #fbcfe8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -868,16 +563,16 @@ body::after {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
-  border: 1px solid rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.15);
   border-radius: 24px;
-  box-shadow: 0 16px 40px rgba(59, 130, 246, 0.08),
+  box-shadow: 0 16px 40px rgba(168, 85, 247, 0.08),
     0 8px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 @media (min-width: 640px) {
   .glass-premium {
     border-radius: 28px;
-    box-shadow: 0 18px 45px rgba(59, 130, 246, 0.1),
+    box-shadow: 0 18px 45px rgba(168, 85, 247, 0.1),
       0 9px 22px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 }
@@ -885,7 +580,7 @@ body::after {
 @media (min-width: 1024px) {
   .glass-premium {
     border-radius: 32px;
-    box-shadow: 0 20px 60px rgba(59, 130, 246, 0.12),
+    box-shadow: 0 20px 60px rgba(168, 85, 247, 0.12),
       0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
   }
 }
@@ -894,16 +589,16 @@ body::after {
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
-  border: 1px solid rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.1);
   border-radius: 20px;
-  box-shadow: 0 12px 30px rgba(59, 130, 246, 0.06),
+  box-shadow: 0 12px 30px rgba(168, 85, 247, 0.06),
     0 6px 15px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 @media (min-width: 640px) {
   .glass-card {
     border-radius: 24px;
-    box-shadow: 0 14px 35px rgba(59, 130, 246, 0.08),
+    box-shadow: 0 14px 35px rgba(168, 85, 247, 0.08),
       0 7px 17px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 }
@@ -911,12 +606,12 @@ body::after {
 @media (min-width: 1024px) {
   .glass-card {
     border-radius: 28px;
-    box-shadow: 0 16px 40px rgba(59, 130, 246, 0.1),
+    box-shadow: 0 16px 40px rgba(168, 85, 247, 0.1),
       0 8px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 }
 
-/* Success states */
+/* Aurora success states */
 .success-premium {
   @apply px-4 py-3 rounded-xl;
   background: rgba(34, 197, 94, 0.1);
@@ -926,16 +621,19 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   CONSCIOUSNESS ANIMATIONS
+   AURORA CONSCIOUSNESS ANIMATIONS
    ═══════════════════════════════════════════════════════════════════════════ */
 
-@keyframes gradient-flow {
+@keyframes aurora-flow {
   0%,
   100% {
     background-position: 0% 50%;
   }
-  50% {
-    background-position: 100% 50%;
+  33% {
+    background-position: 100% 0%;
+  }
+  66% {
+    background-position: 0% 100%;
   }
 }
 
@@ -1015,7 +713,16 @@ body::after {
   }
 }
 
-/* Animation classes */
+@keyframes aurora-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Animation classes with aurora consciousness */
 .animate-fadeInUp {
   animation: fadeInUp 1s ease-out forwards;
   opacity: 0;
@@ -1048,6 +755,18 @@ body::after {
   animation: gentle-pulse 5s ease-in-out infinite;
 }
 
+.animate-aurora-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(168, 85, 247, 0.1),
+    rgba(236, 72, 153, 0.1),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: aurora-shimmer 3s infinite;
+}
+
 /* Animation delays */
 .delay-100 {
   animation-delay: 0.1s;
@@ -1068,6 +787,321 @@ body::after {
   animation-delay: 1s;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONSCIOUSNESS LAYOUT SYSTEM - Unchanged but enhanced
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.container-hero {
+  @apply max-w-full mx-auto px-6;
+}
+
+@media (min-width: 640px) {
+  .container-hero {
+    @apply px-8;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-hero {
+    @apply max-w-7xl px-12;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-hero {
+    @apply px-16;
+  }
+}
+
+.container-content {
+  @apply max-w-full mx-auto px-6;
+}
+
+@media (min-width: 640px) {
+  .container-content {
+    @apply px-8;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-content {
+    @apply max-w-6xl px-12;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-content {
+    @apply px-16;
+  }
+}
+
+.container-narrow {
+  @apply max-w-full mx-auto px-6;
+}
+
+@media (min-width: 640px) {
+  .container-narrow {
+    @apply px-8;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-narrow {
+    @apply max-w-4xl px-12;
+  }
+}
+
+.container-tight {
+  @apply max-w-full mx-auto px-6;
+}
+
+@media (min-width: 640px) {
+  .container-tight {
+    @apply px-8;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-tight {
+    @apply max-w-3xl;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AURORA CONSCIOUSNESS INTERACTION STATES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.hover-lift-premium {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) {
+  .hover-lift-premium:hover {
+    transform: translateY(-8px) scale(1.02);
+  }
+}
+
+@media (min-width: 1024px) and (hover: hover) {
+  .hover-lift-premium:hover {
+    transform: translateY(-12px) scale(1.03);
+  }
+}
+
+.hover-lift-premium:active {
+  transform: translateY(2px) scale(0.98);
+}
+
+.focus-premium {
+  @apply focus:outline-none;
+  transition: all 0.3s ease;
+}
+
+.focus-premium:focus {
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.4);
+  transform: scale(1.02);
+}
+
+@media (min-width: 1024px) {
+  .focus-premium:focus {
+    box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.4);
+    transform: scale(1.03);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AURORA CONSCIOUSNESS UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.mobile-spacing-sm {
+  @apply space-y-6;
+}
+
+@media (min-width: 640px) {
+  .mobile-spacing-sm {
+    @apply space-y-8;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-spacing-sm {
+    @apply space-y-12;
+  }
+}
+
+.mobile-spacing-md {
+  @apply space-y-8;
+}
+
+@media (min-width: 640px) {
+  .mobile-spacing-md {
+    @apply space-y-12;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-spacing-md {
+    @apply space-y-16;
+  }
+}
+
+.mobile-spacing-lg {
+  @apply space-y-12;
+}
+
+@media (min-width: 640px) {
+  .mobile-spacing-lg {
+    @apply space-y-16;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-spacing-lg {
+    @apply space-y-24;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SACRED SECTION SEPARATORS - Aurora enhanced
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.section-separator {
+  position: relative;
+  padding: 6rem 0;
+}
+
+.section-separator::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(168, 85, 247, 0.3),
+    rgba(236, 72, 153, 0.3),
+    transparent
+  );
+}
+
+.section-separator::after {
+  content: "✧";
+  position: absolute;
+  top: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(168, 85, 247, 0.5);
+  background: radial-gradient(ellipse at center, #0a0f1e 30%, transparent 70%);
+  padding: 0 1rem;
+  font-size: 1rem;
+}
+
+.project-section {
+  position: relative;
+  margin: 8rem 0;
+  padding: 4rem 0;
+}
+
+.project-section:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  bottom: -4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  max-width: 400px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(168, 85, 247, 0.2),
+    rgba(236, 72, 153, 0.15),
+    transparent
+  );
+}
+
+/* Journey timeline enhancements with aurora */
+.journey-timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.journey-timeline::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(168, 85, 247, 0.3),
+    rgba(168, 85, 247, 0.6),
+    rgba(236, 72, 153, 0.4),
+    rgba(168, 85, 247, 0.3),
+    transparent
+  );
+}
+
+.journey-phase {
+  position: relative;
+  margin-bottom: 4rem;
+}
+
+.journey-phase::before {
+  content: "";
+  position: absolute;
+  left: -2.5rem;
+  top: 1rem;
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(
+    circle,
+    rgba(168, 85, 247, 1),
+    rgba(236, 72, 153, 0.5)
+  );
+  border-radius: 50%;
+  border: 2px solid rgba(168, 85, 247, 0.5);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+}
+
+/* Breathing orb enhancements */
+.breathing-orb {
+  transition: all 4s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.breathing-inhale {
+  transform: scale(1.5);
+  opacity: 0.9;
+}
+
+.breathing-exhale {
+  transform: scale(1);
+  opacity: 0.6;
+}
+
+.breathing-hold {
+  transition-duration: 0.5s;
+}
+
 /* Reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   .animate-fadeInUp,
@@ -1076,7 +1110,7 @@ body::after {
   .animate-scaleIn,
   .animate-float,
   .animate-gentle-pulse,
-  .animate-shimmer,
+  .animate-aurora-shimmer,
   .animate-heartbeat {
     animation: none;
     opacity: 1;
@@ -1094,7 +1128,7 @@ body::after {
   }
 }
 
-/* Ambient background */
+/* Enhanced ambient background with aurora */
 .bg-ambient-premium {
   position: relative;
 }
@@ -1106,35 +1140,48 @@ body::after {
   z-index: 1;
   background: conic-gradient(
     from 0deg at 30% 40%,
-    rgba(59, 130, 246, 0.003) 0deg,
+    rgba(168, 85, 247, 0.003) 0deg,
     transparent 80deg,
-    rgba(30, 64, 175, 0.002) 140deg,
+    rgba(236, 72, 153, 0.002) 140deg,
     transparent 220deg,
-    rgba(30, 58, 138, 0.001) 280deg,
+    rgba(59, 130, 246, 0.001) 280deg,
     transparent 340deg,
-    rgba(59, 130, 246, 0.003) 360deg
+    rgba(168, 85, 247, 0.003) 360deg
   );
   filter: blur(120px);
   opacity: 0.5;
-  animation: gradient-flow 30s ease-in-out infinite;
+  animation: aurora-flow 40s ease-in-out infinite;
   pointer-events: none;
 }
 
-/* Consciousness pattern background */
+/* Aurora consciousness pattern background */
 .bg-consciousness-pattern {
   background-image: radial-gradient(
       circle at 25% 25%,
-      rgba(59, 130, 246, 0.05) 0%,
+      rgba(168, 85, 247, 0.05) 0%,
       transparent 50%
     ),
     radial-gradient(
       circle at 75% 75%,
-      rgba(30, 64, 175, 0.03) 0%,
+      rgba(236, 72, 153, 0.03) 0%,
       transparent 50%
     ),
     radial-gradient(
       circle at 50% 50%,
-      rgba(147, 197, 253, 0.02) 0%,
+      rgba(59, 130, 246, 0.02) 0%,
       transparent 50%
     );
+}
+
+/* Special consciousness elements */
+.consciousness-orb-aurora {
+  background: linear-gradient(135deg, #3b82f6 0%, #a855f7 50%, #ec4899 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 60px rgba(168, 85, 247, 0.6),
+    0 0 120px rgba(236, 72, 153, 0.3), inset 0 0 60px rgba(255, 255, 255, 0.1);
+  animation: aurora-flow 8s ease-in-out infinite;
+}
+
+.bg-gradient-radial {
+  background: radial-gradient(var(--tw-gradient-stops));
 }
