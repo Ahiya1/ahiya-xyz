@@ -22,75 +22,104 @@ import {
   Heart,
 } from "lucide-react";
 
-// Pure Presence Breathing Orb - Less tracking, more being
+// Silky Smooth Breathing Orb - Pure presence flow
 const BreathingOrb: React.FC = () => {
   const [isBreathing, setIsBreathing] = useState<boolean>(false);
   const [breathPhase, setBreathPhase] = useState<string>("rest");
+  const [breathProgress, setBreathProgress] = useState<number>(0);
 
   useEffect(() => {
     if (!isBreathing) return;
 
-    const breathCycle = (): void => {
-      // Simple 4-second cycles
-      const phases: string[] = ["inhale", "hold", "exhale", "rest"];
-      let currentPhaseIndex = 0;
+    let animationFrame: number;
+    let startTime: number;
+    let currentPhaseIndex = 0;
+    const phases = ["inhale", "hold", "exhale", "rest"];
+    const phaseDuration = 4000; // 4 seconds each
 
-      const cyclePhase = (): void => {
-        if (!isBreathing) return;
+    const updateBreathing = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const phaseElapsed = elapsed % phaseDuration;
+      const progress = phaseElapsed / phaseDuration;
 
+      // Smooth easing function for organic breathing
+      const easedProgress = 0.5 * (1 - Math.cos(Math.PI * progress));
+
+      setBreathProgress(easedProgress);
+
+      // Update phase every 4 seconds
+      const newPhaseIndex = Math.floor(elapsed / phaseDuration) % phases.length;
+      if (newPhaseIndex !== currentPhaseIndex) {
+        currentPhaseIndex = newPhaseIndex;
         setBreathPhase(phases[currentPhaseIndex]);
-        currentPhaseIndex = (currentPhaseIndex + 1) % phases.length;
+      }
 
-        setTimeout(() => {
-          if (isBreathing) cyclePhase();
-        }, 4000); // 4 seconds each phase
-      };
-
-      cyclePhase();
+      if (isBreathing) {
+        animationFrame = requestAnimationFrame(updateBreathing);
+      }
     };
 
-    breathCycle();
+    animationFrame = requestAnimationFrame(updateBreathing);
+
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
   }, [isBreathing]);
 
   const getOrbStyle = (): React.CSSProperties => {
-    const baseStyle: React.CSSProperties = {
-      transition: "all 4s cubic-bezier(0.4, 0, 0.6, 1)",
-    };
+    if (!isBreathing) {
+      return {
+        transform: "scale(1)",
+        opacity: 0.6,
+        filter: "blur(1px)",
+      };
+    }
+
+    // Silky smooth breathing animation
+    const inhaleScale = 1 + breathProgress * 0.8; // 1 to 1.8
+    const exhaleScale = 1.8 - breathProgress * 0.8; // 1.8 to 1
+
+    let scale, opacity, blur;
 
     switch (breathPhase) {
       case "inhale":
-        return {
-          ...baseStyle,
-          transform: "scale(1.8)",
-          opacity: 0.95,
-          filter: "blur(0px)",
-        };
+        scale = inhaleScale;
+        opacity = 0.4 + breathProgress * 0.5; // 0.4 to 0.9
+        blur = 2 - breathProgress * 2; // 2px to 0px
+        break;
       case "hold":
-        return {
-          ...baseStyle,
-          transform: "scale(1.8)",
-          opacity: 0.95,
-          filter: "blur(1px)",
-          transition: "all 0.5s ease",
-        };
+        scale = 1.8;
+        opacity = 0.9;
+        blur = 0;
+        break;
       case "exhale":
-        return {
-          ...baseStyle,
-          transform: "scale(1)",
-          opacity: 0.4,
-          filter: "blur(2px)",
-        };
+        scale = exhaleScale;
+        opacity = 0.9 - breathProgress * 0.5; // 0.9 to 0.4
+        blur = breathProgress * 2; // 0px to 2px
+        break;
       case "rest":
-        return {
-          ...baseStyle,
-          transform: "scale(1)",
-          opacity: 0.4,
-          filter: "blur(1px)",
-          transition: "all 0.5s ease",
-        };
+        scale = 1;
+        opacity = 0.4;
+        blur = 2;
+        break;
       default:
-        return baseStyle;
+        scale = 1;
+        opacity = 0.6;
+        blur = 1;
     }
+
+    return {
+      transform: `scale(${scale})`,
+      opacity,
+      filter: `blur(${blur}px)`,
+      transition:
+        breathPhase === "hold" || breathPhase === "rest"
+          ? "all 0.5s cubic-bezier(0.4, 0, 0.6, 1)"
+          : "none",
+    };
   };
 
   const getInstruction = (): string => {
@@ -110,37 +139,72 @@ const BreathingOrb: React.FC = () => {
     }
   };
 
+  const getShadowIntensity = (): number => {
+    if (!isBreathing) return 0.3;
+
+    switch (breathPhase) {
+      case "inhale":
+        return 0.3 + breathProgress * 0.4; // 0.3 to 0.7
+      case "hold":
+        return 0.7;
+      case "exhale":
+        return 0.7 - breathProgress * 0.4; // 0.7 to 0.3
+      case "rest":
+        return 0.3;
+      default:
+        return 0.3;
+    }
+  };
+
   return (
     <div className="flex flex-col items-center space-y-12 py-16">
       <div className="relative">
-        {/* Cosmic breathing rings - much more pronounced */}
+        {/* Ethereal breathing rings with smooth animations */}
         <div
-          className="absolute inset-0 w-80 h-80 rounded-full border border-blue-400/5 animate-ping"
-          style={{ animationDuration: "8s" }}
+          className="absolute inset-0 w-80 h-80 rounded-full border border-blue-400/5"
+          style={{
+            animation: isBreathing
+              ? "gentle-expand 16s ease-in-out infinite"
+              : "none",
+          }}
         ></div>
         <div
-          className="absolute inset-12 w-56 h-56 rounded-full border border-blue-400/10 animate-pulse"
-          style={{ animationDuration: "6s" }}
+          className="absolute inset-12 w-56 h-56 rounded-full border border-blue-400/10"
+          style={{
+            animation: isBreathing
+              ? "gentle-expand 12s ease-in-out infinite 2s"
+              : "none",
+          }}
         ></div>
         <div
-          className="absolute inset-20 w-40 h-40 rounded-full border border-blue-400/20 animate-pulse"
-          style={{ animationDuration: "4s" }}
+          className="absolute inset-20 w-40 h-40 rounded-full border border-blue-400/20"
+          style={{
+            animation: isBreathing
+              ? "gentle-expand 8s ease-in-out infinite 1s"
+              : "none",
+          }}
         ></div>
 
-        {/* Sacred breathing orb with profound animation */}
+        {/* Sacred breathing orb with silky smooth animation */}
         <div
           className="w-40 h-40 rounded-full bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 
             shadow-2xl relative m-20"
           style={{
             ...getOrbStyle(),
-            boxShadow: `0 0 80px rgba(59, 130, 246, ${
-              breathPhase === "inhale" ? 0.6 : 0.3
-            })`,
+            boxShadow: `0 0 ${
+              60 + breathProgress * 40
+            }px rgba(59, 130, 246, ${getShadowIntensity()})`,
           }}
         >
-          {/* Layered inner cosmos */}
-          <div className="absolute inset-2 rounded-full bg-gradient-to-br from-white/30 to-transparent"></div>
-          <div className="absolute inset-6 rounded-full bg-gradient-to-br from-blue-200/20 to-transparent"></div>
+          {/* Layered inner cosmos with breathing response */}
+          <div
+            className="absolute inset-2 rounded-full bg-gradient-to-br from-white/30 to-transparent"
+            style={{ opacity: 0.6 + breathProgress * 0.3 }}
+          ></div>
+          <div
+            className="absolute inset-6 rounded-full bg-gradient-to-br from-blue-200/20 to-transparent"
+            style={{ opacity: 0.4 + breathProgress * 0.4 }}
+          ></div>
 
           {/* Sacred potato center - the cosmic joke */}
           <div className="absolute inset-1/3 rounded-full bg-white/15 flex items-center justify-center">
@@ -149,19 +213,36 @@ const BreathingOrb: React.FC = () => {
 
           {/* Gentle rotating presence */}
           <div
-            className="absolute inset-4 rounded-full border border-white/5 animate-spin"
-            style={{ animationDuration: "30s" }}
+            className="absolute inset-4 rounded-full border border-white/5"
+            style={{
+              animation: "gentle-rotate 30s linear infinite",
+              opacity: 0.3 + breathProgress * 0.3,
+            }}
           ></div>
         </div>
       </div>
 
-      {/* Simple, present instruction */}
+      {/* Flowing instruction */}
       {isBreathing && (
         <div className="text-center space-y-6 animate-fadeInUp">
-          <p className="text-4xl text-blue-200 font-light tracking-wide transition-all duration-2000">
+          <p
+            className="text-4xl text-blue-200 font-light tracking-wide"
+            style={{
+              opacity: 0.7 + breathProgress * 0.3,
+              transform: `translateY(${-breathProgress * 3}px)`,
+              transition: "none",
+            }}
+          >
             {getInstruction()}
           </p>
-          <div className="w-2 h-2 bg-blue-400 rounded-full mx-auto animate-gentle-pulse"></div>
+          <div
+            className="w-3 h-3 bg-blue-400 rounded-full mx-auto"
+            style={{
+              opacity: 0.4 + breathProgress * 0.6,
+              transform: `scale(${0.8 + breathProgress * 0.4})`,
+              transition: "none",
+            }}
+          ></div>
         </div>
       )}
 
@@ -171,6 +252,7 @@ const BreathingOrb: React.FC = () => {
           setIsBreathing(!isBreathing);
           if (!isBreathing) {
             setBreathPhase("rest");
+            setBreathProgress(0);
           }
         }}
         className="flex items-center space-x-4 px-12 py-6 glass-premium hover-lift-premium focus-premium
@@ -459,48 +541,58 @@ const JourneyBlueprint: React.FC = () => {
   );
 };
 
-// Cosmic Void Separator Component - Properly typed
-interface CosmicVoidProps {
+// Elegant Cosmic Transition - Colors and gradients at edges
+interface CosmicTransitionProps {
   children?: React.ReactNode;
   size?: "small" | "normal" | "large" | "cosmic";
 }
 
-const CosmicVoid: React.FC<CosmicVoidProps> = ({
+const CosmicTransition: React.FC<CosmicTransitionProps> = ({
   children = null,
   size = "normal",
 }) => {
   const sizeClasses: Record<"small" | "normal" | "large" | "cosmic", string> = {
-    small: "py-20",
-    normal: "py-32",
-    large: "py-48",
-    cosmic: "py-64",
+    small: "py-16",
+    normal: "py-24",
+    large: "py-32",
+    cosmic: "py-40",
   };
 
   return (
     <div className={`relative ${sizeClasses[size]} overflow-hidden`}>
-      {/* Cosmic background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-950/5 to-transparent"></div>
+      {/* Elegant gradient transitions at edges */}
+      <div className="absolute inset-0">
+        {/* Top gradient fade */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-blue-950/20 via-blue-900/10 to-transparent"></div>
+        {/* Bottom gradient fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-blue-950/20 via-blue-900/10 to-transparent"></div>
 
-      {/* Sacred geometry */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <div className="w-px h-32 bg-gradient-to-b from-transparent via-blue-400/20 to-transparent"></div>
-        <div className="w-32 h-px bg-gradient-to-r from-transparent via-blue-400/20 to-transparent absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+        {/* Side gradient fades */}
+        <div className="absolute top-0 bottom-0 left-0 w-32 bg-gradient-to-r from-blue-950/10 to-transparent"></div>
+        <div className="absolute top-0 bottom-0 right-0 w-32 bg-gradient-to-l from-blue-950/10 to-transparent"></div>
+
+        {/* Central ethereal glow */}
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+                        w-96 h-96 bg-gradient-radial from-blue-500/5 via-blue-400/3 to-transparent 
+                        rounded-full animate-gentle-pulse"
+        ></div>
       </div>
 
-      {/* Cosmic particles */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-20 left-1/4 w-1 h-1 bg-blue-400/40 rounded-full animate-gentle-pulse"></div>
+      {/* Subtle constellation dots */}
+      <div className="absolute inset-0 opacity-40">
+        <div className="absolute top-1/4 left-1/6 w-1 h-1 bg-blue-400/60 rounded-full animate-gentle-pulse"></div>
         <div
-          className="absolute bottom-20 right-1/4 w-1 h-1 bg-blue-400/40 rounded-full animate-gentle-pulse"
-          style={{ animationDelay: "2s" }}
+          className="absolute bottom-1/4 right-1/6 w-1 h-1 bg-blue-300/60 rounded-full animate-gentle-pulse"
+          style={{ animationDelay: "3s" }}
         ></div>
         <div
-          className="absolute top-1/2 left-1/6 w-1 h-1 bg-blue-400/40 rounded-full animate-gentle-pulse"
-          style={{ animationDelay: "4s" }}
-        ></div>
-        <div
-          className="absolute top-1/3 right-1/6 w-1 h-1 bg-blue-400/40 rounded-full animate-gentle-pulse"
+          className="absolute top-1/2 left-1/4 w-0.5 h-0.5 bg-blue-500/80 rounded-full animate-gentle-pulse"
           style={{ animationDelay: "6s" }}
+        ></div>
+        <div
+          className="absolute top-1/3 right-1/4 w-0.5 h-0.5 bg-blue-200/80 rounded-full animate-gentle-pulse"
+          style={{ animationDelay: "9s" }}
         ></div>
       </div>
 
@@ -752,7 +844,7 @@ const AhiyaLanding: React.FC = () => {
         />
       </div>
 
-      {/* Sacred Navigation */}
+      {/* Sacred Navigation - Corrected order */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
         <div className="container-hero">
           <div className="flex items-center justify-between h-20">
@@ -774,6 +866,13 @@ const AhiyaLanding: React.FC = () => {
 
             <div className="hidden md:flex items-center space-x-8">
               <a
+                href="#journey"
+                className="text-gray-300 hover:text-white transition-all duration-300 font-medium hover:scale-105 relative group"
+              >
+                Journey
+                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-consciousness-400 transition-all duration-300 group-hover:w-full"></div>
+              </a>
+              <a
                 href="#building"
                 className="text-gray-300 hover:text-white transition-all duration-300 font-medium hover:scale-105 relative group"
               >
@@ -785,13 +884,6 @@ const AhiyaLanding: React.FC = () => {
                 className="text-gray-300 hover:text-white transition-all duration-300 font-medium hover:scale-105 relative group"
               >
                 Writings
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-consciousness-400 transition-all duration-300 group-hover:w-full"></div>
-              </a>
-              <a
-                href="#journey"
-                className="text-gray-300 hover:text-white transition-all duration-300 font-medium hover:scale-105 relative group"
-              >
-                Journey
                 <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-consciousness-400 transition-all duration-300 group-hover:w-full"></div>
               </a>
               <a
@@ -861,10 +953,10 @@ const AhiyaLanding: React.FC = () => {
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-scaleIn delay-700">
               <a
-                href="#building"
+                href="#journey"
                 className="ahiya-button-premium group inline-flex items-center space-x-3 hover-lift-premium focus-premium"
               >
-                <span>Explore the Mirrors</span>
+                <span>Begin the Journey</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
               </a>
             </div>
@@ -872,8 +964,8 @@ const AhiyaLanding: React.FC = () => {
         </div>
       </section>
 
-      {/* COSMIC VOID - Space becoming human */}
-      <CosmicVoid size="cosmic">
+      {/* Elegant Transition - Space becoming human */}
+      <CosmicTransition size="cosmic">
         <div className="container-content text-center">
           <div className="ahiya-card-premium hover-lift-premium animate-scaleIn max-w-4xl mx-auto">
             <h2 className="display-md gradient-text-primary mb-12 leading-tight">
@@ -882,10 +974,10 @@ const AhiyaLanding: React.FC = () => {
             <BreathingOrb />
           </div>
         </div>
-      </CosmicVoid>
+      </CosmicTransition>
 
-      {/* COSMIC VOID - Human becoming space */}
-      <CosmicVoid size="large" />
+      {/* Elegant Transition - Human becoming space */}
+      <CosmicTransition size="large" />
 
       {/* The Grand Journey - Human & Personal Mirrored */}
       <section id="journey" className="py-40">
@@ -975,16 +1067,16 @@ const AhiyaLanding: React.FC = () => {
             ))}
           </div>
 
-          {/* COSMIC VOID before Blueprint */}
-          <CosmicVoid size="large" />
+          {/* Elegant Transition before Blueprint */}
+          <CosmicTransition size="large" />
 
           {/* Journey Blueprint */}
           <JourneyBlueprint />
         </div>
       </section>
 
-      {/* COSMIC VOID - Major transition */}
-      <CosmicVoid size="cosmic" />
+      {/* Elegant Transition - Major section break */}
+      <CosmicTransition size="cosmic" />
 
       {/* Building - Sacred Mirrors */}
       <section id="building" className="py-40">
@@ -1145,16 +1237,18 @@ const AhiyaLanding: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Cosmic void between projects */}
-                {index < projects.length - 1 && <CosmicVoid size="normal" />}
+                {/* Elegant transition between projects */}
+                {index < projects.length - 1 && (
+                  <CosmicTransition size="normal" />
+                )}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* COSMIC VOID - Major transition */}
-      <CosmicVoid size="cosmic" />
+      {/* Elegant Transition - Major section break */}
+      <CosmicTransition size="cosmic" />
 
       {/* Writings - Sacred Containers */}
       <section id="writings" className="py-40">
@@ -1237,8 +1331,8 @@ const AhiyaLanding: React.FC = () => {
         </div>
       </section>
 
-      {/* COSMIC VOID - Final transition */}
-      <CosmicVoid size="cosmic" />
+      {/* Elegant Transition - Final section break */}
+      <CosmicTransition size="cosmic" />
 
       {/* Connect - Soul Call */}
       <section id="connect" className="py-40">
@@ -1330,6 +1424,34 @@ const AhiyaLanding: React.FC = () => {
           </p>
         </div>
       </footer>
+
+      {/* CSS for smooth breathing animations */}
+      <style jsx>{`
+        @keyframes gentle-expand {
+          0%,
+          100% {
+            transform: scale(1);
+            opacity: 0.3;
+          }
+          50% {
+            transform: scale(1.05);
+            opacity: 0.6;
+          }
+        }
+
+        @keyframes gentle-rotate {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        .bg-gradient-radial {
+          background: radial-gradient(var(--tw-gradient-stops));
+        }
+      `}</style>
     </div>
   );
 };
