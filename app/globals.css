@@ -51,9 +51,13 @@ body::after {
 }
 
 /* Scrollbar that doesn't demand attention */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); }
-::-webkit-scrollbar-thumb { 
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+::-webkit-scrollbar-thumb {
   background: rgba(168, 85, 247, 0.3);
   border-radius: 2px;
 }
@@ -76,8 +80,7 @@ body::after {
 
 .contemplative-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 
-              0 0 0 1px rgba(168, 85, 247, 0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(168, 85, 247, 0.1);
 }
 
 /* Button that feels human */
@@ -230,14 +233,25 @@ body::after {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @keyframes gentle-drift {
-  0% { transform: translate(0, 0); }
-  50% { transform: translate(-5px, -3px); }
-  100% { transform: translate(0, 0); }
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-5px, -3px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 @keyframes soft-float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @keyframes fade-in-up {
@@ -288,7 +302,7 @@ body::after {
   animation: soft-float 2s ease-in-out infinite;
 }
 
-/* Sacred quote styling */
+/* Sacred quote styling - FIXED VERSION */
 .sacred-quote {
   position: relative;
   padding: 2rem;
@@ -301,7 +315,7 @@ body::after {
 }
 
 .sacred-quote::before {
-  content: """;
+  content: '"'; /* FIXED: Using single quotes around double quote */
   position: absolute;
   top: 0;
   left: 1rem;
@@ -318,13 +332,13 @@ body::after {
   .section-breathing {
     padding: 4rem 0;
   }
-  
+
   .container-wide,
   .container-content,
   .container-narrow {
     padding: 0 1rem;
   }
-  
+
   .contemplative-card {
     padding: 1.5rem;
   }

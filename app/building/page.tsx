@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink, ArrowRight, Code, Heart, Sparkles } from "lucide-react";
+import { ExternalLink, ArrowRight, Code, Sparkles } from "lucide-react";
 
 const BuildingPage: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
