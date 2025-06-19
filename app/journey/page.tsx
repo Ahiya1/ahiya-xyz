@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Calendar, MapPin, Heart, Globe, User, RefreshCcw } from "lucide-react";
+import { Calendar, MapPin, Heart, Globe, User } from "lucide-react";
 
 const JourneyPage: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
@@ -371,13 +371,92 @@ const JourneyPage: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Mirror Connection */}
+                {/* Sacred Roots Connection */}
                 {index < journeyPhases.length - 1 && (
-                  <div className="flex justify-center my-16">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-12 h-px bg-gradient-to-r from-blue-400/30 to-purple-400/30" />
-                      <RefreshCcw className="w-6 h-6 text-purple-400/60" />
-                      <div className="w-12 h-px bg-gradient-to-r from-purple-400/30 to-emerald-400/30" />
+                  <div className="flex justify-center my-20">
+                    <div className="relative w-80 h-24 opacity-60">
+                      <svg
+                        viewBox="0 0 320 96"
+                        className="w-full h-full"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        {/* Left root (Personal) */}
+                        <path
+                          d="M20 48 Q80 20, 140 35 Q180 45, 160 48"
+                          stroke="rgba(96, 165, 250, 0.4)"
+                          strokeWidth="2"
+                          fill="none"
+                          className="animate-pulse"
+                          style={{ animationDuration: "4s" }}
+                        />
+                        <path
+                          d="M30 55 Q90 70, 130 50 Q170 35, 160 48"
+                          stroke="rgba(96, 165, 250, 0.3)"
+                          strokeWidth="1.5"
+                          fill="none"
+                          className="animate-pulse"
+                          style={{
+                            animationDuration: "5s",
+                            animationDelay: "0.5s",
+                          }}
+                        />
+
+                        {/* Right root (Collective) */}
+                        <path
+                          d="M300 48 Q240 20, 180 35 Q140 45, 160 48"
+                          stroke="rgba(52, 211, 153, 0.4)"
+                          strokeWidth="2"
+                          fill="none"
+                          className="animate-pulse"
+                          style={{
+                            animationDuration: "4s",
+                            animationDelay: "1s",
+                          }}
+                        />
+                        <path
+                          d="M290 55 Q230 70, 190 50 Q150 35, 160 48"
+                          stroke="rgba(52, 211, 153, 0.3)"
+                          strokeWidth="1.5"
+                          fill="none"
+                          className="animate-pulse"
+                          style={{
+                            animationDuration: "5s",
+                            animationDelay: "1.5s",
+                          }}
+                        />
+
+                        {/* Central connection point */}
+                        <circle
+                          cx="160"
+                          cy="48"
+                          r="4"
+                          fill="rgba(168, 85, 247, 0.6)"
+                          className="animate-pulse"
+                          style={{ animationDuration: "3s" }}
+                        />
+
+                        {/* Smaller branching roots */}
+                        <path
+                          d="M40 65 Q70 75, 90 65"
+                          stroke="rgba(96, 165, 250, 0.2)"
+                          strokeWidth="1"
+                          fill="none"
+                        />
+                        <path
+                          d="M280 65 Q250 75, 230 65"
+                          stroke="rgba(52, 211, 153, 0.2)"
+                          strokeWidth="1"
+                          fill="none"
+                        />
+                      </svg>
+
+                      {/* Sacred tree symbol at center */}
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <div className="text-2xl animate-float opacity-80">
+                          🌳
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
