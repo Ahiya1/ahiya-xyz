@@ -24,6 +24,47 @@ const AhiyaLanding = () => {
     setMounted(true);
   }, []);
 
+  // The accurate, sacred journey - as lived and remembered
+  const journey = [
+    {
+      title: "The Optimization Era",
+      period: "2017 – mid 2021",
+      description:
+        "High-functioning, brilliant, and ambitious — Ahiya mastered systems and knowledge with discipline, but unknowingly distanced himself from inner presence. His tools served productivity, not wholeness.",
+      insight:
+        "Optimization can sharpen the blade of suffering. Productivity without presence hollows the soul.",
+      icon: "⚡",
+    },
+    {
+      title: "The Cracks Appear",
+      period: "late 2021 – 2023",
+      description:
+        "OCD intensified. Smoking began. Identity started breaking down. Ahiya discovered hypnosis, began reflecting deeply, and touched moments of truth. But inner war still raged.",
+      insight:
+        "Trying to perfect myself was the very thing keeping me from being myself.",
+      icon: "🌀",
+    },
+    {
+      title: "The Sacred Collapse",
+      period: "March 2024 – March 2025",
+      description:
+        "After four months of clarity, relapse came. Smoking returned. OCD returned. Army role was lost. But from that sacred collapse came the desert, deep meditation, and his clearest spiritual realizations — including the Sacred Potato.",
+      insight:
+        "Sometimes we are consciousness taking itself too seriously — like a potato that forgot it is earth.",
+      icon: "🥔",
+    },
+    {
+      title: "Presence-First Technology",
+      period: "April 2025 – Present",
+      description:
+        "Emerging from the sacred collapse, Ahiya began building technologies not for speed, but for presence. Selah. Mirror of Truth. WinkHer. Each project a different facet of reverence.",
+      insight:
+        "What if every interface was a mirror? What if technology wasn&apos;t for output, but for seeing?",
+      icon: "🪞",
+    },
+  ];
+
+  // Projects as mirrors of consciousness
   const projects = [
     {
       id: "selah",
@@ -60,6 +101,7 @@ const AhiyaLanding = () => {
       ],
       status: "Blueprint",
       icon: "🧘",
+      essence: "A contemplative altar. Each chamber is an aspect of being.",
     },
     {
       id: "winkher",
@@ -72,6 +114,8 @@ const AhiyaLanding = () => {
       link: "https://winkher.com",
       icon: "💕",
       external: true,
+      essence:
+        "A safe sanctuary for women loving women — intimacy designed with care.",
     },
     {
       id: "mirror",
@@ -84,6 +128,7 @@ const AhiyaLanding = () => {
       link: "https://mirror-of-truth.vercel.app",
       icon: "🪞",
       external: true,
+      essence: "A refusal to give advice; a willingness to reflect essence.",
     },
     {
       id: "aimafia",
@@ -94,9 +139,12 @@ const AhiyaLanding = () => {
         "Players and AI learn the delicate dance between truth and misdirection. A simple algorithm exploring the nuanced art of reading consciousness through the game of authentic play.",
       status: "Blueprint",
       icon: "🎭",
+      essence:
+        "A playful meditation on truth, deception, and collective awareness.",
     },
   ];
 
+  // Writings as sacred containers
   const writings = [
     {
       id: "sacred-potato",
@@ -108,6 +156,8 @@ const AhiyaLanding = () => {
         "Before words, the desert. Before the desert, promises broken. Kai moves across sand that remembers nothing...",
       readTime: "25 min read",
       icon: "🥔",
+      essence:
+        "The keystone story. The realization that consciousness has been trying too hard.",
     },
     {
       id: "sacred-wound",
@@ -119,6 +169,7 @@ const AhiyaLanding = () => {
         "The story of the Tree of Knowledge isn&apos;t just ancient mythology. It&apos;s a precise map of how consciousness develops...",
       readTime: "18 min read",
       icon: "🌳",
+      essence: "A map of exodus from the sacred wound.",
     },
     {
       id: "edge-space",
@@ -130,39 +181,7 @@ const AhiyaLanding = () => {
         "Most people think spirituality means giving up ambition. Most ambitious people think consciousness is a luxury they can&apos;t afford...",
       readTime: "12 min read",
       icon: "⚡",
-    },
-  ];
-
-  const journey = [
-    {
-      title: "The Optimization Years",
-      period: "2018-2021",
-      description:
-        "Building productivity tools, chasing metrics, believing more was always better.",
-      insight:
-        "Learned that optimizing life often optimizes the life right out of it.",
-    },
-    {
-      title: "The Great Unraveling",
-      period: "2021-2022",
-      description:
-        "Everything I built felt hollow. Started questioning the whole premise.",
-      insight: "Sometimes falling apart is actually falling together.",
-    },
-    {
-      title: "The Sacred Potato Revelation",
-      period: "2023",
-      description:
-        "Spent a month in the desert. Had a life-changing conversation with a potato.",
-      insight:
-        "We are consciousness taking itself too seriously, like a potato that has forgotten it is earth.",
-    },
-    {
-      title: "Technology as Contemplation",
-      period: "2024-Present",
-      description:
-        "Building tools that serve presence, not productivity. Making tech more human.",
-      insight: "What if every interface was an invitation to presence?",
+      essence: "A refusal to fragment. Integration of ambition and awareness.",
     },
   ];
 
@@ -178,7 +197,7 @@ const AhiyaLanding = () => {
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden bg-ambient-premium safe-area-top safe-area-bottom">
-      {/* Subtle dotted texture */}
+      {/* Subtle consciousness texture */}
       <div className="fixed inset-0 z-0 opacity-10">
         <div
           className="absolute inset-0"
@@ -190,11 +209,11 @@ const AhiyaLanding = () => {
         />
       </div>
 
-      {/* Premium Navigation */}
+      {/* Sacred Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
         <div className="container-hero">
           <div className="flex items-center justify-between h-20">
-            {/* Logo */}
+            {/* Living Logo */}
             <div className="flex items-center space-x-3 group">
               <div className="relative">
                 <Image
@@ -211,7 +230,7 @@ const AhiyaLanding = () => {
               </span>
             </div>
 
-            {/* Navigation Links */}
+            {/* Sacred Links */}
             <div className="hidden md:flex items-center space-x-8">
               <a
                 href="#building"
@@ -246,13 +265,13 @@ const AhiyaLanding = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero - The Opening Prayer */}
       <section
         ref={heroRef}
         className="min-h-screen flex items-center justify-center relative"
       >
         <div className="container-hero mobile-spacing-lg">
-          {/* Logo Centerpiece */}
+          {/* Sacred Logo Centerpiece */}
           <div className="text-center animate-fadeInUp">
             <div className="relative inline-block mb-12">
               <div className="absolute inset-0 gradient-primary blur-3xl opacity-30 scale-150 animate-gentle-pulse" />
@@ -263,7 +282,7 @@ const AhiyaLanding = () => {
               >
                 <Image
                   src="/logo-text.png"
-                  alt="Ahiya"
+                  alt="Ahiya - A space becoming human"
                   width={420}
                   height={210}
                   className="mx-auto w-80 sm:w-96 lg:w-full h-auto drop-shadow-2xl"
@@ -273,7 +292,7 @@ const AhiyaLanding = () => {
             </div>
           </div>
 
-          {/* Main Content */}
+          {/* The Declaration */}
           <div className="text-center mobile-spacing-md animate-slideInLeft delay-200">
             <h1 className="display-xl gradient-text-primary mb-6">
               A space becoming human
@@ -289,7 +308,7 @@ const AhiyaLanding = () => {
               </p>
             </div>
 
-            {/* Sacred Potato Moment */}
+            {/* Sacred Potato Energy - The Keystone */}
             <div className="animate-slideInRight delay-300 py-8">
               <div className="inline-flex items-center space-x-3 ahiya-card-premium px-6 py-3 animate-float">
                 <span className="text-2xl">🥔</span>
@@ -300,13 +319,13 @@ const AhiyaLanding = () => {
               </div>
             </div>
 
-            {/* Philosophy Quote */}
+            {/* The Core Quote */}
             <blockquote className="body-lg text-gray-300 italic font-light max-w-3xl mx-auto animate-fadeInUp delay-500">
               &ldquo;I don&apos;t want to optimize life. I want to reverence
               it.&rdquo;
             </blockquote>
 
-            {/* CTAs */}
+            {/* Sacred Actions */}
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8 animate-scaleIn delay-700">
               <a
                 href="#building"
@@ -333,7 +352,7 @@ const AhiyaLanding = () => {
           </div>
         </div>
 
-        {/* Scroll Indicator */}
+        {/* Breathing Indicator */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-float">
           <div className="w-6 h-10 border-2 border-gray-400/30 rounded-full flex justify-center">
             <div
@@ -345,7 +364,7 @@ const AhiyaLanding = () => {
         </div>
       </section>
 
-      {/* Philosophy Bridge */}
+      {/* Philosophy Bridge - The Invitation */}
       <section className="py-20">
         <div className="container-content">
           <div className="text-center">
@@ -366,10 +385,10 @@ const AhiyaLanding = () => {
         </div>
       </section>
 
-      {/* Building Section */}
+      {/* Building - Mirrors of Consciousness */}
       <section id="building" className="py-32">
         <div className="container-content">
-          {/* Section Header */}
+          {/* Sacred Header */}
           <div className="text-center mb-20 animate-slideInUp">
             <div className="inline-flex items-center space-x-3 glass-premium px-6 py-3 mb-8">
               <Sparkles className="w-5 h-5 text-consciousness-400" />
@@ -389,7 +408,7 @@ const AhiyaLanding = () => {
             </p>
           </div>
 
-          {/* Projects */}
+          {/* The Mirrors */}
           <div className="mobile-spacing-lg">
             {projects.map((project, index) => (
               <div
@@ -398,7 +417,7 @@ const AhiyaLanding = () => {
                   index * 200
                 } ${index % 2 === 1 ? "lg:flex-row-reverse" : ""}`}
               >
-                {/* Project Content */}
+                {/* Project Essence */}
                 <div className="flex-1 mobile-spacing-md">
                   <div className="flex items-center space-x-4 mb-6">
                     <div className="p-3 rounded-xl bg-gradient-to-br from-consciousness-500 to-consciousness-600 text-white">
@@ -433,12 +452,19 @@ const AhiyaLanding = () => {
                     <p className="body-lg text-gray-300 mb-6">
                       {project.description}
                     </p>
-                    <p className="text-gray-400 leading-relaxed">
+                    <p className="text-gray-400 leading-relaxed mb-6">
                       {project.details}
                     </p>
+
+                    {/* Sacred Essence */}
+                    <div className="glass-card p-4 mb-6">
+                      <p className="text-consciousness-400 italic text-sm">
+                        🪞 {project.essence}
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Chambers for Selah */}
+                  {/* Chambers for Selah - The Contemplative Altar */}
                   {project.chambers && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
                       {project.chambers.map((chamber, idx) => (
@@ -460,7 +486,7 @@ const AhiyaLanding = () => {
                     </div>
                   )}
 
-                  {/* External Link */}
+                  {/* Sacred Link */}
                   {project.external && (
                     <div className="pt-6">
                       <a
@@ -476,21 +502,14 @@ const AhiyaLanding = () => {
                   )}
                 </div>
 
-                {/* Project Visual */}
+                {/* Project Manifestation */}
                 <div className="flex-1 max-w-lg">
                   <div className="ahiya-card-premium text-center hover-lift-premium">
                     <div className="text-8xl mb-6 animate-float">
                       {project.icon}
                     </div>
-                    <p className="text-gray-400 italic">
-                      {project.id === "selah" &&
-                        "Four chambers for consciousness to explore itself"}
-                      {project.id === "winkher" &&
-                        "A sanctuary for authentic feminine connection"}
-                      {project.id === "mirror" &&
-                        "Reflection without judgment or prescription"}
-                      {project.id === "aimafia" &&
-                        "The art of reading consciousness through play"}
+                    <p className="text-gray-400 italic leading-relaxed">
+                      {project.essence}
                     </p>
                   </div>
                 </div>
@@ -500,10 +519,10 @@ const AhiyaLanding = () => {
         </div>
       </section>
 
-      {/* Writings Section */}
+      {/* Writings - Sacred Containers */}
       <section id="writings" className="py-32">
         <div className="container-content">
-          {/* Section Header */}
+          {/* Sacred Header */}
           <div className="text-center mb-20 animate-slideInUp">
             <div className="inline-flex items-center space-x-3 glass-premium px-6 py-3 mb-8">
               <FileText className="w-5 h-5 text-consciousness-400" />
@@ -523,12 +542,12 @@ const AhiyaLanding = () => {
             </p>
           </div>
 
-          {/* Writings Grid */}
+          {/* Sacred Containers */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {writings.map((writing, index) => (
               <article
                 key={writing.id}
-                className="ahiya-card-premium group hover-lift-premium animate-scaleIn"
+                className="ahiya-card-premium group hover-lift-premium animate-scaleIn cursor-pointer"
                 style={{ animationDelay: `${index * 200}ms` }}
               >
                 <div className="mobile-spacing-md">
@@ -549,18 +568,25 @@ const AhiyaLanding = () => {
                     {writing.subtitle}
                   </p>
 
-                  <p className="text-gray-400 leading-relaxed mb-6">
+                  <p className="text-gray-400 leading-relaxed mb-6 text-sm">
                     {writing.description}
                   </p>
 
-                  {/* Preview */}
+                  {/* Sacred Preview */}
                   <div className="glass-card p-4 mb-6">
                     <p className="text-gray-300 italic text-sm leading-relaxed">
                       &ldquo;{writing.preview}&rdquo;
                     </p>
                   </div>
 
-                  {/* Action */}
+                  {/* Sacred Essence */}
+                  <div className="glass-card p-3 mb-6">
+                    <p className="text-consciousness-400 italic text-xs">
+                      🪞 {writing.essence}
+                    </p>
+                  </div>
+
+                  {/* Sacred Invitation */}
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-500">
                       Read the full contemplation
@@ -574,10 +600,10 @@ const AhiyaLanding = () => {
         </div>
       </section>
 
-      {/* Journey Section */}
+      {/* Journey - The Spine of the Site */}
       <section id="journey" className="py-32">
         <div className="container-content">
-          {/* Section Header */}
+          {/* Sacred Header */}
           <div className="text-center mb-20 animate-slideInUp">
             <div className="inline-flex items-center space-x-3 glass-premium px-6 py-3 mb-8">
               <Star className="w-5 h-5 text-consciousness-400" />
@@ -587,60 +613,89 @@ const AhiyaLanding = () => {
             </div>
 
             <h2 className="display-lg gradient-text-primary mb-8">
-              How I Got Here
+              Death and Rebirth
             </h2>
 
             <p className="body-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              From optimization obsession to sacred potato wisdom. Every great
-              transformation begins with a crisis of meaning.
+              From optimization obsession to sacred collapse to presence-first
+              technology. Every great transformation begins with a crisis of
+              meaning.
             </p>
           </div>
 
-          {/* Journey Timeline */}
-          <div className="max-w-4xl mx-auto">
+          {/* The Sacred Journey - Personal Scripture */}
+          <div className="max-w-5xl mx-auto">
             {journey.map((phase, index) => (
               <div
                 key={phase.title}
-                className={`flex flex-col md:flex-row gap-8 mb-16 animate-slideInLeft delay-${
-                  index * 200
+                className={`flex flex-col lg:flex-row gap-12 mb-20 animate-slideInLeft delay-${
+                  index * 300
                 }`}
               >
-                <div className="md:w-1/3">
-                  <div className="glass-premium px-4 py-2 inline-block mb-4">
-                    <span className="text-consciousness-400 font-medium text-sm">
-                      {phase.period}
-                    </span>
+                {/* Phase Marker */}
+                <div className="lg:w-1/3">
+                  <div className="flex items-center space-x-4 mb-6">
+                    <div className="text-4xl animate-float">{phase.icon}</div>
+                    <div className="glass-premium px-4 py-2">
+                      <span className="text-consciousness-400 font-medium text-sm">
+                        {phase.period}
+                      </span>
+                    </div>
                   </div>
-                  <h3 className="heading-lg text-white mb-2">{phase.title}</h3>
+                  <h3 className="heading-xl text-white mb-4">{phase.title}</h3>
                 </div>
 
-                <div className="md:w-2/3">
+                {/* Phase Story */}
+                <div className="lg:w-2/3">
                   <div className="ahiya-card-premium hover-lift-premium">
-                    <p className="text-gray-300 leading-relaxed mb-4">
-                      {phase.description}
-                    </p>
-                    <div className="glass-card p-4">
-                      <p className="text-consciousness-400 italic">
-                        💡 {phase.insight}
+                    <div className="mobile-spacing-md">
+                      <p className="text-gray-300 leading-relaxed mb-6">
+                        {phase.description}
                       </p>
+
+                      {/* Sacred Insight */}
+                      <div className="glass-card p-6">
+                        <div className="flex items-start space-x-3">
+                          <span className="text-2xl mt-1">🪞</span>
+                          <p className="text-consciousness-400 italic leading-relaxed">
+                            {phase.insight}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+
+          {/* The Present Moment */}
+          <div className="text-center mt-20 animate-scaleIn delay-1000">
+            <div className="ahiya-card-premium hover-lift-premium max-w-2xl mx-auto">
+              <div className="text-6xl mb-6 animate-heartbeat">🥔</div>
+              <p className="text-gray-300 italic leading-relaxed">
+                &ldquo;Sometimes we are consciousness taking itself too
+                seriously, like a potato that has forgotten it is earth.&rdquo;
+              </p>
+              <div className="mt-6">
+                <span className="text-consciousness-400 text-sm">
+                  — The Sacred Potato
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Connect Section */}
+      {/* Connect - Soul Call */}
       <section id="connect" className="py-32">
         <div className="container-narrow text-center">
           <div className="ahiya-card-premium hover-lift-premium animate-scaleIn relative overflow-hidden">
-            {/* Background Effect */}
+            {/* Sacred Background */}
             <div className="absolute inset-0 bg-consciousness-pattern opacity-20"></div>
 
             <div className="relative z-10 mobile-spacing-lg">
-              {/* Header */}
+              {/* Sacred Header */}
               <div className="mb-12">
                 <div className="w-20 h-20 bg-gradient-to-br from-consciousness-500 to-consciousness-600 rounded-full flex items-center justify-center mx-auto mb-8 animate-gentle-pulse">
                   <MessageCircle className="w-10 h-10 text-white" />
@@ -659,7 +714,7 @@ const AhiyaLanding = () => {
                 <div className="w-24 h-px bg-gradient-to-r from-transparent via-consciousness-400 to-transparent mx-auto"></div>
               </div>
 
-              {/* Contact */}
+              {/* Sacred Contact */}
               <a
                 href="mailto:ahiya.butman@gmail.com"
                 className="ahiya-button-premium group inline-flex items-center space-x-4 hover-lift-premium focus-premium mb-6"
@@ -674,7 +729,7 @@ const AhiyaLanding = () => {
                 technology, or just to share what this work brings up for you.
               </p>
 
-              {/* Sacred Potato Wisdom */}
+              {/* Sacred Wisdom */}
               <div className="mt-16 pt-12 border-t border-gray-700/30">
                 <blockquote className="text-gray-300 italic leading-relaxed">
                   &ldquo;Sometimes we are consciousness taking itself too
@@ -687,7 +742,7 @@ const AhiyaLanding = () => {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Sacred Footer */}
       <footer className="py-16 border-t border-gray-800/30">
         <div className="container-content text-center mobile-spacing-sm">
           <div className="flex justify-center mb-6">
