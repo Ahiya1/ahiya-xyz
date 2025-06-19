@@ -97,8 +97,8 @@ const Homepage: React.FC = () => {
 
                 <p className="body-lg">
                   That breakdown became the doorway to building differently. Not
-                  fast, but mindfully. Not for scale, but for depth. Technology
-                  as contemplation rather than consumption.
+                  fast, but mindfully. Not just for scale, but also for depth.
+                  Technology as contemplation rather than consumption.
                 </p>
 
                 <p className="body-lg">
