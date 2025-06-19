@@ -19,8 +19,8 @@ const BuildingPage: React.FC = () => {
     description: string;
     status: "live" | "blueprint" | "development";
     icon: string;
-    link: string;
-    external?: boolean;
+    blueprintLink: string;
+    liveLink?: string;
     featured?: boolean;
     reflection: string;
     tech?: string[];
@@ -35,7 +35,7 @@ const BuildingPage: React.FC = () => {
         "A contemplative platform with four spaces: Meditation through breath recognition, Contemplation via AI-synthesized questions, Creation as co-creative play, and Being Seen through ephemeral witnessing conversations.",
       status: "blueprint",
       icon: "🧘",
-      link: "/blueprint/selah",
+      blueprintLink: "/blueprint/selah",
       featured: true,
       reflection:
         "What if technology could create space for presence instead of demanding attention?",
@@ -49,8 +49,8 @@ const BuildingPage: React.FC = () => {
         "AI that reflects your wholeness rather than trying to fix you. Dream analysis and pattern recognition that shows you who you already are, not who you should become.",
       status: "live",
       icon: "🪞",
-      link: "https://mirror-of-truth.vercel.app",
-      external: true,
+      blueprintLink: "/blueprint/mirror-of-truth",
+      liveLink: "https://mirror-of-truth.vercel.app",
       reflection:
         "Sometimes the most helpful thing AI can do is refuse to give advice.",
       tech: ["GPT-4", "Next.js", "Prompt engineering", "Contemplative design"],
@@ -63,8 +63,8 @@ const BuildingPage: React.FC = () => {
         "Dating app exclusively for women loving women. Safe space with advanced safety protocols, community-driven matching, and authentic connection design.",
       status: "live",
       icon: "💕",
-      link: "https://winkher.com",
-      external: true,
+      blueprintLink: "/blueprint/winkher",
+      liveLink: "https://winkher.com",
       reflection:
         "Love needs sanctuary. Technology can provide sacred space for authentic connection.",
       tech: [
@@ -82,7 +82,7 @@ const BuildingPage: React.FC = () => {
         "Players and AI agents explore the delicate dance between truth and deception. A playful meditation on authentic communication and collective awareness.",
       status: "blueprint",
       icon: "🎭",
-      link: "/blueprint/aimafia",
+      blueprintLink: "/blueprint/aimafia",
       reflection: "What can we learn about truth by playing with deception?",
       tech: [
         "AI agents",
@@ -193,47 +193,64 @@ const BuildingPage: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="contemplative-card p-12 max-w-4xl mx-auto">
-                    <div className="text-6xl mb-8 animate-float">
-                      {featured.icon}
-                    </div>
-
-                    <h2 className="heading-xl spacing-comfortable">
-                      {featured.title}
-                    </h2>
-                    <p className="body-lg text-slate-400 spacing-comfortable">
-                      {featured.subtitle}
-                    </p>
-
-                    <p className="body-lg text-slate-300 spacing-comfortable leading-relaxed max-w-2xl mx-auto">
-                      {featured.description}
-                    </p>
-
-                    <div className="sacred-quote">{featured.reflection}</div>
-
-                    {featured.tech && (
-                      <div className="spacing-comfortable">
-                        <h3 className="text-sm font-medium text-slate-400 mb-3">
-                          Technical approach
-                        </h3>
-                        <div className="flex flex-wrap justify-center gap-2">
-                          {featured.tech.map((tech) => (
-                            <span
-                              key={tech}
-                              className="breathing-glass px-3 py-1 text-xs text-slate-300"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
+                  <Link href={featured.blueprintLink} className="block group">
+                    <div className="contemplative-card p-12 max-w-4xl mx-auto group-hover:bg-white/[0.06] transition-all duration-300">
+                      <div className="text-6xl mb-8 animate-float">
+                        {featured.icon}
                       </div>
-                    )}
 
-                    <div className="flex items-center justify-center space-x-2 text-purple-300">
-                      <span>Explore the blueprint</span>
-                      <ArrowRight className="w-5 h-5" />
+                      <h2 className="heading-xl spacing-comfortable group-hover:text-purple-200 transition-colors">
+                        {featured.title}
+                      </h2>
+                      <p className="body-lg text-slate-400 spacing-comfortable">
+                        {featured.subtitle}
+                      </p>
+
+                      <p className="body-lg text-slate-300 spacing-comfortable leading-relaxed max-w-2xl mx-auto">
+                        {featured.description}
+                      </p>
+
+                      <div className="sacred-quote">{featured.reflection}</div>
+
+                      {featured.tech && (
+                        <div className="spacing-comfortable">
+                          <h3 className="text-sm font-medium text-slate-400 mb-3">
+                            Technical approach
+                          </h3>
+                          <div className="flex flex-wrap justify-center gap-2">
+                            {featured.tech.map((tech) => (
+                              <span
+                                key={tech}
+                                className="breathing-glass px-3 py-1 text-xs text-slate-300"
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="flex items-center justify-center space-x-4 mt-8">
+                        <div className="flex items-center space-x-2 text-purple-300 group-hover:text-purple-200 transition-colors">
+                          <span>Explore the blueprint</span>
+                          <ArrowRight className="w-5 h-5" />
+                        </div>
+
+                        {featured.liveLink && (
+                          <a
+                            href={featured.liveLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="gentle-button text-sm px-4 py-2 flex items-center space-x-2"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                            <span>Experience Live</span>
+                          </a>
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </div>
               );
             })()}
@@ -255,20 +272,9 @@ const BuildingPage: React.FC = () => {
                 className="animate-fade-in"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                {project.external ? (
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block group"
-                  >
-                    <ProjectCard project={project} />
-                  </a>
-                ) : (
-                  <Link href={project.link} className="block group">
-                    <ProjectCard project={project} />
-                  </Link>
-                )}
+                <Link href={project.blueprintLink} className="block group">
+                  <ProjectCard project={project} />
+                </Link>
               </div>
             ))}
           </div>
@@ -416,15 +422,22 @@ const ProjectCard: React.FC<{ project: any }> = ({ project }) => {
 
       <div className="flex items-center justify-between mt-6">
         <div className="flex items-center space-x-2 text-purple-300 group-hover:text-purple-200 transition-colors">
-          <span className="text-sm">
-            {project.external ? "Experience live" : "Explore blueprint"}
-          </span>
-          {project.external ? (
-            <ExternalLink className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-          ) : (
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          )}
+          <span className="text-sm">Explore blueprint</span>
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </div>
+
+        {project.liveLink && (
+          <a
+            href={project.liveLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="gentle-button text-xs px-3 py-1 flex items-center space-x-1 opacity-80 hover:opacity-100"
+          >
+            <ExternalLink className="w-3 h-3" />
+            <span>Live</span>
+          </a>
+        )}
       </div>
     </div>
   );
