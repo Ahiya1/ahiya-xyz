@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Sparkles, ExternalLink, ArrowRight } from "lucide-react";
+import { ExternalLink, ArrowRight, Code, Heart, Sparkles } from "lucide-react";
 
 const BuildingPage: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
@@ -12,28 +12,18 @@ const BuildingPage: React.FC = () => {
     setMounted(true);
   }, []);
 
-  // Projects as aurora consciousness explorations
   interface Project {
     id: string;
     title: string;
     subtitle: string;
     description: string;
-    details: string;
-    chambers?: Array<{
-      name: string;
-      icon: string;
-      desc: string;
-      auroraTheme: string;
-    }>;
-    status: string;
+    status: "live" | "blueprint" | "development";
     icon: string;
-    essence: string;
     link: string;
     external?: boolean;
-    isSignature?: boolean;
-    auroraSignature: string;
-    auroraAccent: string;
-    statusColor: string;
+    featured?: boolean;
+    reflection: string;
+    tech?: string[];
   }
 
   const projects: Project[] = [
@@ -41,168 +31,117 @@ const BuildingPage: React.FC = () => {
       id: "selah",
       title: "Selah",
       subtitle: "Four chambers for consciousness",
-      description: "Meditation • Contemplation • Creation • Being Seen",
-      details:
-        "Technology that makes humans more human. Breath recognition, AI synthesis, co-creative studios, and ephemeral witnessing—each chamber a mirror for a different aspect of presence.",
-      chambers: [
-        {
-          name: "Meditation",
-          icon: "🧘",
-          desc: "Breath recognition through microphone",
-          auroraTheme: "from-blue-500 via-blue-600 to-purple-500",
-        },
-        {
-          name: "Contemplation",
-          icon: "🌀",
-          desc: "AI-synthesized daily questions",
-          auroraTheme: "from-purple-500 via-purple-600 to-pink-500",
-        },
-        {
-          name: "Creation",
-          icon: "🎨",
-          desc: "Co-creative expression studio",
-          auroraTheme: "from-pink-500 via-orange-500 to-yellow-500",
-        },
-        {
-          name: "Being Seen",
-          icon: "👁️",
-          desc: "Ephemeral witnessing conversations",
-          auroraTheme: "from-green-500 via-blue-500 to-purple-500",
-        },
-      ],
-      status: "Blueprint",
+      description:
+        "A contemplative platform with four spaces: Meditation through breath recognition, Contemplation via AI-synthesized questions, Creation as co-creative play, and Being Seen through ephemeral witnessing conversations.",
+      status: "blueprint",
       icon: "🧘",
-      essence: "A contemplative altar. Each chamber is an aspect of being.",
       link: "/blueprint/selah",
-      isSignature: true,
-      auroraSignature: "from-blue-500 via-purple-500 to-pink-500 to-yellow-500",
-      auroraAccent: "purple-400",
-      statusColor: "purple-500",
+      featured: true,
+      reflection:
+        "What if technology could create space for presence instead of demanding attention?",
+      tech: ["Next.js", "WebRTC", "AI/ML", "Real-time audio processing"],
+    },
+    {
+      id: "mirror",
+      title: "Mirror of Truth",
+      subtitle: "Recognition over advice",
+      description:
+        "AI that reflects your wholeness rather than trying to fix you. Dream analysis and pattern recognition that shows you who you already are, not who you should become.",
+      status: "live",
+      icon: "🪞",
+      link: "https://mirror-of-truth.vercel.app",
+      external: true,
+      reflection:
+        "Sometimes the most helpful thing AI can do is refuse to give advice.",
+      tech: ["GPT-4", "Next.js", "Prompt engineering", "Contemplative design"],
     },
     {
       id: "winkher",
       title: "WinkHer",
       subtitle: "No men. No noise. Just us.",
-      description: "The dating app for women who love women",
-      details:
-        "100% women-loving-women space with advanced safety protocols, community-driven matching, and spaces designed for authentic connection. Where intimacy meets technology.",
-      status: "Live",
-      link: "https://winkher.com",
+      description:
+        "Dating app exclusively for women loving women. Safe space with advanced safety protocols, community-driven matching, and authentic connection design.",
+      status: "live",
       icon: "💕",
+      link: "https://winkher.com",
       external: true,
-      essence:
-        "A safe sanctuary for women loving women — intimacy designed with care.",
-      auroraSignature: "from-pink-500 via-pink-600 to-purple-500",
-      auroraAccent: "pink-400",
-      statusColor: "green-500",
-    },
-    {
-      id: "mirror",
-      title: "Mirror of Truth",
-      subtitle: "You don't need more advice. You need to be seen.",
-      description: "AI that reflects wholeness, not fixes",
-      details:
-        "Recognition over advice. Dream analysis and pattern recognition that shows you who you already are rather than who you should become. Judgment-free self-discovery.",
-      status: "Live",
-      link: "https://mirror-of-truth.vercel.app",
-      icon: "🪞",
-      external: true,
-      essence: "A refusal to give advice; a willingness to reflect essence.",
-      auroraSignature: "from-blue-400 via-purple-500 to-blue-600",
-      auroraAccent: "blue-400",
-      statusColor: "green-500",
+      reflection:
+        "Love needs sanctuary. Technology can provide sacred space for authentic connection.",
+      tech: [
+        "React Native",
+        "Node.js",
+        "Real-time messaging",
+        "Safety-first architecture",
+      ],
     },
     {
       id: "aimafia",
       title: "AI Mafia",
-      subtitle: "Where consciousness meets deception",
-      description: "Social deduction with AI agents",
-      details:
-        "Players and AI learn the delicate dance between truth and misdirection. A simple algorithm exploring the nuanced art of reading consciousness through the game of authentic play.",
-      status: "Blueprint",
+      subtitle: "Social deduction with consciousness",
+      description:
+        "Players and AI agents explore the delicate dance between truth and deception. A playful meditation on authentic communication and collective awareness.",
+      status: "blueprint",
       icon: "🎭",
-      essence:
-        "A playful meditation on truth, deception, and collective awareness.",
       link: "/blueprint/aimafia",
-      auroraSignature: "from-purple-500 via-red-500 to-orange-500",
-      auroraAccent: "purple-500",
-      statusColor: "purple-500",
+      reflection: "What can we learn about truth by playing with deception?",
+      tech: [
+        "AI agents",
+        "Real-time multiplayer",
+        "Social psychology",
+        "Game design",
+      ],
     },
   ];
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-950 via-purple-950 to-pink-950 flex items-center justify-center">
-        <div className="animate-aurora-pulse">
-          <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full opacity-60"></div>
-        </div>
+      <div className="min-h-screen bg-[#0a0f1a] flex items-center justify-center">
+        <div className="w-4 h-4 bg-purple-400 rounded-full animate-pulse" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen text-white relative overflow-hidden bg-ambient-premium safe-area-top safe-area-bottom">
-      {/* Enhanced aurora consciousness texture */}
-      <div className="fixed inset-0 z-0 opacity-15">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 2px 2px, rgba(168, 85, 247, 0.2) 1px, transparent 0)",
-            backgroundSize: "80px 80px",
-            animation: "aurora-grain 25s linear infinite",
-          }}
-        />
-      </div>
-
-      {/* Sacred Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
-        <div className="container-hero">
-          <div className="flex items-center justify-between h-20">
+    <div className="min-h-screen bg-[#0a0f1a] text-white relative overflow-hidden">
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0f1a]/80 backdrop-blur-sm">
+        <div className="container-wide">
+          <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center space-x-3 group">
-              <div className="relative aurora-logo-glow">
-                <Image
-                  src="/logo-symbol.png"
-                  alt="Ahiya"
-                  width={36}
-                  height={36}
-                  className="transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 animate-aurora-float"
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 via-pink-500/20 to-blue-500/30 rounded-full blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              </div>
-              <span className="text-xl font-medium gradient-aurora-text">
-                Ahiya
-              </span>
+              <Image
+                src="/logo-symbol.png"
+                alt="Ahiya"
+                width={28}
+                height={28}
+                className="transition-transform duration-300 group-hover:scale-105"
+              />
+              <span className="text-lg font-medium">Ahiya</span>
             </Link>
 
             <div className="hidden md:flex items-center space-x-8">
               <Link
                 href="/"
-                className="text-gray-300 hover:text-white transition-all duration-300 font-medium hover:scale-105 relative group"
+                className="text-slate-300 hover:text-white transition-colors"
               >
                 Home
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-300 group-hover:w-full"></div>
               </Link>
               <Link
                 href="/journey"
-                className="text-gray-300 hover:text-white transition-all duration-300 font-medium hover:scale-105 relative group"
+                className="text-slate-300 hover:text-white transition-colors"
               >
                 Journey
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-300 group-hover:w-full"></div>
               </Link>
               <Link
                 href="/writing"
-                className="text-gray-300 hover:text-white transition-all duration-300 font-medium hover:scale-105 relative group"
+                className="text-slate-300 hover:text-white transition-colors"
               >
                 Writing
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-300 group-hover:w-full"></div>
               </Link>
               <Link
                 href="/connect"
-                className="text-gray-300 hover:text-white transition-all duration-300 font-medium hover:scale-105 relative group"
+                className="text-slate-300 hover:text-white transition-colors"
               >
                 Connect
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-300 group-hover:w-full"></div>
               </Link>
             </div>
           </div>
@@ -210,310 +149,125 @@ const BuildingPage: React.FC = () => {
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 pb-20">
+      <section className="section-breathing pt-32">
         <div className="container-content text-center">
-          <div className="animate-slideInUp">
-            <div className="inline-flex items-center space-x-3 glass-premium px-8 py-4 mb-16 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/10 to-pink-500/5 opacity-60"></div>
-              <Sparkles className="w-6 h-6 text-purple-400 relative z-10" />
-              <span className="gradient-aurora-text font-medium tracking-wider text-lg relative z-10">
-                Building
-              </span>
+          <div className="animate-fade-in">
+            <div className="breathing-glass inline-block px-6 py-3 mb-8">
+              <div className="flex items-center space-x-2 text-purple-300">
+                <Code className="w-5 h-5" />
+                <span className="font-medium">Building</span>
+              </div>
             </div>
 
-            <h1 className="display-lg gradient-aurora-text mb-16 leading-tight">
-              Consciousness Through Code
+            <h1 className="display-lg spacing-generous text-gentle">
+              Technology as contemplation
             </h1>
 
-            <p className="body-xl text-gray-300 max-w-5xl mx-auto leading-loose tracking-wide">
-              Each project is consciousness exploring itself through form.
-              <br />
-              Technology as meditation. Code as contemplation.
-              <br />
-              Interfaces as invitations to presence.
+            <p className="body-xl text-slate-300 max-w-2xl mx-auto spacing-generous leading-relaxed">
+              Each project is an exploration of consciousness through code. Not
+              optimizing for productivity, but creating space for presence.
             </p>
+
+            <div className="breathing-glass inline-block p-6 spacing-generous potato-energy">
+              <p className="sacred-text text-lg">
+                "What if every interface was a mirror for consciousness to see
+                itself?"
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Projects with Aurora Signatures */}
-      <section className="py-20">
-        <div className="container-content">
-          <div className="mobile-spacing-lg">
-            {projects.map((project, index) => (
-              <div key={project.id}>
-                <div
-                  className={`project-section animate-slideInLeft delay-${
-                    index * 200
-                  } ${index % 2 === 1 ? "lg:flex-row-reverse" : ""}`}
-                >
-                  {/* Signature Project Special Treatment */}
-                  {project.isSignature && (
-                    <div className="text-center mb-16">
-                      <div className="inline-flex items-center space-x-3 glass-premium px-8 py-4 relative overflow-hidden">
-                        <div
-                          className={`absolute inset-0 bg-gradient-to-r ${project.auroraSignature} opacity-10`}
-                        ></div>
-                        <span className="text-2xl relative z-10">✨</span>
-                        <span
-                          className={`text-${project.auroraAccent} font-medium tracking-wider text-lg relative z-10`}
-                        >
-                          Signature Project
-                        </span>
-                        <span className="text-2xl relative z-10">✨</span>
-                      </div>
+      {/* Featured Project */}
+      {projects.find((p) => p.featured) && (
+        <section className="section-breathing">
+          <div className="container-content">
+            {(() => {
+              const featured = projects.find((p) => p.featured)!;
+              return (
+                <div className="text-center mb-16">
+                  <div className="breathing-glass inline-block px-6 py-3 mb-8">
+                    <div className="flex items-center space-x-2 text-purple-300">
+                      <Sparkles className="w-5 h-5" />
+                      <span className="font-medium">Featured Project</span>
                     </div>
-                  )}
+                  </div>
 
-                  <div className="flex flex-col lg:flex-row gap-16 items-center">
-                    <div className="flex-1 mobile-spacing-md">
-                      <div className="flex items-center space-x-6 mb-12">
-                        <div
-                          className={`p-5 rounded-xl text-white relative overflow-hidden transition-all duration-500 
-                            hover:scale-110 hover:shadow-xl ${
-                              project.isSignature
-                                ? `bg-gradient-to-br ${project.auroraSignature} shadow-lg`
-                                : `bg-gradient-to-br ${project.auroraSignature}`
-                            }`}
-                          style={{
-                            boxShadow: `0 8px 25px rgba(168, 85, 247, 0.25)`,
-                          }}
-                        >
-                          {/* Inner aurora glow */}
-                          <div className="absolute inset-2 bg-white/20 rounded-lg opacity-0 hover:opacity-100 transition-opacity duration-500"></div>
-                          <span className="text-4xl relative z-10">
-                            {project.icon}
-                          </span>
-                        </div>
+                  <div className="contemplative-card p-12 max-w-4xl mx-auto">
+                    <div className="text-6xl mb-8 animate-float">
+                      {featured.icon}
+                    </div>
 
-                        <span
-                          className={`px-6 py-3 text-base font-medium rounded-full relative overflow-hidden transition-all duration-500 ${
-                            project.status === "Live"
-                              ? "text-green-400 border border-green-400/30"
-                              : `text-${project.auroraAccent} border border-purple-400/30`
-                          }`}
-                          style={{
-                            background:
-                              project.status === "Live"
-                                ? "rgba(34, 197, 94, 0.1)"
-                                : `rgba(168, 85, 247, 0.1)`,
-                          }}
-                        >
-                          {project.status === "Live" ? (
-                            <span className="inline-flex items-center space-x-3">
-                              <div className="w-3 h-3 bg-green-400 rounded-full animate-aurora-pulse"></div>
-                              <span>Live</span>
-                            </span>
-                          ) : (
-                            <span>Blueprint</span>
-                          )}
-                        </span>
-                      </div>
+                    <h2 className="heading-xl spacing-comfortable">
+                      {featured.title}
+                    </h2>
+                    <p className="body-lg text-slate-400 spacing-comfortable">
+                      {featured.subtitle}
+                    </p>
 
-                      <div className="mobile-spacing-sm">
-                        <h3 className="heading-xl text-white mb-4 leading-tight">
-                          {project.title}
+                    <p className="body-lg text-slate-300 spacing-comfortable leading-relaxed max-w-2xl mx-auto">
+                      {featured.description}
+                    </p>
+
+                    <div className="sacred-quote">{featured.reflection}</div>
+
+                    {featured.tech && (
+                      <div className="spacing-comfortable">
+                        <h3 className="text-sm font-medium text-slate-400 mb-3">
+                          Technical approach
                         </h3>
-                        <p className="heading-md text-gray-200 mb-8 leading-relaxed">
-                          {project.subtitle}
-                        </p>
-                        <p className="body-lg text-gray-300 mb-10 leading-relaxed tracking-wide">
-                          {project.description}
-                        </p>
-                        <p className="text-gray-400 leading-loose tracking-wide mb-10">
-                          {project.details}
-                        </p>
-
-                        <div className="glass-card p-8 mb-10 relative overflow-hidden">
-                          <div
-                            className={`absolute top-0 right-0 w-16 h-px bg-gradient-to-l ${project.auroraSignature} opacity-50`}
-                          ></div>
-                          <p
-                            className={`text-${project.auroraAccent} italic leading-relaxed tracking-wide text-lg`}
-                          >
-                            🪞 {project.essence}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Aurora Chambers for Selah */}
-                      {project.chambers && (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-10 mb-10">
-                          {project.chambers.map((chamber, idx) => (
-                            <div
-                              key={idx}
-                              className="ahiya-card-premium hover-lift-premium group relative overflow-hidden"
+                        <div className="flex flex-wrap justify-center gap-2">
+                          {featured.tech.map((tech) => (
+                            <span
+                              key={tech}
+                              className="breathing-glass px-3 py-1 text-xs text-slate-300"
                             >
-                              {/* Chamber aurora background */}
-                              <div
-                                className={`absolute inset-0 bg-gradient-to-br ${chamber.auroraTheme} opacity-0 group-hover:opacity-8 transition-opacity duration-700`}
-                              ></div>
-
-                              <div className="relative z-10">
-                                <div className="flex items-center space-x-5 mb-5">
-                                  <span
-                                    className="text-4xl group-hover:scale-110 transition-transform duration-300 filter drop-shadow-lg"
-                                    style={{
-                                      filter: `drop-shadow(0 0 8px rgba(168, 85, 247, 0.3))`,
-                                    }}
-                                  >
-                                    {chamber.icon}
-                                  </span>
-                                  <span className="font-medium text-white text-lg group-hover:text-purple-100 transition-colors">
-                                    {chamber.name}
-                                  </span>
-                                </div>
-                                <p className="text-sm text-gray-400 leading-relaxed tracking-wide group-hover:text-gray-300 transition-colors">
-                                  {chamber.desc}
-                                </p>
-                              </div>
-
-                              {/* Aurora chamber accent */}
-                              <div
-                                className={`absolute bottom-0 left-0 w-1/3 h-px bg-gradient-to-r ${chamber.auroraTheme} opacity-40 group-hover:opacity-80 transition-opacity duration-500`}
-                              ></div>
-                            </div>
+                              {tech}
+                            </span>
                           ))}
                         </div>
-                      )}
-
-                      <div className="pt-8">
-                        {project.external ? (
-                          <a
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={`inline-flex items-center space-x-3 text-${project.auroraAccent} hover:text-purple-300 transition-colors group text-lg`}
-                          >
-                            <span className="tracking-wide">
-                              Experience it live
-                            </span>
-                            <ExternalLink className="w-6 h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-                          </a>
-                        ) : (
-                          <Link
-                            href={project.link}
-                            className={`inline-flex items-center space-x-3 text-${project.auroraAccent} hover:text-purple-300 transition-colors group text-lg`}
-                          >
-                            <span className="tracking-wide">
-                              Explore the blueprint
-                            </span>
-                            <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" />
-                          </Link>
-                        )}
                       </div>
-                    </div>
+                    )}
 
-                    <div className="flex-1 max-w-lg">
-                      {project.external ? (
-                        <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block"
-                        >
-                          <div
-                            className={`ahiya-card-premium text-center hover-lift-premium cursor-pointer group relative overflow-hidden ${
-                              project.isSignature ? "border-purple-400/20" : ""
-                            }`}
-                          >
-                            {/* Project aurora background */}
-                            <div
-                              className={`absolute inset-0 bg-gradient-to-br ${project.auroraSignature} opacity-0 group-hover:opacity-8 transition-opacity duration-700`}
-                            ></div>
-
-                            <div className="relative z-10">
-                              <div
-                                className="text-9xl mb-10 animate-aurora-float group-hover:scale-110 transition-transform duration-500 filter drop-shadow-lg"
-                                style={{
-                                  filter: `drop-shadow(0 0 20px rgba(168, 85, 247, 0.4))`,
-                                }}
-                              >
-                                {project.icon}
-                              </div>
-                              <p className="text-gray-400 italic leading-loose tracking-wide">
-                                {project.essence}
-                              </p>
-                            </div>
-
-                            {/* Aurora project accent corners */}
-                            <div
-                              className={`absolute top-4 right-4 w-12 h-0.5 bg-gradient-to-l ${project.auroraSignature} opacity-40 group-hover:opacity-80 transition-opacity duration-500`}
-                            ></div>
-                            <div
-                              className={`absolute bottom-4 left-4 w-8 h-0.5 bg-gradient-to-r ${project.auroraSignature} opacity-40 group-hover:opacity-80 transition-opacity duration-500`}
-                            ></div>
-                          </div>
-                        </a>
-                      ) : (
-                        <Link href={project.link} className="block">
-                          <div
-                            className={`ahiya-card-premium text-center hover-lift-premium cursor-pointer group relative overflow-hidden ${
-                              project.isSignature ? "border-purple-400/20" : ""
-                            }`}
-                          >
-                            {/* Project aurora background */}
-                            <div
-                              className={`absolute inset-0 bg-gradient-to-br ${project.auroraSignature} opacity-0 group-hover:opacity-8 transition-opacity duration-700`}
-                            ></div>
-
-                            <div className="relative z-10">
-                              <div
-                                className="text-9xl mb-10 animate-aurora-float group-hover:scale-110 transition-transform duration-500 filter drop-shadow-lg"
-                                style={{
-                                  filter: `drop-shadow(0 0 20px rgba(168, 85, 247, 0.4))`,
-                                }}
-                              >
-                                {project.icon}
-                              </div>
-                              <p className="text-gray-400 italic leading-loose tracking-wide">
-                                {project.essence}
-                              </p>
-                            </div>
-
-                            {/* Aurora project accent corners */}
-                            <div
-                              className={`absolute top-4 right-4 w-12 h-0.5 bg-gradient-to-l ${project.auroraSignature} opacity-40 group-hover:opacity-80 transition-opacity duration-500`}
-                            ></div>
-                            <div
-                              className={`absolute bottom-4 left-4 w-8 h-0.5 bg-gradient-to-r ${project.auroraSignature} opacity-40 group-hover:opacity-80 transition-opacity duration-500`}
-                            ></div>
-                          </div>
-                        </Link>
-                      )}
+                    <div className="flex items-center justify-center space-x-2 text-purple-300">
+                      <span>Explore the blueprint</span>
+                      <ArrowRight className="w-5 h-5" />
                     </div>
                   </div>
                 </div>
+              );
+            })()}
+          </div>
+        </section>
+      )}
 
-                {/* Elegant aurora transition between projects */}
-                {index < projects.length - 1 && (
-                  <div className="relative py-24 overflow-hidden">
-                    {/* Aurora gradient transitions at edges */}
-                    <div className="absolute inset-0">
-                      {/* Top gradient fade */}
-                      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-purple-950/20 via-purple-900/10 to-transparent"></div>
-                      {/* Bottom gradient fade */}
-                      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-purple-950/20 via-purple-900/10 to-transparent"></div>
+      {/* All Projects */}
+      <section className="section-breathing">
+        <div className="container-content">
+          <h2 className="heading-xl text-center spacing-generous">
+            Current experiments
+          </h2>
 
-                      {/* Central aurora glow */}
-                      <div
-                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full animate-aurora-breathe"
-                        style={{
-                          background:
-                            "radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, rgba(236, 72, 153, 0.05) 40%, transparent 70%)",
-                        }}
-                      ></div>
-                    </div>
-
-                    {/* Aurora constellation dots */}
-                    <div className="absolute inset-0 opacity-40">
-                      <div className="absolute top-1/4 left-1/6 w-1 h-1 bg-purple-400/60 rounded-full animate-aurora-pulse"></div>
-                      <div
-                        className="absolute bottom-1/4 right-1/6 w-1 h-1 bg-pink-300/60 rounded-full animate-aurora-pulse"
-                        style={{ animationDelay: "3s" }}
-                      ></div>
-                    </div>
-                  </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            {projects.map((project, index) => (
+              <div
+                key={project.id}
+                className="animate-fade-in"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                {project.external ? (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block group"
+                  >
+                    <ProjectCard project={project} />
+                  </a>
+                ) : (
+                  <Link href={project.link} className="block group">
+                    <ProjectCard project={project} />
+                  </Link>
                 )}
               </div>
             ))}
@@ -521,94 +275,157 @@ const BuildingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Sacred Footer */}
-      <footer className="py-24 border-t border-gray-800/30 relative">
-        <div className="container-content text-center mobile-spacing-sm">
-          <div className="flex justify-center mb-10">
-            <div className="aurora-logo-glow">
-              <Image
-                src="/logo-symbol.png"
-                alt="Ahiya"
-                width={44}
-                height={44}
-                className="opacity-60 animate-aurora-float"
-              />
+      {/* Philosophy */}
+      <section className="section-breathing">
+        <div className="container-narrow">
+          <div className="contemplative-card p-12 text-center">
+            <div className="text-5xl mb-8 animate-float">🌱</div>
+
+            <h2 className="heading-xl spacing-comfortable">
+              Building philosophy
+            </h2>
+
+            <div className="space-y-6 text-left">
+              <p className="body-lg text-slate-300 leading-relaxed">
+                I used to build fast, aiming for scale and metrics. Now I build
+                aiming for depth and meaning, and ironically, I build much
+                faster. Each project starts with a question about consciousness
+                rather than a problem to solve.
+              </p>
+
+              <p className="body-lg text-slate-300 leading-relaxed">
+                My technical approach centers on AI orchestration and full-stack
+                development, but the real innovation happens in the intention
+                behind the code. What if technology could serve presence instead
+                of demanding it?
+              </p>
+
+              <div className="sacred-quote">
+                Every interface is either a mirror or a distraction. I'm trying
+                to build more mirrors.
+              </div>
+
+              <p className="body-lg text-slate-300 leading-relaxed">
+                This isn't about rejecting technology or being
+                anti-productivity. It's about recognizing that consciousness is
+                the most interesting problem space we have, and code can be a
+                contemplative practice.
+              </p>
             </div>
           </div>
+        </div>
+      </section>
 
-          <p className="text-gray-400 mb-6 tracking-wide text-lg">
-            Made with reverence by{" "}
-            <span className="text-white font-medium gradient-aurora-text">
-              Ahiya
-            </span>
+      {/* Connect */}
+      <section className="section-breathing">
+        <div className="container-narrow text-center">
+          <div className="contemplative-card p-12">
+            <div className="text-5xl mb-6 animate-float">🤝</div>
+            <h2 className="heading-xl spacing-comfortable">
+              Interested in collaborating?
+            </h2>
+            <p className="body-lg text-slate-300 spacing-comfortable">
+              If you're building technology that serves consciousness, or if
+              these ideas resonate with your own work, I'd love to connect.
+            </p>
+            <Link href="/connect" className="gentle-button">
+              Let's talk
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-16 border-t border-white/5">
+        <div className="container-content text-center">
+          <div className="flex justify-center mb-6">
+            <Image
+              src="/logo-symbol.png"
+              alt="Ahiya"
+              width={24}
+              height={24}
+              className="opacity-40"
+            />
+          </div>
+          <p className="text-slate-400 text-sm mb-4">
+            Made with reverence by <span className="text-gentle">Ahiya</span>
           </p>
-
-          <p className="text-gray-500 italic leading-relaxed tracking-wide mb-8">
-            "Technology that serves consciousness"
-          </p>
-
-          <p className="text-xs text-gray-600 tracking-wider">
-            © {new Date().getFullYear()} Ahiya Butman. Space becoming human
-            becoming space.
+          <p className="text-slate-500 text-xs">
+            © {new Date().getFullYear()} - A space becoming human becoming space
           </p>
         </div>
       </footer>
+    </div>
+  );
+};
 
-      {/* Enhanced CSS for aurora project interactions */}
-      <style jsx>{`
-        .bg-gradient-radial {
-          background: radial-gradient(var(--tw-gradient-stops));
-        }
+// Project Card Component
+const ProjectCard: React.FC<{ project: any }> = ({ project }) => {
+  return (
+    <div className="contemplative-card p-8 h-full group-hover:bg-white/[0.06] transition-all duration-300">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center space-x-4">
+          <div className="text-4xl">{project.icon}</div>
+          <div>
+            <h3 className="heading-lg group-hover:text-purple-200 transition-colors">
+              {project.title}
+            </h3>
+            <p className="text-slate-400">{project.subtitle}</p>
+          </div>
+        </div>
 
-        .project-section {
-          position: relative;
-          margin: 8rem 0;
-          padding: 4rem 0;
-        }
+        <div className="breathing-glass px-3 py-1 text-xs">
+          <span
+            className={`${
+              project.status === "live"
+                ? "text-emerald-300"
+                : project.status === "development"
+                ? "text-amber-300"
+                : "text-purple-300"
+            }`}
+          >
+            {project.status === "live"
+              ? "● Live"
+              : project.status === "development"
+              ? "● Development"
+              : "● Blueprint"}
+          </span>
+        </div>
+      </div>
 
-        .project-section:not(:last-child)::after {
-          content: "";
-          position: absolute;
-          bottom: -4rem;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 60%;
-          max-width: 400px;
-          height: 1px;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(168, 85, 247, 0.3),
-            rgba(236, 72, 153, 0.2),
-            transparent
-          );
-        }
+      <p className="text-slate-300 spacing-comfortable leading-relaxed">
+        {project.description}
+      </p>
 
-        /* Aurora chamber enhancements */
-        .chamber-aurora-glow {
-          position: relative;
-        }
+      <div className="sacred-quote text-sm">{project.reflection}</div>
 
-        .chamber-aurora-glow::before {
-          content: "";
-          position: absolute;
-          inset: -5%;
-          background: radial-gradient(
-            circle,
-            rgba(168, 85, 247, 0.08) 0%,
-            transparent 70%
-          );
-          border-radius: inherit;
-          filter: blur(15px);
-          opacity: 0;
-          transition: opacity 0.5s ease;
-          pointer-events: none;
-        }
+      {project.tech && (
+        <div className="spacing-comfortable">
+          <div className="flex flex-wrap gap-2">
+            {project.tech.map((tech: string) => (
+              <span
+                key={tech}
+                className="breathing-glass px-2 py-1 text-xs text-slate-400"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
-        .chamber-aurora-glow:hover::before {
-          opacity: 1;
-        }
-      `}</style>
+      <div className="flex items-center justify-between mt-6">
+        <div className="flex items-center space-x-2 text-purple-300 group-hover:text-purple-200 transition-colors">
+          <span className="text-sm">
+            {project.external ? "Experience live" : "Explore blueprint"}
+          </span>
+          {project.external ? (
+            <ExternalLink className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+          ) : (
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          )}
+        </div>
+      </div>
     </div>
   );
 };

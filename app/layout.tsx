@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Inter, DM_Sans, Cormorant_Garamond } from "next/font/google";
+import { Inter, Crimson_Text } from "next/font/google";
 import { Metadata } from "next";
 
 const inter = Inter({
@@ -7,38 +7,33 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const dmSans = DM_Sans({
+const crimson = Crimson_Text({
   subsets: ["latin"],
-  variable: "--font-dm-sans",
-});
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "600"],
   style: ["normal", "italic"],
-  variable: "--font-cormorant",
+  variable: "--font-crimson",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ahiya.xyz"),
-  title: "Ahiya - A Space Becoming Human",
+  title: "Ahiya - Technology that serves presence",
   description:
-    "Technology that serves presence, not productivity. Building mirrors, tools, languages, ways of seeing at the edge space where ambition meets awareness.",
+    "Building contemplative technology from Sacred Potato energy. Each project is an exploration of consciousness through code.",
   keywords: [
-    "consciousness technology",
-    "contemplative computing",
-    "spiritual tech",
-    "human-centered design",
-    "mindfulness apps",
-    "sacred technology",
-    "consciousness software",
+    "contemplative technology",
+    "consciousness",
+    "sacred potato",
+    "presence-first technology",
+    "mindful development",
+    "AI orchestration",
+    "full-stack development",
     "meditation technology",
   ],
   authors: [{ name: "Ahiya Butman" }],
   creator: "Ahiya Butman",
   openGraph: {
-    title: "Ahiya - A Space Becoming Human",
-    description: "Technology that serves presence, not productivity",
+    title: "Ahiya - Technology that serves presence",
+    description: "Building contemplative technology from Sacred Potato energy",
     url: "https://ahiya.xyz",
     siteName: "Ahiya",
     images: [
@@ -46,7 +41,7 @@ export const metadata: Metadata = {
         url: "/logo-text.png",
         width: 420,
         height: 210,
-        alt: "Ahiya - A space becoming human",
+        alt: "Ahiya - Building technology that serves presence",
       },
     ],
     locale: "en_US",
@@ -54,8 +49,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ahiya - A Space Becoming Human",
-    description: "Technology that serves presence, not productivity",
+    title: "Ahiya - Technology that serves presence",
+    description: "Building contemplative technology from Sacred Potato energy",
     images: ["/logo-text.png"],
     creator: "@ahiya",
   },
@@ -88,11 +83,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${dmSans.variable} ${cormorant.variable}`}
-    >
-      <body className={dmSans.className}>{children}</body>
+    <html lang="en" className={`${inter.variable} ${crimson.variable}`}>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
