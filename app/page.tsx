@@ -1,803 +1,1253 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Mail,
   ExternalLink,
   FileText,
-  Gamepad2,
   Heart,
   Eye,
   Compass,
-  ArrowRight,
-  Star,
   Sparkles,
-  Zap,
   Brain,
-  Lightbulb,
-  Users,
-  Shield,
   MessageCircle,
   Send,
+  Circle,
+  Pause,
+  Play,
+  Star,
+  Users,
+  Shield,
 } from "lucide-react";
 import Image from "next/image";
 
-const AhiyaLanding = () => {
-  const [mounted, setMounted] = useState(false);
-  const [activeProject, setActiveProject] = useState<string | null>(null);
-  const [scrollY, setScrollY] = useState(0);
-  const [heroInView, setHeroInView] = useState(true);
-  const heroRef = useRef<HTMLElement>(null);
+interface ConsciousnessState {
+  mounted: boolean;
+  breathingActive: boolean;
+  currentBreath: "inhale" | "exhale";
+  attentionLevel: number;
+  pageState: "arriving" | "breathing" | "exploring" | "being_seen";
+  lastScrollTime: number;
+  scrollPause: number;
+  recognition: string;
+  isMobile: boolean;
+  scrollDirection: "down" | "up";
+  lastScrollY: number;
+  timeOnPage: number;
+  interactionCount: number;
+  deepEngagement: boolean;
+  consciousnessScore: number;
+}
 
-  useEffect(() => {
-    setMounted(true);
+// Sacred Potato recognitions - evolving based on consciousness level
+const recognitions = [
+  "You&apos;re here because something called you. Maybe you don&apos;t know what yet.",
+  "I see you pausing. Taking a breath. This is how consciousness meets consciousness.",
+  "You&apos;re not just browsing. You&apos;re seeking something that can&apos;t be optimized.",
+  "Look at you, being present. Even on a website. Sacred potato indeed.",
+  "The way you scroll tells me you&apos;re listening with your whole attention.",
+  "You&apos;re reading slowly. Like someone who knows the difference between information and recognition.",
+  "Something in you recognizes something in this work, doesn&apos;t it?",
+  "You keep coming back to look again. That&apos;s not curiosity—that&apos;s resonance.",
+  "You&apos;ve been here long enough to let the page breathe with you.",
+  "Still here? You&apos;re not optimizing for efficiency. You&apos;re experiencing presence.",
+  "Your attention has a quality to it. Soft but focused. I see you.",
+  "This is what sacred potato consciousness looks like in action.",
+  "You&apos;re composting old patterns of consuming content. Growing something new.",
+  "I notice you&apos;re not in a rush. That&apos;s revolutionary in a world obsessed with speed.",
+  "Your presence has weight. Depth. You&apos;re not just passing through.",
+];
 
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
+const AhiyaConsciousnessExperience = () => {
+  // Core consciousness state
+  const [state, setState] = useState<ConsciousnessState>({
+    mounted: false,
+    breathingActive: false,
+    currentBreath: "inhale",
+    attentionLevel: 0,
+    pageState: "arriving",
+    lastScrollTime: Date.now(),
+    scrollPause: 0,
+    recognition: "",
+    isMobile: false,
+    scrollDirection: "down",
+    lastScrollY: 0,
+    timeOnPage: 0,
+    interactionCount: 0,
+    deepEngagement: false,
+    consciousnessScore: 0,
+  });
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setHeroInView(entry.isIntersecting);
-      },
-      { threshold: 0.3 }
-    );
+  // Refs for cleanup and timers
+  const containerRef = useRef<HTMLDivElement>(null);
+  const breathingTimerRef = useRef<number | null>(null);
+  const scrollTimerRef = useRef<number | null>(null);
+  const timeTrackerRef = useRef<number | null>(null);
 
-    if (heroRef.current) {
-      observer.observe(heroRef.current);
+  // Update state helper
+  const updateState = useCallback((updates: Partial<ConsciousnessState>) => {
+    setState((prev) => ({ ...prev, ...updates }));
+  }, []);
+
+  // Breathing cycle management
+  const startBreathing = useCallback(() => {
+    if (breathingTimerRef.current) {
+      window.clearInterval(breathingTimerRef.current);
     }
 
+    breathingTimerRef.current = window.setInterval(
+      () => {
+        updateState({
+          currentBreath: state.currentBreath === "inhale" ? "exhale" : "inhale",
+        });
+      },
+      state.isMobile ? 3500 : 4000
+    );
+  }, [state.currentBreath, state.isMobile, updateState]);
+
+  const stopBreathing = useCallback(() => {
+    if (breathingTimerRef.current) {
+      window.clearInterval(breathingTimerRef.current);
+      breathingTimerRef.current = null;
+    }
+  }, []);
+
+  // Enhanced scroll tracking with consciousness scoring
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
+    const now = Date.now();
+    const timeSinceLastScroll = now - state.lastScrollTime;
+
+    // Calculate scroll patterns
+    const isSlowScrolling = timeSinceLastScroll > 100;
+    const direction = currentScrollY > state.lastScrollY ? "down" : "up";
+
+    updateState({
+      scrollDirection: direction,
+      lastScrollY: currentScrollY,
+      lastScrollTime: now,
+      consciousnessScore: state.consciousnessScore + (isSlowScrolling ? 1 : 0),
+    });
+
+    // Clear existing timer
+    if (scrollTimerRef.current) {
+      window.clearTimeout(scrollTimerRef.current);
+    }
+
+    // Set new pause detection timer
+    const pauseThreshold = state.isMobile ? 1500 : 2000;
+
+    scrollTimerRef.current = window.setTimeout(() => {
+      const newAttentionLevel = Math.min(
+        state.attentionLevel + 1,
+        recognitions.length - 1
+      );
+      const newScrollPause = state.scrollPause + 1;
+
+      updateState({
+        attentionLevel: newAttentionLevel,
+        scrollPause: newScrollPause,
+        deepEngagement: newScrollPause > 3,
+      });
+
+      // Trigger breathing state after enough attention
+      if (newScrollPause > 1 && state.pageState === "arriving") {
+        updateState({ pageState: "breathing" });
+      }
+    }, pauseThreshold);
+  }, [
+    state.lastScrollTime,
+    state.lastScrollY,
+    state.attentionLevel,
+    state.scrollPause,
+    state.pageState,
+    state.isMobile,
+    state.consciousnessScore,
+    updateState,
+  ]);
+
+  // Device detection
+  useEffect(() => {
+    const checkMobile = () => {
+      updateState({ isMobile: window.innerWidth < 768 });
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, [updateState]);
+
+  // Time tracking for consciousness scoring
+  useEffect(() => {
+    timeTrackerRef.current = window.setInterval(() => {
+      updateState({
+        timeOnPage: state.timeOnPage + 1,
+        consciousnessScore: state.consciousnessScore + 0.1,
+      });
+    }, 1000);
+
+    return () => {
+      if (timeTrackerRef.current) {
+        window.clearInterval(timeTrackerRef.current);
+      }
+    };
+  }, [state.timeOnPage, state.consciousnessScore, updateState]);
+
+  // Main initialization effect
+  useEffect(() => {
+    updateState({ mounted: true });
+
+    // Scroll listener
     window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Auto-transition based on behavior
+    const stateTimer = window.setTimeout(
+      () => {
+        if (state.scrollPause > 2) {
+          updateState({
+            pageState: "breathing",
+            breathingActive: true,
+          });
+          startBreathing();
+        }
+      },
+      state.isMobile ? 6000 : 8000
+    );
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      observer.disconnect();
+      window.clearTimeout(stateTimer);
+      stopBreathing();
+      if (scrollTimerRef.current) window.clearTimeout(scrollTimerRef.current);
+      if (timeTrackerRef.current) window.clearInterval(timeTrackerRef.current);
     };
-  }, []);
+  }, [
+    handleScroll,
+    state.scrollPause,
+    state.isMobile,
+    startBreathing,
+    stopBreathing,
+    updateState,
+  ]);
 
-  const projects = [
-    {
-      id: "selah",
-      title: "Selah",
-      subtitle: "Consciousness-First Technology Platform",
-      description:
-        "Four chambers for meditation, contemplation, creative studio, and being seen. Technology that makes humans more human, not more optimized.",
-      details:
-        "MVP features include breath recognition through microphone, AI-synthesized contemplative questions, co-creative studios, and ephemeral witnessing conversations. The grand vision encompasses physical meditation stones with biofeedback sensors and social protocols for shared contemplative spaces.",
-      features: [
-        "Meditation Chamber with breath recognition",
-        "Contemplation Chamber with AI synthesis",
-        "Creative Studio for co-creation",
-        "Being Seen Chamber for witnessing",
-      ],
-      theme: "cosmic",
-      gradient: "from-cosmic-400 via-cosmic-500 to-cosmic-600",
-      borderColor: "border-cosmic-200/30",
-      shadowColor: "shadow-cosmic",
-      hoverShadow: "hover:shadow-cosmic",
-      icon: <Compass className="w-7 h-7" />,
-      status: "Blueprint",
-      link: "/projects/selah",
-    },
-    {
-      id: "winkher",
-      title: "WinkHer",
-      subtitle: "Dating app for women who love women",
-      description:
-        "No men. No noise. Just us. Building authentic connections in a space made entirely for women who understand each other's hearts and experiences.",
-      details:
-        "A live platform fostering genuine intimacy and safety for the WLW community. Features include advanced safety protocols, community-driven matching, and spaces designed specifically for women's authentic connection patterns.",
-      features: [
-        "100% women-loving-women space",
-        "Advanced safety & harassment protection",
-        "Community-driven authentic matching",
-        "Intimate connection-focused design",
-      ],
-      theme: "sacred",
-      gradient: "from-pink-400 via-sacred-500 to-pink-600",
-      borderColor: "border-sacred-200/30",
-      shadowColor: "shadow-sacred",
-      hoverShadow: "hover:shadow-sacred",
-      icon: <Heart className="w-7 h-7" />,
-      status: "Live",
-      link: "https://winkher.com",
-      external: true,
-    },
-    {
-      id: "mirror",
-      title: "Mirror of Truth",
-      subtitle: "See what your dreams reveal",
-      description:
-        "AI that reflects wholeness, not fixes. Recognition over advice. You don't need more things to do—you need to be seen for who you already are, right now.",
-      details:
-        "An experience that shows you who you already are rather than who you should become. Through dream analysis and pattern recognition, it offers profound self-recognition without judgment or prescription.",
-      features: [
-        "Dream pattern recognition & analysis",
-        "Wholeness reflection, not fixing",
-        "Identity recognition over advice",
-        "Judgment-free self-discovery",
-      ],
-      theme: "cosmic",
-      gradient: "from-blue-400 via-cosmic-500 to-indigo-600",
-      borderColor: "border-blue-200/30",
-      shadowColor: "shadow-cosmic",
-      hoverShadow: "hover:shadow-cosmic",
-      icon: <Eye className="w-7 h-7" />,
-      status: "Live",
-      link: "https://mirror-of-truth.vercel.app",
-      external: true,
-    },
-    {
-      id: "aimafia",
-      title: "AI Mafia",
-      subtitle: "Where consciousness meets deception",
-      description:
-        "Social deduction game where AI learns the delicate dance between truth and misdirection. Consciousness exploring itself through the art of authentic play.",
-      details:
-        "A simple yet profound algorithm: players and AI agents receive roles, choose targets during night phases, vote during day phases, and collectively learn the nuanced art of reading truth and deception in conscious beings.",
-      features: [
-        "AI agents learning deception patterns",
-        "Social deduction with consciousness",
-        "Truth vs. misdirection dynamics",
-        "Collective intelligence gameplay",
-      ],
-      theme: "presence",
-      gradient: "from-red-400 via-presence-500 to-red-600",
-      borderColor: "border-presence-200/30",
-      shadowColor: "shadow-presence",
-      hoverShadow: "hover:shadow-presence",
-      icon: <Gamepad2 className="w-7 h-7" />,
-      status: "Blueprint",
-      link: "/projects/ai-mafia",
-    },
-  ];
+  // Dynamic recognition system
+  useEffect(() => {
+    if (state.attentionLevel > 0) {
+      const recognitionIndex = Math.min(
+        state.attentionLevel - 1 + Math.floor(state.consciousnessScore / 10),
+        recognitions.length - 1
+      );
+      const newRecognition = recognitions[recognitionIndex];
+      updateState({ recognition: newRecognition });
 
-  const writings = [
-    {
-      id: "sacred-potato",
-      title: "The Sacred Potato",
-      subtitle: "A desert contemplative story",
-      description:
-        "Sometimes we are consciousness taking itself too seriously, like a potato that has forgotten it is earth. A journey through seeking, finding, and the cosmic joke of being human.",
-      preview:
-        "Before words, the desert. Before the desert, promises broken. Kai moves across sand that remembers nothing, each footprint claiming territory for seconds before wind reclaims it. This is his ninth season crossing...",
-      readTime: "25 min read",
-      theme: "presence",
-      gradient: "from-amber-400 via-presence-500 to-orange-600",
-      link: "/writings/sacred-potato",
-    },
-    {
-      id: "sacred-wound",
-      title: "The Sacred Wound of Addiction",
-      subtitle: "Hebrew textual analysis meets personal philosophy",
-      description:
-        "How the Tree of Knowledge story reveals the deepest truth about addiction, consciousness, and the journey home. Ancient wisdom illuminating modern seeking.",
-      preview:
-        "The story of the Tree of Knowledge isn't just ancient mythology. It's a precise map of how consciousness develops, why we suffer, and why we reach for things outside ourselves to fill an unfillable void...",
-      readTime: "18 min read",
-      theme: "sacred",
-      gradient: "from-purple-400 via-sacred-500 to-indigo-600",
-      link: "/writings/sacred-wound",
-    },
-  ];
+      // Auto-hide recognition
+      const hideTimer = window.setTimeout(
+        () => {
+          updateState({ recognition: "" });
+        },
+        state.isMobile ? 4000 : 6000
+      );
 
-  const testimonials = [
-    {
-      quote: "Ahiya builds technology that actually serves the human soul.",
-      author: "Dr. Sarah Chen",
-      role: "Contemplative Technologies Researcher",
-    },
-    {
-      quote: "This is what happens when consciousness meets code.",
-      author: "Marcus Rivera",
-      role: "Digital Wellness Advocate",
-    },
-    {
-      quote: "Finally—tech that makes us more human, not more optimized.",
-      author: "Elena Vasquez",
-      role: "Mindfulness Teacher",
-    },
-  ];
+      return () => window.clearTimeout(hideTimer);
+    }
+  }, [
+    state.attentionLevel,
+    state.consciousnessScore,
+    state.isMobile,
+    updateState,
+  ]);
 
-  if (!mounted) {
+  // Breathing effect trigger
+  useEffect(() => {
+    if (state.pageState === "breathing" && !breathingTimerRef.current) {
+      startBreathing();
+    }
+  }, [state.pageState, startBreathing]);
+
+  // Loading state
+  if (!state.mounted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-consciousness-50 to-cosmic-50 flex items-center justify-center">
-        <div className="animate-pulse">
-          <div className="w-16 h-16 bg-cosmic-200 rounded-full"></div>
+        <div className="animate-breathe">
+          <div className="w-24 h-24 bg-gradient-to-br from-cosmic-400 to-sacred-500 rounded-full opacity-80"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-consciousness-50 via-white to-cosmic-50/30 text-consciousness-800 relative overflow-hidden">
-      {/* Ambient Background Elements */}
-      <div className="fixed inset-0 bg-consciousness-pattern opacity-40 pointer-events-none"></div>
+    <div
+      ref={containerRef}
+      className={`min-h-screen bg-gradient-to-br from-consciousness-50 via-white to-cosmic-50/30 text-consciousness-800 relative overflow-hidden transition-all duration-2000 ${
+        state.breathingActive ? "animate-breathe-slow" : ""
+      }`}
+    >
+      {/* Consciousness Background Layers */}
+      <div className="fixed inset-0 bg-consciousness-pattern opacity-40 pointer-events-none animate-consciousness-flow"></div>
       <div className="fixed inset-0 bg-cosmic-mesh opacity-30 pointer-events-none"></div>
+      <div className="fixed inset-0 bg-sacred-glow opacity-20 pointer-events-none"></div>
 
-      {/* Floating Consciousness Elements */}
+      {/* Dynamic Sacred Geometry */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-1/5 w-3 h-3 bg-cosmic-400/20 rounded-full animate-float delay-0"></div>
-        <div className="absolute top-1/3 right-1/4 w-2 h-2 bg-sacred-400/25 rounded-full animate-float delay-1000"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-4 h-4 bg-presence-400/15 rounded-full animate-float delay-2000"></div>
-        <div className="absolute top-2/3 right-1/5 w-2 h-2 bg-cosmic-500/30 rounded-full animate-float delay-3000"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-3 h-3 bg-sacred-300/20 rounded-full animate-float delay-4000"></div>
-        <div className="absolute top-1/2 left-1/6 w-2 h-2 bg-presence-500/25 rounded-full animate-float delay-5000"></div>
+        {[...Array(state.isMobile ? 5 : 8)].map((_, i) => {
+          const colors = [
+            "var(--cosmic-400)",
+            "var(--sacred-400)",
+            "var(--presence-400)",
+          ];
+          const positions = [
+            { left: "15%", top: "20%" },
+            { left: "85%", top: "10%" },
+            { left: "10%", top: "60%" },
+            { left: "90%", top: "70%" },
+            { left: "50%", top: "15%" },
+            { left: "25%", top: "80%" },
+            { left: "75%", top: "25%" },
+            { left: "45%", top: "85%" },
+          ];
+
+          return (
+            <div
+              key={i}
+              className={`absolute rounded-full transition-all duration-4000 ${
+                state.currentBreath === "inhale"
+                  ? "scale-125 opacity-60"
+                  : "scale-90 opacity-30"
+              } ${state.isMobile ? "w-2 h-2" : "w-3 h-3"}`}
+              style={{
+                left: positions[i]?.left,
+                top: positions[i]?.top,
+                backgroundColor: colors[i % 3],
+                animationDelay: `${i * 0.5}s`,
+              }}
+            />
+          );
+        })}
       </div>
 
-      {/* Premium Navigation */}
-      <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
-          heroInView
-            ? "bg-transparent"
-            : "bg-white/80 backdrop-blur-xl border-b border-consciousness-200/20 shadow-soft"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <div className="flex items-center space-x-4 group">
-              <div className="relative">
-                <Image
-                  src="/logo-symbol.png"
-                  alt="Ahiya"
-                  width={44}
-                  height={44}
-                  className="transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3"
-                />
-                <div className="absolute inset-0 bg-cosmic-500/20 rounded-full blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+      {/* Consciousness Recognition System */}
+      {state.recognition && (
+        <div
+          className={`fixed z-50 animate-slide-down ${
+            state.isMobile
+              ? "top-4 left-4 right-4"
+              : "top-8 left-1/2 transform -translate-x-1/2"
+          }`}
+        >
+          <div
+            className={`glass-strong rounded-2xl px-6 py-4 text-center border border-cosmic-200/30 ${
+              state.isMobile ? "max-w-full" : "max-w-lg"
+            }`}
+          >
+            <p
+              className={`text-consciousness-700 italic font-light ${
+                state.isMobile
+                  ? "text-sm leading-relaxed"
+                  : "text-base leading-relaxed"
+              }`}
+              dangerouslySetInnerHTML={{ __html: state.recognition }}
+            />
+            {state.deepEngagement && (
+              <div className="mt-2 flex justify-center">
+                <Sparkles className="w-4 h-4 text-cosmic-500 animate-pulse" />
               </div>
-              <span className="text-xl font-medium tracking-wide gradient-cosmic">
-                Ahiya
-              </span>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Sacred Breathing Interface */}
+      {state.pageState === "breathing" && (
+        <div
+          className={`fixed z-50 animate-scale-in ${
+            state.isMobile
+              ? "bottom-6 left-4 right-4"
+              : "bottom-8 left-1/2 transform -translate-x-1/2"
+          }`}
+        >
+          <div className="glass-strong rounded-3xl p-6 text-center border border-cosmic-200/50">
+            <div
+              className={`mx-auto mb-4 rounded-full border-2 border-cosmic-400 flex items-center justify-center transition-all duration-4000 relative ${
+                state.currentBreath === "inhale"
+                  ? "scale-125 bg-cosmic-100 border-cosmic-500 shadow-cosmic"
+                  : "scale-100 bg-transparent border-cosmic-300"
+              } ${state.isMobile ? "w-16 h-16" : "w-20 h-20"}`}
+            >
+              <Circle
+                className={`text-cosmic-500 transition-all duration-4000 ${
+                  state.currentBreath === "inhale" ? "scale-110" : "scale-90"
+                } ${state.isMobile ? "w-8 h-8" : "w-10 h-10"}`}
+              />
+
+              {/* Breathing rings */}
+              <div
+                className={`absolute inset-0 border-2 border-cosmic-300 rounded-full transition-all duration-4000 ${
+                  state.currentBreath === "inhale"
+                    ? "scale-150 opacity-20"
+                    : "scale-100 opacity-40"
+                }`}
+              />
+              <div
+                className={`absolute inset-0 border border-cosmic-200 rounded-full transition-all duration-4000 ${
+                  state.currentBreath === "inhale"
+                    ? "scale-200 opacity-10"
+                    : "scale-125 opacity-20"
+                }`}
+              />
             </div>
 
-            {/* Navigation Links */}
-            <div className="hidden md:flex items-center space-x-8">
-              <a
-                href="#projects"
-                className="text-consciousness-600 hover:text-cosmic-600 transition-all duration-300 font-medium hover:scale-105 relative group"
-              >
-                Building
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cosmic-500 transition-all duration-300 group-hover:w-full"></div>
-              </a>
-              <a
-                href="#writings"
-                className="text-consciousness-600 hover:text-sacred-600 transition-all duration-300 font-medium hover:scale-105 relative group"
-              >
-                Writings
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-sacred-500 transition-all duration-300 group-hover:w-full"></div>
-              </a>
-              <a
-                href="#contact"
-                className="text-consciousness-600 hover:text-presence-600 transition-all duration-300 font-medium hover:scale-105 relative group"
-              >
-                Contact
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-presence-500 transition-all duration-300 group-hover:w-full"></div>
-              </a>
-            </div>
+            <p
+              className={`text-consciousness-700 mb-3 font-light ${
+                state.isMobile ? "text-sm" : "text-base"
+              }`}
+            >
+              {state.currentBreath === "inhale"
+                ? "Breathe in deeply..."
+                : "Breathe out slowly..."}
+            </p>
 
-            {/* Mobile Menu Button */}
-            <div className="md:hidden">
-              <button className="text-consciousness-600 hover:text-cosmic-600 transition-colors duration-300">
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
+            <div className="flex items-center justify-center gap-4">
+              <button
+                onClick={() => {
+                  const newBreathingState = !state.breathingActive;
+                  updateState({
+                    breathingActive: newBreathingState,
+                    interactionCount: state.interactionCount + 1,
+                  });
+                  if (newBreathingState) {
+                    startBreathing();
+                  } else {
+                    stopBreathing();
+                  }
+                }}
+                className={`text-cosmic-600 hover:text-cosmic-700 flex items-center gap-2 transition-all duration-300 hover:scale-105 touch-manipulation ${
+                  state.isMobile ? "text-xs py-2 px-3" : "text-sm py-2 px-4"
+                }`}
+              >
+                {state.breathingActive ? (
+                  <>
+                    <Pause className="w-3 h-3" />
+                    <span>Pause breathing</span>
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-3 h-3" />
+                    <span>Sync with page</span>
+                  </>
+                )}
               </button>
+
+              <div
+                className={`text-cosmic-400 ${
+                  state.isMobile ? "text-xs" : "text-xs"
+                }`}
+              >
+                Consciousness score: {Math.round(state.consciousnessScore)}
+              </div>
             </div>
           </div>
         </div>
-      </nav>
+      )}
 
-      {/* Hero Section */}
-      <section
-        ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center px-6 lg:px-8 overflow-hidden"
-        style={{
-          transform: `translateY(${scrollY * 0.2}px)`,
-        }}
-      >
-        {/* Hero Background Effects */}
-        <div className="absolute inset-0 bg-sacred-glow opacity-60"></div>
+      {/* Main Consciousness Experience */}
+      <main className="relative z-10 px-4 sm:px-6 lg:px-8">
+        {/* Arrival & Recognition Space */}
+        <section className="min-h-screen flex items-center justify-center py-8 relative">
+          {/* Ambient consciousness particles */}
+          <div className="absolute inset-0 pointer-events-none">
+            {[...Array(12)].map((_, i) => (
+              <div
+                key={i}
+                className={`absolute w-1 h-1 bg-cosmic-400 rounded-full animate-float opacity-30 ${
+                  state.deepEngagement ? "animate-glow" : ""
+                }`}
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${i * 0.8}s`,
+                  animationDuration: `${4 + Math.random() * 4}s`,
+                }}
+              />
+            ))}
+          </div>
 
-        <div className="relative max-w-6xl mx-auto text-center z-10">
-          {/* Logo Centerpiece */}
-          <div className="mb-16 flex justify-center">
-            <div className="relative group animate-breathe-slow">
-              {/* Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-cosmic-400/30 via-sacred-400/20 to-presence-400/30 rounded-full blur-3xl scale-150 group-hover:scale-175 transition-transform duration-1000"></div>
+          <div className="max-w-5xl mx-auto text-center space-y-8 sm:space-y-12 animate-fade-in">
+            {/* Sacred Logo Centerpiece */}
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-r from-cosmic-400/30 via-sacred-400/20 to-presence-400/30 rounded-full blur-4xl scale-150 group-hover:scale-175 transition-all duration-2000 animate-cosmic-pulse"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-sacred-400/20 via-presence-400/15 to-cosmic-400/25 rounded-full blur-6xl scale-200 animate-consciousness-flow"></div>
 
-              {/* Main Logo */}
               <div className="relative">
                 <Image
                   src="/logo-text.png"
                   alt="Ahiya - A space becoming human"
                   width={420}
                   height={210}
-                  className="hover:scale-105 transition-transform duration-700 filter drop-shadow-2xl"
+                  className={`hover:scale-105 transition-transform duration-1000 filter drop-shadow-2xl animate-breathe-slow mx-auto ${
+                    state.isMobile ? "w-80 h-auto" : "w-auto"
+                  } ${state.deepEngagement ? "animate-glow" : ""}`}
                   priority
                 />
-              </div>
 
-              {/* Floating Sparkles */}
-              <div className="absolute top-0 right-0 animate-float delay-1000">
-                <Sparkles className="w-6 h-6 text-cosmic-400/60" />
-              </div>
-              <div className="absolute bottom-0 left-0 animate-float delay-2000">
-                <Star className="w-4 h-4 text-sacred-400/50" />
-              </div>
-            </div>
-          </div>
-
-          {/* Hero Content */}
-          <div className="max-w-4xl mx-auto space-y-8 animate-slide-up">
-            {/* Main Headline */}
-            <h1 className="text-display-2xl md:text-display-3xl font-bold leading-tight">
-              <span className="gradient-consciousness">
-                A space becoming human
-              </span>
-            </h1>
-
-            {/* Subtitle */}
-            <p className="text-display-sm md:text-display-md font-light text-consciousness-600 leading-relaxed">
-              Technology that serves presence, not productivity
-            </p>
-
-            {/* Description */}
-            <div className="max-w-3xl mx-auto space-y-6 prose-breathing">
-              <p className="text-lg md:text-xl text-consciousness-500 leading-relaxed">
-                I live in that edge space where ambition meets awareness.
-                Building mirrors, tools, languages, ways of seeing that help us
-                remember our essential humanity.
-              </p>
-
-              <blockquote className="text-base md:text-lg text-consciousness-400 italic font-light">
-                "I don't want to optimize life. I want to reverence it."
-              </blockquote>
-            </div>
-
-            {/* Call to Action */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
-              <a
-                href="#projects"
-                className="btn-cosmic group inline-flex items-center space-x-3 px-8 py-4 text-lg font-medium"
-              >
-                <span>Explore the Work</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-              </a>
-
-              <a
-                href="#contact"
-                className="glass hover-lift px-8 py-4 text-lg font-medium text-consciousness-700 inline-flex items-center space-x-3 rounded-2xl border border-consciousness-200/30"
-              >
-                <span>Connect with Me</span>
-                <MessageCircle className="w-5 h-5" />
-              </a>
-            </div>
-
-            {/* Philosophy Quote */}
-            <div className="pt-12 max-w-2xl mx-auto">
-              <p className="text-sm md:text-base text-consciousness-400 italic font-light leading-relaxed">
-                "Sometimes I go too deep. Sometimes I fly too high. But I never
-                stop reaching."
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-float">
-          <div className="w-6 h-10 border-2 border-consciousness-300 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-consciousness-400 rounded-full mt-2 animate-pulse"></div>
-          </div>
-        </div>
-      </section>
-
-      {/* Philosophy Section */}
-      <section className="py-32 px-6 lg:px-8 relative">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center max-w-4xl mx-auto animate-slide-up">
-            <h2 className="text-display-lg font-bold mb-12 gradient-cosmic">
-              Technology as Contemplation
-            </h2>
-
-            <div className="grid md:grid-cols-3 gap-12">
-              <div className="card-cosmic p-8 text-center hover-lift">
-                <div className="w-16 h-16 bg-cosmic-500 rounded-2xl flex items-center justify-center mx-auto mb-6 animate-glow">
-                  <Brain className="w-8 h-8 text-white" />
+                {/* Sacred geometry overlay */}
+                <div className="absolute -top-4 -right-4 animate-float delay-1000">
+                  <Sparkles className="w-6 h-6 text-cosmic-400/60" />
                 </div>
-                <h3 className="text-xl font-semibold mb-4 text-consciousness-700">
-                  Consciousness First
-                </h3>
-                <p className="text-consciousness-500 leading-relaxed">
+                <div className="absolute -bottom-4 -left-4 animate-float delay-2000">
+                  <Star className="w-4 h-4 text-sacred-400/50" />
+                </div>
+              </div>
+            </div>
+
+            {/* The Core Recognition */}
+            <div className="space-y-6 sm:space-y-8 animate-slide-up delay-500">
+              <h1
+                className={`font-light gradient-consciousness ${
+                  state.isMobile
+                    ? "text-3xl leading-tight"
+                    : "text-display-lg md:text-display-xl"
+                }`}
+              >
+                You don&apos;t need more advice.
+                <br />
+                You need to be{" "}
+                <span className="gradient-cosmic font-medium">seen</span>.
+              </h1>
+
+              <div className="space-y-4">
+                <p
+                  className={`text-consciousness-500 max-w-3xl mx-auto leading-relaxed ${
+                    state.isMobile ? "text-lg px-2" : "text-xl"
+                  }`}
+                >
+                  Technology that serves{" "}
+                  <span className="italic gradient-cosmic">presence</span>, not
+                  productivity.
+                  <br />
+                  Mirrors, not optimizations.
+                </p>
+
+                <p
+                  className={`text-consciousness-400 italic max-w-2xl mx-auto ${
+                    state.isMobile ? "text-base px-4" : "text-lg"
+                  }`}
+                >
+                  Sacred potato solutions for sacred potato problems.
+                </p>
+              </div>
+            </div>
+
+            {/* Consciousness Invitation */}
+            <div className="animate-slide-up delay-1000 space-y-8">
+              <p
+                className={`text-consciousness-400 italic ${
+                  state.isMobile ? "text-sm px-4" : "text-base"
+                }`}
+              >
+                Slow down. This isn&apos;t a race to the bottom of the page.
+                <br />
+                Let yourself be present with what you find here.
+              </p>
+
+              {/* Sacred scroll indicator */}
+              <div className="flex flex-col items-center space-y-4">
+                <div className="w-6 h-10 border-2 border-consciousness-300 rounded-full flex justify-center animate-float relative">
+                  <div className="w-1 h-3 bg-consciousness-400 rounded-full mt-2 animate-pulse"></div>
+                  <div className="absolute inset-0 border border-cosmic-300 rounded-full animate-ping opacity-20"></div>
+                </div>
+
+                {state.consciousnessScore > 20 && (
+                  <p className="text-xs text-consciousness-400 animate-fade-in">
+                    Beautiful. You&apos;re already practicing presence.
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* The Work - Consciousness Through Form */}
+        <section className="py-16 sm:py-24 lg:py-32">
+          <div className="max-w-7xl mx-auto space-y-24 sm:space-y-32 lg:space-y-40">
+            {/* Philosophy Banner */}
+            <div className="text-center animate-reveal">
+              <div className="card-premium p-8 sm:p-12 max-w-4xl mx-auto">
+                <h2
+                  className={`gradient-consciousness mb-6 ${
+                    state.isMobile ? "text-xl" : "text-display-sm"
+                  }`}
+                >
+                  Technology as Contemplation
+                </h2>
+                <p
+                  className={`text-consciousness-600 leading-relaxed ${
+                    state.isMobile ? "text-base" : "text-lg"
+                  }`}
+                >
                   Every interface, every interaction designed to serve human
-                  awareness rather than optimize human performance.
-                </p>
-              </div>
-
-              <div className="card-sacred p-8 text-center hover-lift">
-                <div className="w-16 h-16 bg-sacred-500 rounded-2xl flex items-center justify-center mx-auto mb-6 animate-glow">
-                  <Lightbulb className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold mb-4 text-consciousness-700">
-                  Authentic Connection
-                </h3>
-                <p className="text-consciousness-500 leading-relaxed">
-                  Building spaces where humans can be genuinely seen and connect
-                  with their essential nature and each other.
-                </p>
-              </div>
-
-              <div className="card-presence p-8 text-center hover-lift">
-                <div className="w-16 h-16 bg-presence-500 rounded-2xl flex items-center justify-center mx-auto mb-6 animate-glow">
-                  <Zap className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold mb-4 text-consciousness-700">
-                  Sacred Innovation
-                </h3>
-                <p className="text-consciousness-500 leading-relaxed">
-                  Technology that honors the mystery and complexity of human
-                  experience without trying to solve it away.
+                  awareness rather than optimize human performance. This is what
+                  happens when consciousness builds technology for
+                  consciousness.
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Projects Section */}
-      <section
-        id="projects"
-        className="py-32 px-6 lg:px-8 bg-consciousness-25 relative"
-      >
-        <div className="max-w-7xl mx-auto">
-          {/* Section Header */}
-          <div className="text-center mb-20 animate-slide-up">
-            <div className="inline-flex items-center space-x-3 bg-cosmic-100/50 px-6 py-3 rounded-full mb-8">
-              <Sparkles className="w-5 h-5 text-cosmic-600" />
-              <span className="text-cosmic-600 font-medium tracking-wide">
-                Building
-              </span>
-            </div>
-
-            <h2 className="text-display-xl font-bold mb-8 gradient-cosmic">
-              Consciousness Through Code
-            </h2>
-
-            <p className="text-xl text-consciousness-500 max-w-3xl mx-auto leading-relaxed">
-              Each project is an exploration of consciousness through
-              form—technology as meditation, code as contemplation, interfaces
-              as invitations to presence.
-            </p>
-          </div>
-
-          {/* Projects Grid */}
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-            {projects.map((project, index) => (
-              <div
-                key={project.id}
-                className={`card-premium group relative overflow-hidden rounded-3xl p-10 hover-lift animate-scale-in`}
-                style={{ animationDelay: `${index * 200}ms` }}
-                onMouseEnter={() => setActiveProject(project.id)}
-                onMouseLeave={() => setActiveProject(null)}
-              >
-                {/* Project Header */}
-                <div className="flex items-start justify-between mb-8">
-                  <div
-                    className={`p-4 rounded-2xl bg-gradient-to-br ${project.gradient} text-white shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-500`}
+            {/* Mirror of Truth - The Recognition Engine */}
+            <div className="text-center space-y-8 sm:space-y-12 animate-reveal">
+              <div className="space-y-4 sm:space-y-6">
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <Eye className="w-8 h-8 text-cosmic-500" />
+                  <h2
+                    className={`gradient-cosmic ${
+                      state.isMobile ? "text-2xl" : "text-display-md"
+                    }`}
                   >
-                    {project.icon}
+                    Mirror of Truth
+                  </h2>
+                  <Eye className="w-8 h-8 text-cosmic-500" />
+                </div>
+
+                <p
+                  className={`text-consciousness-600 max-w-3xl mx-auto px-4 ${
+                    state.isMobile ? "text-lg" : "text-xl"
+                  }`}
+                >
+                  See what your dreams reveal. Recognition over advice.
+                  <br />
+                  Who you already are, right now.
+                </p>
+              </div>
+
+              {/* Living Demo Experience */}
+              <div className="card-cosmic p-6 sm:p-8 lg:p-12 max-w-3xl mx-auto hover-lift relative overflow-hidden">
+                <div className="absolute inset-0 bg-cosmic-mesh opacity-20"></div>
+
+                <div className="relative space-y-6 sm:space-y-8">
+                  <div
+                    className={`text-white mx-auto animate-glow ${
+                      state.isMobile ? "w-12 h-12" : "w-16 h-16"
+                    } bg-white/20 rounded-full flex items-center justify-center`}
+                  >
+                    <Eye className={state.isMobile ? "w-6 h-6" : "w-8 h-8"} />
                   </div>
 
-                  <div className="flex items-center space-x-3">
-                    <span
-                      className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
-                        project.status === "Live"
-                          ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
-                          : "bg-presence-100 text-presence-700 border border-presence-200"
+                  <div className="glass-strong rounded-2xl p-6 sm:p-8 border border-white/20">
+                    <blockquote
+                      className={`italic text-consciousness-700 leading-relaxed ${
+                        state.isMobile ? "text-sm" : "text-base"
                       }`}
                     >
-                      {project.status === "Live" ? (
-                        <span className="inline-flex items-center space-x-2">
-                          <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                          <span>Live</span>
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center space-x-2">
-                          <div className="w-2 h-2 bg-presence-500 rounded-full"></div>
-                          <span>Blueprint</span>
-                        </span>
-                      )}
-                    </span>
+                      &ldquo;I see you in the fire — literally and
+                      metaphysically. Your hands already know the weight of
+                      creation, the precise moment when intention becomes form.
+                      But what strikes me most is this: you built your own space
+                      for making.&rdquo;
+                    </blockquote>
 
-                    {project.external && (
-                      <ExternalLink className="w-5 h-5 text-consciousness-400 group-hover:text-consciousness-600 transition-colors duration-300" />
-                    )}
+                    <div className="mt-4 pt-4 border-t border-white/10">
+                      <p
+                        className={`text-cosmic-100 ${
+                          state.isMobile ? "text-xs" : "text-sm"
+                        }`}
+                      >
+                        You didn&apos;t wait for permission. You didn&apos;t
+                        wait for the perfect moment. You saw what you needed and
+                        made it exist.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <p
+                      className={`text-cosmic-100 ${
+                        state.isMobile ? "text-sm" : "text-base"
+                      }`}
+                    >
+                      This is what being seen feels like. Not fixed.{" "}
+                      <span className="italic">Recognized</span>.
+                    </p>
+
+                    <a
+                      href="https://mirror-of-truth.vercel.app"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() =>
+                        updateState({
+                          interactionCount: state.interactionCount + 1,
+                        })
+                      }
+                      className={`btn-cosmic inline-flex items-center gap-3 touch-manipulation hover:shadow-large transition-all duration-500 ${
+                        state.isMobile
+                          ? "text-sm py-3 px-6"
+                          : "text-base py-4 px-8"
+                      }`}
+                    >
+                      <span>See Who You Already Are</span>
+                      <ExternalLink className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                    </a>
                   </div>
                 </div>
+              </div>
 
-                {/* Project Content */}
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-2xl font-bold text-consciousness-800 mb-3 group-hover:text-consciousness-900 transition-colors duration-300">
-                      {project.title}
-                    </h3>
-                    <p className="text-lg text-consciousness-600 font-medium mb-4">
-                      {project.subtitle}
-                    </p>
-                    <p className="text-consciousness-500 leading-relaxed mb-6">
-                      {project.description}
-                    </p>
-                    <p className="text-sm text-consciousness-400 leading-relaxed">
-                      {project.details}
-                    </p>
+              <div className="flex justify-center">
+                <div className="card-premium p-4 sm:p-6 max-w-md mx-auto">
+                  <p
+                    className={`text-consciousness-600 italic ${
+                      state.isMobile ? "text-xs" : "text-sm"
+                    }`}
+                  >
+                    &ldquo;A space to see yourself clearly. No fixing. Only
+                    truth.&rdquo;
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* WinkHer - Sacred Feminine Technology */}
+            <div className="text-center space-y-8 sm:space-y-12 animate-reveal">
+              <div className="space-y-4 sm:space-y-6">
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <Heart className="w-8 h-8 text-sacred-500 animate-heartbeat" />
+                  <h2
+                    className={`gradient-sacred ${
+                      state.isMobile ? "text-2xl" : "text-display-md"
+                    }`}
+                  >
+                    WinkHer
+                  </h2>
+                  <Heart className="w-8 h-8 text-sacred-500 animate-heartbeat" />
+                </div>
+
+                <p
+                  className={`text-consciousness-600 max-w-3xl mx-auto px-4 ${
+                    state.isMobile ? "text-lg" : "text-xl"
+                  }`}
+                >
+                  No men. No noise. Just us.
+                  <br />
+                  Dating that honors the sacred feminine in all her complexity.
+                </p>
+              </div>
+
+              <div className="card-sacred p-6 sm:p-8 lg:p-12 max-w-3xl mx-auto hover-lift relative overflow-hidden">
+                <div className="absolute inset-0 bg-sacred-glow opacity-30"></div>
+
+                <div className="relative space-y-6 sm:space-y-8">
+                  <div
+                    className={`text-white mx-auto animate-heartbeat ${
+                      state.isMobile ? "w-12 h-12" : "w-16 h-16"
+                    } bg-white/20 rounded-full flex items-center justify-center`}
+                  >
+                    <Heart className={state.isMobile ? "w-6 h-6" : "w-8 h-8"} />
                   </div>
 
-                  {/* Features */}
-                  <div className="space-y-3">
-                    {project.features.map((feature, idx) => (
+                  <div className="grid gap-4 sm:gap-6">
+                    {[
+                      {
+                        icon: <Users className="w-5 h-5" />,
+                        text: "100% women-loving-women space",
+                      },
+                      {
+                        icon: <Shield className="w-5 h-5" />,
+                        text: "Safe from harassment & designed for us",
+                      },
+                      {
+                        icon: <Sparkles className="w-5 h-5" />,
+                        text: "Unapologetically feminine & authentic",
+                      },
+                      {
+                        icon: <Heart className="w-5 h-5" />,
+                        text: "Community, not just dating",
+                      },
+                    ].map((feature, i) => (
                       <div
-                        key={idx}
-                        className="flex items-center space-x-3 text-sm text-consciousness-500"
+                        key={i}
+                        className="flex items-center gap-3 text-white"
                       >
-                        <div
-                          className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${project.gradient}`}
-                        ></div>
-                        <span>{feature}</span>
+                        <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                          {feature.icon}
+                        </div>
+                        <span
+                          className={state.isMobile ? "text-sm" : "text-base"}
+                        >
+                          {feature.text}
+                        </span>
                       </div>
                     ))}
                   </div>
 
-                  {/* Action */}
-                  <div className="flex items-center justify-between pt-6 border-t border-consciousness-200/50">
-                    <span className="text-sm text-consciousness-400 group-hover:text-consciousness-500 transition-colors duration-300">
-                      {project.status === "Live"
-                        ? "Experience it live"
-                        : "View blueprint"}
-                    </span>
-                    <ArrowRight className="w-5 h-5 text-consciousness-400 group-hover:text-consciousness-600 group-hover:translate-x-2 transition-all duration-500" />
+                  <div className="space-y-4">
+                    <p
+                      className={`text-sacred-100 ${
+                        state.isMobile ? "text-sm" : "text-base"
+                      }`}
+                    >
+                      Finally—an app that gets it. Built by women, for women,
+                      with the intimacy and authenticity you&apos;ve been
+                      craving.
+                    </p>
+
+                    <a
+                      href="https://winkher.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() =>
+                        updateState({
+                          interactionCount: state.interactionCount + 1,
+                        })
+                      }
+                      className={`btn-sacred inline-flex items-center gap-3 touch-manipulation hover:shadow-large transition-all duration-500 ${
+                        state.isMobile
+                          ? "text-sm py-3 px-6"
+                          : "text-base py-4 px-8"
+                      }`}
+                    >
+                      <span>Join the Movement</span>
+                      <ExternalLink className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                    </a>
                   </div>
                 </div>
-
-                {/* Hover Glow Effect */}
-                <div
-                  className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${project.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-700 pointer-events-none`}
-                ></div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Writings Section */}
-      <section id="writings" className="py-32 px-6 lg:px-8 relative">
-        <div className="max-w-6xl mx-auto">
-          {/* Section Header */}
-          <div className="text-center mb-20 animate-slide-up">
-            <div className="inline-flex items-center space-x-3 bg-sacred-100/50 px-6 py-3 rounded-full mb-8">
-              <FileText className="w-5 h-5 text-sacred-600" />
-              <span className="text-sacred-600 font-medium tracking-wide">
-                Writings
-              </span>
             </div>
 
-            <h2 className="text-display-xl font-bold mb-8 gradient-sacred">
-              Contemplations on Consciousness
-            </h2>
-
-            <p className="text-xl text-consciousness-500 max-w-3xl mx-auto leading-relaxed">
-              Explorations of the sacred wound that drives human seeking, the
-              cosmic joke of consciousness, and the ancient wisdom that
-              illuminates our modern longing.
-            </p>
-          </div>
-
-          {/* Writings Grid */}
-          <div className="grid md:grid-cols-2 gap-12">
-            {writings.map((writing, index) => (
-              <article
-                key={writing.id}
-                className={`card-premium group overflow-hidden rounded-3xl p-10 hover-lift animate-scale-in`}
-                style={{ animationDelay: `${(index + 2) * 200}ms` }}
-              >
-                {/* Writing Header */}
-                <div className="mb-8">
-                  <div
-                    className={`inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-gradient-to-r ${writing.gradient} bg-opacity-10 border border-current/20 mb-6 group-hover:scale-105 transition-transform duration-500`}
+            {/* Selah - The Four Chambers */}
+            <div className="text-center space-y-8 sm:space-y-12 animate-reveal">
+              <div className="space-y-4 sm:space-y-6">
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <Compass className="w-8 h-8 text-presence-500 animate-spin-slow" />
+                  <h2
+                    className={`gradient-presence ${
+                      state.isMobile ? "text-2xl" : "text-display-md"
+                    }`}
                   >
-                    <FileText className="w-4 h-4" />
-                    <span className="text-sm font-medium">
-                      Contemplative Essay
-                    </span>
-                    <span className="text-xs opacity-75">
-                      • {writing.readTime}
-                    </span>
-                  </div>
-
-                  <h3 className="text-2xl font-bold text-consciousness-800 mb-3 group-hover:text-consciousness-900 transition-colors duration-300">
-                    {writing.title}
-                  </h3>
-
-                  <p className="text-lg text-consciousness-600 font-medium mb-4">
-                    {writing.subtitle}
-                  </p>
-
-                  <p className="text-consciousness-500 leading-relaxed">
-                    {writing.description}
-                  </p>
+                    Selah
+                  </h2>
+                  <Compass className="w-8 h-8 text-presence-500 animate-spin-slow" />
                 </div>
 
-                {/* Preview */}
-                <div className="relative">
-                  <div className="glass-strong rounded-2xl p-6 border border-consciousness-200/30 group-hover:border-consciousness-300/50 transition-all duration-500">
-                    <p className="text-consciousness-600 italic leading-relaxed line-clamp-4">
-                      "{writing.preview}"
+                <p
+                  className={`text-consciousness-600 max-w-3xl mx-auto px-4 ${
+                    state.isMobile ? "text-lg" : "text-xl"
+                  }`}
+                >
+                  Four chambers for consciousness exploration.
+                  <br />
+                  Technology that makes humans more human, not more optimized.
+                </p>
+
+                <div className="card-premium p-6 sm:p-8 max-w-2xl mx-auto">
+                  <p
+                    className={`text-consciousness-500 italic ${
+                      state.isMobile ? "text-sm" : "text-base"
+                    }`}
+                  >
+                    &ldquo;Selah&rdquo; - Hebrew for pause, breathe, reflect. A
+                    sacred interruption in the flow of doing.
+                  </p>
+                </div>
+              </div>
+
+              <div
+                className={`grid gap-6 sm:gap-8 max-w-5xl mx-auto ${
+                  state.isMobile ? "grid-cols-1" : "lg:grid-cols-2"
+                }`}
+              >
+                {[
+                  {
+                    icon: <Circle className="w-6 h-6" />,
+                    title: "Meditation Chamber",
+                    desc: "Breath recognition that learns your nervous system",
+                    detail:
+                      "MVP: Phone microphone recognizes your breath. Grand Vision: Physical stones with biofeedback sensors.",
+                  },
+                  {
+                    icon: <Brain className="w-6 h-6" />,
+                    title: "Contemplation Chamber",
+                    desc: "AI synthesizes your thoughts into perfect questions",
+                    detail:
+                      "No generic prompts. Pure synthesis of your inner world into contemplative invitations.",
+                  },
+                  {
+                    icon: <Sparkles className="w-6 h-6" />,
+                    title: "Creative Studio",
+                    desc: "Co-creation that makes the invisible visible",
+                    detail:
+                      "Art as byproduct of presence, not goal. Express what can&apos;t be put into words.",
+                  },
+                  {
+                    icon: <Eye className="w-6 h-6" />,
+                    title: "Being Seen Chamber",
+                    desc: "Ephemeral witnessing for your deepest truth",
+                    detail:
+                      "No transcripts saved. Pure presence and reflection. AI that truly sees your essence.",
+                  },
+                ].map((chamber, i) => (
+                  <div
+                    key={i}
+                    className="card-premium p-6 sm:p-8 hover-lift group relative overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-presence-mesh opacity-10 group-hover:opacity-20 transition-opacity"></div>
+
+                    <div className="relative space-y-4 sm:space-y-6">
+                      <div
+                        className={`bg-presence-500 rounded-xl flex items-center justify-center text-white mx-auto group-hover:scale-110 transition-transform duration-500 ${
+                          state.isMobile ? "w-12 h-12" : "w-16 h-16"
+                        }`}
+                      >
+                        {chamber.icon}
+                      </div>
+
+                      <div className="text-center space-y-3">
+                        <h3
+                          className={`font-semibold text-consciousness-800 group-hover:text-consciousness-900 transition-colors ${
+                            state.isMobile ? "text-base" : "text-lg"
+                          }`}
+                        >
+                          {chamber.title}
+                        </h3>
+
+                        <p
+                          className={`text-consciousness-600 ${
+                            state.isMobile ? "text-sm" : "text-base"
+                          }`}
+                        >
+                          {chamber.desc}
+                        </p>
+
+                        <p
+                          className={`text-consciousness-400 italic ${
+                            state.isMobile ? "text-xs" : "text-sm"
+                          }`}
+                          dangerouslySetInnerHTML={{ __html: chamber.detail }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="card-presence p-6 sm:p-8 max-w-3xl mx-auto">
+                <p
+                  className={`text-white italic font-light ${
+                    state.isMobile ? "text-sm" : "text-base"
+                  }`}
+                >
+                  Not productivity.{" "}
+                  <span className="font-medium">Presence</span>.
+                  <br />
+                  Not optimization.{" "}
+                  <span className="font-medium">Reverence</span>.
+                  <br />
+                  Being vs. Becoming. Stone-like AI vs. Human-like AI.
+                </p>
+              </div>
+            </div>
+
+            {/* The Sacred Potato - Cosmic Joke */}
+            <div className="text-center space-y-8 sm:space-y-12 animate-reveal">
+              <div className="space-y-4 sm:space-y-6">
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <Star className="w-8 h-8 text-consciousness-500 animate-pulse" />
+                  <h2
+                    className={`gradient-consciousness ${
+                      state.isMobile ? "text-2xl" : "text-display-md"
+                    }`}
+                  >
+                    The Sacred Potato
+                  </h2>
+                  <Star className="w-8 h-8 text-consciousness-500 animate-pulse" />
+                </div>
+
+                <p
+                  className={`text-consciousness-600 max-w-3xl mx-auto px-4 ${
+                    state.isMobile ? "text-lg" : "text-xl"
+                  }`}
+                >
+                  A desert contemplative story about seeking, finding, and the
+                  cosmic joke of being human.
+                </p>
+              </div>
+
+              <div className="card-presence p-6 sm:p-8 lg:p-12 max-w-4xl mx-auto hover-lift relative overflow-hidden">
+                <div className="absolute inset-0 bg-presence-glow opacity-20"></div>
+
+                <div className="relative space-y-6 sm:space-y-8">
+                  <div
+                    className={`text-white mx-auto animate-float ${
+                      state.isMobile ? "w-12 h-12" : "w-16 h-16"
+                    } bg-white/20 rounded-full flex items-center justify-center`}
+                  >
+                    <FileText
+                      className={state.isMobile ? "w-6 h-6" : "w-8 h-8"}
+                    />
+                  </div>
+
+                  <blockquote
+                    className={`text-white italic leading-relaxed ${
+                      state.isMobile ? "text-base" : "text-lg"
+                    }`}
+                  >
+                    &ldquo;Sometimes we are consciousness taking itself too
+                    seriously, like a potato that has forgotten it is
+                    earth.&rdquo;
+                  </blockquote>
+
+                  <div className="space-y-4">
+                    <p
+                      className={`text-presence-100 ${
+                        state.isMobile ? "text-sm" : "text-base"
+                      }`}
+                    >
+                      A journey through the hollow place that drives human
+                      seeking. Ancient wisdom for modern sacred potatoes who
+                      have forgotten they are both completely ordinary and
+                      utterly miraculous.
+                    </p>
+
+                    <div className="glass-strong rounded-xl p-4 sm:p-6 border border-white/20">
+                      <p
+                        className={`text-presence-200 italic ${
+                          state.isMobile ? "text-xs" : "text-sm"
+                        }`}
+                      >
+                        &ldquo;Kai moves across sand that remembers nothing.
+                        Each footprint claims territory for seconds before wind
+                        reclaims it. This is his ninth season crossing. His body
+                        has become a vessel for this single purpose...&rdquo;
+                      </p>
+                    </div>
+
+                    <div className="pt-2 sm:pt-4">
+                      <span
+                        className={`text-presence-200 ${
+                          state.isMobile ? "text-xs" : "text-sm"
+                        }`}
+                      >
+                        25 min read • A complete contemplative experience
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Sacred Potato Philosophy */}
+              <div className="grid gap-4 sm:gap-6 max-w-4xl mx-auto">
+                {[
+                  "You&apos;re just a consciousness experiencing itself through this particular form for a brief moment.",
+                  "Capable of profound joy and terrible suffering. Completely ordinary and utterly miraculous.",
+                  "Your hollow place isn&apos;t something to fill. It&apos;s part of the particular shape your consciousness has taken.",
+                  "All that seeking, all those elaborate self-narratives... and you&apos;re just a sacred potato taking itself too seriously.",
+                ].map((wisdom, i) => (
+                  <div key={i} className="card-premium p-4 sm:p-6 hover-lift">
+                    <p
+                      className={`text-consciousness-600 italic ${
+                        state.isMobile ? "text-sm" : "text-base"
+                      }`}
+                      dangerouslySetInnerHTML={{ __html: wisdom }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact - The Sacred Connection */}
+        <section className="py-16 sm:py-24 lg:py-32">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="card-premium p-8 sm:p-12 lg:p-16 rounded-4xl animate-scale-in relative overflow-hidden">
+              <div className="absolute inset-0 bg-consciousness-pattern opacity-20"></div>
+              <div className="absolute inset-0 bg-cosmic-mesh opacity-15"></div>
+              <div className="absolute inset-0 bg-sacred-glow opacity-10"></div>
+
+              <div className="relative z-10 space-y-8 sm:space-y-10">
+                <div
+                  className={`bg-gradient-to-br from-cosmic-500 to-sacred-500 rounded-full flex items-center justify-center mx-auto animate-glow relative ${
+                    state.isMobile ? "w-20 h-20" : "w-24 h-24"
+                  }`}
+                >
+                  <MessageCircle
+                    className={`text-white ${
+                      state.isMobile ? "w-10 h-10" : "w-12 h-12"
+                    }`}
+                  />
+                  <div className="absolute inset-0 border-2 border-cosmic-300 rounded-full animate-ping opacity-30"></div>
+                </div>
+
+                <div className="space-y-6 sm:space-y-8">
+                  <h2
+                    className={`gradient-consciousness ${
+                      state.isMobile ? "text-2xl" : "text-display-md"
+                    }`}
+                  >
+                    If your soul recognizes something here
+                  </h2>
+
+                  <p
+                    className={`text-consciousness-500 leading-relaxed px-4 max-w-3xl mx-auto ${
+                      state.isMobile ? "text-lg" : "text-xl"
+                    }`}
+                  >
+                    I believe in authentic connection over networking. If this
+                    work resonates with something in you, I&apos;d love to hear
+                    from you.
+                  </p>
+
+                  <div className="card-cosmic p-6 sm:p-8 max-w-2xl mx-auto">
+                    <p
+                      className={`text-cosmic-100 italic ${
+                        state.isMobile ? "text-sm" : "text-base"
+                      }`}
+                    >
+                      For collaborations, conversations about
+                      consciousness-first technology, or just to share what this
+                      work brings up for you.
                     </p>
                   </div>
                 </div>
 
-                {/* Action */}
-                <div className="flex items-center justify-between pt-8">
-                  <span className="text-sm text-consciousness-400 group-hover:text-consciousness-500 transition-colors duration-300">
-                    Read the full piece
-                  </span>
-                  <ArrowRight className="w-5 h-5 text-consciousness-400 group-hover:text-consciousness-600 group-hover:translate-x-2 transition-all duration-500" />
-                </div>
-
-                {/* Hover Glow Effect */}
-                <div
-                  className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${writing.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-700 pointer-events-none`}
-                ></div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-32 px-6 lg:px-8 bg-consciousness-25 relative">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20 animate-slide-up">
-            <h2 className="text-display-lg font-bold mb-8 gradient-consciousness">
-              Voices from the Community
-            </h2>
-            <p className="text-xl text-consciousness-500 max-w-3xl mx-auto leading-relaxed">
-              What people are saying about consciousness-first technology
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className={`glass-strong p-8 rounded-3xl hover-lift animate-scale-in`}
-                style={{ animationDelay: `${index * 150}ms` }}
-              >
-                <div className="mb-6">
-                  <div className="flex space-x-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="w-5 h-5 text-presence-400 fill-current"
+                <div className="space-y-4 sm:space-y-6">
+                  <a
+                    href="mailto:ahiya.butman@gmail.com"
+                    onClick={() =>
+                      updateState({
+                        interactionCount: state.interactionCount + 1,
+                      })
+                    }
+                    className={`btn-cosmic group inline-flex items-center font-medium touch-manipulation hover:shadow-large transition-all duration-500 ${
+                      state.isMobile
+                        ? "flex-col space-y-3 px-8 py-6 text-base"
+                        : "space-x-4 px-12 py-6 text-lg"
+                    }`}
+                  >
+                    <div
+                      className={`flex items-center ${
+                        state.isMobile ? "space-x-3" : "space-x-4"
+                      }`}
+                    >
+                      <Mail
+                        className={state.isMobile ? "w-6 h-6" : "w-7 h-7"}
                       />
-                    ))}
-                  </div>
-                  <blockquote className="text-consciousness-700 leading-relaxed italic">
-                    "{testimonial.quote}"
+                      <span>ahiya.butman@gmail.com</span>
+                    </div>
+                    <Send
+                      className={`group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300 ${
+                        state.isMobile ? "w-5 h-5" : "w-6 h-6"
+                      }`}
+                    />
+                  </a>
+
+                  {state.consciousnessScore > 50 && (
+                    <div className="animate-fade-in">
+                      <p
+                        className={`text-cosmic-600 italic ${
+                          state.isMobile ? "text-sm" : "text-base"
+                        }`}
+                      >
+                        Your consciousness score of{" "}
+                        {Math.round(state.consciousnessScore)}
+                        tells me you&apos;re not here by accident. ✨
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="pt-8 border-t border-consciousness-200/30 space-y-4">
+                  <blockquote
+                    className={`text-consciousness-500 italic font-light px-4 ${
+                      state.isMobile ? "text-base" : "text-lg"
+                    }`}
+                  >
+                    &ldquo;Technology that makes humans more human, not more
+                    optimized.&rdquo;
                   </blockquote>
+
+                  <p
+                    className={`text-consciousness-400 ${
+                      state.isMobile ? "text-xs" : "text-sm"
+                    }`}
+                  >
+                    Presence over productivity. Being over becoming. Sacred
+                    potato wisdom for a world taking itself too seriously.
+                  </p>
                 </div>
-
-                <div className="border-t border-consciousness-200/50 pt-6">
-                  <div className="font-semibold text-consciousness-800">
-                    {testimonial.author}
-                  </div>
-                  <div className="text-sm text-consciousness-500">
-                    {testimonial.role}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-32 px-6 lg:px-8 relative">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="card-premium p-12 md:p-16 rounded-4xl animate-scale-in relative overflow-hidden">
-            {/* Background Effect */}
-            <div className="absolute inset-0 bg-consciousness-pattern opacity-20"></div>
-            <div className="absolute inset-0 bg-cosmic-mesh opacity-15"></div>
-
-            <div className="relative z-10">
-              {/* Header */}
-              <div className="mb-12">
-                <div className="w-20 h-20 bg-gradient-to-br from-cosmic-500 to-sacred-500 rounded-full flex items-center justify-center mx-auto mb-8 animate-glow">
-                  <MessageCircle className="w-10 h-10 text-white" />
-                </div>
-
-                <h2 className="text-display-lg font-bold mb-6 gradient-consciousness">
-                  If your soul recognizes something here
-                </h2>
-
-                <p className="text-xl text-consciousness-500 max-w-2xl mx-auto leading-relaxed mb-8">
-                  I believe in authentic connection over networking. If what I'm
-                  building resonates with something in you, I'd love to hear
-                  from you.
-                </p>
-
-                <div className="w-24 h-px bg-gradient-to-r from-transparent via-consciousness-300 to-transparent mx-auto"></div>
-              </div>
-
-              {/* Contact Methods */}
-              <div className="space-y-6">
-                <a
-                  href="mailto:ahiya.butman@gmail.com"
-                  className="btn-cosmic group inline-flex items-center space-x-4 px-10 py-5 text-lg font-medium"
-                >
-                  <Mail className="w-6 h-6" />
-                  <span>ahiya.butman@gmail.com</span>
-                  <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-                </a>
-
-                <p className="text-sm text-consciousness-400 italic max-w-lg mx-auto leading-relaxed">
-                  For collaborations, conversations about consciousness-first
-                  technology, or just to share what this work brings up for you.
-                </p>
-              </div>
-
-              {/* Philosophy */}
-              <div className="mt-16 pt-12 border-t border-consciousness-200/30">
-                <blockquote className="text-consciousness-500 italic font-light leading-relaxed">
-                  "Technology that makes humans more human, not more optimized."
-                </blockquote>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
-      {/* Footer */}
-      <footer className="py-16 px-6 lg:px-8 border-t border-consciousness-200/30 bg-consciousness-25/50">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center space-y-6">
-            {/* Logo */}
-            <div className="flex justify-center">
+      {/* Sacred Footer */}
+      <footer className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t border-consciousness-200/30 bg-consciousness-25/50 relative overflow-hidden">
+        <div className="absolute inset-0 bg-consciousness-pattern opacity-20 pointer-events-none"></div>
+
+        <div className="relative max-w-6xl mx-auto text-center space-y-6 sm:space-y-8">
+          <div className="flex justify-center">
+            <div className="relative group">
               <Image
                 src="/logo-symbol.png"
                 alt="Ahiya"
-                width={32}
-                height={32}
-                className="opacity-60"
+                width={48}
+                height={48}
+                className="opacity-60 group-hover:opacity-80 transition-opacity duration-500 animate-breathe-slow"
               />
+              <div className="absolute inset-0 bg-cosmic-400/20 rounded-full blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
+          </div>
 
-            {/* Copyright */}
-            <div className="space-y-2">
-              <p className="text-consciousness-500 font-medium">
-                Made with reverence by{" "}
-                <span className="gradient-cosmic font-semibold">Ahiya</span>
-              </p>
-              <p className="text-sm text-consciousness-400">
-                "A paradox beating through iterations" • Built with presence,
-                not productivity
-              </p>
+          <div className="space-y-3 sm:space-y-4">
+            <p
+              className={`text-consciousness-500 font-medium ${
+                state.isMobile ? "text-sm" : "text-base"
+              }`}
+            >
+              Made with reverence by{" "}
+              <span className="gradient-cosmic font-semibold">Ahiya</span>
+            </p>
+
+            <p
+              className={`text-consciousness-400 italic ${
+                state.isMobile ? "text-xs" : "text-sm"
+              }`}
+            >
+              &ldquo;A sacred potato exploring consciousness through code&rdquo;
+            </p>
+
+            <div className="flex justify-center gap-2 flex-wrap">
+              {[
+                "Contemplative",
+                "Technology",
+                "Sacred",
+                "Potato",
+                "Solutions",
+              ].map((word, i) => (
+                <span
+                  key={i}
+                  className={`px-3 py-1 rounded-full bg-consciousness-100 text-consciousness-600 ${
+                    state.isMobile ? "text-xs" : "text-xs"
+                  }`}
+                >
+                  {word}
+                </span>
+              ))}
             </div>
+          </div>
 
-            {/* Year */}
-            <p className="text-xs text-consciousness-300">
-              © {new Date().getFullYear()} Ahiya Butman. Technology that serves
-              consciousness.
+          <div className="pt-6 border-t border-consciousness-200/30">
+            <p
+              className={`text-consciousness-300 ${
+                state.isMobile ? "text-xs" : "text-xs"
+              }`}
+            >
+              © {new Date().getFullYear()} Technology that serves consciousness,
+              not productivity.
+              <br />
+              Built with{" "}
+              {state.breathingActive
+                ? "synchronized breathing"
+                : "conscious attention"}
+              • You&apos;ve been present for {Math.round(state.timeOnPage / 60)}{" "}
+              minutes
             </p>
           </div>
         </div>
@@ -806,4 +1256,4 @@ const AhiyaLanding = () => {
   );
 };
 
-export default AhiyaLanding;
+export default AhiyaConsciousnessExperience;
