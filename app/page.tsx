@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Building, FileText, MapPin } from "lucide-react";
 
 const Homepage: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
@@ -123,53 +123,145 @@ const Homepage: React.FC = () => {
         </div>
       </section>
 
-      {/* What I Build */}
+      {/* Three Rooms - Enhanced Navigation */}
       <section className="section-breathing">
         <div className="container-content">
           <h2 className="heading-xl text-center spacing-generous">
-            What I'm building
+            Three rooms to explore
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Building Room */}
             <Link href="/building" className="group">
-              <div className="contemplative-card p-8 h-full">
-                <div className="flex items-center space-x-4 mb-6">
-                  <div className="text-4xl">🧘</div>
-                  <div>
-                    <h3 className="heading-lg">Selah</h3>
-                    <p className="text-slate-400">
-                      Four chambers for consciousness
-                    </p>
+              <div className="contemplative-card p-8 h-full text-center">
+                <div className="flex items-center justify-center mb-6">
+                  <div className="breathing-glass p-3 rounded-full">
+                    <Building className="w-8 h-8 text-purple-300" />
                   </div>
                 </div>
-                <p className="text-slate-300 mb-4">
-                  Meditation through breath recognition. Contemplation via AI
-                  synthesis. Creation as co-creative play. Being seen through
-                  ephemeral witnessing.
+
+                <h3 className="heading-lg mb-4 group-hover:text-purple-200 transition-colors">
+                  Building
+                </h3>
+
+                <p className="text-slate-300 mb-6 leading-relaxed">
+                  Technology as contemplation. Each project an exploration of
+                  consciousness through code.
                 </p>
-                <div className="flex items-center text-purple-300 group-hover:text-purple-200 transition-colors">
-                  <span className="text-sm">Explore blueprint</span>
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+
+                {/* Preview Projects */}
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center space-x-3 text-sm">
+                    <span className="text-2xl">🧘</span>
+                    <span className="text-slate-400">
+                      Selah - Four chambers for consciousness
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-3 text-sm">
+                    <span className="text-2xl">🪞</span>
+                    <span className="text-slate-400">
+                      Mirror of Truth - Recognition over advice
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-3 text-sm">
+                    <span className="text-2xl">💕</span>
+                    <span className="text-slate-400">
+                      WinkHer - Sacred space for love
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-center space-x-2 text-purple-300 group-hover:text-purple-200 transition-colors">
+                  <span className="text-sm">Explore all projects</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
             </Link>
 
-            <Link href="/building" className="group">
-              <div className="contemplative-card p-8 h-full">
-                <div className="flex items-center space-x-4 mb-6">
-                  <div className="text-4xl">🪞</div>
-                  <div>
-                    <h3 className="heading-lg">Mirror of Truth</h3>
-                    <p className="text-slate-400">Recognition over advice</p>
+            {/* Writing Room */}
+            <Link href="/writing" className="group">
+              <div className="contemplative-card p-8 h-full text-center">
+                <div className="flex items-center justify-center mb-6">
+                  <div className="breathing-glass p-3 rounded-full">
+                    <FileText className="w-8 h-8 text-purple-300" />
                   </div>
                 </div>
-                <p className="text-slate-300 mb-4">
-                  AI that reflects wholeness rather than offering fixes. Dream
-                  analysis that shows you who you already are.
+
+                <h3 className="heading-lg mb-4 group-hover:text-purple-200 transition-colors">
+                  Writing
+                </h3>
+
+                <p className="text-slate-300 mb-6 leading-relaxed">
+                  Contemplations on being human. Not answers, but better
+                  questions for the mystery you are.
                 </p>
-                <div className="flex items-center text-purple-300 group-hover:text-purple-200 transition-colors">
-                  <span className="text-sm">Try it live</span>
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+
+                {/* Preview Writings */}
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center space-x-3 text-sm">
+                    <span className="text-2xl">🥔</span>
+                    <span className="text-slate-400">The Sacred Potato</span>
+                  </div>
+                  <div className="flex items-center space-x-3 text-sm">
+                    <span className="text-2xl">🌳</span>
+                    <span className="text-slate-400">
+                      The Sacred Wound of Addiction
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-3 text-sm">
+                    <span className="text-2xl">⚡</span>
+                    <span className="text-slate-400">
+                      Living in the Edge Space
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-center space-x-2 text-purple-300 group-hover:text-purple-200 transition-colors">
+                  <span className="text-sm">Read contemplations</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </Link>
+
+            {/* Journey Room */}
+            <Link href="/journey" className="group">
+              <div className="contemplative-card p-8 h-full text-center">
+                <div className="flex items-center justify-center mb-6">
+                  <div className="breathing-glass p-3 rounded-full">
+                    <MapPin className="w-8 h-8 text-purple-300" />
+                  </div>
+                </div>
+
+                <h3 className="heading-lg mb-4 group-hover:text-purple-200 transition-colors">
+                  Journey
+                </h3>
+
+                <p className="text-slate-300 mb-6 leading-relaxed">
+                  From optimization to reverence. How consciousness collapsed
+                  into itself and learned to laugh.
+                </p>
+
+                {/* Preview Journey */}
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center space-x-3 text-sm">
+                    <span className="text-2xl">⚡</span>
+                    <span className="text-slate-400">The Optimization Era</span>
+                  </div>
+                  <div className="flex items-center space-x-3 text-sm">
+                    <span className="text-2xl">🥔</span>
+                    <span className="text-slate-400">The Sacred Collapse</span>
+                  </div>
+                  <div className="flex items-center space-x-3 text-sm">
+                    <span className="text-2xl">🪞</span>
+                    <span className="text-slate-400">
+                      Presence-First Technology
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-center space-x-2 text-purple-300 group-hover:text-purple-200 transition-colors">
+                  <span className="text-sm">Read the full story</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
             </Link>
@@ -177,106 +269,47 @@ const Homepage: React.FC = () => {
         </div>
       </section>
 
-      {/* My Journey */}
+      {/* Featured Project Preview */}
       <section className="section-breathing">
-        <div className="container-narrow text-center">
-          <div className="contemplative-card p-12">
+        <div className="container-content">
+          <div className="text-center mb-12">
             <h2 className="heading-xl spacing-comfortable">
-              From optimization to reverence
+              Currently building
             </h2>
+            <p className="body-lg text-slate-300">
+              A taste of what's emerging from Sacred Potato energy
+            </p>
+          </div>
 
-            <div className="space-y-6 text-left">
-              <div className="border-l-2 border-purple-400/30 pl-6">
-                <h3 className="font-medium text-purple-300 mb-2">
-                  The Optimization Era
-                </h3>
-                <p className="text-slate-300 text-sm">
-                  High-functioning, brilliant, ambitious. Mastering systems,
-                  accumulating achievements, trying to engineer perfection.
-                </p>
+          <div className="max-w-3xl mx-auto">
+            <div className="contemplative-card p-12 text-center">
+              <div className="text-6xl mb-8 animate-float">🧘</div>
+
+              <h3 className="heading-xl spacing-comfortable">Selah</h3>
+              <p className="body-lg text-slate-400 spacing-comfortable">
+                Four chambers for consciousness
+              </p>
+
+              <p className="body-lg text-slate-300 spacing-comfortable leading-relaxed">
+                Meditation through breath recognition. Contemplation via AI
+                synthesis. Creation as co-creative play. Being seen through
+                ephemeral witnessing conversations.
+              </p>
+
+              <div className="sacred-quote">
+                "What if technology could create space for presence instead of
+                demanding attention?"
               </div>
 
-              <div className="border-l-2 border-pink-400/30 pl-6">
-                <h3 className="font-medium text-pink-300 mb-2">
-                  The Sacred Collapse
-                </h3>
-                <p className="text-slate-300 text-sm">
-                  OCD, smoking cycles, army discharge. The optimization identity
-                  crumbled. Desert solitude. The Sacred Potato realization.
-                </p>
-              </div>
-
-              <div className="border-l-2 border-emerald-400/30 pl-6">
-                <h3 className="font-medium text-emerald-300 mb-2">
-                  Presence-First Technology
-                </h3>
-                <p className="text-slate-300 text-sm">
-                  Building from stillness instead of urgency. Technology as
-                  contemplation. Each project a mirror for consciousness.
-                </p>
+              <div className="flex flex-wrap justify-center gap-4 mb-8">
+                <Link href="/building" className="gentle-button">
+                  Explore all projects
+                </Link>
+                <Link href="/building#selah" className="gentle-button">
+                  Selah blueprint
+                </Link>
               </div>
             </div>
-
-            <Link href="/journey" className="gentle-button mt-8">
-              Read the full story
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Writing */}
-      <section className="section-breathing">
-        <div className="container-content">
-          <h2 className="heading-xl text-center spacing-generous">
-            Recent contemplations
-          </h2>
-
-          <div className="space-y-6">
-            <Link href="/writing/sacred-potato" className="block group">
-              <div className="contemplative-card p-6 hover:bg-white/[0.06] transition-colors">
-                <div className="flex items-start space-x-4">
-                  <div className="text-3xl mt-1">🥔</div>
-                  <div className="flex-1">
-                    <h3 className="heading-lg group-hover:text-purple-200 transition-colors">
-                      The Sacred Potato
-                    </h3>
-                    <p className="text-slate-400 mb-3">
-                      A desert contemplative story
-                    </p>
-                    <p className="text-slate-300 text-sm">
-                      Sometimes we are consciousness taking itself too
-                      seriously, like a potato that has forgotten it is earth...
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-
-            <Link href="/writing/sacred-wound" className="block group">
-              <div className="contemplative-card p-6 hover:bg-white/[0.06] transition-colors">
-                <div className="flex items-start space-x-4">
-                  <div className="text-3xl mt-1">🌳</div>
-                  <div className="flex-1">
-                    <h3 className="heading-lg group-hover:text-purple-200 transition-colors">
-                      The Sacred Wound of Addiction
-                    </h3>
-                    <p className="text-slate-400 mb-3">
-                      Hebrew analysis meets personal philosophy
-                    </p>
-                    <p className="text-slate-300 text-sm">
-                      How the Tree of Knowledge story reveals the deepest truth
-                      about addiction, consciousness, and the journey home...
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </div>
-
-          <div className="text-center mt-8">
-            <Link href="/writing" className="gentle-button">
-              All contemplations
-            </Link>
           </div>
         </div>
       </section>

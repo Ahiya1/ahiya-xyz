@@ -289,8 +289,8 @@ const BuildingPage: React.FC = () => {
               <p className="body-lg text-slate-300 leading-relaxed">
                 I used to build fast, aiming for scale and metrics. Now I build
                 aiming for depth and meaning, and ironically, I build much
-                faster. Each project starts with a question about consciousness
-                rather than a problem to solve.
+                faster. Each project starts with a question rather than a
+                problem to solve.
               </p>
 
               <p className="body-lg text-slate-300 leading-relaxed">
