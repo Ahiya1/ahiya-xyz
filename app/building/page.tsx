@@ -46,21 +46,21 @@ const BuildingPage: React.FC = () => {
       title: "Mirror of Truth",
       subtitle: "Recognition over advice",
       description:
-        "AI that reflects your wholeness rather than trying to fix you. Dream analysis and pattern recognition that shows you who you already are, not who you should become.",
+        "AI-powered reflection experience that helps people connect with their dreams through personalized insights. Shows you your wholeness, not your brokenness. Five deep questions, three reflection tones, timeless wisdom.",
       status: "live",
       icon: "🪞",
       blueprintLink: "/blueprint/mirror-of-truth",
       liveLink: "https://mirror-of-truth.vercel.app",
       reflection:
         "Sometimes the most helpful thing AI can do is refuse to give advice.",
-      tech: ["GPT-4", "Next.js", "Prompt engineering", "Contemplative design"],
+      tech: ["Claude Sonnet 4", "Next.js", "PayPal", "Nodemailer", "Redis"],
     },
     {
       id: "winkher",
       title: "WinkHer",
       subtitle: "No men. No noise. Just us.",
       description:
-        "Dating app exclusively for women loving women. Safe space with advanced safety protocols, community-driven matching, and authentic connection design.",
+        "Dating app landing page for women loving women. Market validation through community surveys, bilingual support, and deep analytics. Building the sanctuary before the connections.",
       status: "live",
       icon: "💕",
       blueprintLink: "/blueprint/winkher",
@@ -68,10 +68,11 @@ const BuildingPage: React.FC = () => {
       reflection:
         "Love needs sanctuary. Technology can provide sacred space for authentic connection.",
       tech: [
-        "React Native",
-        "Node.js",
-        "Real-time messaging",
-        "Safety-first architecture",
+        "Next.js",
+        "Supabase",
+        "Tailwind CSS",
+        "TypeScript",
+        "Bilingual i18n",
       ],
     },
     {
@@ -79,16 +80,16 @@ const BuildingPage: React.FC = () => {
       title: "AI Mafia",
       subtitle: "Social deduction with consciousness",
       description:
-        "Players and AI agents explore the delicate dance between truth and deception. A playful meditation on authentic communication and collective awareness.",
+        "Simple yet profound social deduction game where players and AI agents explore truth and deception. Night phases, voting, elimination. What emerges when consciousness plays with illusion?",
       status: "blueprint",
       icon: "🎭",
       blueprintLink: "/blueprint/aimafia",
       reflection: "What can we learn about truth by playing with deception?",
       tech: [
-        "AI agents",
+        "Next.js",
+        "WebSocket",
+        "Claude/GPT agents",
         "Real-time multiplayer",
-        "Social psychology",
-        "Game design",
       ],
     },
   ];
