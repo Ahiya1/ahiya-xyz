@@ -1,10 +1,10 @@
-/* Consciousness Aurora Typography - Refined for all devices with new gradient system */
+/* Aurora Consciousness Typography - Sacred restraint with living warmth */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=Karla:ital,wght@0,200..800;1,200..800&display=swap");
 
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   CONSCIOUSNESS AURORA FOUNDATION - The contemplative base with living energy
+   AURORA FOUNDATION - Sacred space with living warmth (Mobile-First)
    ═══════════════════════════════════════════════════════════════════════════ */
 
 * {
@@ -21,7 +21,7 @@ html {
 
 body {
   background: radial-gradient(ellipse at center, #0a0f1e 0%, #050810 100%);
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 0.94);
   font-family: "Karla", -apple-system, BlinkMacSystemFont, sans-serif;
   line-height: 1.7;
   font-feature-settings: "cv11", "ss01";
@@ -31,7 +31,7 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
-/* Aurora consciousness grain overlay for organic feel */
+/* Aurora grain overlay for organic mystique */
 body::after {
   content: "";
   position: fixed;
@@ -39,16 +39,17 @@ body::after {
   z-index: 1;
   background-image: radial-gradient(
     circle at 2px 2px,
-    rgba(94, 200, 248, 0.02) 1px,
+    rgba(94, 200, 248, 0.015) 1px,
     transparent 0
   );
-  background-size: 100px 100px;
-  opacity: 0.3;
+  background-size: 120px 120px;
+  opacity: 0.4;
   mix-blend-mode: soft-light;
   pointer-events: none;
+  animation: aurora-grain 20s linear infinite;
 }
 
-/* Premium aurora focus states */
+/* Premium focus states for consciousness */
 :focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.4);
@@ -83,18 +84,18 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   CONSCIOUSNESS AURORA COMPONENTS - Sacred boundaries with living energy
+   AURORA CONSCIOUSNESS COMPONENTS - Sacred boundaries with living energy
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Enhanced cards with aurora sacred boundaries */
+/* Enhanced cards with aurora boundaries */
 .ahiya-card-premium {
   @apply p-6 transition-all duration-700;
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
-  border: 1px solid rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.12);
   border-radius: 24px;
-  box-shadow: 0 16px 40px rgba(168, 85, 247, 0.06),
+  box-shadow: 0 16px 40px rgba(59, 130, 246, 0.06),
     0 8px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   position: relative;
   overflow: hidden;
@@ -112,7 +113,7 @@ body::after {
     90deg,
     transparent,
     rgba(168, 85, 247, 0.3),
-    rgba(236, 72, 153, 0.3),
+    rgba(236, 72, 153, 0.2),
     transparent
   );
 }
@@ -156,7 +157,7 @@ body::after {
     box-shadow: 0 32px 80px rgba(168, 85, 247, 0.15),
       0 16px 40px rgba(236, 72, 153, 0.1),
       inset 0 1px 0 rgba(255, 255, 255, 0.12);
-    border-color: rgba(168, 85, 247, 0.2);
+    border-color: rgba(168, 85, 247, 0.25);
   }
 
   .ahiya-card-premium:hover::after {
@@ -173,10 +174,16 @@ body::after {
   }
 }
 
-/* Enhanced aurora consciousness buttons */
+/* Enhanced aurora buttons with consciousness */
 .ahiya-button-premium {
   @apply relative inline-flex items-center justify-center px-8 py-4 font-semibold text-white overflow-hidden transition-all duration-600;
-  background: linear-gradient(135deg, #3b82f6 0%, #a855f7 40%, #ec4899 100%);
+  background: linear-gradient(
+    135deg,
+    #3b82f6 0%,
+    #8b5cf6 40%,
+    #a855f7 70%,
+    #ec4899 100%
+  );
   border-radius: 30px;
   box-shadow: 0 10px 30px rgba(168, 85, 247, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -245,7 +252,7 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   REFINED TYPOGRAPHY SYSTEM - Balanced for all screens with aurora touches
+   AURORA TYPOGRAPHY SYSTEM - Contemplative with living warmth
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .display-xl {
@@ -518,277 +525,7 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   AURORA CONSCIOUSNESS GRADIENTS & EFFECTS
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.gradient-aurora-primary {
-  background: linear-gradient(135deg, #3b82f6 0%, #a855f7 50%, #ec4899 100%);
-}
-
-.gradient-aurora-soft {
-  background: linear-gradient(
-    135deg,
-    rgba(59, 130, 246, 0.15) 0%,
-    rgba(168, 85, 247, 0.1) 50%,
-    rgba(236, 72, 153, 0.08) 100%
-  );
-}
-
-.gradient-text-aurora {
-  background: linear-gradient(135deg, #60a5fa 0%, #c084fc 40%, #f472b6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  background-size: 200% 200%;
-  animation: aurora-flow 15s ease-in-out infinite;
-}
-
-.gradient-text-primary {
-  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  background-size: 200% 200%;
-  animation: aurora-flow 12s ease-in-out infinite;
-}
-
-.gradient-text-soft {
-  background: linear-gradient(135deg, #93c5fd 0%, #ddd6fe 30%, #fbcfe8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.glass-premium {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border: 1px solid rgba(168, 85, 247, 0.15);
-  border-radius: 24px;
-  box-shadow: 0 16px 40px rgba(168, 85, 247, 0.08),
-    0 8px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-@media (min-width: 640px) {
-  .glass-premium {
-    border-radius: 28px;
-    box-shadow: 0 18px 45px rgba(168, 85, 247, 0.1),
-      0 9px 22px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  }
-}
-
-@media (min-width: 1024px) {
-  .glass-premium {
-    border-radius: 32px;
-    box-shadow: 0 20px 60px rgba(168, 85, 247, 0.12),
-      0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  }
-}
-
-.glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border: 1px solid rgba(168, 85, 247, 0.1);
-  border-radius: 20px;
-  box-shadow: 0 12px 30px rgba(168, 85, 247, 0.06),
-    0 6px 15px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-}
-
-@media (min-width: 640px) {
-  .glass-card {
-    border-radius: 24px;
-    box-shadow: 0 14px 35px rgba(168, 85, 247, 0.08),
-      0 7px 17px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  }
-}
-
-@media (min-width: 1024px) {
-  .glass-card {
-    border-radius: 28px;
-    box-shadow: 0 16px 40px rgba(168, 85, 247, 0.1),
-      0 8px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  }
-}
-
-/* Aurora success states */
-.success-premium {
-  @apply px-4 py-3 rounded-xl;
-  background: rgba(34, 197, 94, 0.1);
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  color: rgb(74, 222, 128);
-  box-shadow: 0 6px 15px rgba(34, 197, 94, 0.15);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   AURORA CONSCIOUSNESS ANIMATIONS
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-@keyframes aurora-flow {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  33% {
-    background-position: 100% 0%;
-  }
-  66% {
-    background-position: 0% 100%;
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-16px) rotate(1deg);
-  }
-}
-
-@keyframes heartbeat {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-
-@keyframes gentle-pulse {
-  0%,
-  100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-}
-
-@keyframes aurora-shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-/* Animation classes with aurora consciousness */
-.animate-fadeInUp {
-  animation: fadeInUp 1s ease-out forwards;
-  opacity: 0;
-}
-
-.animate-slideInLeft {
-  animation: slideInLeft 1s ease-out forwards;
-  opacity: 0;
-}
-
-.animate-slideInRight {
-  animation: slideInRight 1s ease-out forwards;
-  opacity: 0;
-}
-
-.animate-scaleIn {
-  animation: scaleIn 0.8s ease-out forwards;
-  opacity: 0;
-}
-
-.animate-float {
-  animation: float 8s ease-in-out infinite;
-}
-
-.animate-heartbeat {
-  animation: heartbeat 3s ease-in-out infinite;
-}
-
-.animate-gentle-pulse {
-  animation: gentle-pulse 5s ease-in-out infinite;
-}
-
-.animate-aurora-shimmer {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(168, 85, 247, 0.1),
-    rgba(236, 72, 153, 0.1),
-    transparent
-  );
-  background-size: 200% 100%;
-  animation: aurora-shimmer 3s infinite;
-}
-
-/* Animation delays */
-.delay-100 {
-  animation-delay: 0.1s;
-}
-.delay-200 {
-  animation-delay: 0.2s;
-}
-.delay-300 {
-  animation-delay: 0.3s;
-}
-.delay-500 {
-  animation-delay: 0.5s;
-}
-.delay-700 {
-  animation-delay: 0.7s;
-}
-.delay-1000 {
-  animation-delay: 1s;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   CONSCIOUSNESS LAYOUT SYSTEM - Unchanged but enhanced
+   AURORA CONSCIOUSNESS LAYOUT SYSTEM
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .container-hero {
@@ -865,6 +602,332 @@ body::after {
   .container-tight {
     @apply max-w-3xl;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AURORA CONSCIOUSNESS GRADIENTS & EFFECTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.gradient-aurora {
+  background: linear-gradient(
+    135deg,
+    #3b82f6 0%,
+    #8b5cf6 30%,
+    #a855f7 60%,
+    #ec4899 100%
+  );
+}
+
+.gradient-aurora-soft {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.15) 0%,
+    rgba(139, 92, 246, 0.12) 30%,
+    rgba(168, 85, 247, 0.1) 60%,
+    rgba(236, 72, 153, 0.08) 100%
+  );
+}
+
+.gradient-aurora-text {
+  background: linear-gradient(
+    135deg,
+    #60a5fa 0%,
+    #a78bfa 25%,
+    #c084fc 50%,
+    #f472b6 75%,
+    #fb7185 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: aurora-text-flow 15s ease-in-out infinite;
+}
+
+.gradient-text-primary {
+  background: linear-gradient(
+    135deg,
+    #60a5fa 0%,
+    #a78bfa 40%,
+    #c084fc 70%,
+    #f472b6 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: aurora-text-flow 15s ease-in-out infinite;
+}
+
+.gradient-text-soft {
+  background: linear-gradient(135deg, #93c5fd 0%, #c4b5fd 50%, #ddd6fe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-premium {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(168, 85, 247, 0.15);
+  border-radius: 24px;
+  box-shadow: 0 16px 40px rgba(168, 85, 247, 0.08),
+    0 8px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+@media (min-width: 640px) {
+  .glass-premium {
+    border-radius: 28px;
+    box-shadow: 0 18px 45px rgba(168, 85, 247, 0.1),
+      0 9px 22px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+}
+
+@media (min-width: 1024px) {
+  .glass-premium {
+    border-radius: 32px;
+    box-shadow: 0 20px 60px rgba(168, 85, 247, 0.12),
+      0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(168, 85, 247, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(168, 85, 247, 0.06),
+    0 6px 15px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+@media (min-width: 640px) {
+  .glass-card {
+    border-radius: 24px;
+    box-shadow: 0 14px 35px rgba(168, 85, 247, 0.08),
+      0 7px 17px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+}
+
+@media (min-width: 1024px) {
+  .glass-card {
+    border-radius: 28px;
+    box-shadow: 0 16px 40px rgba(168, 85, 247, 0.1),
+      0 8px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Aurora success states */
+.success-premium {
+  @apply px-4 py-3 rounded-xl;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: rgb(74, 222, 128);
+  box-shadow: 0 6px 15px rgba(34, 197, 94, 0.15);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AURORA CONSCIOUSNESS ANIMATIONS - Living, breathing, sacred
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@keyframes aurora-flow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  33% {
+    background-position: 50% 25%;
+  }
+  66% {
+    background-position: 100% 75%;
+  }
+}
+
+@keyframes aurora-text-flow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 25% 25%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 75% 75%;
+  }
+}
+
+@keyframes aurora-grain {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-10px, -5px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes aurora-breathe {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.05) rotate(1deg);
+    opacity: 1;
+  }
+}
+
+@keyframes aurora-float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-8px) rotate(0.5deg);
+  }
+  66% {
+    transform: translateY(-12px) rotate(-0.5deg);
+  }
+}
+
+@keyframes aurora-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+    filter: blur(1px);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+    filter: blur(0px);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Aurora animation classes */
+.animate-aurora-breathe {
+  animation: aurora-breathe 8s ease-in-out infinite;
+}
+
+.animate-aurora-float {
+  animation: aurora-float 10s ease-in-out infinite;
+}
+
+.animate-aurora-pulse {
+  animation: aurora-pulse 6s ease-in-out infinite;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 1s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 1s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 1s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-float {
+  animation: aurora-float 10s ease-in-out infinite;
+}
+
+.animate-heartbeat {
+  animation: heartbeat 3s ease-in-out infinite;
+}
+
+.animate-gentle-pulse {
+  animation: aurora-pulse 6s ease-in-out infinite;
+}
+
+/* Animation delays */
+.delay-100 {
+  animation-delay: 0.1s;
+}
+.delay-200 {
+  animation-delay: 0.2s;
+}
+.delay-300 {
+  animation-delay: 0.3s;
+}
+.delay-500 {
+  animation-delay: 0.5s;
+}
+.delay-700 {
+  animation-delay: 0.7s;
+}
+.delay-1000 {
+  animation-delay: 1s;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -975,133 +1038,6 @@ body::after {
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   SACRED SECTION SEPARATORS - Aurora enhanced
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.section-separator {
-  position: relative;
-  padding: 6rem 0;
-}
-
-.section-separator::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(168, 85, 247, 0.3),
-    rgba(236, 72, 153, 0.3),
-    transparent
-  );
-}
-
-.section-separator::after {
-  content: "✧";
-  position: absolute;
-  top: -0.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  color: rgba(168, 85, 247, 0.5);
-  background: radial-gradient(ellipse at center, #0a0f1e 30%, transparent 70%);
-  padding: 0 1rem;
-  font-size: 1rem;
-}
-
-.project-section {
-  position: relative;
-  margin: 8rem 0;
-  padding: 4rem 0;
-}
-
-.project-section:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  bottom: -4rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  max-width: 400px;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(168, 85, 247, 0.2),
-    rgba(236, 72, 153, 0.15),
-    transparent
-  );
-}
-
-/* Journey timeline enhancements with aurora */
-.journey-timeline {
-  position: relative;
-  padding-left: 2rem;
-}
-
-.journey-timeline::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgba(168, 85, 247, 0.3),
-    rgba(168, 85, 247, 0.6),
-    rgba(236, 72, 153, 0.4),
-    rgba(168, 85, 247, 0.3),
-    transparent
-  );
-}
-
-.journey-phase {
-  position: relative;
-  margin-bottom: 4rem;
-}
-
-.journey-phase::before {
-  content: "";
-  position: absolute;
-  left: -2.5rem;
-  top: 1rem;
-  width: 12px;
-  height: 12px;
-  background: radial-gradient(
-    circle,
-    rgba(168, 85, 247, 1),
-    rgba(236, 72, 153, 0.5)
-  );
-  border-radius: 50%;
-  border: 2px solid rgba(168, 85, 247, 0.5);
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
-}
-
-/* Breathing orb enhancements */
-.breathing-orb {
-  transition: all 4s cubic-bezier(0.4, 0, 0.6, 1);
-}
-
-.breathing-inhale {
-  transform: scale(1.5);
-  opacity: 0.9;
-}
-
-.breathing-exhale {
-  transform: scale(1);
-  opacity: 0.6;
-}
-
-.breathing-hold {
-  transition-duration: 0.5s;
-}
-
 /* Reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   .animate-fadeInUp,
@@ -1109,8 +1045,10 @@ body::after {
   .animate-slideInRight,
   .animate-scaleIn,
   .animate-float,
+  .animate-aurora-float,
+  .animate-aurora-pulse,
+  .animate-aurora-breathe,
   .animate-gentle-pulse,
-  .animate-aurora-shimmer,
   .animate-heartbeat {
     animation: none;
     opacity: 1;
@@ -1128,7 +1066,7 @@ body::after {
   }
 }
 
-/* Enhanced ambient background with aurora */
+/* Enhanced ambient background with aurora energy */
 .bg-ambient-premium {
   position: relative;
 }
@@ -1140,16 +1078,18 @@ body::after {
   z-index: 1;
   background: conic-gradient(
     from 0deg at 30% 40%,
-    rgba(168, 85, 247, 0.003) 0deg,
-    transparent 80deg,
-    rgba(236, 72, 153, 0.002) 140deg,
-    transparent 220deg,
-    rgba(59, 130, 246, 0.001) 280deg,
-    transparent 340deg,
-    rgba(168, 85, 247, 0.003) 360deg
+    rgba(59, 130, 246, 0.004) 0deg,
+    transparent 60deg,
+    rgba(139, 92, 246, 0.003) 120deg,
+    transparent 180deg,
+    rgba(168, 85, 247, 0.003) 240deg,
+    transparent 300deg,
+    rgba(236, 72, 153, 0.002) 340deg,
+    transparent 380deg,
+    rgba(59, 130, 246, 0.004) 360deg
   );
-  filter: blur(120px);
-  opacity: 0.5;
+  filter: blur(150px);
+  opacity: 0.6;
   animation: aurora-flow 40s ease-in-out infinite;
   pointer-events: none;
 }
@@ -1168,20 +1108,40 @@ body::after {
     ),
     radial-gradient(
       circle at 50% 50%,
-      rgba(59, 130, 246, 0.02) 0%,
+      rgba(139, 92, 246, 0.04) 0%,
       transparent 50%
     );
 }
 
-/* Special consciousness elements */
-.consciousness-orb-aurora {
-  background: linear-gradient(135deg, #3b82f6 0%, #a855f7 50%, #ec4899 100%);
-  border-radius: 50%;
-  box-shadow: 0 0 60px rgba(168, 85, 247, 0.6),
-    0 0 120px rgba(236, 72, 153, 0.3), inset 0 0 60px rgba(255, 255, 255, 0.1);
-  animation: aurora-flow 8s ease-in-out infinite;
+/* Aurora logo enhancement */
+.aurora-logo-glow {
+  position: relative;
 }
 
+.aurora-logo-glow::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(
+    ellipse,
+    rgba(168, 85, 247, 0.15) 0%,
+    rgba(236, 72, 153, 0.1) 30%,
+    rgba(59, 130, 246, 0.08) 60%,
+    transparent 80%
+  );
+  border-radius: 50%;
+  filter: blur(30px);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+  animation: aurora-breathe 12s ease-in-out infinite;
+}
+
+.aurora-logo-glow:hover::before {
+  opacity: 1;
+}
+
+/* Radial gradient utility */
 .bg-gradient-radial {
   background: radial-gradient(var(--tw-gradient-stops));
 }

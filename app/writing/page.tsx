@@ -12,7 +12,7 @@ const WritingPage: React.FC = () => {
     setMounted(true);
   }, []);
 
-  // Writings as sacred containers - Aurora Enhanced
+  // Writings as sacred aurora containers
   interface Writing {
     id: string;
     title: string;
@@ -24,9 +24,9 @@ const WritingPage: React.FC = () => {
     essence: string;
     link: string;
     featured?: boolean;
-    auraColor: string;
-    gradientFrom: string;
-    gradientTo: string;
+    auroraSignature: string;
+    auroraAccent: string;
+    contemplativeTheme: string;
   }
 
   const writings: Writing[] = [
@@ -44,9 +44,9 @@ const WritingPage: React.FC = () => {
         "The keystone story. The realization that consciousness has been trying too hard.",
       link: "/writing/sacred-potato",
       featured: true,
-      auraColor: "rgba(168, 85, 247, 0.6)",
-      gradientFrom: "from-aurora-blue",
-      gradientTo: "to-aurora-purple",
+      auroraSignature: "from-yellow-400 via-orange-500 to-pink-500",
+      auroraAccent: "yellow-400",
+      contemplativeTheme: "warm and grounding",
     },
     {
       id: "sacred-wound",
@@ -59,10 +59,10 @@ const WritingPage: React.FC = () => {
       readTime: "18 min read",
       icon: "🌳",
       essence: "A map of exodus from the sacred wound.",
-      auraColor: "rgba(236, 72, 153, 0.6)",
-      gradientFrom: "from-aurora-purple",
-      gradientTo: "to-aurora-pink",
       link: "/writing/sacred-wound",
+      auroraSignature: "from-green-500 via-blue-500 to-purple-500",
+      auroraAccent: "green-400",
+      contemplativeTheme: "healing and growth",
     },
     {
       id: "edge-space",
@@ -75,18 +75,18 @@ const WritingPage: React.FC = () => {
       readTime: "12 min read",
       icon: "⚡",
       essence: "A refusal to fragment. Integration of ambition and awareness.",
-      auraColor: "rgba(192, 132, 252, 0.6)",
-      gradientFrom: "from-aurora-light-blue",
-      gradientTo: "to-aurora-light-purple",
       link: "/writing/edge-space",
+      auroraSignature: "from-blue-500 via-purple-500 to-pink-500",
+      auroraAccent: "purple-400",
+      contemplativeTheme: "integration and balance",
     },
   ];
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-consciousness-900 to-cosmic-900 flex items-center justify-center">
-        <div className="animate-gentle-pulse">
-          <div className="w-16 h-16 bg-aurora-primary/20 rounded-full consciousness-orb-aurora"></div>
+      <div className="min-h-screen bg-gradient-to-br from-blue-950 via-purple-950 to-pink-950 flex items-center justify-center">
+        <div className="animate-aurora-pulse">
+          <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full opacity-60"></div>
         </div>
       </div>
     );
@@ -94,34 +94,35 @@ const WritingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden bg-ambient-premium safe-area-top safe-area-bottom">
-      {/* Aurora consciousness texture */}
-      <div className="fixed inset-0 z-0 opacity-10">
+      {/* Enhanced aurora consciousness texture */}
+      <div className="fixed inset-0 z-0 opacity-15">
         <div
           className="absolute inset-0"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 2px 2px, rgba(168, 85, 247, 0.15) 1px, transparent 0)",
-            backgroundSize: "60px 60px",
+              "radial-gradient(circle at 2px 2px, rgba(168, 85, 247, 0.2) 1px, transparent 0)",
+            backgroundSize: "80px 80px",
+            animation: "aurora-grain 25s linear infinite",
           }}
         />
       </div>
 
-      {/* Sacred Navigation with Aurora */}
+      {/* Sacred Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
         <div className="container-hero">
           <div className="flex items-center justify-between h-20">
             <Link href="/" className="flex items-center space-x-3 group">
-              <div className="relative">
+              <div className="relative aurora-logo-glow">
                 <Image
                   src="/logo-symbol.png"
                   alt="Ahiya"
                   width={36}
                   height={36}
-                  className="transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 animate-float"
+                  className="transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 animate-aurora-float"
                 />
-                <div className="absolute inset-0 bg-aurora-primary/30 rounded-full blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 via-pink-500/20 to-blue-500/30 rounded-full blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
-              <span className="text-xl font-medium gradient-text-primary">
+              <span className="text-xl font-medium gradient-aurora-text">
                 Ahiya
               </span>
             </Link>
@@ -132,46 +133,47 @@ const WritingPage: React.FC = () => {
                 className="text-gray-300 hover:text-white transition-all duration-300 font-medium hover:scale-105 relative group"
               >
                 Home
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-aurora-primary transition-all duration-300 group-hover:w-full"></div>
+                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-300 group-hover:w-full"></div>
               </Link>
               <Link
                 href="/journey"
                 className="text-gray-300 hover:text-white transition-all duration-300 font-medium hover:scale-105 relative group"
               >
                 Journey
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-aurora-primary transition-all duration-300 group-hover:w-full"></div>
+                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-300 group-hover:w-full"></div>
               </Link>
               <Link
                 href="/building"
                 className="text-gray-300 hover:text-white transition-all duration-300 font-medium hover:scale-105 relative group"
               >
                 Building
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-aurora-primary transition-all duration-300 group-hover:w-full"></div>
+                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-300 group-hover:w-full"></div>
               </Link>
               <Link
                 href="/connect"
                 className="text-gray-300 hover:text-white transition-all duration-300 font-medium hover:scale-105 relative group"
               >
                 Connect
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-aurora-primary transition-all duration-300 group-hover:w-full"></div>
+                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-300 group-hover:w-full"></div>
               </Link>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Hero with Aurora Enhancement */}
+      {/* Hero */}
       <section className="pt-32 pb-20">
         <div className="container-content text-center">
           <div className="animate-slideInUp">
-            <div className="inline-flex items-center space-x-3 glass-premium px-8 py-4 mb-16 bg-aurora-soft border-aurora-primary/20">
-              <FileText className="w-6 h-6 text-aurora-primary animate-gentle-pulse" />
-              <span className="text-aurora-primary font-medium tracking-wider text-lg">
+            <div className="inline-flex items-center space-x-3 glass-premium px-8 py-4 mb-16 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/10 to-pink-500/5 opacity-60"></div>
+              <FileText className="w-6 h-6 text-purple-400 relative z-10" />
+              <span className="gradient-aurora-text font-medium tracking-wider text-lg relative z-10">
                 Writing
               </span>
             </div>
 
-            <h1 className="display-lg gradient-text-aurora mb-16 leading-tight">
+            <h1 className="display-lg gradient-aurora-text mb-16 leading-tight">
               Contemplations on Consciousness
             </h1>
 
@@ -186,7 +188,7 @@ const WritingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Featured Writing with Aurora */}
+      {/* Featured Writing - Sacred Potato Aurora */}
       {writings.find((w) => w.featured) && (
         <section className="py-20">
           <div className="container-content">
@@ -194,56 +196,55 @@ const WritingPage: React.FC = () => {
               const featured = writings.find((w) => w.featured)!;
               return (
                 <div className="text-center mb-20">
-                  <div className="inline-flex items-center space-x-3 glass-premium px-8 py-4 bg-aurora-soft border-aurora-primary/20 mb-16">
-                    <span className="text-2xl animate-consciousness-pulse">
-                      ⭐
-                    </span>
-                    <span className="text-aurora-primary font-medium tracking-wider text-lg">
+                  <div className="inline-flex items-center space-x-3 glass-premium px-8 py-4 mb-16 relative overflow-hidden">
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-r ${featured.auroraSignature} opacity-15`}
+                    ></div>
+                    <span className="text-2xl relative z-10">⭐</span>
+                    <span
+                      className={`text-${featured.auroraAccent} font-medium tracking-wider text-lg relative z-10`}
+                    >
                       Featured Contemplation
                     </span>
-                    <span
-                      className="text-2xl animate-consciousness-pulse"
-                      style={{ animationDelay: "2s" }}
-                    >
-                      ⭐
-                    </span>
+                    <span className="text-2xl relative z-10">⭐</span>
                   </div>
 
                   <Link href={featured.link} className="block">
-                    <article
-                      className="max-w-4xl mx-auto ahiya-card-premium hover-lift-premium cursor-pointer group bg-aurora-soft border-aurora-primary/20 relative overflow-hidden"
-                      style={{
-                        boxShadow: `0 0 60px ${featured.auraColor}, inset 0 0 60px ${featured.auraColor}20`,
-                      }}
-                    >
-                      {/* Aurora consciousness glow */}
-                      <div className="absolute inset-0 bg-consciousness-pattern opacity-30"></div>
+                    <article className="max-w-4xl mx-auto ahiya-card-premium hover-lift-premium cursor-pointer group relative overflow-hidden">
+                      {/* Featured aurora background */}
                       <div
-                        className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-700 rounded-3xl"
-                        style={{
-                          boxShadow: `0 0 120px ${featured.auraColor}, inset 0 0 120px ${featured.auraColor}30`,
-                        }}
+                        className={`absolute inset-0 bg-gradient-to-br ${featured.auroraSignature} opacity-0 group-hover:opacity-12 transition-opacity duration-700`}
                       ></div>
 
                       <div className="relative z-10">
                         <div className="text-center mb-12">
-                          <div className="text-8xl mb-8 animate-float group-hover:scale-110 transition-transform duration-500">
+                          <div
+                            className="text-8xl mb-8 animate-aurora-float group-hover:scale-110 transition-transform duration-500 filter drop-shadow-lg"
+                            style={{
+                              filter: `drop-shadow(0 0 25px rgba(255, 193, 7, 0.4))`,
+                            }}
+                          >
                             {featured.icon}
                           </div>
 
                           <div className="flex items-center justify-center mb-8">
-                            <div className="glass-premium px-6 py-3 border-aurora-primary/20">
-                              <span className="text-sm text-aurora-primary font-medium tracking-wider">
+                            <div className="glass-premium px-6 py-3 relative overflow-hidden">
+                              <div
+                                className={`absolute inset-0 bg-gradient-to-r ${featured.auroraSignature} opacity-20`}
+                              ></div>
+                              <span
+                                className={`text-sm text-${featured.auroraAccent} font-medium tracking-wider relative z-10`}
+                              >
                                 {featured.readTime}
                               </span>
                             </div>
                           </div>
 
-                          <h2 className="heading-xl text-white mb-6 group-hover:text-aurora-light transition-colors duration-300 leading-tight">
+                          <h2 className="heading-xl text-white mb-6 group-hover:text-yellow-100 transition-colors duration-300 leading-tight">
                             {featured.title}
                           </h2>
 
-                          <p className="body-lg text-aurora-light font-medium mb-10 leading-relaxed tracking-wide">
+                          <p className="body-lg text-gray-200 font-medium mb-10 leading-relaxed tracking-wide">
                             {featured.subtitle}
                           </p>
 
@@ -251,14 +252,22 @@ const WritingPage: React.FC = () => {
                             {featured.description}
                           </p>
 
-                          <div className="glass-card p-10 mb-12 border-aurora-primary/20">
+                          <div className="glass-card p-10 mb-12 relative overflow-hidden">
+                            <div
+                              className={`absolute top-0 left-0 w-20 h-px bg-gradient-to-r ${featured.auroraSignature} opacity-50`}
+                            ></div>
                             <p className="text-gray-300 italic text-lg leading-loose tracking-wide">
-                              &ldquo;{featured.preview}&rdquo;
+                              "{featured.preview}"
                             </p>
                           </div>
 
-                          <div className="glass-card p-8 mb-12 border-aurora-primary/20">
-                            <p className="text-aurora-primary italic text-lg leading-relaxed tracking-wide">
+                          <div className="glass-card p-8 mb-12 relative overflow-hidden">
+                            <div
+                              className={`absolute bottom-0 right-0 w-16 h-px bg-gradient-to-l ${featured.auroraSignature} opacity-60`}
+                            ></div>
+                            <p
+                              className={`text-${featured.auroraAccent} italic text-lg leading-relaxed tracking-wide`}
+                            >
                               🪞 {featured.essence}
                             </p>
                           </div>
@@ -267,10 +276,18 @@ const WritingPage: React.FC = () => {
                             <span className="text-gray-500 tracking-wide mr-4">
                               Read the full contemplation
                             </span>
-                            <ArrowRight className="w-6 h-6 text-gray-500 group-hover:text-aurora-primary group-hover:translate-x-1 transition-all duration-300" />
+                            <ArrowRight className="w-6 h-6 text-gray-500 group-hover:text-gray-400 group-hover:translate-x-1 transition-all duration-300" />
                           </div>
                         </div>
                       </div>
+
+                      {/* Aurora corner accents for featured */}
+                      <div
+                        className={`absolute top-4 right-4 w-12 h-0.5 bg-gradient-to-l ${featured.auroraSignature} opacity-40 group-hover:opacity-80 transition-opacity duration-500`}
+                      ></div>
+                      <div
+                        className={`absolute bottom-4 left-4 w-16 h-0.5 bg-gradient-to-r ${featured.auroraSignature} opacity-40 group-hover:opacity-80 transition-opacity duration-500`}
+                      ></div>
                     </article>
                   </Link>
                 </div>
@@ -280,7 +297,7 @@ const WritingPage: React.FC = () => {
         </section>
       )}
 
-      {/* All Writings with Aurora Enhancement */}
+      {/* All Writings with Aurora Signatures */}
       <section className="py-20">
         <div className="container-content">
           <div className="text-center mb-20">
@@ -299,76 +316,89 @@ const WritingPage: React.FC = () => {
               <Link key={writing.id} href={writing.link} className="block">
                 <article
                   className={`ahiya-card-premium group hover-lift-premium animate-scaleIn cursor-pointer h-full relative overflow-hidden ${
-                    writing.featured
-                      ? "border-aurora-primary/20 bg-aurora-soft"
-                      : "border-aurora-primary/10"
+                    writing.featured ? "border-yellow-400/15" : ""
                   }`}
-                  style={{
-                    animationDelay: `${index * 200}ms`,
-                    boxShadow: `0 0 30px ${writing.auraColor}30, inset 0 0 30px ${writing.auraColor}10`,
-                  }}
+                  style={{ animationDelay: `${index * 200}ms` }}
                 >
-                  {/* Aurora hover glow */}
+                  {/* Writing aurora background */}
                   <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-700 rounded-3xl"
-                    style={{
-                      boxShadow: `0 0 80px ${writing.auraColor}, inset 0 0 80px ${writing.auraColor}20`,
-                    }}
+                    className={`absolute inset-0 bg-gradient-to-br ${writing.auroraSignature} opacity-0 group-hover:opacity-8 transition-opacity duration-700`}
                   ></div>
 
-                  <div className="relative z-10">
-                    <div className="mobile-spacing-md h-full flex flex-col">
-                      {writing.featured && (
-                        <div className="flex justify-center mb-6">
-                          <div className="glass-premium px-4 py-2 bg-aurora-primary/10 border border-aurora-primary/20">
-                            <span className="text-xs text-aurora-primary font-medium tracking-wider">
-                              FEATURED
-                            </span>
-                          </div>
-                        </div>
-                      )}
-
-                      <div className="flex items-center justify-between mb-10">
-                        <div className="glass-premium px-5 py-3 border-aurora-primary/20">
-                          <span className="text-sm text-aurora-primary font-medium tracking-wider">
-                            {writing.readTime}
+                  <div className="mobile-spacing-md h-full flex flex-col relative z-10">
+                    {writing.featured && (
+                      <div className="flex justify-center mb-6">
+                        <div className="glass-premium px-4 py-2 relative overflow-hidden">
+                          <div
+                            className={`absolute inset-0 bg-gradient-to-r ${writing.auroraSignature} opacity-20`}
+                          ></div>
+                          <span
+                            className={`text-xs text-${writing.auroraAccent} font-medium tracking-wider relative z-10`}
+                          >
+                            FEATURED
                           </span>
                         </div>
-                        <div className="text-5xl animate-float group-hover:scale-110 transition-transform duration-500">
-                          {writing.icon}
-                        </div>
                       </div>
+                    )}
 
-                      <h3 className="heading-lg text-white mb-6 group-hover:text-aurora-light transition-colors duration-300 leading-tight">
-                        {writing.title}
-                      </h3>
-
-                      <p className="body-md text-aurora-light font-medium mb-8 leading-relaxed tracking-wide">
-                        {writing.subtitle}
-                      </p>
-
-                      <p className="text-gray-400 leading-loose tracking-wide mb-10 text-sm flex-grow">
-                        {writing.description}
-                      </p>
-
-                      <div className="glass-card p-8 mb-8 border-aurora-primary/20">
-                        <p className="text-gray-300 italic text-sm leading-loose tracking-wide">
-                          &ldquo;{writing.preview}&rdquo;
-                        </p>
-                      </div>
-
-                      <div className="glass-card p-6 mb-10 border-aurora-primary/20">
-                        <p className="text-aurora-primary italic text-sm leading-relaxed tracking-wide">
-                          🪞 {writing.essence}
-                        </p>
-                      </div>
-
-                      <div className="flex items-center justify-between mt-auto">
-                        <span className="text-sm text-gray-500 tracking-wide">
-                          Read the full contemplation
+                    <div className="flex items-center justify-between mb-10">
+                      <div className="glass-premium px-5 py-3 relative overflow-hidden">
+                        <div
+                          className={`absolute inset-0 bg-gradient-to-r ${writing.auroraSignature} opacity-15`}
+                        ></div>
+                        <span
+                          className={`text-sm text-${writing.auroraAccent} font-medium tracking-wider relative z-10`}
+                        >
+                          {writing.readTime}
                         </span>
-                        <ArrowRight className="w-5 h-5 text-gray-500 group-hover:text-aurora-primary group-hover:translate-x-1 transition-all duration-300" />
                       </div>
+                      <div
+                        className="text-5xl animate-aurora-float group-hover:scale-110 transition-transform duration-500 filter drop-shadow-lg"
+                        style={{
+                          filter: `drop-shadow(0 0 15px rgba(168, 85, 247, 0.3))`,
+                        }}
+                      >
+                        {writing.icon}
+                      </div>
+                    </div>
+
+                    <h3 className="heading-lg text-white mb-6 group-hover:text-purple-100 transition-colors duration-300 leading-tight">
+                      {writing.title}
+                    </h3>
+
+                    <p className="body-md text-gray-200 font-medium mb-8 leading-relaxed tracking-wide">
+                      {writing.subtitle}
+                    </p>
+
+                    <p className="text-gray-400 leading-loose tracking-wide mb-10 text-sm flex-grow">
+                      {writing.description}
+                    </p>
+
+                    <div className="glass-card p-8 mb-8 relative overflow-hidden">
+                      <div
+                        className={`absolute top-0 right-0 w-12 h-px bg-gradient-to-l ${writing.auroraSignature} opacity-40`}
+                      ></div>
+                      <p className="text-gray-300 italic text-sm leading-loose tracking-wide">
+                        "{writing.preview}"
+                      </p>
+                    </div>
+
+                    <div className="glass-card p-6 mb-10 relative overflow-hidden">
+                      <div
+                        className={`absolute bottom-0 left-0 w-8 h-px bg-gradient-to-r ${writing.auroraSignature} opacity-50`}
+                      ></div>
+                      <p
+                        className={`text-${writing.auroraAccent} italic text-sm leading-relaxed tracking-wide`}
+                      >
+                        🪞 {writing.essence}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center justify-between mt-auto">
+                      <span className="text-sm text-gray-500 tracking-wide">
+                        Read the full contemplation
+                      </span>
+                      <ArrowRight className="w-5 h-5 text-gray-500 group-hover:text-gray-400 group-hover:translate-x-1 transition-all duration-300" />
                     </div>
                   </div>
                 </article>
@@ -378,19 +408,25 @@ const WritingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Sacred Call to Contemplation with Aurora */}
+      {/* Sacred Call to Contemplation - Aurora Enhanced */}
       <section className="py-40">
         <div className="container-narrow text-center">
-          <div className="ahiya-card-premium hover-lift-premium animate-scaleIn relative overflow-hidden border-aurora-primary/20">
+          <div className="ahiya-card-premium hover-lift-premium animate-scaleIn relative overflow-hidden">
+            {/* Contemplation aurora background */}
             <div className="absolute inset-0 bg-consciousness-pattern opacity-30"></div>
-            <div className="absolute inset-0 bg-aurora-soft opacity-40"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/8 to-pink-500/5 opacity-60"></div>
 
             <div className="relative z-10 mobile-spacing-lg">
-              <div className="text-7xl mb-12 animate-consciousness-pulse">
+              <div
+                className="text-7xl mb-12 animate-aurora-float filter drop-shadow-lg"
+                style={{
+                  filter: `drop-shadow(0 0 20px rgba(168, 85, 247, 0.4))`,
+                }}
+              >
                 📖
               </div>
 
-              <h2 className="display-md gradient-text-aurora mb-12 leading-tight">
+              <h2 className="display-md gradient-aurora-text mb-12 leading-tight">
                 The Art of Sacred Questioning
               </h2>
 
@@ -402,212 +438,64 @@ const WritingPage: React.FC = () => {
                 To sit with mystery. To find wisdom in not-knowing.
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-                <div className="glass-card p-10 hover-lift-premium group border-aurora-primary/20">
-                  <div className="text-5xl mb-8 animate-float group-hover:scale-110 transition-transform duration-500">
-                    🤔
-                  </div>
-                  <h3 className="heading-lg text-aurora-light mb-6">
-                    Sacred Inquiry
-                  </h3>
-                  <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
-                    Questions that pierce through the veil of seeking and reveal
-                    what was already here. The art of asking from not-knowing
-                    rather than from need.
-                  </p>
-                </div>
-
-                <div className="glass-card p-10 hover-lift-premium group border-aurora-primary/20">
-                  <div
-                    className="text-5xl mb-8 animate-float group-hover:scale-110 transition-transform duration-500"
-                    style={{ animationDelay: "3s" }}
-                  >
-                    🪞
-                  </div>
-                  <h3 className="heading-lg text-aurora-primary mb-6">
-                    Consciousness Mirroring
-                  </h3>
-                  <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
-                    Each piece reflects consciousness back to itself, offering
-                    recognition rather than answers. The mirror doesn&apos;t
-                    judge—it simply shows what is.
-                  </p>
-                </div>
-              </div>
-
-              <div className="glass-card p-12 border-aurora-primary/20">
-                <p className="text-aurora-primary italic leading-loose tracking-wide text-xl mb-6">
-                  &ldquo;The goal isn&apos;t to understand consciousness.
+              <div className="glass-card p-12 mb-16 relative overflow-hidden">
+                <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-purple-400/50 to-transparent"></div>
+                <p className="gradient-aurora-text italic leading-loose tracking-wide text-xl">
+                  "The goal isn&apos;t to understand consciousness.
                   <br />
                   The goal is to recognize that you ARE consciousness
                   <br />
-                  trying to understand itself.&rdquo;
+                  trying to understand itself."
                 </p>
-                <div className="flex justify-center space-x-2">
-                  <div className="w-2 h-2 bg-aurora-blue rounded-full animate-gentle-pulse"></div>
-                  <div
-                    className="w-2 h-2 bg-aurora-purple rounded-full animate-gentle-pulse"
-                    style={{ animationDelay: "1s" }}
-                  ></div>
-                  <div
-                    className="w-2 h-2 bg-aurora-pink rounded-full animate-gentle-pulse"
-                    style={{ animationDelay: "2s" }}
-                  ></div>
-                </div>
+                <div className="absolute bottom-0 left-1/3 right-1/3 h-px bg-gradient-to-r from-transparent via-pink-400/50 to-transparent"></div>
               </div>
 
-              <p className="text-gray-400 italic max-w-3xl mx-auto leading-loose tracking-wide mt-12">
+              <p className="text-gray-400 italic max-w-3xl mx-auto leading-loose tracking-wide">
                 Each piece is an offering to the mystery you are,
                 <br />a mirror reflecting what was always already here.
               </p>
             </div>
+
+            {/* Aurora contemplation accents */}
+            <div className="absolute top-4 right-4 w-20 h-0.5 bg-gradient-to-l from-purple-500/40 via-pink-500/30 to-transparent rounded-full"></div>
+            <div className="absolute bottom-4 left-4 w-16 h-0.5 bg-gradient-to-r from-blue-500/40 via-purple-500/30 to-transparent rounded-full"></div>
+            <div className="absolute top-1/2 left-0 w-0.5 h-12 bg-gradient-to-b from-purple-500/30 via-pink-500/20 to-transparent rounded-full"></div>
           </div>
         </div>
       </section>
 
-      {/* Aurora Consciousness Reading Invitation */}
-      <section className="py-40">
-        <div className="container-narrow text-center">
-          <div className="ahiya-card-premium hover-lift-premium animate-scaleIn relative overflow-hidden border-aurora-primary/20">
-            <div className="absolute inset-0 bg-aurora-soft opacity-20"></div>
-
-            <div className="relative z-10 mobile-spacing-lg">
-              <div className="text-8xl mb-12 animate-float">🌟</div>
-
-              <h2 className="display-md gradient-text-aurora mb-12 leading-tight">
-                An Invitation to Reading as Practice
-              </h2>
-
-              <p className="body-xl text-gray-300 max-w-4xl mx-auto leading-loose tracking-wide mb-16">
-                What if reading could be as transformative as meditation?
-                <br />
-                Each word an invitation to presence.
-                <br />
-                Each sentence a doorway into deeper seeing.
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <div className="glass-card p-8 hover-lift-premium group border-aurora-primary/20">
-                  <div className="text-4xl mb-6 animate-float group-hover:scale-110 transition-transform duration-500">
-                    📖
-                  </div>
-                  <h3 className="heading-md text-aurora-blue mb-4">
-                    Read Slowly
-                  </h3>
-                  <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors">
-                    Let each word land. Feel its weight. Notice what arises in
-                    the spaces between sentences.
-                  </p>
-                </div>
-
-                <div className="glass-card p-8 hover-lift-premium group border-aurora-primary/20">
-                  <div
-                    className="text-4xl mb-6 animate-float group-hover:scale-110 transition-transform duration-500"
-                    style={{ animationDelay: "2s" }}
-                  >
-                    💭
-                  </div>
-                  <h3 className="heading-md text-aurora-purple mb-4">
-                    Notice Resistance
-                  </h3>
-                  <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors">
-                    When something challenges you, pause. That&apos;s where the
-                    gold is hiding.
-                  </p>
-                </div>
-
-                <div className="glass-card p-8 hover-lift-premium group border-aurora-primary/20">
-                  <div
-                    className="text-4xl mb-6 animate-float group-hover:scale-110 transition-transform duration-500"
-                    style={{ animationDelay: "4s" }}
-                  >
-                    🤲
-                  </div>
-                  <h3 className="heading-md text-aurora-pink mb-4">
-                    Stay Open
-                  </h3>
-                  <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors">
-                    Don&apos;t try to understand. Let understanding arise
-                    naturally, like dawn.
-                  </p>
-                </div>
-              </div>
-
-              <div className="glass-card p-12 border-aurora-primary/20">
-                <p className="text-aurora-primary italic leading-loose tracking-wide text-xl">
-                  &ldquo;These words are not meant to inform you.
-                  <br />
-                  They&apos;re meant to recognize you.&rdquo;
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Sacred Footer with Aurora */}
-      <footer className="py-24 border-t border-aurora-primary/20">
+      {/* Sacred Footer */}
+      <footer className="py-24 border-t border-gray-800/30 relative">
         <div className="container-content text-center mobile-spacing-sm">
           <div className="flex justify-center mb-10">
-            <div className="relative">
+            <div className="aurora-logo-glow">
               <Image
                 src="/logo-symbol.png"
                 alt="Ahiya"
                 width={44}
                 height={44}
-                className="opacity-60 animate-float"
+                className="opacity-60 animate-aurora-float"
               />
-              <div className="absolute inset-0 bg-aurora-primary/20 rounded-full blur-xl scale-150 animate-gentle-pulse"></div>
             </div>
           </div>
 
           <p className="text-gray-400 mb-6 tracking-wide text-lg">
             Made with reverence by{" "}
-            <span className="text-white font-medium gradient-text-primary">
+            <span className="text-white font-medium gradient-aurora-text">
               Ahiya
             </span>
           </p>
 
           <p className="text-gray-500 italic leading-relaxed tracking-wide mb-8">
-            &ldquo;Technology that serves consciousness&rdquo;
+            "Technology that serves consciousness"
           </p>
 
           <p className="text-xs text-gray-600 tracking-wider">
             © {new Date().getFullYear()} Ahiya Butman. Space becoming human
             becoming space.
           </p>
-
-          {/* Aurora footer decoration */}
-          <div className="flex justify-center space-x-4 mt-12">
-            <div className="w-1 h-1 bg-aurora-blue rounded-full animate-gentle-pulse"></div>
-            <div
-              className="w-1 h-1 bg-aurora-purple rounded-full animate-gentle-pulse"
-              style={{ animationDelay: "1s" }}
-            ></div>
-            <div
-              className="w-1 h-1 bg-aurora-pink rounded-full animate-gentle-pulse"
-              style={{ animationDelay: "2s" }}
-            ></div>
-          </div>
         </div>
       </footer>
-
-      {/* Enhanced CSS */}
-      <style jsx>{`
-        .consciousness-orb-aurora {
-          background: linear-gradient(
-            135deg,
-            #3b82f6 0%,
-            #a855f7 50%,
-            #ec4899 100%
-          );
-          border-radius: 50%;
-          box-shadow: 0 0 60px rgba(168, 85, 247, 0.6),
-            0 0 120px rgba(236, 72, 153, 0.3),
-            inset 0 0 60px rgba(255, 255, 255, 0.1);
-          animation: aurora-flow 8s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   );
 };

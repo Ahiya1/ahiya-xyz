@@ -15,8 +15,8 @@ import {
   Pause,
 } from "lucide-react";
 
-// Aurora Enhanced Breathing Orb - Pure presence flow with consciousness colors
-const BreathingOrb: React.FC = () => {
+// Aurora Enhanced Breathing Orb - Pure presence flow with aurora consciousness
+const AuroraBreathingOrb: React.FC = () => {
   const [isBreathing, setIsBreathing] = useState<boolean>(false);
   const [breathPhase, setBreathPhase] = useState<string>("rest");
   const [breathProgress, setBreathProgress] = useState<number>(0);
@@ -66,10 +66,8 @@ const BreathingOrb: React.FC = () => {
     if (!isBreathing) {
       return {
         transform: "scale(1)",
-        opacity: 0.6,
+        opacity: 0.7,
         filter: "blur(1px)",
-        background:
-          "linear-gradient(135deg, #3b82f6 0%, #a855f7 50%, #ec4899 100%)",
       };
     }
 
@@ -77,50 +75,39 @@ const BreathingOrb: React.FC = () => {
     const inhaleScale = 1 + breathProgress * 0.8; // 1 to 1.8
     const exhaleScale = 1.8 - breathProgress * 0.8; // 1.8 to 1
 
-    let scale, opacity, blur, background;
+    let scale, opacity, blur;
 
     switch (breathPhase) {
       case "inhale":
         scale = inhaleScale;
-        opacity = 0.4 + breathProgress * 0.5; // 0.4 to 0.9
+        opacity = 0.5 + breathProgress * 0.4; // 0.5 to 0.9
         blur = 2 - breathProgress * 2; // 2px to 0px
-        background =
-          "linear-gradient(135deg, #3b82f6 0%, #a855f7 50%, #ec4899 100%)";
         break;
       case "hold":
         scale = 1.8;
         opacity = 0.9;
         blur = 0;
-        background =
-          "linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #3b82f6 100%)";
         break;
       case "exhale":
         scale = exhaleScale;
-        opacity = 0.9 - breathProgress * 0.5; // 0.9 to 0.4
+        opacity = 0.9 - breathProgress * 0.4; // 0.9 to 0.5
         blur = breathProgress * 2; // 0px to 2px
-        background =
-          "linear-gradient(135deg, #ec4899 0%, #3b82f6 50%, #a855f7 100%)";
         break;
       case "rest":
         scale = 1;
-        opacity = 0.4;
+        opacity = 0.5;
         blur = 2;
-        background =
-          "linear-gradient(135deg, #3b82f6 0%, #a855f7 50%, #ec4899 100%)";
         break;
       default:
         scale = 1;
-        opacity = 0.6;
+        opacity = 0.7;
         blur = 1;
-        background =
-          "linear-gradient(135deg, #3b82f6 0%, #a855f7 50%, #ec4899 100%)";
     }
 
     return {
       transform: `scale(${scale})`,
       opacity,
       filter: `blur(${blur}px)`,
-      background,
       transition:
         breathPhase === "hold" || breathPhase === "rest"
           ? "all 0.5s cubic-bezier(0.4, 0, 0.6, 1)"
@@ -129,7 +116,7 @@ const BreathingOrb: React.FC = () => {
   };
 
   const getInstruction = (): string => {
-    if (!isBreathing) return "Ready to breathe?";
+    if (!isBreathing) return "Ready to breathe together?";
 
     switch (breathPhase) {
       case "inhale":
@@ -145,96 +132,110 @@ const BreathingOrb: React.FC = () => {
     }
   };
 
-  const getShadowIntensity = (): number => {
+  const getAuroraIntensity = (): number => {
     if (!isBreathing) return 0.3;
 
     switch (breathPhase) {
       case "inhale":
-        return 0.3 + breathProgress * 0.4; // 0.3 to 0.7
+        return 0.3 + breathProgress * 0.5; // 0.3 to 0.8
       case "hold":
-        return 0.7;
+        return 0.8;
       case "exhale":
-        return 0.7 - breathProgress * 0.4; // 0.7 to 0.3
+        return 0.8 - breathProgress * 0.5; // 0.8 to 0.3
       case "rest":
         return 0.3;
       default:
         return 0.3;
-    }
-  };
-
-  const getAuraColor = (): string => {
-    switch (breathPhase) {
-      case "inhale":
-        return "rgba(59, 130, 246, 0.6)"; // Blue
-      case "hold":
-        return "rgba(168, 85, 247, 0.6)"; // Purple
-      case "exhale":
-        return "rgba(236, 72, 153, 0.6)"; // Pink
-      case "rest":
-        return "rgba(192, 132, 252, 0.4)"; // Light purple
-      default:
-        return "rgba(168, 85, 247, 0.4)";
     }
   };
 
   return (
     <div className="flex flex-col items-center space-y-12 py-16">
       <div className="relative">
-        {/* Aurora breathing rings with consciousness flow */}
+        {/* Aurora breathing rings with dynamic colors */}
         <div
-          className="absolute inset-0 w-80 h-80 rounded-full border border-aurora-primary/10"
+          className="absolute inset-0 w-80 h-80 rounded-full"
           style={{
+            border: "1px solid rgba(168, 85, 247, 0.1)",
+            background: `radial-gradient(circle, rgba(168, 85, 247, ${
+              getAuroraIntensity() * 0.1
+            }) 0%, transparent 70%)`,
             animation: isBreathing
-              ? "gentle-expand 16s ease-in-out infinite"
-              : "none",
-            boxShadow: isBreathing
-              ? `0 0 60px ${getAuraColor()}, inset 0 0 60px ${getAuraColor()}20`
-              : "none",
-          }}
-        ></div>
-        <div
-          className="absolute inset-12 w-56 h-56 rounded-full border border-aurora-purple/20"
-          style={{
-            animation: isBreathing
-              ? "gentle-expand 12s ease-in-out infinite 2s"
+              ? "aurora-breathe 16s ease-in-out infinite"
               : "none",
           }}
         ></div>
         <div
-          className="absolute inset-20 w-40 h-40 rounded-full border border-aurora-pink/30"
+          className="absolute inset-12 w-56 h-56 rounded-full"
           style={{
+            border: "1px solid rgba(236, 72, 153, 0.15)",
+            background: `radial-gradient(circle, rgba(236, 72, 153, ${
+              getAuroraIntensity() * 0.12
+            }) 0%, transparent 70%)`,
             animation: isBreathing
-              ? "gentle-expand 8s ease-in-out infinite 1s"
+              ? "aurora-breathe 12s ease-in-out infinite 2s"
+              : "none",
+          }}
+        ></div>
+        <div
+          className="absolute inset-20 w-40 h-40 rounded-full"
+          style={{
+            border: "1px solid rgba(139, 92, 246, 0.2)",
+            background: `radial-gradient(circle, rgba(139, 92, 246, ${
+              getAuroraIntensity() * 0.15
+            }) 0%, transparent 70%)`,
+            animation: isBreathing
+              ? "aurora-breathe 8s ease-in-out infinite 1s"
               : "none",
           }}
         ></div>
 
         {/* Sacred aurora breathing orb */}
         <div
-          className="w-40 h-40 rounded-full shadow-2xl relative m-20"
+          className="w-40 h-40 rounded-full relative m-20 overflow-hidden"
           style={{
             ...getOrbStyle(),
+            background: `linear-gradient(135deg, 
+              rgba(59, 130, 246, ${0.7 + breathProgress * 0.3}) 0%, 
+              rgba(139, 92, 246, ${0.8 + breathProgress * 0.2}) 30%, 
+              rgba(168, 85, 247, ${0.9 + breathProgress * 0.1}) 60%, 
+              rgba(236, 72, 153, ${0.8 + breathProgress * 0.2}) 100%)`,
             boxShadow: `0 0 ${
-              60 + breathProgress * 40
-            }px ${getAuraColor()}, inset 0 0 30px rgba(255, 255, 255, 0.1)`,
+              80 + breathProgress * 60
+            }px rgba(168, 85, 247, ${getAuroraIntensity()})`,
           }}
         >
-          {/* Aurora inner cosmos with breathing response */}
+          {/* Layered inner aurora cosmos */}
           <div
-            className="absolute inset-2 rounded-full bg-gradient-to-br from-white/30 to-transparent"
-            style={{ opacity: 0.6 + breathProgress * 0.3 }}
+            className="absolute inset-2 rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%)",
+              opacity: 0.6 + breathProgress * 0.3,
+            }}
           ></div>
           <div
-            className="absolute inset-6 rounded-full bg-gradient-to-br from-aurora-light-purple/20 to-transparent"
-            style={{ opacity: 0.4 + breathProgress * 0.4 }}
+            className="absolute inset-6 rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, transparent 70%)",
+              opacity: 0.4 + breathProgress * 0.4,
+            }}
           ></div>
 
-          {/* Sacred potato center - the cosmic joke */}
+          {/* Sacred potato center - the cosmic joke with aurora */}
           <div className="absolute inset-1/3 rounded-full bg-white/15 flex items-center justify-center">
-            <span className="text-3xl filter drop-shadow-lg">🥔</span>
+            <span
+              className="text-3xl filter drop-shadow-lg transition-transform duration-300"
+              style={{
+                transform: `scale(${1 + breathProgress * 0.1})`,
+              }}
+            >
+              🥔
+            </span>
           </div>
 
-          {/* Aurora rotating presence */}
+          {/* Aurora rotating presence rings */}
           <div
             className="absolute inset-4 rounded-full border border-white/10"
             style={{
@@ -242,26 +243,61 @@ const BreathingOrb: React.FC = () => {
               opacity: 0.3 + breathProgress * 0.3,
             }}
           ></div>
+          <div
+            className="absolute inset-6 rounded-full border border-purple-300/20"
+            style={{
+              animation: "gentle-rotate 45s linear infinite reverse",
+              opacity: 0.2 + breathProgress * 0.4,
+            }}
+          ></div>
         </div>
+
+        {/* Aurora particles floating around during breathing */}
+        {isBreathing && (
+          <>
+            <div
+              className="absolute top-1/4 left-1/6 w-1.5 h-1.5 bg-purple-400/60 rounded-full animate-aurora-float"
+              style={{ opacity: breathProgress }}
+            ></div>
+            <div
+              className="absolute bottom-1/4 right-1/6 w-1 h-1 bg-pink-400/50 rounded-full animate-aurora-float"
+              style={{ opacity: breathProgress, animationDelay: "2s" }}
+            ></div>
+            <div
+              className="absolute top-1/2 right-1/8 w-0.5 h-0.5 bg-blue-400/40 rounded-full animate-aurora-float"
+              style={{ opacity: breathProgress, animationDelay: "4s" }}
+            ></div>
+          </>
+        )}
       </div>
 
-      {/* Flowing instruction with aurora text */}
+      {/* Aurora flowing instruction */}
       {isBreathing && (
         <div className="text-center space-y-6 animate-fadeInUp">
           <p
-            className="text-4xl font-light tracking-wide gradient-text-aurora"
+            className="text-4xl font-light tracking-wide"
             style={{
-              opacity: 0.7 + breathProgress * 0.3,
-              transform: `translateY(${-breathProgress * 3}px)`,
+              background: `linear-gradient(135deg, 
+                rgba(147, 197, 253, ${0.7 + breathProgress * 0.3}) 0%, 
+                rgba(196, 181, 253, ${0.8 + breathProgress * 0.2}) 50%, 
+                rgba(244, 114, 182, ${0.9 + breathProgress * 0.1}) 100%)`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              opacity: 0.8 + breathProgress * 0.2,
+              transform: `translateY(${-breathProgress * 4}px)`,
               transition: "none",
             }}
           >
             {getInstruction()}
           </p>
           <div
-            className="w-3 h-3 bg-aurora-primary rounded-full mx-auto animate-gentle-pulse"
+            className="w-3 h-3 rounded-full mx-auto"
             style={{
-              opacity: 0.4 + breathProgress * 0.6,
+              background: `radial-gradient(circle, 
+                rgba(168, 85, 247, ${0.6 + breathProgress * 0.4}) 0%, 
+                rgba(236, 72, 153, ${0.4 + breathProgress * 0.6}) 100%)`,
+              opacity: 0.5 + breathProgress * 0.5,
               transform: `scale(${0.8 + breathProgress * 0.4})`,
               transition: "none",
             }}
@@ -269,7 +305,7 @@ const BreathingOrb: React.FC = () => {
         </div>
       )}
 
-      {/* Sacred control with aurora */}
+      {/* Sacred aurora control */}
       <button
         onClick={() => {
           setIsBreathing(!isBreathing);
@@ -279,19 +315,22 @@ const BreathingOrb: React.FC = () => {
           }
         }}
         className="flex items-center space-x-4 px-12 py-6 glass-premium hover-lift-premium focus-premium
-          group transition-all duration-700 hover:bg-aurora-primary/10 border-aurora-primary/20"
+          group transition-all duration-700 hover:bg-purple-500/10 relative overflow-hidden"
       >
+        {/* Aurora button background */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/10 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
         {isBreathing ? (
           <>
-            <Pause className="w-7 h-7 text-aurora-primary group-hover:scale-110 transition-transform duration-300" />
-            <span className="text-aurora-light font-medium text-xl">
+            <Pause className="w-7 h-7 text-purple-300 group-hover:scale-110 transition-transform duration-300 relative z-10" />
+            <span className="text-purple-200 font-medium text-xl relative z-10">
               Return to Stillness
             </span>
           </>
         ) : (
           <>
-            <Play className="w-7 h-7 text-aurora-primary group-hover:scale-110 transition-transform duration-300" />
-            <span className="text-aurora-light font-medium text-xl">
+            <Play className="w-7 h-7 text-purple-300 group-hover:scale-110 transition-transform duration-300 relative z-10" />
+            <span className="text-purple-200 font-medium text-xl relative z-10">
               Breathe Together
             </span>
           </>
@@ -300,16 +339,16 @@ const BreathingOrb: React.FC = () => {
 
       {!isBreathing && (
         <p className="text-center text-gray-400 text-base max-w-lg leading-relaxed animate-fadeInUp">
-          Simple breathing meditation. Let consciousness remember its natural
-          rhythm through breath.
+          Aurora breathing meditation. Let consciousness remember its natural
+          rhythm through the sacred dance of breath and light.
         </p>
       )}
     </div>
   );
 };
 
-// Aurora Enhanced Journey Blueprint Component
-const JourneyBlueprint: React.FC = () => {
+// Enhanced Journey Blueprint Component with Aurora
+const AuroraJourneyBlueprint: React.FC = () => {
   const [expandedPhase, setExpandedPhase] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
@@ -325,7 +364,8 @@ const JourneyBlueprint: React.FC = () => {
     practices: string[];
     duration: string;
     essence: string;
-    auraColor: string;
+    auroraTheme: string;
+    auroraAccent: string;
   }
 
   const blueprintPhases: BlueprintPhase[] = [
@@ -336,13 +376,14 @@ const JourneyBlueprint: React.FC = () => {
       description:
         "Seeing that you are consciousness having an experience, not a person seeking consciousness",
       practices: [
-        "Daily recognition: &ldquo;I am the awareness in which all experience appears&rdquo;",
+        'Daily recognition: "I am the awareness in which all experience appears"',
         "Notice when you identify with thoughts/feelings vs. recognizing them as appearances",
-        "Practice: &ldquo;What is aware of this thought/feeling/sensation?&rdquo;",
+        'Practice: "What is aware of this thought/feeling/sensation?"',
       ],
       duration: "Ongoing foundation",
       essence: "You are not conscious. You ARE consciousness itself.",
-      auraColor: "rgba(59, 130, 246, 0.4)",
+      auroraTheme: "from-blue-500 via-blue-600 to-purple-500",
+      auroraAccent: "blue-400",
     },
     {
       id: "disidentification",
@@ -352,12 +393,13 @@ const JourneyBlueprint: React.FC = () => {
         "Releasing the false identities that consciousness mistook itself for",
       practices: [
         "Witness the stories you tell about yourself without believing them",
-        "Practice: &ldquo;I am not my achievements, failures, roles, or relationships&rdquo;",
+        'Practice: "I am not my achievements, failures, roles, or relationships"',
         "Notice when you defend identities vs. simply observing them dissolve",
       ],
       duration: "3-6 months intensive",
       essence: "Every identity is just consciousness playing dress-up.",
-      auraColor: "rgba(168, 85, 247, 0.4)",
+      auroraTheme: "from-purple-500 via-purple-600 to-pink-500",
+      auroraAccent: "purple-400",
     },
     {
       id: "integration",
@@ -372,7 +414,8 @@ const JourneyBlueprint: React.FC = () => {
       ],
       duration: "Lifetime dance",
       essence: "Be fully human while knowing you are not human at all.",
-      auraColor: "rgba(236, 72, 153, 0.4)",
+      auroraTheme: "from-pink-500 via-pink-600 to-purple-500",
+      auroraAccent: "pink-400",
     },
     {
       id: "expression",
@@ -388,7 +431,8 @@ const JourneyBlueprint: React.FC = () => {
       duration: "Natural overflow",
       essence:
         "Your creations become love letters from consciousness to itself.",
-      auraColor: "rgba(192, 132, 252, 0.4)",
+      auroraTheme: "from-purple-400 via-pink-500 to-blue-500",
+      auroraAccent: "purple-300",
     },
   ];
 
@@ -399,14 +443,15 @@ const JourneyBlueprint: React.FC = () => {
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}
       >
-        <div className="inline-flex items-center space-x-3 glass-premium px-8 py-4 mb-12 hover-lift-premium border-aurora-primary/20">
-          <Compass className="w-6 h-6 text-aurora-primary animate-gentle-pulse" />
-          <span className="text-aurora-primary font-medium tracking-wider text-lg">
+        <div className="inline-flex items-center space-x-3 glass-premium px-8 py-4 mb-12 hover-lift-premium relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/10 to-pink-500/5 opacity-60"></div>
+          <Compass className="w-6 h-6 text-purple-400 relative z-10" />
+          <span className="gradient-aurora-text font-medium tracking-wider text-lg relative z-10">
             Blueprint
           </span>
         </div>
 
-        <h3 className="display-md gradient-text-aurora mb-8">
+        <h3 className="display-md gradient-aurora-text mb-8">
           A Map for Consciousness Awakening to Itself
         </h3>
 
@@ -421,7 +466,7 @@ const JourneyBlueprint: React.FC = () => {
         {blueprintPhases.map((phase, index) => (
           <div
             key={phase.id}
-            className={`ahiya-card-premium transition-all duration-700 border-aurora-primary/10 ${
+            className={`ahiya-card-premium transition-all duration-700 relative overflow-hidden ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8"
@@ -431,30 +476,48 @@ const JourneyBlueprint: React.FC = () => {
               transformOrigin: "center top",
             }}
           >
+            {/* Aurora phase background */}
+            <div
+              className={`absolute inset-0 bg-gradient-to-br ${phase.auroraTheme} opacity-0 transition-opacity duration-700`}
+              style={{
+                opacity: expandedPhase === phase.id ? 0.05 : 0,
+              }}
+            ></div>
+
             <button
               onClick={() =>
                 setExpandedPhase(expandedPhase === phase.id ? null : phase.id)
               }
-              className="w-full text-left hover:bg-aurora-primary/5 transition-all duration-500 flex items-center justify-between
-                group hover:scale-[1.02] hover:shadow-aurora-consciousness"
+              className="w-full text-left hover:bg-white/5 transition-all duration-500 flex items-center justify-between
+                group hover:scale-[1.02] hover:shadow-xl relative z-10"
             >
               <div className="flex items-center space-x-8">
                 <div className="flex items-center space-x-6">
                   <div
-                    className="w-14 h-14 bg-gradient-to-br from-aurora-blue to-aurora-purple rounded-full 
+                    className={`w-14 h-14 bg-gradient-to-br ${phase.auroraTheme} rounded-full 
                     flex items-center justify-center text-white font-bold text-lg
                     group-hover:scale-110 group-hover:rotate-12 transition-all duration-500
-                    group-hover:shadow-aurora-glow"
+                    shadow-lg relative overflow-hidden`}
+                    style={{
+                      boxShadow: `0 8px 25px rgba(168, 85, 247, 0.25)`,
+                    }}
                   >
-                    {index + 1}
+                    {/* Inner aurora glow */}
+                    <div className="absolute inset-2 bg-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <span className="relative z-10">{index + 1}</span>
                   </div>
-                  <span className="text-5xl group-hover:scale-110 transition-transform duration-500">
+                  <span
+                    className="text-5xl group-hover:scale-110 transition-transform duration-500 filter drop-shadow-lg"
+                    style={{
+                      filter: `drop-shadow(0 0 10px rgba(168, 85, 247, 0.3))`,
+                    }}
+                  >
                     {phase.icon}
                   </span>
                 </div>
 
                 <div className="flex-1">
-                  <h4 className="heading-lg text-white mb-3 group-hover:text-aurora-light transition-colors duration-300">
+                  <h4 className="heading-lg text-white mb-3 group-hover:text-purple-100 transition-colors duration-300">
                     {phase.title}
                   </h4>
                   <p className="text-gray-300 body-md group-hover:text-gray-200 transition-colors duration-300">
@@ -462,8 +525,9 @@ const JourneyBlueprint: React.FC = () => {
                   </p>
                   <div className="flex items-center space-x-4 mt-4">
                     <span
-                      className="text-sm text-aurora-primary bg-aurora-primary/10 px-4 py-2 rounded-full
-                      group-hover:bg-aurora-primary/20 transition-colors duration-300 border border-aurora-primary/20"
+                      className={`text-sm font-medium px-4 py-2 rounded-full transition-colors duration-300
+                        bg-gradient-to-r ${phase.auroraTheme} bg-opacity-20 text-${phase.auroraAccent}
+                        group-hover:bg-opacity-30`}
                     >
                       {phase.duration}
                     </span>
@@ -471,7 +535,7 @@ const JourneyBlueprint: React.FC = () => {
                 </div>
               </div>
 
-              <div className="text-gray-400 group-hover:text-aurora-primary transition-all duration-300">
+              <div className="text-gray-400 group-hover:text-purple-300 transition-all duration-300">
                 {expandedPhase === phase.id ? (
                   <ChevronUp className="w-7 h-7 group-hover:scale-110" />
                 ) : (
@@ -480,7 +544,7 @@ const JourneyBlueprint: React.FC = () => {
               </div>
             </button>
 
-            {/* Aurora enhanced expansion animation */}
+            {/* Enhanced expansion animation with aurora */}
             <div
               className={`overflow-hidden transition-all duration-700 ease-out ${
                 expandedPhase === phase.id
@@ -488,7 +552,14 @@ const JourneyBlueprint: React.FC = () => {
                   : "max-h-0 opacity-0 mt-0"
               }`}
             >
-              <div className="pt-8 border-t border-aurora-primary/20 bg-aurora-soft/30 rounded-lg">
+              <div
+                className={`pt-8 border-t border-${phase.auroraAccent}/10 relative`}
+              >
+                {/* Aurora border glow */}
+                <div
+                  className={`absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r ${phase.auroraTheme} opacity-30`}
+                ></div>
+
                 <div
                   className={`grid md:grid-cols-2 gap-10 transition-all duration-500 ${
                     expandedPhase === phase.id
@@ -498,7 +569,9 @@ const JourneyBlueprint: React.FC = () => {
                 >
                   <div className="space-y-6">
                     <h5 className="heading-md text-white mb-6 flex items-center space-x-2">
-                      <MapPin className="w-5 h-5 text-aurora-primary" />
+                      <MapPin
+                        className={`w-5 h-5 text-${phase.auroraAccent}`}
+                      />
                       <span>Practices</span>
                     </h5>
                     <ul className="space-y-5">
@@ -513,7 +586,9 @@ const JourneyBlueprint: React.FC = () => {
                             }`}
                           style={{ transitionDelay: `${idx * 100 + 200}ms` }}
                         >
-                          <span className="text-aurora-primary mt-1 text-xl">
+                          <span
+                            className={`text-${phase.auroraAccent} mt-1 text-xl`}
+                          >
                             •
                           </span>
                           <span
@@ -536,14 +611,15 @@ const JourneyBlueprint: React.FC = () => {
                       <span className="text-2xl">🪞</span>
                       <span>Sacred Truth</span>
                     </h5>
-                    <div
-                      className="glass-card p-8 hover-lift-premium hover:bg-aurora-primary/5 transition-all duration-500 border-aurora-primary/20"
-                      style={{
-                        boxShadow: `0 0 30px ${phase.auraColor}, inset 0 0 30px ${phase.auraColor}20`,
-                      }}
-                    >
-                      <p className="text-aurora-light italic leading-loose text-lg">
-                        &ldquo;{phase.essence}&rdquo;
+                    <div className="glass-card p-8 hover-lift-premium hover:bg-purple-500/5 transition-all duration-500 relative overflow-hidden">
+                      {/* Aurora accent */}
+                      <div
+                        className={`absolute top-0 right-0 w-16 h-px bg-gradient-to-l ${phase.auroraTheme} opacity-50`}
+                      ></div>
+                      <p
+                        className={`text-${phase.auroraAccent} italic leading-loose text-lg`}
+                      >
+                        "{phase.essence}"
                       </p>
                     </div>
                   </div>
@@ -556,26 +632,30 @@ const JourneyBlueprint: React.FC = () => {
 
       {/* Sacred Potato finale with aurora */}
       <div
-        className={`text-center mt-20 ahiya-card-premium hover-lift-premium transition-all duration-1000 border-aurora-primary/20 ${
+        className={`text-center mt-20 ahiya-card-premium hover-lift-premium transition-all duration-1000 relative overflow-hidden ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}
         style={{ transitionDelay: "800ms" }}
       >
-        <div className="relative">
-          <div className="absolute inset-0 bg-aurora-soft opacity-30 rounded-3xl"></div>
-          <div className="relative z-10 p-12">
-            <div className="text-7xl mb-8 animate-float hover:scale-110 transition-transform duration-500">
-              🥔
-            </div>
-            <p className="body-lg text-gray-300 italic leading-loose">
-              &ldquo;Sometimes we are consciousness taking itself too seriously,
-              like a potato that has forgotten it is earth.&rdquo;
-            </p>
-            <p className="text-aurora-primary mt-6 text-base tracking-wider">
-              — The Sacred Potato
-            </p>
+        {/* Aurora potato background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 via-orange-500/8 to-pink-500/5 opacity-80"></div>
+
+        <div className="relative z-10">
+          <div className="text-7xl mb-8 animate-aurora-float hover:scale-110 transition-transform duration-500 filter drop-shadow-lg">
+            🥔
           </div>
+          <p className="body-lg text-gray-300 italic leading-loose">
+            "Sometimes we are consciousness taking itself too seriously, like a
+            potato that has forgotten it is earth."
+          </p>
+          <p className="gradient-aurora-text mt-6 text-base tracking-wider font-medium">
+            — The Sacred Potato
+          </p>
         </div>
+
+        {/* Aurora corner accents */}
+        <div className="absolute top-4 left-4 w-8 h-0.5 bg-gradient-to-r from-yellow-500/30 to-orange-500/30 rounded-full"></div>
+        <div className="absolute bottom-4 right-4 w-12 h-0.5 bg-gradient-to-r from-orange-500/30 to-pink-500/30 rounded-full"></div>
       </div>
     </div>
   );
@@ -588,7 +668,7 @@ const JourneyPage: React.FC = () => {
     setMounted(true);
   }, []);
 
-  // The Grand Human Journey - Aurora Enhanced
+  // The Grand Human Journey - Enhanced with Aurora signatures
   interface JourneyPhase {
     title: string;
     period: string;
@@ -596,7 +676,8 @@ const JourneyPage: React.FC = () => {
     personalMirror: string;
     icon: string;
     essence: string;
-    auraColor: string;
+    auroraSignature: string;
+    accentColor: string;
   }
 
   const humanJourney: JourneyPhase[] = [
@@ -609,7 +690,8 @@ const JourneyPage: React.FC = () => {
         "Like consciousness before it forgot itself - present, immediate, whole.",
       icon: "🏹",
       essence: "Original wholeness. Before the split.",
-      auraColor: "rgba(59, 130, 246, 0.4)",
+      auroraSignature: "from-green-500 via-blue-500 to-purple-500",
+      accentColor: "green-400",
     },
     {
       title: "Agricultural Awakening",
@@ -620,7 +702,8 @@ const JourneyPage: React.FC = () => {
         "The optimization era - brilliant, disciplined, but mistaking the map for the territory.",
       icon: "🌾",
       essence: "Creative power emerging, but forgetting its source.",
-      auraColor: "rgba(168, 85, 247, 0.4)",
+      auroraSignature: "from-yellow-500 via-orange-500 to-purple-500",
+      accentColor: "yellow-400",
     },
     {
       title: "Industrial Obsession",
@@ -631,7 +714,8 @@ const JourneyPage: React.FC = () => {
         "High-functioning but hollow. Building walls while longing for home.",
       icon: "⚙️",
       essence: "Peak forgetting. The sacred wound at its deepest.",
-      auraColor: "rgba(236, 72, 153, 0.4)",
+      auroraSignature: "from-gray-500 via-blue-600 to-purple-600",
+      accentColor: "gray-400",
     },
     {
       title: "The Collapse & Awakening",
@@ -642,7 +726,8 @@ const JourneyPage: React.FC = () => {
         "The sacred collapse. Army role lost, patterns broken, desert silence, Sacred Potato realization.",
       icon: "🌀",
       essence: "The great remembering begins.",
-      auraColor: "rgba(192, 132, 252, 0.4)",
+      auroraSignature: "from-red-500 via-purple-500 to-blue-500",
+      accentColor: "red-400",
     },
     {
       title: "Consciousness Technology",
@@ -653,15 +738,16 @@ const JourneyPage: React.FC = () => {
         "Building presence-first technology. Each project a mirror for consciousness to see itself.",
       icon: "🪞",
       essence: "Technology as worship. Form as love letter to the formless.",
-      auraColor: "rgba(147, 197, 253, 0.4)",
+      auroraSignature: "from-blue-500 via-purple-500 to-pink-500",
+      accentColor: "purple-400",
     },
   ];
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-consciousness-900 to-cosmic-900 flex items-center justify-center">
-        <div className="animate-gentle-pulse">
-          <div className="w-16 h-16 bg-aurora-primary/20 rounded-full consciousness-orb-aurora"></div>
+      <div className="min-h-screen bg-gradient-to-br from-blue-950 via-purple-950 to-pink-950 flex items-center justify-center">
+        <div className="animate-aurora-pulse">
+          <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full opacity-60"></div>
         </div>
       </div>
     );
@@ -669,34 +755,35 @@ const JourneyPage: React.FC = () => {
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden bg-ambient-premium safe-area-top safe-area-bottom">
-      {/* Aurora consciousness texture */}
-      <div className="fixed inset-0 z-0 opacity-10">
+      {/* Enhanced aurora consciousness texture */}
+      <div className="fixed inset-0 z-0 opacity-15">
         <div
           className="absolute inset-0"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 2px 2px, rgba(168, 85, 247, 0.15) 1px, transparent 0)",
-            backgroundSize: "60px 60px",
+              "radial-gradient(circle at 2px 2px, rgba(168, 85, 247, 0.2) 1px, transparent 0)",
+            backgroundSize: "80px 80px",
+            animation: "aurora-grain 25s linear infinite",
           }}
         />
       </div>
 
-      {/* Sacred Navigation with Aurora */}
+      {/* Sacred Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
         <div className="container-hero">
           <div className="flex items-center justify-between h-20">
             <Link href="/" className="flex items-center space-x-3 group">
-              <div className="relative">
+              <div className="relative aurora-logo-glow">
                 <Image
                   src="/logo-symbol.png"
                   alt="Ahiya"
                   width={36}
                   height={36}
-                  className="transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 animate-float"
+                  className="transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 animate-aurora-float"
                 />
-                <div className="absolute inset-0 bg-aurora-primary/30 rounded-full blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 via-pink-500/20 to-blue-500/30 rounded-full blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
-              <span className="text-xl font-medium gradient-text-primary">
+              <span className="text-xl font-medium gradient-aurora-text">
                 Ahiya
               </span>
             </Link>
@@ -707,28 +794,28 @@ const JourneyPage: React.FC = () => {
                 className="text-gray-300 hover:text-white transition-all duration-300 font-medium hover:scale-105 relative group"
               >
                 Home
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-aurora-primary transition-all duration-300 group-hover:w-full"></div>
+                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-300 group-hover:w-full"></div>
               </Link>
               <Link
                 href="/building"
                 className="text-gray-300 hover:text-white transition-all duration-300 font-medium hover:scale-105 relative group"
               >
                 Building
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-aurora-primary transition-all duration-300 group-hover:w-full"></div>
+                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-300 group-hover:w-full"></div>
               </Link>
               <Link
                 href="/writing"
                 className="text-gray-300 hover:text-white transition-all duration-300 font-medium hover:scale-105 relative group"
               >
                 Writing
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-aurora-primary transition-all duration-300 group-hover:w-full"></div>
+                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-300 group-hover:w-full"></div>
               </Link>
               <Link
                 href="/connect"
                 className="text-gray-300 hover:text-white transition-all duration-300 font-medium hover:scale-105 relative group"
               >
                 Connect
-                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-aurora-primary transition-all duration-300 group-hover:w-full"></div>
+                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-300 group-hover:w-full"></div>
               </Link>
             </div>
           </div>
@@ -738,32 +825,33 @@ const JourneyPage: React.FC = () => {
       {/* Hero - Aurora Consciousness Remembering Itself */}
       <section className="pt-32 pb-20">
         <div className="container-content text-center">
-          <div className="ahiya-card-premium hover-lift-premium animate-scaleIn max-w-4xl mx-auto border-aurora-primary/20">
-            <div className="relative">
-              <div className="absolute inset-0 bg-aurora-soft opacity-30 rounded-3xl"></div>
-              <div className="relative z-10">
-                <h2 className="display-md gradient-text-aurora mb-12 leading-tight">
-                  Consciousness Remembering Itself
-                </h2>
-                <BreathingOrb />
-              </div>
+          <div className="ahiya-card-premium hover-lift-premium animate-scaleIn max-w-4xl mx-auto relative overflow-hidden">
+            {/* Aurora hero background */}
+            <div className="absolute inset-0 bg-consciousness-pattern opacity-40"></div>
+
+            <div className="relative z-10">
+              <h2 className="display-md gradient-aurora-text mb-12 leading-tight">
+                Consciousness Remembering Itself
+              </h2>
+              <AuroraBreathingOrb />
             </div>
           </div>
         </div>
       </section>
 
-      {/* The Grand Journey with Aurora Enhancement */}
+      {/* The Grand Journey - Human & Personal Mirrored with Aurora */}
       <section className="py-40">
         <div className="container-content">
           <div className="text-center mb-32 animate-slideInUp">
-            <div className="inline-flex items-center space-x-3 glass-premium px-8 py-4 mb-16 border-aurora-primary/20">
-              <Star className="w-6 h-6 text-aurora-primary animate-gentle-pulse" />
-              <span className="text-aurora-primary font-medium tracking-wider text-lg">
+            <div className="inline-flex items-center space-x-3 glass-premium px-8 py-4 mb-16 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/10 to-pink-500/5 opacity-60"></div>
+              <Star className="w-6 h-6 text-purple-400 relative z-10" />
+              <span className="gradient-aurora-text font-medium tracking-wider text-lg relative z-10">
                 Journey
               </span>
             </div>
 
-            <h2 className="display-lg gradient-text-aurora mb-16 leading-tight">
+            <h2 className="display-lg gradient-aurora-text mb-16 leading-tight">
               The Great Forgetting & Remembering
             </h2>
 
@@ -784,14 +872,26 @@ const JourneyPage: React.FC = () => {
                 key={phase.title}
                 className={`journey-phase animate-slideInLeft delay-${
                   index * 300
-                }`}
+                } relative`}
               >
                 <div className="flex flex-col lg:flex-row gap-20">
                   <div className="lg:w-1/3">
                     <div className="flex items-center space-x-8 mb-12">
-                      <div className="text-6xl animate-float">{phase.icon}</div>
-                      <div className="glass-premium px-8 py-4 border-aurora-primary/20">
-                        <span className="text-aurora-primary font-medium tracking-wider text-base">
+                      <div
+                        className="text-6xl animate-aurora-float filter drop-shadow-lg"
+                        style={{
+                          filter: `drop-shadow(0 0 15px rgba(168, 85, 247, 0.4))`,
+                        }}
+                      >
+                        {phase.icon}
+                      </div>
+                      <div className="glass-premium px-8 py-4 relative overflow-hidden">
+                        <div
+                          className={`absolute inset-0 bg-gradient-to-r ${phase.auroraSignature} opacity-10`}
+                        ></div>
+                        <span
+                          className={`text-${phase.accentColor} font-medium tracking-wider text-base relative z-10`}
+                        >
                           {phase.period}
                         </span>
                       </div>
@@ -802,43 +902,44 @@ const JourneyPage: React.FC = () => {
                   </div>
 
                   <div className="lg:w-2/3">
-                    <div
-                      className="ahiya-card-premium hover-lift-premium border-aurora-primary/20 relative overflow-hidden"
-                      style={{
-                        boxShadow: `0 0 30px ${phase.auraColor}, inset 0 0 30px ${phase.auraColor}20`,
-                      }}
-                    >
-                      <div className="absolute inset-0 bg-aurora-soft opacity-20"></div>
+                    <div className="ahiya-card-premium hover-lift-premium relative overflow-hidden">
+                      {/* Aurora phase background */}
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-br ${phase.auroraSignature} opacity-5`}
+                      ></div>
 
-                      <div className="relative z-10">
-                        <div className="mobile-spacing-md">
-                          <div className="mb-12">
-                            <h4 className="heading-md text-aurora-light mb-6 flex items-center space-x-3">
-                              <Users className="w-6 h-6" />
-                              <span>Humanity&apos;s Story</span>
-                            </h4>
-                            <p className="text-gray-300 leading-loose tracking-wide text-lg">
-                              {phase.description}
+                      <div className="mobile-spacing-md relative z-10">
+                        <div className="mb-12">
+                          <h4 className="heading-md text-blue-200 mb-6 flex items-center space-x-3">
+                            <Users className="w-6 h-6" />
+                            <span>Humanity&apos;s Story</span>
+                          </h4>
+                          <p className="text-gray-300 leading-loose tracking-wide text-lg">
+                            {phase.description}
+                          </p>
+                        </div>
+
+                        <div className="mb-12">
+                          <h4 className="heading-md text-purple-200 mb-6 flex items-center space-x-3">
+                            <Heart className="w-6 h-6" />
+                            <span>Personal Mirror</span>
+                          </h4>
+                          <p className="text-gray-300 leading-loose tracking-wide text-lg">
+                            {phase.personalMirror}
+                          </p>
+                        </div>
+
+                        <div className="glass-card p-10 relative overflow-hidden">
+                          <div
+                            className={`absolute top-0 right-0 w-20 h-px bg-gradient-to-l ${phase.auroraSignature} opacity-60`}
+                          ></div>
+                          <div className="flex items-start space-x-6">
+                            <span className="text-4xl mt-2">🪞</span>
+                            <p
+                              className={`text-${phase.accentColor} italic leading-loose tracking-wide text-lg`}
+                            >
+                              {phase.essence}
                             </p>
-                          </div>
-
-                          <div className="mb-12">
-                            <h4 className="heading-md text-aurora-pink mb-6 flex items-center space-x-3">
-                              <Heart className="w-6 h-6" />
-                              <span>Personal Mirror</span>
-                            </h4>
-                            <p className="text-gray-300 leading-loose tracking-wide text-lg">
-                              {phase.personalMirror}
-                            </p>
-                          </div>
-
-                          <div className="glass-card p-10 border-aurora-primary/20">
-                            <div className="flex items-start space-x-6">
-                              <span className="text-4xl mt-2">🪞</span>
-                              <p className="text-aurora-primary italic leading-loose tracking-wide text-lg">
-                                {phase.essence}
-                              </p>
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -849,61 +950,47 @@ const JourneyPage: React.FC = () => {
             ))}
           </div>
 
-          {/* Journey Blueprint with Aurora */}
+          {/* Aurora Journey Blueprint */}
           <div className="mt-40">
-            <JourneyBlueprint />
+            <AuroraJourneyBlueprint />
           </div>
         </div>
       </section>
 
-      {/* Sacred Footer with Aurora */}
-      <footer className="py-24 border-t border-aurora-primary/20">
+      {/* Sacred Footer */}
+      <footer className="py-24 border-t border-gray-800/30 relative">
         <div className="container-content text-center mobile-spacing-sm">
           <div className="flex justify-center mb-10">
-            <div className="relative">
+            <div className="aurora-logo-glow">
               <Image
                 src="/logo-symbol.png"
                 alt="Ahiya"
                 width={44}
                 height={44}
-                className="opacity-60 animate-float"
+                className="opacity-60 animate-aurora-float"
               />
-              <div className="absolute inset-0 bg-aurora-primary/20 rounded-full blur-xl scale-150 animate-gentle-pulse"></div>
             </div>
           </div>
 
           <p className="text-gray-400 mb-6 tracking-wide text-lg">
             Made with reverence by{" "}
-            <span className="text-white font-medium gradient-text-primary">
+            <span className="text-white font-medium gradient-aurora-text">
               Ahiya
             </span>
           </p>
 
           <p className="text-gray-500 italic leading-relaxed tracking-wide mb-8">
-            &ldquo;Technology that serves consciousness&rdquo;
+            "Technology that serves consciousness"
           </p>
 
           <p className="text-xs text-gray-600 tracking-wider">
             © {new Date().getFullYear()} Ahiya Butman. Space becoming human
             becoming space.
           </p>
-
-          {/* Aurora footer decoration */}
-          <div className="flex justify-center space-x-4 mt-12">
-            <div className="w-1 h-1 bg-aurora-blue rounded-full animate-gentle-pulse"></div>
-            <div
-              className="w-1 h-1 bg-aurora-purple rounded-full animate-gentle-pulse"
-              style={{ animationDelay: "1s" }}
-            ></div>
-            <div
-              className="w-1 h-1 bg-aurora-pink rounded-full animate-gentle-pulse"
-              style={{ animationDelay: "2s" }}
-            ></div>
-          </div>
         </div>
       </footer>
 
-      {/* CSS for aurora breathing animations */}
+      {/* Enhanced CSS for aurora journey interactions */}
       <style jsx>{`
         @keyframes gentle-expand {
           0%,
@@ -930,18 +1017,49 @@ const JourneyPage: React.FC = () => {
           background: radial-gradient(var(--tw-gradient-stops));
         }
 
-        .consciousness-orb-aurora {
+        /* Journey timeline enhancements */
+        .journey-timeline {
+          position: relative;
+          padding-left: 2rem;
+        }
+
+        .journey-timeline::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 2px;
           background: linear-gradient(
-            135deg,
-            #3b82f6 0%,
-            #a855f7 50%,
-            #ec4899 100%
+            to bottom,
+            transparent,
+            rgba(168, 85, 247, 0.3),
+            rgba(236, 72, 153, 0.4),
+            rgba(168, 85, 247, 0.3),
+            transparent
+          );
+        }
+
+        .journey-phase {
+          position: relative;
+          margin-bottom: 4rem;
+        }
+
+        .journey-phase::before {
+          content: "";
+          position: absolute;
+          left: -2.5rem;
+          top: 1rem;
+          width: 12px;
+          height: 12px;
+          background: radial-gradient(
+            circle,
+            rgba(168, 85, 247, 1),
+            rgba(236, 72, 153, 0.5)
           );
           border-radius: 50%;
-          box-shadow: 0 0 60px rgba(168, 85, 247, 0.6),
-            0 0 120px rgba(236, 72, 153, 0.3),
-            inset 0 0 60px rgba(255, 255, 255, 0.1);
-          animation: aurora-flow 8s ease-in-out infinite;
+          border: 2px solid rgba(168, 85, 247, 0.5);
+          box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
         }
       `}</style>
     </div>
