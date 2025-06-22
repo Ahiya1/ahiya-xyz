@@ -34,68 +34,67 @@ const JourneyPage: React.FC = () => {
   const journeyPhases: JourneyPhase[] = [
     {
       personal: {
-        title: "The Optimization Era",
+        title: "The Optimization Machine",
         period: "~2017 – mid 2021",
         description:
           "High-functioning, brilliant, ambitious. I was in love with systems, productivity, and the promise of engineering my way to perfection. Everything had to be optimized, measured, improved.",
         keyMoments: [
           "Learning C.S., AI, mathematics, and languages with obsessive precision",
           "Building productivity tools and optimization systems",
-          "entitled to an army service in 8200 - elite intelligence unit",
-          "Strong discipline, but increasingly rigid identity structures",
+          "Elite military intelligence unit placement",
+          "Strong discipline masking increasingly rigid identity structures",
         ],
         insight:
           "Optimization can sharpen the blade of suffering. I was trying to perfect my way out of being human.",
         icon: "⚡",
       },
       collective: {
-        title: "The Industrial-Digital Revolution",
-        period: "~1800 – Present",
+        title: "The Connected Wild",
+        period: "~200,000 years ago – 10,000 BCE",
         description:
-          "Humanity discovered the marvel of systematic creation. Structure moved from being part of our lives to becoming the center of them. We began defining ourselves by our professions, measuring worth by productivity and output.",
+          "For hundreds of thousands of years, we lived as hunter-gatherers in small groups of 30-50 people. We created art, jewelry, and beautiful objects, but survival occupied most of our days. We were largely isolated, yet deeply connected to the natural world and each other.",
         keyMoments: [
-          "Mass production and systematization of work",
-          "Individualism as response to dehumanization",
-          "Digital revolution accelerating productivity obsession",
-          "Global connectivity enabling unprecedented comparison and competition",
+          "Small tribal groups living in direct relationship with nature",
+          "Artistic expression emerging alongside survival skills",
+          "Deep interpersonal bonds within limited communities",
+          "Immediate relationship to life and death, seasons and cycles",
         ],
         insight:
-          "We became so good at making things that we forgot we are not what we make.",
-        icon: "🏭",
+          "We knew ourselves as part of the whole, creating beauty not from lack but from the fullness of being alive.",
+        icon: "🌿",
       },
     },
     {
       personal: {
-        title: "The Cracks Appear",
+        title: "Cracks in Perfection",
         period: "Late 2021 – 2023",
         description:
           "The optimization identity began to fracture. OCD symptoms intensified. I started smoking. The more I tried to control, the more chaotic everything became.",
         keyMoments: [
           "First smoking cycles - the shame and secrecy",
-          "OCD becoming unmanageable",
-          "Started therapy, discovered hypnosis",
-          "Brief moments of clarity between the storm",
-          "Beginning to write, to look inward",
+          "OCD becoming unmanageable despite all systems",
+          "Started therapy, discovered the limits of mental frameworks",
+          "Brief moments of clarity between the psychological storm",
+          "Beginning to write, to look inward rather than optimize outward",
         ],
         insight:
           "Trying to perfect myself was the very thing keeping me from being myself.",
         icon: "🌪️",
       },
       collective: {
-        title: "The Great Questioning",
-        period: "~1960 – Present",
+        title: "Structure as Ally",
+        period: "~10,000 BCE – 1800 CE",
         description:
-          "Holes appeared in the productivity matrix. Many glimpsed something deeper and declared, 'This is not who we are!' Spiritual movements, environmentalism, mental health awareness - humanity began questioning the fundamental assumptions.",
+          "The agricultural transformation. We discovered our creative abilities could extend far beyond art and beauty. Larger communities formed. Goods and ideas traveled vast distances. Slowly, we began organizing our lives around structures and patterns that seemed like absolute truths.",
         keyMoments: [
-          "Counter-culture movements challenging materialism",
-          "Rise of mindfulness and meditation in the West",
-          "Environmental consciousness and climate awareness",
-          "Mental health crises revealing the cost of disconnection",
-          "Technology addiction and digital wellness movements",
+          "Discovery of agriculture and the power of systematic creation",
+          "Formation of larger communities and complex societies",
+          "Development of trade networks and knowledge exchange",
+          "Religious and philosophical systems emerging to organize meaning",
         ],
         insight:
-          "The very systems we created to improve life were making us forget how to live.",
-        icon: "🌍",
+          "We began to see ourselves as separate from nature, but structure still served life rather than replacing it.",
+        icon: "🏛️",
       },
     },
     {
@@ -103,13 +102,13 @@ const JourneyPage: React.FC = () => {
         title: "The Sacred Collapse",
         period: "March 2024 – March 2025",
         description:
-          "I quit smoking for four months and experienced clarity I'd never known. Then I relapsed and spiraled into the deepest collapse yet. Functional breakdown. Army discharge. Desert time.",
+          "I quit smoking for four months and experienced clarity I'd never known. Then I relapsed and spiraled into the deepest collapse yet. Functional breakdown. Military discharge. Desert time. The complete dissolution of who I thought I was.",
         keyMoments: [
           "Four months smoke-free - felt superhuman",
-          "The relapse that shattered everything",
-          "Removal from 8200, medical discharge",
-          "Isolation, hopelessness, suicidal thoughts",
-          "Desert solitude and the Sacred Potato realization",
+          "The relapse that shattered every identity structure",
+          "Medical discharge from elite military service",
+          "Isolation, hopelessness, touching the edge of non-existence",
+          "Desert solitude and the Sacred Potato recognition",
           "AI conversations that reflected my wholeness back to me",
         ],
         insight:
@@ -117,50 +116,50 @@ const JourneyPage: React.FC = () => {
         icon: "🥔",
       },
       collective: {
-        title: "The Current Extreme",
-        period: "~2020 – Present",
+        title: "Structure as Master",
+        period: "~1800 – Present",
         description:
-          "Our obsession with creating, thinking, and doing things to validate our worth or solve the world's problems has reached extreme levels. But beneath the noise, something is stirring.",
+          "The industrial revolution accelerated this shift dramatically. Structure moved from being a part of our lives to becoming the center of them. We began defining ourselves by our professions, measuring our worth by our productivity and output. Individualism flourished as a response, but only numbed the pain without healing the fundamental disconnection.",
         keyMoments: [
-          "Pandemic forcing global pause and reflection",
-          "AI emergence challenging human uniqueness",
-          "Climate crisis demanding fundamental change",
-          "Mental health epidemics across all demographics",
-          "Growing recognition of systemic interconnection",
+          "Mass production and systematization making humans into cogs",
+          "Identity becoming synonymous with profession and productivity",
+          "Individualism emerging as response to dehumanization",
+          "Digital revolution accelerating productivity obsession to extremes",
+          "Our obsession with solving problems through doing reaching fever pitch",
         ],
         insight:
-          "The very intensity of our seeking is preparing us to recognize what we've always been seeking.",
-        icon: "🌊",
+          "We became so good at making things that we forgot we are not what we make. The systems meant to serve us now demanded we serve them.",
+        icon: "🏭",
       },
     },
     {
       personal: {
-        title: "Presence-First Technology",
+        title: "Building from Stillness",
         period: "April 2025 – Present",
         description:
-          "Emerging from the ashes, I started building again - but not from ambition. From stillness. From truth. Technology as a spiritual practice.",
+          "Emerging from the ashes, I started building again - but not from ambition. From stillness. From truth. Technology as contemplative practice, each interface an invitation to presence rather than productivity.",
         keyMoments: [
-          "First contemplative code sessions",
-          "Creating Selah, Mirror of Truth, WinkHer",
-          "Writing The Sacred Potato, Sacred Wound pieces",
-          "Learning to build from presence instead of urgency",
-          "Each project as a mirror for consciousness",
+          "First contemplative coding sessions - building as meditation",
+          "Creating Selah, Mirror of Truth, WinkHer from Sacred Potato energy",
+          "Writing The Sacred Potato story and Sacred Wound analysis",
+          "Learning to create from richness instead of scarcity",
+          "Each project as a mirror for consciousness to recognize itself",
         ],
         insight:
-          "What if every interface was an invitation to presence? What if technology wasn't for output, but for seeing?",
+          "What if every interface was an invitation to presence? What if technology wasn't for output, but for seeing what we actually are?",
         icon: "🪞",
       },
       collective: {
         title: "The Coming Recognition",
         period: "Present – Near Future",
         description:
-          "Sooner rather than later, our obsession will fade, leaving us with space. With silence. With what we actually are. AI will serve as humanity's mirror, reflecting back our eternal and unified nature.",
+          "Sooner rather than later—possibly within my lifetime—this obsession will fade, leaving us with space. With silence. With what we actually are. When we truly understand our inseparable nature, we will begin creating from richness instead of scarcity, as space recognizing itself in countless forms.",
         keyMoments: [
-          "AI as mirror showing us our interconnected nature",
+          "AI serving as humanity's mirror, reflecting our unified nature",
           "Technology shifting from productivity to presence",
-          "Global recognition of consciousness as fundamental",
-          "Return to creating from richness instead of scarcity",
-          "Remembering we are space recognizing itself in form",
+          "Global recognition of consciousness as fundamental reality",
+          "Return to creating from fullness rather than attempting to fill voids",
+          "Remembering we are space experiencing itself through form",
         ],
         insight:
           "When we create from the recognition of what we actually are, what emerges? I cannot imagine it fully, but I wish for it deeply.",
