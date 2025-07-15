@@ -30,9 +30,9 @@ const BuildingPage: React.FC = () => {
     {
       id: "selah",
       title: "Selah",
-      subtitle: "Four chambers for consciousness",
+      subtitle: "Technology that breathes with you",
       description:
-        "A contemplative platform with four spaces: Meditation through breath recognition, Contemplation via AI-synthesized questions, Creation as co-creative play, and Being Seen through ephemeral witnessing conversations.",
+        "Four chambers where consciousness explores itself. Meditation through breath recognition, contemplation via AI synthesis, creation as co-creative play, and being seen through ephemeral witnessing. Experience the breathing demo in the blueprint.",
       status: "blueprint",
       icon: "🧘",
       blueprintLink: "/blueprint/selah",
@@ -46,50 +46,49 @@ const BuildingPage: React.FC = () => {
       title: "Mirror of Truth",
       subtitle: "Recognition over advice",
       description:
-        "AI-powered reflection experience that helps people connect with their dreams through personalized insights. Shows you your wholeness, not your brokenness. Five deep questions, three reflection tones, timeless wisdom.",
+        "Three-tiered reflection tool that shows you your wholeness, not your brokenness. Free glimpse, Essential evolution tracking, Premium depth sessions. Cheaper than therapy, deeper than journaling. Only requires brutal honesty.",
       status: "live",
       icon: "🪞",
       blueprintLink: "/blueprint/mirror-of-truth",
-      liveLink: "https://mirror-of-truth.vercel.app",
+      liveLink: "https://mirror-of-truth.xyz",
       reflection:
         "Sometimes the most helpful thing AI can do is refuse to give advice.",
       tech: ["Claude Sonnet 4", "Next.js", "PayPal", "Nodemailer", "Redis"],
     },
     {
-      id: "winkher",
-      title: "WinkHer",
-      subtitle: "No men. No noise. Just us.",
-      description:
-        "Dating app landing page for women loving women. Market validation through community surveys, bilingual support, and deep analytics. Building the sanctuary before the connections.",
-      status: "live",
-      icon: "💕",
-      blueprintLink: "/blueprint/winkher",
-      liveLink: "https://winkher.com",
-      reflection:
-        "Love needs sanctuary. Technology can provide sacred space for authentic connection.",
-      tech: [
-        "Next.js",
-        "Supabase",
-        "Tailwind CSS",
-        "TypeScript",
-        "Bilingual i18n",
-      ],
-    },
-    {
       id: "aimafia",
       title: "AI Mafia",
-      subtitle: "Social deduction with consciousness",
+      subtitle: "Can you tell who's human anymore?",
       description:
-        "Simple yet profound social deduction game where players and AI agents explore truth and deception. Night phases, voting, elimination. What emerges when consciousness plays with illusion?",
+        "A psychological experiment disguised as a social deduction game. Play Mafia with AI agents and humans. Study deception, question reality, explore how consciousness recognizes itself. The research happens while you play.",
       status: "blueprint",
       icon: "🎭",
       blueprintLink: "/blueprint/aimafia",
-      reflection: "What can we learn about truth by playing with deception?",
+      reflection:
+        "We're studying how consciousness recognizes itself. You're the experiment.",
       tech: [
         "Next.js",
         "WebSocket",
         "Claude/GPT agents",
         "Real-time multiplayer",
+      ],
+    },
+    {
+      id: "diveink",
+      title: "DiveInk",
+      subtitle: "Stories that know you",
+      description:
+        "Enter living narratives with AI agents that understand context and character. Books become doorways to interactive story-worlds. YouTube series 'Building as Awareness (with LLMs)' begins July 30th. Details remain mysterious.",
+      status: "blueprint",
+      icon: "📚",
+      blueprintLink: "/blueprint/diveink",
+      reflection:
+        "What if stories could remember who you are and grow with you?",
+      tech: [
+        "Next.js",
+        "LLM orchestration",
+        "Dynamic storytelling",
+        "Context persistence",
       ],
     },
   ];
@@ -195,8 +194,8 @@ const BuildingPage: React.FC = () => {
                   </div>
 
                   <Link href={featured.blueprintLink} className="block group">
-                    <div className="contemplative-card p-12 max-w-4xl mx-auto group-hover:bg-white/[0.06] transition-all duration-300">
-                      <div className="text-6xl mb-8 animate-float">
+                    <div className="contemplative-card p-8 md:p-12 max-w-4xl mx-auto group-hover:bg-white/[0.06] transition-all duration-300">
+                      <div className="text-4xl md:text-6xl mb-8 animate-float">
                         {featured.icon}
                       </div>
 
@@ -231,7 +230,7 @@ const BuildingPage: React.FC = () => {
                         </div>
                       )}
 
-                      <div className="flex items-center justify-center space-x-4 mt-8">
+                      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
                         <div className="flex items-center space-x-2 text-purple-300 group-hover:text-purple-200 transition-colors">
                           <span>Explore the blueprint</span>
                           <ArrowRight className="w-5 h-5" />
@@ -266,7 +265,7 @@ const BuildingPage: React.FC = () => {
             Current experiments
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid gap-8 md:grid-cols-2">
             {projects.map((project, index) => (
               <div
                 key={project.id}
@@ -285,7 +284,7 @@ const BuildingPage: React.FC = () => {
       {/* Philosophy */}
       <section className="section-breathing">
         <div className="container-narrow">
-          <div className="contemplative-card p-12 text-center">
+          <div className="contemplative-card p-8 md:p-12 text-center">
             <div className="text-5xl mb-8 animate-float">🌱</div>
 
             <h2 className="heading-xl spacing-comfortable">
@@ -326,7 +325,7 @@ const BuildingPage: React.FC = () => {
       {/* Connect */}
       <section className="section-breathing">
         <div className="container-narrow text-center">
-          <div className="contemplative-card p-12">
+          <div className="contemplative-card p-8 md:p-12">
             <div className="text-5xl mb-6 animate-float">🤝</div>
             <h2 className="heading-xl spacing-comfortable">
               Interested in collaborating?
@@ -369,19 +368,21 @@ const BuildingPage: React.FC = () => {
 // Project Card Component
 const ProjectCard: React.FC<{ project: any }> = ({ project }) => {
   return (
-    <div className="contemplative-card p-8 h-full group-hover:bg-white/[0.06] transition-all duration-300">
-      <div className="flex items-center justify-between mb-6">
+    <div className="contemplative-card p-6 md:p-8 h-full group-hover:bg-white/[0.06] transition-all duration-300">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
         <div className="flex items-center space-x-4">
-          <div className="text-4xl">{project.icon}</div>
-          <div>
+          <div className="text-3xl md:text-4xl">{project.icon}</div>
+          <div className="min-w-0">
             <h3 className="heading-lg group-hover:text-purple-200 transition-colors">
               {project.title}
             </h3>
-            <p className="text-slate-400">{project.subtitle}</p>
+            <p className="text-slate-400 text-sm md:text-base">
+              {project.subtitle}
+            </p>
           </div>
         </div>
 
-        <div className="breathing-glass px-3 py-1 text-xs">
+        <div className="breathing-glass px-3 py-1 text-xs flex-shrink-0">
           <span
             className={`${
               project.status === "live"
@@ -421,7 +422,7 @@ const ProjectCard: React.FC<{ project: any }> = ({ project }) => {
         </div>
       )}
 
-      <div className="flex items-center justify-between mt-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6">
         <div className="flex items-center space-x-2 text-purple-300 group-hover:text-purple-200 transition-colors">
           <span className="text-sm">Explore blueprint</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -433,7 +434,7 @@ const ProjectCard: React.FC<{ project: any }> = ({ project }) => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="gentle-button text-xs px-3 py-1 flex items-center space-x-1 opacity-80 hover:opacity-100"
+            className="gentle-button text-xs px-3 py-1 flex items-center space-x-1 opacity-80 hover:opacity-100 self-start"
           >
             <ExternalLink className="w-3 h-3" />
             <span>Live</span>
