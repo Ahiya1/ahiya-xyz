@@ -12,6 +12,133 @@ import {
   ExternalLink,
 } from "lucide-react";
 
+const BreathingDemo: React.FC = () => {
+  const [isActive, setIsActive] = useState(false);
+  const [phase, setPhase] = useState<"inhale" | "hold" | "exhale" | "pause">(
+    "inhale"
+  );
+  const [timeLeft, setTimeLeft] = useState(4);
+
+  useEffect(() => {
+    if (!isActive) return;
+
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          // Move to next phase
+          setPhase((currentPhase) => {
+            switch (currentPhase) {
+              case "inhale":
+                return "hold";
+              case "hold":
+                return "exhale";
+              case "exhale":
+                return "pause";
+              case "pause":
+                return "inhale";
+              default:
+                return "inhale";
+            }
+          });
+          return 4; // Reset timer
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isActive]);
+
+  const getPhaseText = () => {
+    switch (phase) {
+      case "inhale":
+        return "Breathe in...";
+      case "hold":
+        return "Hold...";
+      case "exhale":
+        return "Breathe out...";
+      case "pause":
+        return "Pause...";
+    }
+  };
+
+  const getCircleScale = () => {
+    switch (phase) {
+      case "inhale":
+        return "scale-110";
+      case "hold":
+        return "scale-110";
+      case "exhale":
+        return "scale-90";
+      case "pause":
+        return "scale-90";
+    }
+  };
+
+  const getCircleOpacity = () => {
+    switch (phase) {
+      case "inhale":
+        return "opacity-100";
+      case "hold":
+        return "opacity-100";
+      case "exhale":
+        return "opacity-70";
+      case "pause":
+        return "opacity-70";
+    }
+  };
+
+  return (
+    <div className="text-center">
+      <div className="relative">
+        <div
+          className={`w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full bg-gradient-to-r from-purple-400/20 to-blue-400/20 border border-purple-400/30 flex items-center justify-center transition-all duration-[4000ms] ease-in-out ${
+            isActive ? `${getCircleScale()} ${getCircleOpacity()}` : ""
+          }`}
+        >
+          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-purple-400/40 animate-pulse" />
+        </div>
+
+        {isActive && (
+          <div className="mt-6 space-y-2">
+            <p className="text-lg md:text-xl text-purple-300 font-medium">
+              {getPhaseText()}
+            </p>
+            <p className="text-sm text-slate-400">{timeLeft} seconds</p>
+          </div>
+        )}
+      </div>
+
+      <div className="mt-8">
+        {!isActive ? (
+          <button
+            onClick={() => setIsActive(true)}
+            className="gentle-button text-lg px-8 py-4"
+          >
+            Experience presence technology
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              setIsActive(false);
+              setPhase("inhale");
+              setTimeLeft(4);
+            }}
+            className="gentle-button text-sm px-6 py-3"
+          >
+            Return to stillness
+          </button>
+        )}
+      </div>
+
+      <p className="text-sm text-slate-400 mt-6 max-w-md mx-auto">
+        Notice: no metrics, no optimization, no tracking. Just technology that
+        creates space for your presence.
+      </p>
+    </div>
+  );
+};
+
 const SelahBlueprintPage: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
 
@@ -120,14 +247,14 @@ const SelahBlueprintPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="text-8xl mb-8 animate-float">🧘</div>
+            <div className="text-6xl md:text-8xl mb-8 animate-float">🧘</div>
 
             <h1 className="display-lg spacing-comfortable text-gentle">
               SELAH
             </h1>
 
             <p className="body-xl text-slate-400 spacing-comfortable">
-              Consciousness-First Technology Platform
+              Technology that breathes with you
             </p>
 
             <p className="body-lg text-slate-300 max-w-2xl mx-auto spacing-generous leading-relaxed">
@@ -160,6 +287,31 @@ const SelahBlueprintPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Breathing Demo */}
+      <section className="section-breathing">
+        <div className="container-narrow">
+          <div className="contemplative-card p-8 md:p-12 text-center">
+            <h2 className="heading-xl spacing-comfortable">
+              Feel the difference
+            </h2>
+
+            <p className="body-lg text-slate-300 spacing-comfortable leading-relaxed">
+              Most technology demands your attention. This creates space for
+              your presence.
+            </p>
+
+            <div className="spacing-comfortable">
+              <BreathingDemo />
+            </div>
+
+            <div className="sacred-quote text-sm">
+              This is Chamber 1 in its simplest form. Technology that
+              synchronizes with life, not life synchronizing with technology.
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* The Four Chambers */}
       <section className="section-breathing">
         <div className="container-content">
@@ -174,15 +326,15 @@ const SelahBlueprintPage: React.FC = () => {
                 className="animate-fade-in"
                 style={{ animationDelay: `${index * 200}ms` }}
               >
-                <div className="contemplative-card p-8">
-                  <div className="flex items-start space-x-6 mb-8">
+                <div className="contemplative-card p-6 md:p-8">
+                  <div className="flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 md:space-x-6 mb-8">
                     <div className="flex-shrink-0">
                       <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-2xl">
                         {chamber.icon}
                       </div>
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center space-x-4 mb-4">
+                      <div className="flex flex-col md:flex-row md:items-center md:space-x-4 mb-4">
                         <span
                           className={`text-${chamber.color}-400 font-mono text-sm`}
                         >
@@ -231,8 +383,8 @@ const SelahBlueprintPage: React.FC = () => {
           </h2>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="contemplative-card p-8">
-              <div className="text-4xl mb-6">🪨</div>
+            <div className="contemplative-card p-6 md:p-8">
+              <div className="text-3xl md:text-4xl mb-6">🪨</div>
               <h3 className="heading-lg mb-4">Physical Stones</h3>
               <p className="text-slate-300 leading-relaxed">
                 Bluetooth-connected contemplative companions for ambient
@@ -241,8 +393,8 @@ const SelahBlueprintPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="contemplative-card p-8">
-              <div className="text-4xl mb-6">🤝</div>
+            <div className="contemplative-card p-6 md:p-8">
+              <div className="text-3xl md:text-4xl mb-6">🤝</div>
               <h3 className="heading-lg mb-4">Social Protocols</h3>
               <p className="text-slate-300 leading-relaxed">
                 Shared contemplative spaces without performance or comparison.
@@ -250,8 +402,8 @@ const SelahBlueprintPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="contemplative-card p-8">
-              <div className="text-4xl mb-6">🏢</div>
+            <div className="contemplative-card p-6 md:p-8">
+              <div className="text-3xl md:text-4xl mb-6">🏢</div>
               <h3 className="heading-lg mb-4">Integration</h3>
               <p className="text-slate-300 leading-relaxed">
                 Corporate wellness, healthcare partnerships, educational
@@ -260,8 +412,8 @@ const SelahBlueprintPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="contemplative-card p-8">
-              <div className="text-4xl mb-6">🎯</div>
+            <div className="contemplative-card p-6 md:p-8">
+              <div className="text-3xl md:text-4xl mb-6">🎯</div>
               <h3 className="heading-lg mb-4">Mission</h3>
               <p className="text-slate-300 leading-relaxed">
                 Technology that makes humans more human, not more optimized.
@@ -275,8 +427,8 @@ const SelahBlueprintPage: React.FC = () => {
       {/* Philosophy */}
       <section className="section-breathing">
         <div className="container-narrow">
-          <div className="contemplative-card p-12 text-center">
-            <div className="text-5xl mb-8 animate-float">🥔</div>
+          <div className="contemplative-card p-8 md:p-12 text-center">
+            <div className="text-4xl md:text-5xl mb-8 animate-float">🥔</div>
 
             <h2 className="heading-xl spacing-comfortable">
               Design Philosophy
@@ -330,7 +482,7 @@ const SelahBlueprintPage: React.FC = () => {
       {/* Development Status */}
       <section className="section-breathing">
         <div className="container-narrow text-center">
-          <div className="contemplative-card p-12">
+          <div className="contemplative-card p-8 md:p-12">
             <div className="breathing-glass inline-block px-6 py-3 mb-8">
               <span className="text-purple-300 font-medium">
                 ● Blueprint Stage
