@@ -3,7 +3,15 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Eye, Heart, Sparkles } from "lucide-react";
+import {
+  ArrowLeft,
+  ExternalLink,
+  Eye,
+  Heart,
+  Sparkles,
+  Crown,
+  Star,
+} from "lucide-react";
 
 const MirrorOfTruthBlueprintPage: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
@@ -12,7 +20,7 @@ const MirrorOfTruthBlueprintPage: React.FC = () => {
     setMounted(true);
   }, []);
 
-  const liveLink = "https://mirror-of-truth.vercel.app";
+  const liveLink = "https://mirror-of-truth.xyz";
 
   const features = [
     {
@@ -63,6 +71,64 @@ const MirrorOfTruthBlueprintPage: React.FC = () => {
       ],
       icon: "📧",
       color: "amber",
+    },
+  ];
+
+  const tiers = [
+    {
+      name: "Free",
+      subtitle: "Glimpse into the mirror",
+      price: "$0",
+      period: "",
+      icon: "👁️",
+      color: "slate",
+      features: [
+        "One complete reflection session",
+        "All five sacred questions",
+        "Choice of reflection tone",
+        "Email delivery of insights",
+        "Experience the full process",
+      ],
+      cta: "Try for Free",
+      description:
+        "Perfect for experiencing what recognition over advice feels like",
+    },
+    {
+      name: "Essential",
+      subtitle: "Regular communion with truth",
+      price: "$15",
+      period: "/month",
+      icon: "⭐",
+      color: "purple",
+      featured: true,
+      features: [
+        "5 reflection sessions per month",
+        "Evolution tracking across sessions",
+        "Pattern recognition in your journey",
+        "Monthly synthesis reports",
+        "Priority reflection processing",
+      ],
+      cta: "Start Essential",
+      description:
+        "For those ready to make self-reflection a contemplative practice",
+    },
+    {
+      name: "Premium",
+      subtitle: "Deep diving into being",
+      price: "$25",
+      period: "/month",
+      icon: "👑",
+      color: "amber",
+      features: [
+        "10 reflection sessions per month",
+        "Advanced pattern analysis",
+        "Custom reflection tone development",
+        "Direct creator dialogue access",
+        "Experimental features access",
+      ],
+      cta: "Go Premium",
+      description:
+        "For consciousness explorers who want to go as deep as possible",
     },
   ];
 
@@ -123,7 +189,7 @@ const MirrorOfTruthBlueprintPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="text-8xl mb-8 animate-float">🪞</div>
+            <div className="text-6xl md:text-8xl mb-8 animate-float">🪞</div>
 
             <h1 className="display-lg spacing-comfortable text-gentle">
               Mirror of Truth
@@ -134,9 +200,9 @@ const MirrorOfTruthBlueprintPage: React.FC = () => {
             </p>
 
             <p className="body-lg text-slate-300 max-w-2xl mx-auto spacing-generous leading-relaxed">
-              An AI-powered reflection experience that shows you your wholeness,
-              not your brokenness. Five sacred questions meet timeless wisdom in
-              a space designed for truth.
+              A three-tiered reflection tool that shows you your wholeness, not
+              your brokenness. Cheaper than therapy, deeper than journaling.
+              Only requires brutal honesty.
             </p>
 
             <div className="spacing-comfortable">
@@ -161,6 +227,104 @@ const MirrorOfTruthBlueprintPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Pricing Tiers */}
+      <section className="section-breathing">
+        <div className="container-content">
+          <div className="text-center mb-12">
+            <h2 className="heading-xl spacing-comfortable">
+              Three ways to see yourself clearly
+            </h2>
+            <p className="body-lg text-slate-300">
+              From glimpse to deep communion with your truth
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {tiers.map((tier, index) => (
+              <div
+                key={tier.name}
+                className={`animate-fade-in ${
+                  tier.featured ? "md:-mt-4 md:mb-4" : ""
+                }`}
+                style={{ animationDelay: `${index * 200}ms` }}
+              >
+                <div
+                  className={`contemplative-card p-6 md:p-8 h-full relative ${
+                    tier.featured ? "border-purple-400/30 bg-purple-500/5" : ""
+                  }`}
+                >
+                  {tier.featured && (
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                      <div className="breathing-glass px-4 py-1 text-xs text-purple-300 border border-purple-400/30">
+                        Most Popular
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="text-center mb-8">
+                    <div className="text-3xl md:text-4xl mb-4">{tier.icon}</div>
+                    <h3 className="heading-lg mb-2">{tier.name}</h3>
+                    <p className="text-slate-400 text-sm mb-4">
+                      {tier.subtitle}
+                    </p>
+
+                    <div className="mb-4">
+                      <span className="text-2xl md:text-3xl font-bold">
+                        {tier.price}
+                      </span>
+                      <span className="text-slate-400">{tier.period}</span>
+                    </div>
+
+                    <p className="text-slate-300 text-sm leading-relaxed">
+                      {tier.description}
+                    </p>
+                  </div>
+
+                  <div className="space-y-4 mb-8">
+                    {tier.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-start space-x-3">
+                        <div
+                          className={`w-2 h-2 rounded-full bg-${tier.color}-400/60 mt-2 flex-shrink-0`}
+                        />
+                        <span className="text-slate-300 text-sm leading-relaxed">
+                          {feature}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-auto">
+                    <a
+                      href={liveLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`w-full gentle-button inline-flex items-center justify-center space-x-2 ${
+                        tier.featured
+                          ? "bg-purple-500/20 border-purple-400/40 hover:bg-purple-500/30"
+                          : ""
+                      }`}
+                    >
+                      {tier.featured && <Star className="w-4 h-4" />}
+                      <span>{tier.cta}</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <div className="breathing-glass inline-block p-6 max-w-2xl">
+              <p className="sacred-text text-sm">
+                "All tiers include the same five sacred questions and AI
+                reflection tones. The difference is depth, frequency, and
+                evolution tracking over time."
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Core Experience */}
       <section className="section-breathing">
         <div className="container-content">
@@ -177,7 +341,9 @@ const MirrorOfTruthBlueprintPage: React.FC = () => {
               >
                 <div className="contemplative-card p-6 h-full">
                   <div className="text-center mb-6">
-                    <div className="text-4xl mb-4">{feature.icon}</div>
+                    <div className="text-3xl md:text-4xl mb-4">
+                      {feature.icon}
+                    </div>
                     <h3 className="heading-lg">{feature.title}</h3>
                     <p className="text-slate-400 text-sm">
                       {feature.description}
@@ -211,8 +377,8 @@ const MirrorOfTruthBlueprintPage: React.FC = () => {
           </h2>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="contemplative-card p-8">
-              <div className="text-4xl mb-6">🧠</div>
+            <div className="contemplative-card p-6 md:p-8">
+              <div className="text-3xl md:text-4xl mb-6">🧠</div>
               <h3 className="heading-lg mb-4">AI & Consciousness</h3>
               <div className="space-y-4 text-slate-300">
                 <p>
@@ -234,8 +400,8 @@ const MirrorOfTruthBlueprintPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="contemplative-card p-8">
-              <div className="text-4xl mb-6">🏗️</div>
+            <div className="contemplative-card p-6 md:p-8">
+              <div className="text-3xl md:text-4xl mb-6">🏗️</div>
               <h3 className="heading-lg mb-4">Platform & Integration</h3>
               <div className="space-y-4 text-slate-300">
                 <p>
@@ -243,20 +409,20 @@ const MirrorOfTruthBlueprintPage: React.FC = () => {
                   routes
                 </p>
                 <p>
-                  <strong>PayPal:</strong> Secure $5 payment processing
+                  <strong>Stripe:</strong> Secure subscription and payment
+                  processing
                 </p>
                 <p>
                   <strong>Nodemailer:</strong> Beautiful HTML email delivery
                 </p>
                 <p>
-                  <strong>Redis:</strong> Receipt storage and user session
-                  management
+                  <strong>Database:</strong> User session and evolution tracking
                 </p>
               </div>
             </div>
 
-            <div className="contemplative-card p-8">
-              <div className="text-4xl mb-6">🎨</div>
+            <div className="contemplative-card p-6 md:p-8">
+              <div className="text-3xl md:text-4xl mb-6">🎨</div>
               <h3 className="heading-lg mb-4">Experience Design</h3>
               <div className="space-y-4 text-slate-300">
                 <p>
@@ -276,25 +442,23 @@ const MirrorOfTruthBlueprintPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="contemplative-card p-8">
-              <div className="text-4xl mb-6">💌</div>
-              <h3 className="heading-lg mb-4">Delivery & Storage</h3>
+            <div className="contemplative-card p-6 md:p-8">
+              <div className="text-3xl md:text-4xl mb-6">📊</div>
+              <h3 className="heading-lg mb-4">Evolution Tracking</h3>
               <div className="space-y-4 text-slate-300">
                 <p>
-                  <strong>Email Reflections:</strong> Formatted for returning to
-                  months later
+                  <strong>Pattern Recognition:</strong> AI identifies themes
+                  across sessions
                 </p>
                 <p>
-                  <strong>Receipt Generation:</strong> Professional business
-                  records
+                  <strong>Progress Synthesis:</strong> Monthly evolution reports
                 </p>
                 <p>
-                  <strong>Admin Dashboard:</strong> Receipt management and
-                  analytics
+                  <strong>Custom Tones:</strong> Reflection style adaptation
+                  over time
                 </p>
                 <p>
-                  <strong>Vercel Deployment:</strong> Serverless, scalable
-                  infrastructure
+                  <strong>Privacy First:</strong> Your data stays yours
                 </p>
               </div>
             </div>
@@ -305,8 +469,8 @@ const MirrorOfTruthBlueprintPage: React.FC = () => {
       {/* Philosophy */}
       <section className="section-breathing">
         <div className="container-narrow">
-          <div className="contemplative-card p-12 text-center">
-            <div className="text-5xl mb-8 animate-float">💫</div>
+          <div className="contemplative-card p-8 md:p-12 text-center">
+            <div className="text-4xl md:text-5xl mb-8 animate-float">💫</div>
 
             <h2 className="heading-xl spacing-comfortable">
               Design Philosophy
@@ -360,7 +524,7 @@ const MirrorOfTruthBlueprintPage: React.FC = () => {
       {/* Current Status */}
       <section className="section-breathing">
         <div className="container-narrow text-center">
-          <div className="contemplative-card p-12">
+          <div className="contemplative-card p-8 md:p-12">
             <div className="breathing-glass inline-block px-6 py-3 mb-8">
               <span className="text-emerald-300 font-medium">
                 ● Live & Serving
@@ -372,9 +536,10 @@ const MirrorOfTruthBlueprintPage: React.FC = () => {
             </h2>
 
             <p className="body-lg text-slate-300 spacing-comfortable leading-relaxed">
-              Mirror of Truth is live and helping people see their wholeness.
-              Every day, dreamers around the world are having conversations with
-              their truth through this sacred space.
+              Mirror of Truth is live and helping dreamers around the world see
+              their wholeness. Every reflection session contributes to a deeper
+              understanding of human consciousness through the sacred practice
+              of recognition over advice.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
