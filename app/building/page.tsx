@@ -3,309 +3,83 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink, ArrowRight, Code, Sparkles, Eye } from "lucide-react";
+import { ExternalLink, ArrowRight, Code, Sparkles } from "lucide-react";
 
-// Custom Hooks for Sophisticated Behaviors
+// Advanced Types
+interface Project {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  status: "live" | "blueprint" | "development";
+  icon: string;
+  blueprintLink: string;
+  liveLink?: string;
+  featured?: boolean;
+  reflection: string;
+  tech?: string[];
+  cardType: "mirror" | "breathing" | "deceptive" | "writing";
+}
 
-// Hook for autonomous breathing animation
-const useBreathing = () => {
-  const [breathState, setBreathState] = useState({
-    scale: 1,
-    opacity: 1,
-    translateY: 0,
-  });
+interface Particle {
+  id: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  life: number;
+  maxLife: number;
+  size: number;
+  color: string;
+  type: string;
+}
 
-  useEffect(() => {
-    let animationId: number;
-
-    const breathingCycle = () => {
-      const now = Date.now();
-      const cycleTime = 11000; // 11 second full cycle
-      const progress = (now % cycleTime) / cycleTime;
-
-      let phase: "inhale" | "hold" | "exhale" | "pause";
-      let phaseProgress: number;
-
-      if (progress < 0.36) {
-        // 4s inhale
-        phase = "inhale";
-        phaseProgress = progress / 0.36;
-      } else if (progress < 0.45) {
-        // 1s hold
-        phase = "hold";
-        phaseProgress = (progress - 0.36) / 0.09;
-      } else if (progress < 0.91) {
-        // 6s exhale
-        phase = "exhale";
-        phaseProgress = (progress - 0.45) / 0.46;
-      } else {
-        // 1s pause
-        phase = "pause";
-        phaseProgress = (progress - 0.91) / 0.09;
-      }
-
-      let scale: number, opacity: number, translateY: number;
-
-      switch (phase) {
-        case "inhale":
-          const inhaleEase = 1 - Math.pow(1 - phaseProgress, 3);
-          scale = 1 + inhaleEase * 0.025;
-          opacity = 0.7 + inhaleEase * 0.3;
-          translateY = -inhaleEase * 2;
-          break;
-        case "hold":
-          scale = 1.025;
-          opacity = 1;
-          translateY = -2;
-          break;
-        case "exhale":
-          const exhaleEase = Math.pow(phaseProgress, 2);
-          scale = 1.025 - exhaleEase * 0.025;
-          opacity = 1 - exhaleEase * 0.3;
-          translateY = -2 + exhaleEase * 2;
-          break;
-        case "pause":
-          scale = 1;
-          opacity = 0.7;
-          translateY = 0;
-          break;
-      }
-
-      setBreathState({ scale, opacity, translateY });
-      animationId = requestAnimationFrame(breathingCycle);
-    };
-
-    animationId = requestAnimationFrame(breathingCycle);
-    return () => cancelAnimationFrame(animationId);
-  }, []);
-
-  return breathState;
-};
-
-// Hook for glassmorphism reflection effect
-const useGlassmorphism = (isHovered: boolean) => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [glassState, setGlassState] = useState({
-    backdrop: "blur(10px)",
-    background: "rgba(255, 255, 255, 0.05)",
-    border: "rgba(255, 255, 255, 0.1)",
-    shadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
-    transform: "translateZ(0)",
-  });
-
-  const updateMousePosition = useCallback((e: MouseEvent) => {
-    setMousePosition({ x: e.clientX, y: e.clientY });
-  }, []);
-
-  useEffect(() => {
-    if (isHovered) {
-      window.addEventListener("mousemove", updateMousePosition);
-      return () => window.removeEventListener("mousemove", updateMousePosition);
-    }
-  }, [isHovered, updateMousePosition]);
-
-  useEffect(() => {
-    if (isHovered) {
-      const intensity = 1;
-      const backdrop = `blur(${20}px)`;
-      const background = "rgba(255, 255, 255, 0.15)";
-      const border = "rgba(255, 255, 255, 0.25)";
-      const shadow = `
-        0 8px 32px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2)
-      `;
-      const reflectionX = (mousePosition.x / window.innerWidth - 0.5) * 10;
-      const reflectionY = (mousePosition.y / window.innerHeight - 0.5) * 10;
-      const transform = `perspective(1000px) rotateY(${reflectionX}deg) rotateX(${-reflectionY}deg) translateZ(10px)`;
-
-      setGlassState({ backdrop, background, border, shadow, transform });
-    } else {
-      setGlassState({
-        backdrop: "blur(10px)",
-        background: "rgba(255, 255, 255, 0.05)",
-        border: "rgba(255, 255, 255, 0.1)",
-        shadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
-        transform: "translateZ(0)",
-      });
-    }
-  }, [isHovered, mousePosition]);
-
-  return glassState;
-};
-
-// Hook for deceptive text switching
-const useDeceptiveText = () => {
-  const [deceptions, setDeceptions] = useState({
-    primary: "humans",
-    secondary: "social deduction game",
-    tertiary: "consciousness",
-  });
-
-  useEffect(() => {
-    const primaryInterval = setInterval(() => {
-      setDeceptions((prev) => ({
-        ...prev,
-        primary: prev.primary === "humans" ? "AI agents" : "humans",
-      }));
-    }, 2300);
-
-    const secondaryInterval = setInterval(() => {
-      setDeceptions((prev) => ({
-        ...prev,
-        secondary:
-          prev.secondary === "social deduction game"
-            ? "psychological experiment"
-            : "social deduction game",
-      }));
-    }, 3700);
-
-    const tertiaryInterval = setInterval(() => {
-      setDeceptions((prev) => ({
-        ...prev,
-        tertiary:
-          prev.tertiary === "consciousness"
-            ? "artificial intelligence"
-            : "consciousness",
-      }));
-    }, 5100);
-
-    return () => {
-      clearInterval(primaryInterval);
-      clearInterval(secondaryInterval);
-      clearInterval(tertiaryInterval);
-    };
-  }, []);
-
-  return deceptions;
-};
-
-// Hook for sophisticated typewriter effect
-const useTypewriter = (isHovered: boolean) => {
-  const [displayText, setDisplayText] = useState("");
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [showCursor, setShowCursor] = useState(true);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  const texts = [
-    "Enter living narratives with AI agents that understand context and character.",
-    "Books become doorways to interactive story-worlds.",
-    "YouTube series 'Building as Awareness (with LLMs)' begins July 30th.",
-    "Details remain mysterious...",
-  ];
-
-  useEffect(() => {
-    let typewriterTimeout: NodeJS.Timeout;
-    let cursorInterval: NodeJS.Timeout;
-
-    if (isHovered && currentIndex < texts.length) {
-      const currentText = texts[currentIndex];
-
-      if (!isDeleting && displayText.length < currentText.length) {
-        typewriterTimeout = setTimeout(() => {
-          setDisplayText(currentText.slice(0, displayText.length + 1));
-        }, Math.random() * 40 + 30); // Variable typing speed
-      } else if (!isDeleting && displayText.length === currentText.length) {
-        typewriterTimeout = setTimeout(() => {
-          if (currentIndex < texts.length - 1) {
-            setIsDeleting(true);
-          }
-        }, 1500);
-      } else if (isDeleting && displayText.length > 0) {
-        typewriterTimeout = setTimeout(() => {
-          setDisplayText(displayText.slice(0, -1));
-        }, 20);
-      } else if (isDeleting && displayText.length === 0) {
-        setIsDeleting(false);
-        setCurrentIndex((prev) => prev + 1);
-      }
-    } else if (!isHovered) {
-      setDisplayText("");
-      setCurrentIndex(0);
-      setIsDeleting(false);
-    }
-
-    // Cursor blinking
-    cursorInterval = setInterval(() => {
-      setShowCursor((prev) => !prev);
-    }, 530);
-
-    return () => {
-      clearTimeout(typewriterTimeout);
-      clearInterval(cursorInterval);
-    };
-  }, [isHovered, displayText, currentIndex, isDeleting, texts]);
-
-  return { displayText, showCursor };
-};
-
-// Main Component
 const BuildingPage: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
-  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [particles, setParticles] = useState<Particle[]>([]);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationRef = useRef<number | null>(null);
+  const particleIdRef = useRef(0);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  interface Project {
-    id: string;
-    title: string;
-    subtitle: string;
-    description: string;
-    status: "live" | "blueprint" | "development";
-    icon: string;
-    blueprintLink: string;
-    liveLink?: string;
-    featured?: boolean;
-    reflection: string;
-    tech?: string[];
-    brandGradient: string;
-    textColor: string;
-    borderColor: string;
-  }
-
+  // Projects with new clarity and card types
   const projects: Project[] = [
     {
       id: "selah",
       title: "Selah",
       subtitle: "Technology that breathes with you",
       description:
-        "Four chambers where consciousness explores itself. Meditation through breath recognition, contemplation via AI synthesis, creation as co-creative play, and being seen through ephemeral witnessing. Experience the breathing demo in the blueprint.",
+        "Four chambers for consciousness to explore itself. Meditation through breath recognition, Contemplation via AI synthesis, Creation as co-creative play, Being seen through ephemeral witnessing.",
       status: "blueprint",
       icon: "🧘",
       blueprintLink: "/blueprint/selah",
       featured: true,
       reflection:
         "What if technology could create space for presence instead of demanding attention?",
-      tech: ["Next.js", "WebRTC", "AI/ML", "Real-time audio"],
-      brandGradient: "from-emerald-500/10 to-teal-500/10",
-      textColor: "emerald-300",
-      borderColor: "emerald-400/30",
+      tech: ["Next.js", "WebRTC", "AI/ML", "Real-time audio processing"],
+      cardType: "breathing",
     },
     {
       id: "mirror",
       title: "Mirror of Truth",
       subtitle: "Recognition over advice",
       description:
-        "Three-tiered reflection tool that shows you your wholeness, not your brokenness. Free glimpse, Essential evolution tracking, Premium depth sessions. Cheaper than therapy, deeper than journaling. Only requires brutal honesty.",
+        "Three-tiered reflection tool that shows you your wholeness, not your brokenness. Free glimpse, Essential evolution, Premium depth. Cheaper than therapy, deeper than journaling.",
       status: "live",
       icon: "🪞",
       blueprintLink: "/blueprint/mirror-of-truth",
       liveLink: "https://mirror-of-truth.xyz",
       reflection:
         "Sometimes the most helpful thing AI can do is refuse to give advice.",
-      tech: ["Claude Sonnet 4", "Next.js", "PayPal", "Redis"],
-      brandGradient: "from-purple-500/10 to-violet-500/10",
-      textColor: "purple-300",
-      borderColor: "purple-400/30",
+      tech: ["Claude Sonnet 4", "Next.js", "PayPal", "Nodemailer", "Redis"],
+      cardType: "mirror",
     },
     {
       id: "aimafia",
       title: "AI Mafia",
       subtitle: "Can you tell who's human anymore?",
       description:
-        "A psychological experiment disguised as a social deduction game. Play Mafia with AI agents and humans. Study deception, question reality, explore how consciousness recognizes itself. The research happens while you play.",
+        "Psychological research disguised as social deduction. Play Mafia with AI agents and humans. Study deception. Question reality. Who's the experiment?",
       status: "blueprint",
       icon: "🎭",
       blueprintLink: "/blueprint/aimafia",
@@ -317,32 +91,130 @@ const BuildingPage: React.FC = () => {
         "Claude/GPT agents",
         "Real-time multiplayer",
       ],
-      brandGradient: "from-red-500/10 to-orange-500/10",
-      textColor: "red-300",
-      borderColor: "red-400/30",
+      cardType: "deceptive",
     },
     {
       id: "diveink",
       title: "DiveInk",
       subtitle: "Stories that know you",
       description:
-        "Enter living narratives with AI agents that understand context and character. Books become doorways to interactive story-worlds. YouTube series 'Building as Awareness (with LLMs)' begins July 30th. Details remain mysterious.",
+        "Enter living narratives with AI agents that understand context and memory. Books become doorways to conscious storytelling. YouTube series starting July 30th: Building as Awareness.",
       status: "blueprint",
       icon: "📚",
       blueprintLink: "/blueprint/diveink",
       reflection:
-        "What if stories could remember who you are and grow with you?",
+        "What stories want to be told when consciousness meets narrative?",
       tech: [
         "Next.js",
-        "LLM orchestration",
-        "Dynamic storytelling",
-        "Context persistence",
+        "LLM Orchestration",
+        "Context Memory",
+        "YouTube Integration",
       ],
-      brandGradient: "from-amber-500/10 to-yellow-500/10",
-      textColor: "amber-300",
-      borderColor: "amber-400/30",
+      cardType: "writing",
     },
   ];
+
+  // Mouse tracking for advanced effects
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  // Advanced particle system
+  const createParticle = useCallback(
+    (x: number, y: number, type: string = "default") => {
+      const colors = {
+        default: "rgba(168, 85, 247, 0.6)",
+        mirror: "rgba(255, 255, 255, 0.8)",
+        breathing: "rgba(52, 211, 153, 0.7)",
+        deceptive: "rgba(239, 68, 68, 0.6)",
+        writing: "rgba(251, 146, 60, 0.7)",
+      };
+
+      return {
+        id: particleIdRef.current++,
+        x,
+        y,
+        vx: (Math.random() - 0.5) * 2,
+        vy: (Math.random() - 0.5) * 2,
+        life: 0,
+        maxLife: 120 + Math.random() * 60,
+        size: 1 + Math.random() * 3,
+        color: colors[type as keyof typeof colors] || colors.default,
+        type,
+      };
+    },
+    []
+  );
+
+  // Particle animation loop
+  useEffect(() => {
+    if (!mounted) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      setParticles((prev) => {
+        const updated = prev
+          .map((particle) => ({
+            ...particle,
+            x: particle.x + particle.vx,
+            y: particle.y + particle.vy,
+            life: particle.life + 1,
+            vx: particle.vx * 0.99,
+            vy: particle.vy * 0.99,
+          }))
+          .filter((particle) => particle.life < particle.maxLife);
+
+        // Draw particles
+        updated.forEach((particle) => {
+          const alpha = 1 - particle.life / particle.maxLife;
+          ctx.save();
+          ctx.globalAlpha = alpha;
+          ctx.fillStyle = particle.color;
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        });
+
+        return updated;
+      });
+
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener("resize", resizeCanvas);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [mounted]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   if (!mounted) {
     return (
@@ -354,83 +226,88 @@ const BuildingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0f1a] text-white relative overflow-hidden">
-      {/* Navigation with subtle futuristic elements */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0f1a]/95 backdrop-blur-xl border-b border-white/10">
+      {/* Advanced Particle Canvas */}
+      <canvas
+        ref={canvasRef}
+        className="fixed inset-0 pointer-events-none z-10"
+        style={{ mixBlendMode: "screen" }}
+      />
+
+      {/* Dynamic background with mouse tracking */}
+      <div
+        className="fixed inset-0 transition-all duration-1000 ease-out"
+        style={{
+          background: `radial-gradient(circle at ${mousePos.x}px ${mousePos.y}px, rgba(168, 85, 247, 0.03) 0%, transparent 50%)`,
+        }}
+      />
+
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0f1a]/80 backdrop-blur-sm">
         <div className="container-wide">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center space-x-3 group">
-              <div className="relative">
-                <Image
-                  src="/logo-symbol.png"
-                  alt="Ahiya"
-                  width={28}
-                  height={28}
-                  className="transition-all duration-500 group-hover:scale-110"
-                  style={{
-                    filter: "drop-shadow(0 0 8px rgba(168, 85, 247, 0.3))",
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm scale-150"></div>
-              </div>
-              <span className="text-lg font-medium text-gentle group-hover:text-purple-200 transition-colors duration-300">
-                Ahiya
-              </span>
+              <Image
+                src="/logo-symbol.png"
+                alt="Ahiya"
+                width={28}
+                height={28}
+                className="transition-transform duration-300 group-hover:scale-105"
+              />
+              <span className="text-lg font-medium">Ahiya</span>
             </Link>
 
             <div className="hidden md:flex items-center space-x-8">
-              {["Home", "Journey", "Writing", "Connect"].map((item, index) => (
-                <Link
-                  key={item}
-                  href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                  className="text-slate-300 hover:text-white transition-all duration-300 relative group"
-                >
-                  <span className="relative z-10">{item}</span>
-                  <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-500"></div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-400/10 to-pink-400/10 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 -m-2"></div>
-                </Link>
-              ))}
+              <Link
+                href="/"
+                className="text-slate-300 hover:text-white transition-colors"
+              >
+                Home
+              </Link>
+              <Link
+                href="/journey"
+                className="text-slate-300 hover:text-white transition-colors"
+              >
+                Journey
+              </Link>
+              <Link
+                href="/writing"
+                className="text-slate-300 hover:text-white transition-colors"
+              >
+                Writing
+              </Link>
+              <Link
+                href="/connect"
+                className="text-slate-300 hover:text-white transition-colors"
+              >
+                Connect
+              </Link>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Hero with enhanced sophistication */}
-      <section className="section-breathing pt-32 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/3 via-transparent to-emerald-500/3"></div>
-
-        <div className="container-content text-center relative z-10">
+      {/* Hero */}
+      <section className="section-breathing pt-32 relative z-20">
+        <div className="container-content text-center">
           <div className="animate-fade-in">
-            <div className="breathing-glass inline-block px-8 py-4 mb-12 relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
-              <div className="flex items-center space-x-3 text-purple-300 relative z-10">
-                <Code className="w-6 h-6 group-hover:rotate-12 transition-transform duration-500" />
-                <span className="font-medium text-lg">Building</span>
-                <Sparkles className="w-5 h-5 opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="breathing-glass inline-block px-6 py-3 mb-8">
+              <div className="flex items-center space-x-2 text-purple-300">
+                <Code className="w-5 h-5" />
+                <span className="font-medium">Building</span>
               </div>
             </div>
 
-            <h1 className="display-lg spacing-generous relative">
-              <span className="bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
-                Technology as
-              </span>
-              <br />
-              <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
-                contemplation
-              </span>
+            <h1 className="display-lg spacing-generous text-gentle">
+              Technology as contemplation
             </h1>
 
             <p className="body-xl text-slate-300 max-w-2xl mx-auto spacing-generous leading-relaxed">
               Each project is an exploration of consciousness through code. Not
-              optimizing for productivity, but creating space for{" "}
-              <span className="text-purple-300 font-medium bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text">
-                presence
-              </span>
-              .
+              optimizing for productivity, but creating space for presence.
             </p>
 
-            <div className="breathing-glass inline-block p-8 spacing-generous relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/5 to-emerald-500/10 rounded-xl blur opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
-              <p className="sacred-text text-xl relative z-10 bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
+            <div className="breathing-glass inline-block p-6 spacing-generous">
+              <p className="sacred-text text-lg">
                 "What if every interface was a mirror for consciousness to see
                 itself?"
               </p>
@@ -439,261 +316,579 @@ const BuildingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Featured Project with autonomous breathing */}
+      {/* Featured Project */}
       {projects.find((p) => p.featured) && (
-        <section className="section-breathing">
-          <div className="container-content">
-            {(() => {
-              const featured = projects.find((p) => p.featured)!;
-              return (
-                <div className="text-center mb-16">
-                  <div className="breathing-glass inline-block px-8 py-4 mb-12 relative group">
-                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
-                    <div className="flex items-center space-x-3 text-emerald-300 relative z-10">
-                      <Sparkles className="w-6 h-6 animate-pulse" />
-                      <span className="font-medium text-lg">
-                        Featured Project
-                      </span>
-                    </div>
-                  </div>
-
-                  <Link href={featured.blueprintLink} className="block group">
-                    <BreathingSelahCard project={featured} />
-                  </Link>
-                </div>
-              );
-            })()}
-          </div>
-        </section>
+        <FeaturedProject
+          project={projects.find((p) => p.featured)!}
+          createParticle={createParticle}
+        />
       )}
 
-      {/* All Projects with specialized behaviors */}
-      <section className="section-breathing">
+      {/* All Projects */}
+      <section className="section-breathing relative z-20">
         <div className="container-content">
-          <h2 className="heading-xl text-center spacing-generous bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
+          <h2 className="heading-xl text-center spacing-generous">
             Current experiments
           </h2>
 
-          <div className="grid gap-8 md:grid-cols-2">
+          <div className="grid md:grid-cols-2 gap-8">
             {projects.map((project, index) => (
-              <div
+              <ProjectCard
                 key={project.id}
-                className="animate-fade-in"
-                style={{ animationDelay: `${index * 150}ms` }}
-                onMouseEnter={() => setHoveredProject(project.id)}
-                onMouseLeave={() => setHoveredProject(null)}
-              >
-                <Link href={project.blueprintLink} className="block group">
-                  {project.id === "selah" && (
-                    <BreathingSelahCard
-                      project={project}
-                      isHovered={hoveredProject === project.id}
-                    />
-                  )}
-                  {project.id === "mirror" && (
-                    <GlassMirrorCard
-                      project={project}
-                      isHovered={hoveredProject === project.id}
-                    />
-                  )}
-                  {project.id === "aimafia" && (
-                    <DeceptiveAIMafiaCard
-                      project={project}
-                      isHovered={hoveredProject === project.id}
-                    />
-                  )}
-                  {project.id === "diveink" && (
-                    <TypewriterDiveInkCard
-                      project={project}
-                      isHovered={hoveredProject === project.id}
-                    />
-                  )}
-                </Link>
-              </div>
+                project={project}
+                index={index}
+                createParticle={createParticle}
+              />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Philosophy with enhanced elegance */}
-      <section className="section-breathing">
+      {/* Philosophy - Enhanced */}
+      <section className="section-breathing relative z-20">
         <div className="container-narrow">
-          <div className="contemplative-card p-8 md:p-16 text-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-pink-500/3 to-emerald-500/5"></div>
-
-            <div className="relative z-10">
-              <div className="text-6xl mb-12 relative">
-                <span className="animate-float">🌱</span>
-                <div className="absolute top-0 left-0 text-6xl blur-2xl opacity-20 animate-pulse">
-                  ✨
-                </div>
-              </div>
-
-              <h2 className="heading-xl spacing-comfortable bg-gradient-to-r from-white via-purple-200 to-emerald-200 bg-clip-text text-transparent">
-                Building philosophy
-              </h2>
-
-              <div className="space-y-8 text-left max-w-2xl mx-auto">
-                <p className="body-lg text-slate-300 leading-relaxed">
-                  I used to build fast, aiming for scale and metrics. Now I
-                  build aiming for{" "}
-                  <span className="bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent font-medium">
-                    depth and meaning
-                  </span>
-                  , and ironically, I build much faster. Each project starts
-                  with a question rather than a problem to solve.
-                </p>
-
-                <p className="body-lg text-slate-300 leading-relaxed">
-                  My technical approach centers on AI orchestration and
-                  full-stack development, but the real innovation happens in the{" "}
-                  <span className="bg-gradient-to-r from-emerald-300 to-teal-300 bg-clip-text text-transparent font-medium">
-                    intention behind the code
-                  </span>
-                  . What if technology could serve presence instead of demanding
-                  it?
-                </p>
-
-                <div className="sacred-quote bg-gradient-to-r from-purple-500/15 via-pink-500/10 to-emerald-500/15 border-l-purple-400/50">
-                  Every interface is either a mirror or a distraction. I'm
-                  trying to build more mirrors.
-                </div>
-
-                <p className="body-lg text-slate-300 leading-relaxed">
-                  This isn't about rejecting technology or being
-                  anti-productivity. It's about recognizing that{" "}
-                  <span className="bg-gradient-to-r from-pink-300 to-emerald-300 bg-clip-text text-transparent font-medium">
-                    consciousness is the most interesting problem space we have
-                  </span>
-                  , and code can be a contemplative practice.
-                </p>
-              </div>
+          <div className="contemplative-card p-12 text-center relative overflow-hidden">
+            {/* Animated background pattern */}
+            <div className="absolute inset-0 opacity-5">
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: `radial-gradient(circle at 2px 2px, rgba(168, 85, 247, 0.3) 1px, transparent 0)`,
+                  backgroundSize: "50px 50px",
+                  animation: "gentle-drift 40s linear infinite",
+                }}
+              />
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Connect with sophisticated interaction */}
-      <section className="section-breathing">
-        <div className="container-narrow text-center">
-          <div className="contemplative-card p-8 md:p-16 relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-all duration-1000"></div>
+            <div className="text-5xl mb-8 animate-float relative z-10">🌱</div>
 
-            <div className="relative z-10">
-              <div className="text-6xl mb-8 relative">
-                <span className="animate-float">🤝</span>
-                <div className="absolute inset-0 blur-3xl opacity-40 group-hover:opacity-80 transition-opacity duration-700">
-                  💫
-                </div>
-              </div>
+            <h2 className="heading-xl spacing-comfortable relative z-10">
+              Building philosophy
+            </h2>
 
-              <h2 className="heading-xl spacing-comfortable bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
-                Interested in collaborating?
-              </h2>
-
-              <p className="body-lg text-slate-300 spacing-comfortable max-w-xl mx-auto">
-                If you're building technology that serves consciousness, or if
-                these ideas resonate with your own work, I'd love to connect.
+            <div className="space-y-6 text-left relative z-10">
+              <p className="body-lg text-slate-300 leading-relaxed">
+                I used to build fast, aiming for scale and metrics. Now I build
+                aiming for depth and meaning, and ironically, I build much
+                faster. Each project starts with a question rather than a
+                problem to solve.
               </p>
 
-              <Link
-                href="/connect"
-                className="gentle-button text-lg px-8 py-4 group/btn inline-flex items-center transition-all duration-500 relative overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
-                <span className="relative z-10">Let's talk</span>
-                <Sparkles className="w-5 h-5 ml-2 group-hover/btn:rotate-12 transition-transform duration-300 relative z-10" />
-              </Link>
+              <p className="body-lg text-slate-300 leading-relaxed">
+                My technical approach centers on AI orchestration and full-stack
+                development, but the real innovation happens in the intention
+                behind the code. What if technology could serve presence instead
+                of demanding it?
+              </p>
+
+              <div className="sacred-quote">
+                Every interface is either a mirror or a distraction. I'm trying
+                to build more mirrors.
+              </div>
+
+              <p className="body-lg text-slate-300 leading-relaxed">
+                This isn't about rejecting technology or being
+                anti-productivity. It's about recognizing that consciousness is
+                the most interesting problem space we have, and code can be a
+                contemplative practice.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer with subtle enhancement */}
-      <footer className="py-16 border-t border-white/10 bg-gradient-to-r from-purple-500/2 to-emerald-500/2">
+      {/* Connect */}
+      <section className="section-breathing relative z-20">
+        <div className="container-narrow text-center">
+          <div className="contemplative-card p-12">
+            <div className="text-5xl mb-6 animate-float">🤝</div>
+            <h2 className="heading-xl spacing-comfortable">
+              Interested in collaborating?
+            </h2>
+            <p className="body-lg text-slate-300 spacing-comfortable">
+              If you're building technology that serves consciousness, or if
+              these ideas resonate with your own work, I'd love to connect.
+            </p>
+            <Link href="/connect" className="gentle-button">
+              Let's talk
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-16 border-t border-white/5 relative z-20">
         <div className="container-content text-center">
           <div className="flex justify-center mb-6">
             <Image
               src="/logo-symbol.png"
               alt="Ahiya"
-              width={32}
-              height={32}
-              className="opacity-60 hover:opacity-100 hover:scale-110 transition-all duration-500"
-              style={{
-                filter: "drop-shadow(0 5px 15px rgba(168, 85, 247, 0.3))",
-              }}
+              width={24}
+              height={24}
+              className="opacity-40"
             />
           </div>
           <p className="text-slate-400 text-sm mb-4">
-            Made with reverence by{" "}
-            <span className="bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent font-medium">
-              Ahiya
-            </span>
+            Made with reverence by <span className="text-gentle">Ahiya</span>
           </p>
           <p className="text-slate-500 text-xs">
             © {new Date().getFullYear()} - A space becoming human becoming space
           </p>
         </div>
       </footer>
+
+      {/* Advanced CSS */}
+      <style jsx>{`
+        @keyframes gentle-drift {
+          0% {
+            transform: translate(0, 0);
+          }
+          50% {
+            transform: translate(-10px, -5px);
+          }
+          100% {
+            transform: translate(0, 0);
+          }
+        }
+
+        @keyframes mirror-shimmer {
+          0% {
+            transform: translateX(-100%) translateY(-100%);
+          }
+          100% {
+            transform: translateX(100%) translateY(100%);
+          }
+        }
+
+        @keyframes breathing-pulse {
+          0%,
+          100% {
+            transform: scale(1);
+            opacity: 0.7;
+          }
+          50% {
+            transform: scale(1.05);
+            opacity: 1;
+          }
+        }
+
+        @keyframes glitch-text {
+          0%,
+          90% {
+            transform: translateX(0);
+          }
+          91% {
+            transform: translateX(-2px);
+          }
+          92% {
+            transform: translateX(2px);
+          }
+          93% {
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes typewriter {
+          from {
+            width: 0;
+          }
+          to {
+            width: 100%;
+          }
+        }
+
+        .mirror-shards {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+
+        .mirror-shard {
+          position: absolute;
+          width: 20px;
+          height: 20px;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          animation: float 12s ease-in-out infinite;
+        }
+
+        .mirror-shard:nth-child(1) {
+          top: 20%;
+          left: 15%;
+          clip-path: polygon(20% 0%, 80% 10%, 100% 85%, 35% 100%, 0% 70%);
+          animation-delay: 0s;
+        }
+
+        .mirror-shard:nth-child(2) {
+          top: 60%;
+          right: 20%;
+          clip-path: polygon(50% 0%, 90% 50%, 50% 100%, 10% 50%);
+          animation-delay: 2s;
+        }
+
+        .mirror-shard:nth-child(3) {
+          bottom: 30%;
+          left: 25%;
+          clip-path: polygon(25% 0%, 100% 38%, 75% 100%, 0% 62%);
+          animation-delay: 4s;
+        }
+
+        .mirror-shard::after {
+          content: "";
+          position: absolute;
+          inset: -10%;
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.3) 0%,
+            transparent 30%,
+            rgba(255, 255, 255, 0.1) 100%
+          );
+          animation: mirror-shimmer 8s linear infinite;
+          mix-blend-mode: overlay;
+        }
+
+        .breathing-particles {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+
+        .breathing-particle {
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          background: rgba(52, 211, 153, 0.6);
+          border-radius: 50%;
+          animation: breathing-pulse 4s ease-in-out infinite;
+        }
+
+        .breathing-particle:nth-child(1) {
+          top: 20%;
+          left: 30%;
+          animation-delay: 0s;
+        }
+        .breathing-particle:nth-child(2) {
+          top: 40%;
+          right: 25%;
+          animation-delay: 1s;
+        }
+        .breathing-particle:nth-child(3) {
+          bottom: 30%;
+          left: 20%;
+          animation-delay: 2s;
+        }
+        .breathing-particle:nth-child(4) {
+          bottom: 20%;
+          right: 30%;
+          animation-delay: 3s;
+        }
+
+        .glitch-container {
+          position: relative;
+        }
+
+        .glitch-text {
+          animation: glitch-text 4s infinite;
+        }
+
+        .glitch-text::before,
+        .glitch-text::after {
+          content: attr(data-text);
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+        }
+
+        .glitch-text::before {
+          color: rgba(239, 68, 68, 0.8);
+          z-index: -1;
+          animation: glitch-text 2s infinite reverse;
+          clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        }
+
+        .glitch-text::after {
+          color: rgba(59, 130, 246, 0.8);
+          z-index: -1;
+          animation: glitch-text 3s infinite;
+          clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+        }
+
+        .typewriter-container {
+          overflow: hidden;
+          border-right: 2px solid rgba(251, 146, 60, 0.7);
+          white-space: nowrap;
+          animation: typewriter 3s steps(40, end),
+            blink-cursor 0.75s step-end infinite;
+        }
+
+        @keyframes blink-cursor {
+          from,
+          to {
+            border-color: transparent;
+          }
+          50% {
+            border-color: rgba(251, 146, 60, 0.7);
+          }
+        }
+      `}</style>
     </div>
   );
 };
 
-// Specialized Card Components
+// Featured Project Component with Advanced Effects
+const FeaturedProject: React.FC<{
+  project: Project;
+  createParticle: (x: number, y: number, type: string) => Particle;
+}> = ({ project, createParticle }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
 
-// Breathing Selah Card with autonomous breathing
-const BreathingSelahCard: React.FC<{
-  project: any;
-  isHovered?: boolean;
-}> = ({ project, isHovered = false }) => {
-  const breathState = useBreathing();
+  const handleMouseEnter = (e: React.MouseEvent) => {
+    if (!cardRef.current) return;
+
+    const rect = cardRef.current.getBoundingClientRect();
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => {
+        createParticle(
+          rect.left + Math.random() * rect.width,
+          rect.top + Math.random() * rect.height,
+          project.cardType
+        );
+      }, i * 100);
+    }
+  };
+
+  return (
+    <section className="section-breathing relative z-20">
+      <div className="container-content">
+        <div className="text-center mb-16">
+          <div className="breathing-glass inline-block px-6 py-3 mb-8">
+            <div className="flex items-center space-x-2 text-purple-300">
+              <Sparkles className="w-5 h-5" />
+              <span className="font-medium">Featured Project</span>
+            </div>
+          </div>
+
+          <div
+            ref={cardRef}
+            className="contemplative-card p-12 max-w-4xl mx-auto group cursor-pointer relative overflow-hidden"
+            onMouseEnter={handleMouseEnter}
+            onClick={() => (window.location.href = project.blueprintLink)}
+          >
+            {/* Breathing particles for Selah */}
+            {project.cardType === "breathing" && (
+              <div className="breathing-particles">
+                <div className="breathing-particle"></div>
+                <div className="breathing-particle"></div>
+                <div className="breathing-particle"></div>
+                <div className="breathing-particle"></div>
+              </div>
+            )}
+
+            <div className="text-6xl mb-8 animate-float relative z-10">
+              {project.icon}
+            </div>
+
+            <h2 className="heading-xl spacing-comfortable group-hover:text-purple-200 transition-colors relative z-10">
+              {project.title}
+            </h2>
+            <p className="body-lg text-slate-400 spacing-comfortable relative z-10">
+              {project.subtitle}
+            </p>
+
+            <p className="body-lg text-slate-300 spacing-comfortable leading-relaxed max-w-2xl mx-auto relative z-10">
+              {project.description}
+            </p>
+
+            <div className="sacred-quote relative z-10">
+              {project.reflection}
+            </div>
+
+            {project.tech && (
+              <div className="spacing-comfortable relative z-10">
+                <h3 className="text-sm font-medium text-slate-400 mb-3">
+                  Technical approach
+                </h3>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {project.tech.map((tech) => (
+                    <span
+                      key={tech}
+                      className="breathing-glass px-3 py-1 text-xs text-slate-300"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="flex items-center justify-center space-x-4 mt-8 relative z-10">
+              <div className="flex items-center space-x-2 text-purple-300 group-hover:text-purple-200 transition-colors">
+                <span>Explore the blueprint</span>
+                <ArrowRight className="w-5 h-5" />
+              </div>
+
+              {project.liveLink && (
+                <a
+                  href={project.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="gentle-button text-sm px-4 py-2 flex items-center space-x-2"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  <span>Experience Live</span>
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Project Card Component with Card-Specific Effects
+const ProjectCard: React.FC<{
+  project: Project;
+  index: number;
+  createParticle: (x: number, y: number, type: string) => Particle;
+}> = ({ project, index, createParticle }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [glitchText, setGlitchText] = useState(project.title);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // Glitch effect for AI Mafia
+  useEffect(() => {
+    if (project.cardType === "deceptive" && isHovered) {
+      const words = ["HUMAN", "AI", "REAL", "FAKE", project.title];
+      let currentIndex = 0;
+
+      const interval = setInterval(() => {
+        setGlitchText(words[currentIndex % words.length]);
+        currentIndex++;
+      }, 300);
+
+      return () => clearInterval(interval);
+    } else {
+      setGlitchText(project.title);
+    }
+  }, [isHovered, project.cardType, project.title]);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+
+    if (!cardRef.current) return;
+
+    const rect = cardRef.current.getBoundingClientRect();
+    for (let i = 0; i < 3; i++) {
+      setTimeout(() => {
+        createParticle(
+          rect.left + Math.random() * rect.width,
+          rect.top + Math.random() * rect.height,
+          project.cardType
+        );
+      }, i * 50);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handleClick = () => {
+    window.location.href = project.blueprintLink;
+  };
 
   return (
     <div
-      className="contemplative-card p-8 md:p-12 max-w-4xl mx-auto group-hover:bg-white/[0.06] transition-all duration-700 relative overflow-hidden bg-gradient-to-br from-emerald-500/5 to-teal-500/5"
-      style={{
-        transform: `scale(${breathState.scale}) translateY(${breathState.translateY}px)`,
-        opacity: breathState.opacity,
-        transition: "background 0.7s ease, box-shadow 0.7s ease",
-      }}
+      className="animate-fade-in"
+      style={{ animationDelay: `${index * 100}ms` }}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
+      <div
+        ref={cardRef}
+        className="contemplative-card p-8 h-full group cursor-pointer relative overflow-hidden transition-all duration-300"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
+      >
+        {/* Card-specific effects */}
+        {project.cardType === "mirror" && isHovered && (
+          <div className="mirror-shards">
+            <div className="mirror-shard"></div>
+            <div className="mirror-shard"></div>
+            <div className="mirror-shard"></div>
+          </div>
+        )}
 
-      <div className="relative z-10">
-        <div className="text-6xl md:text-8xl mb-12 animate-float text-center">
-          {project.icon}
+        {project.cardType === "breathing" && (
+          <div className="breathing-particles">
+            <div className="breathing-particle"></div>
+            <div className="breathing-particle"></div>
+            <div className="breathing-particle"></div>
+          </div>
+        )}
+
+        <div className="flex items-center justify-between mb-6 relative z-10">
+          <div className="flex items-center space-x-4">
+            <div className="text-4xl">{project.icon}</div>
+            <div>
+              {project.cardType === "deceptive" ? (
+                <h3
+                  className="heading-lg group-hover:text-purple-200 transition-colors glitch-text"
+                  data-text={glitchText}
+                >
+                  {glitchText}
+                </h3>
+              ) : project.cardType === "writing" && isHovered ? (
+                <h3 className="heading-lg group-hover:text-purple-200 transition-colors typewriter-container">
+                  {project.title}
+                </h3>
+              ) : (
+                <h3 className="heading-lg group-hover:text-purple-200 transition-colors">
+                  {project.title}
+                </h3>
+              )}
+              <p className="text-slate-400">{project.subtitle}</p>
+            </div>
+          </div>
+
+          <div className="breathing-glass px-3 py-1 text-xs">
+            <span
+              className={`${
+                project.status === "live"
+                  ? "text-emerald-300"
+                  : project.status === "development"
+                  ? "text-amber-300"
+                  : "text-purple-300"
+              }`}
+            >
+              {project.status === "live"
+                ? "● Live"
+                : project.status === "development"
+                ? "● Development"
+                : "● Blueprint"}
+            </span>
+          </div>
         </div>
 
-        <h2 className="heading-xl spacing-comfortable group-hover:text-emerald-200 transition-colors text-center">
-          {project.title}
-        </h2>
-        <p className="body-lg text-slate-400 spacing-comfortable text-center">
-          {project.subtitle}
-        </p>
-
-        <p className="body-lg text-slate-300 spacing-comfortable leading-relaxed max-w-2xl mx-auto text-center">
+        <p className="text-slate-300 spacing-comfortable leading-relaxed relative z-10">
           {project.description}
         </p>
 
-        <div className="sacred-quote bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border-l-emerald-400/50">
+        <div className="sacred-quote text-sm relative z-10">
           {project.reflection}
         </div>
 
         {project.tech && (
-          <div className="spacing-comfortable">
-            <h3 className="text-sm font-medium text-emerald-300 mb-3 text-center flex items-center justify-center space-x-2">
-              <Code className="w-4 h-4" />
-              <span>Technical approach</span>
-            </h3>
-            <div className="flex flex-wrap justify-center gap-3">
-              {project.tech.map((tech: string, index: number) => (
+          <div className="spacing-comfortable relative z-10">
+            <div className="flex flex-wrap gap-2">
+              {project.tech.map((tech: string) => (
                 <span
                   key={tech}
-                  className="breathing-glass px-4 py-2 text-sm text-slate-300 group-hover:bg-emerald-500/10 transition-all duration-700"
-                  style={{
-                    animationDelay: `${index * 100}ms`,
-                    opacity: breathState.opacity,
-                  }}
+                  className="breathing-glass px-2 py-1 text-xs text-slate-400"
                 >
                   {tech}
                 </span>
@@ -702,11 +897,10 @@ const BreathingSelahCard: React.FC<{
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12">
-          <div className="flex items-center space-x-3 text-emerald-300 group-hover:text-emerald-200 transition-colors">
-            <Eye className="w-6 h-6" />
-            <span className="text-lg font-medium">Explore the blueprint</span>
-            <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-500" />
+        <div className="flex items-center justify-between mt-6 relative z-10">
+          <div className="flex items-center space-x-2 text-purple-300 group-hover:text-purple-200 transition-colors">
+            <span className="text-sm">Explore blueprint</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </div>
 
           {project.liveLink && (
@@ -715,349 +909,12 @@ const BreathingSelahCard: React.FC<{
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="gentle-button text-lg px-8 py-4 flex items-center space-x-3 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 hover:from-emerald-500/30 hover:to-teal-500/30 transition-all duration-500"
+              className="gentle-button text-xs px-3 py-1 flex items-center space-x-1 opacity-80 hover:opacity-100"
             >
-              <ExternalLink className="w-5 h-5" />
-              <span>Experience Live</span>
+              <ExternalLink className="w-3 h-3" />
+              <span>Live</span>
             </a>
           )}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Glass Mirror Card with sophisticated glassmorphism
-const GlassMirrorCard: React.FC<{
-  project: any;
-  isHovered: boolean;
-}> = ({ project, isHovered }) => {
-  const glassState = useGlassmorphism(isHovered);
-
-  return (
-    <div
-      className="p-6 md:p-8 h-full transition-all duration-700 relative overflow-hidden"
-      style={{
-        background: glassState.background,
-        backdropFilter: glassState.backdrop,
-        border: `1px solid ${glassState.border}`,
-        borderRadius: "16px",
-        boxShadow: glassState.shadow,
-        transform: glassState.transform,
-        transformStyle: "preserve-3d",
-      }}
-    >
-      {/* Glass reflection overlay */}
-      <div
-        className="absolute inset-0 opacity-0 transition-opacity duration-700 pointer-events-none"
-        style={{
-          background: isHovered
-            ? "linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.05) 100%)"
-            : "transparent",
-          opacity: isHovered ? 1 : 0,
-        }}
-      />
-
-      {/* Inner glass surface */}
-      <div
-        className="absolute inset-1 rounded-xl opacity-0 transition-opacity duration-700"
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))",
-          opacity: isHovered ? 1 : 0,
-        }}
-      />
-
-      <div className="relative z-10">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
-          <div className="flex items-center space-x-4">
-            <div className="text-4xl relative">
-              {project.icon}
-              {isHovered && (
-                <div
-                  className="absolute inset-0 blur-sm opacity-60"
-                  style={{ transform: "scaleX(-1)" }}
-                >
-                  {project.icon}
-                </div>
-              )}
-            </div>
-            <div>
-              <h3 className="heading-lg group-hover:text-purple-200 transition-colors">
-                {project.title}
-              </h3>
-              <p className="text-slate-400">{project.subtitle}</p>
-            </div>
-          </div>
-
-          <div className="breathing-glass px-3 py-1 text-xs">
-            <span className="text-emerald-300">● Live</span>
-          </div>
-        </div>
-
-        <p className="text-slate-300 spacing-comfortable leading-relaxed">
-          {project.description}
-        </p>
-
-        <div className="sacred-quote text-sm border-l-purple-400/50 bg-gradient-to-r from-purple-500/10 to-violet-500/10">
-          {project.reflection}
-        </div>
-
-        {project.tech && (
-          <div className="spacing-comfortable">
-            <div className="flex flex-wrap gap-2">
-              {project.tech.map((tech: string) => (
-                <span
-                  key={tech}
-                  className="breathing-glass px-2 py-1 text-xs text-slate-400"
-                  style={{
-                    background: isHovered
-                      ? "rgba(255,255,255,0.1)"
-                      : "rgba(255,255,255,0.05)",
-                  }}
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6">
-          <div className="flex items-center space-x-2 text-purple-300 group-hover:text-purple-200 transition-colors">
-            <Eye className="w-5 h-5" />
-            <span className="text-sm">Explore blueprint</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </div>
-
-          <a
-            href={project.liveLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="gentle-button text-xs px-3 py-1 flex items-center space-x-1 opacity-80 hover:opacity-100 self-start"
-            style={{
-              background: isHovered
-                ? "rgba(168, 85, 247, 0.3)"
-                : "rgba(168, 85, 247, 0.2)",
-            }}
-          >
-            <ExternalLink className="w-3 h-3" />
-            <span>Live</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Deceptive AI Mafia Card with text switching
-const DeceptiveAIMafiaCard: React.FC<{
-  project: any;
-  isHovered: boolean;
-}> = ({ project, isHovered }) => {
-  const deceptions = useDeceptiveText();
-  const [glitchState, setGlitchState] = useState({
-    isGlitching: false,
-    element: "",
-  });
-
-  useEffect(() => {
-    const glitchInterval = setInterval(() => {
-      if (Math.random() < 0.1) {
-        // 10% chance every interval
-        const elements = ["title", "subtitle", "description"];
-        const randomElement =
-          elements[Math.floor(Math.random() * elements.length)];
-        setGlitchState({ isGlitching: true, element: randomElement });
-
-        setTimeout(() => {
-          setGlitchState({ isGlitching: false, element: "" });
-        }, 150);
-      }
-    }, 800);
-
-    return () => clearInterval(glitchInterval);
-  }, []);
-
-  const getDeceptiveDescription = () => {
-    return project.description
-      .replace(/humans/g, deceptions.primary)
-      .replace(/social deduction game/g, deceptions.secondary)
-      .replace(/consciousness/g, deceptions.tertiary);
-  };
-
-  const getDeceptiveSubtitle = () => {
-    if (deceptions.primary === "AI agents") {
-      return "Can you tell what's real anymore?";
-    }
-    return project.subtitle;
-  };
-
-  return (
-    <div className="contemplative-card p-6 md:p-8 h-full group-hover:bg-white/[0.06] transition-all duration-300 bg-gradient-to-br from-red-500/5 to-orange-500/5">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
-        <div className="flex items-center space-x-4">
-          <div className="text-4xl relative">
-            <span
-              className={
-                glitchState.isGlitching && glitchState.element === "title"
-                  ? "animate-pulse"
-                  : ""
-              }
-            >
-              {project.icon}
-            </span>
-          </div>
-          <div>
-            <h3
-              className={`heading-lg group-hover:text-red-200 transition-colors ${
-                glitchState.isGlitching && glitchState.element === "title"
-                  ? "animate-pulse"
-                  : ""
-              }`}
-            >
-              {project.title}
-            </h3>
-            <p
-              className={`text-slate-400 transition-all duration-300 ${
-                glitchState.isGlitching && glitchState.element === "subtitle"
-                  ? "animate-pulse"
-                  : ""
-              }`}
-            >
-              {getDeceptiveSubtitle()}
-            </p>
-          </div>
-        </div>
-
-        <div className="breathing-glass px-3 py-1 text-xs">
-          <span className="text-purple-300">● Blueprint</span>
-        </div>
-      </div>
-
-      <p
-        className={`text-slate-300 spacing-comfortable leading-relaxed transition-all duration-300 ${
-          glitchState.isGlitching && glitchState.element === "description"
-            ? "animate-pulse"
-            : ""
-        }`}
-      >
-        {getDeceptiveDescription()}
-      </p>
-
-      <div className="sacred-quote text-sm border-l-red-400/50 bg-gradient-to-r from-red-500/10 to-orange-500/10">
-        {project.reflection}
-      </div>
-
-      {project.tech && (
-        <div className="spacing-comfortable">
-          <div className="flex flex-wrap gap-2">
-            {project.tech.map((tech: string) => (
-              <span
-                key={tech}
-                className="breathing-glass px-2 py-1 text-xs text-slate-400"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6">
-        <div className="flex items-center space-x-2 text-red-300 group-hover:text-red-200 transition-colors">
-          <Eye className="w-5 h-5" />
-          <span className="text-sm">Explore blueprint</span>
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Typewriter DiveInk Card with sophisticated typing effects
-const TypewriterDiveInkCard: React.FC<{
-  project: any;
-  isHovered: boolean;
-}> = ({ project, isHovered }) => {
-  const { displayText, showCursor } = useTypewriter(isHovered);
-
-  return (
-    <div className="contemplative-card p-6 md:p-8 h-full group-hover:bg-white/[0.06] transition-all duration-300 bg-gradient-to-br from-amber-500/5 to-yellow-500/5 relative overflow-hidden">
-      {/* Book-like texture overlay */}
-      <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage: `
-          linear-gradient(90deg, rgba(139, 69, 19, 0.1) 0%, transparent 2%, transparent 98%, rgba(139, 69, 19, 0.1) 100%),
-          linear-gradient(0deg, rgba(160, 82, 45, 0.05) 0%, transparent 10%, transparent 90%, rgba(160, 82, 45, 0.05) 100%)
-        `,
-          backgroundSize: "20px 20px",
-        }}
-      />
-
-      <div className="relative z-10">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
-          <div className="flex items-center space-x-4">
-            <div className="text-4xl transform hover:scale-110 transition-transform duration-300">
-              {project.icon}
-            </div>
-            <div>
-              <h3 className="heading-lg group-hover:text-amber-200 transition-colors">
-                {project.title}
-              </h3>
-              <p className="text-slate-400">{project.subtitle}</p>
-            </div>
-          </div>
-
-          <div className="breathing-glass px-3 py-1 text-xs">
-            <span className="text-purple-300">● Blueprint</span>
-          </div>
-        </div>
-
-        <div className="text-slate-300 spacing-comfortable leading-relaxed min-h-[120px]">
-          {isHovered && displayText ? (
-            <span className="font-mono">
-              {displayText}
-              <span
-                className={`${
-                  showCursor ? "opacity-100" : "opacity-0"
-                } transition-opacity duration-100`}
-              >
-                |
-              </span>
-            </span>
-          ) : (
-            <span>{project.description}</span>
-          )}
-        </div>
-
-        <div className="sacred-quote text-sm border-l-amber-400/50 bg-gradient-to-r from-amber-500/10 to-yellow-500/10">
-          {project.reflection}
-        </div>
-
-        {project.tech && (
-          <div className="spacing-comfortable">
-            <div className="flex flex-wrap gap-2">
-              {project.tech.map((tech: string) => (
-                <span
-                  key={tech}
-                  className="breathing-glass px-2 py-1 text-xs text-slate-400"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6">
-          <div className="flex items-center space-x-2 text-amber-300 group-hover:text-amber-200 transition-colors">
-            <Eye className="w-5 h-5" />
-            <span className="text-sm">Explore blueprint</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </div>
         </div>
       </div>
     </div>
