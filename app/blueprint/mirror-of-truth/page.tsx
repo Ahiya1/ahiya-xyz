@@ -96,7 +96,7 @@ const MirrorOfTruthBlueprintPage: React.FC = () => {
     {
       name: "Essential",
       subtitle: "Regular communion with truth",
-      price: "$15",
+      price: "$5",
       period: "/month",
       icon: "⭐",
       color: "purple",
@@ -115,7 +115,7 @@ const MirrorOfTruthBlueprintPage: React.FC = () => {
     {
       name: "Premium",
       subtitle: "Deep diving into being",
-      price: "$25",
+      price: "$10",
       period: "/month",
       icon: "👑",
       color: "amber",
