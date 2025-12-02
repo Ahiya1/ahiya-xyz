@@ -1,0 +1,356 @@
+plan_id: plan-1
+created_at: "2025-12-02T09:35:00Z"
+status: PLANNED
+total_iterations: 3
+
+strategy: |
+  Transform ahiya.xyz from philosophical site to business portfolio through a
+  3-iteration approach: (1) Archive & Foundation - move all existing content to
+  /soul/* while fixing critical performance and accessibility issues, (2) Portfolio
+  & Business Content - create new business homepage with portfolio section, "How I
+  Work" section, and contact section using reusable components from existing code,
+  (3) Polish & SEO - update metadata, add JSON-LD structured data, optimize images,
+  and ensure Core Web Vitals compliance.
+
+  Key findings from exploration:
+  - 10 existing pages (~7,500 LOC) need archival to /soul/*
+  - ~50+ internal links need updating
+  - 4 portfolio projects to showcase: Mirror of Dreams, Wealth, StatViz, AI Research Pipeline
+  - Critical fixes: duplicate font loading, oversized logos (344KB → <50KB), missing mobile nav
+  - No database/backend - purely static site
+  - Modern stack (Next.js 15, React 19, Tailwind 4) - no dependency issues
+
+  Risk mitigations:
+  - Archive first to ensure zero content loss
+  - Add redirects in next.config.ts for SEO preservation
+  - Reuse existing card/animation patterns from building/page.tsx
+  - Optimize images before adding portfolio screenshots
+
+iterations:
+  - iteration_id: 1
+    global_iteration: 1
+    name: "Archive & Foundation"
+    vision: "Safely preserve all philosophical content at /soul/* and fix critical performance issues"
+    scope: |
+      ## Phase 1: Archive to /soul
+      - Create app/soul/ directory structure
+      - Move all 10 existing pages to soul subdirectory:
+        - / → /soul (current homepage becomes /soul)
+        - /building → /soul/building
+        - /connect → /soul/connect
+        - /journey → /soul/journey
+        - /writing → /soul/writing
+        - /writing/sacred-potato → /soul/writing/sacred-potato
+        - /blueprint/* → /soul/blueprint/*
+      - Update ~50+ internal Link hrefs with /soul prefix
+      - Add 301 redirects in next.config.ts for SEO preservation
+      - Create app/soul/layout.tsx with philosophical metadata
+      - Verify all animations and effects still work at new URLs
+
+      ## Phase 2: Critical Performance Fixes
+      - Remove duplicate font @import from globals.css (keep next/font only)
+      - Optimize logo images: resize to actual display sizes, convert to WebP
+        - logo-symbol.png: 1024x1024 (140KB) → 64x64 WebP (<5KB)
+        - logo-text.png: 1024x1024 (204KB) → 640x320 WebP (<20KB)
+      - Remove maximumScale: 1 from viewport config (accessibility fix)
+
+      ## Phase 3: Mobile Navigation
+      - Add hamburger menu component for mobile devices
+      - Implement slide-out or dropdown navigation
+      - Ensure proper focus management and keyboard accessibility
+
+      ## Validation Criteria
+      - All pages accessible at /soul/* URLs
+      - All internal links work correctly
+      - All animations function as before
+      - No console errors
+      - Lighthouse performance score improved
+      - Mobile navigation functional on all devices
+    status: PENDING
+    dependencies: []
+    estimated_hours: 4
+    risk_level: MEDIUM
+    builders:
+      - id: 1
+        focus: "Archive pages to /soul and update internal links"
+      - id: 2
+        focus: "Performance fixes (fonts, images, viewport)"
+      - id: 3
+        focus: "Mobile navigation component"
+
+  - iteration_id: 2
+    global_iteration: 2
+    name: "Portfolio & Business Content"
+    vision: "Create professional business presence with portfolio showcase"
+    scope: |
+      ## Phase 1: New Homepage Structure
+      - Create new app/page.tsx with business-focused content
+      - Hero section: "I Build SaaS Systems Fast" headline
+      - Subheadline: Full-stack development with AI orchestration
+      - Two CTAs: [View Portfolio] [Work With Me]
+      - Professional, clean design (dark theme preserved)
+
+      ## Phase 2: Portfolio Section
+      - Create portfolio section with 4 project cards
+      - Reuse/adapt contemplative-card and animation patterns from existing code
+      - Project ordering (by impact):
+        1. Mirror of Dreams (live, consumer SaaS with payments)
+        2. Wealth (complex full-stack SaaS)
+        3. StatViz (B2B platform)
+        4. AI Research Pipeline (research tooling)
+      - Each card includes: title, subtitle, description, tech stack badges, live link
+      - Hover animations (simplified versions of existing effects)
+
+      ## Phase 3: Business Sections
+      - "How I Work" section introducing 2L methodology
+        - Brief (4-5 sentences), outcome-focused
+        - Optional: simple diagram showing Vision → Plan → Build → Validate
+        - Link to contact for more information
+      - Contact section with email and GitHub
+        - Email: ahiya.butman@gmail.com
+        - GitHub: github.com/Ahiya1
+        - [Send a Message] button (mailto: link)
+      - Updated navigation: Portfolio | How I Work | Contact | [Soul →]
+      - Footer with /soul link: "The philosophical side →"
+
+      ## Phase 4: Component Extraction
+      - Extract reusable components for maintainability:
+        - Navigation component
+        - Footer component
+        - PortfolioCard component
+        - SectionHeading component
+
+      ## Validation Criteria
+      - Clear business value proposition visible within 10 seconds
+      - 4 projects displayed with accurate descriptions and tech stacks
+      - Contact info accessible without scrolling on mobile
+      - Mobile responsive
+      - Professional appearance
+      - All navigation links functional
+    status: PENDING
+    dependencies:
+      - iteration_id: 1
+    estimated_hours: 5
+    risk_level: LOW
+    builders:
+      - id: 1
+        focus: "Homepage hero and structure"
+      - id: 2
+        focus: "Portfolio section with project cards"
+      - id: 3
+        focus: "How I Work and Contact sections"
+      - id: 4
+        focus: "Navigation, footer, and component extraction"
+
+  - iteration_id: 3
+    global_iteration: 3
+    name: "Polish & SEO"
+    vision: "Complete the transformation with proper SEO and final optimizations"
+    scope: |
+      ## Phase 1: Metadata Updates
+      - Update layout.tsx metadata:
+        - Title: "Ahiya Butman - Full-Stack Developer | SaaS & AI Systems"
+        - Description: "I build complete SaaS systems fast using AI-powered development.
+          Full-stack, from idea to deployment. View my portfolio."
+        - Keywords: full-stack developer, SaaS development, AI integration,
+          freelance developer, Next.js, TypeScript, startup MVP
+      - Update OpenGraph tags for social sharing
+      - Update Twitter card metadata
+      - Create new OG image for social sharing (optional)
+
+      ## Phase 2: Structured Data
+      - Add JSON-LD structured data for Person/Developer schema
+      - Include: name, jobTitle, knowsAbout, sameAs (GitHub)
+      - Ensure proper schema.org markup
+
+      ## Phase 3: Performance Optimization
+      - Lighthouse audit and fixes
+      - Ensure Core Web Vitals targets:
+        - LCP < 2.5s
+        - FID < 100ms
+        - CLS < 0.1
+      - Verify bundle size reasonable (<100KB gzipped)
+      - Ensure all images properly optimized
+      - Add blur placeholders for portfolio images (if not done)
+
+      ## Phase 4: Cross-browser & Accessibility Testing
+      - Test on Chrome, Firefox, Safari
+      - Test on mobile devices (iOS, Android)
+      - Verify accessibility compliance:
+        - Color contrast (text-slate colors on dark background)
+        - Keyboard navigation
+        - Screen reader compatibility
+        - Focus indicators visible
+      - Add skip-to-content link if missing
+
+      ## Phase 5: Final Polish
+      - Review all copy for consistency
+      - Ensure professional tone throughout (no mystical language on business pages)
+      - Verify all links work (internal and external)
+      - Test contact email functionality
+      - Review on different screen sizes
+
+      ## Validation Criteria
+      - Lighthouse score 90+ on all pages
+      - All metadata updated and correct
+      - Structured data validates (Google Rich Results Test)
+      - Works across all major browsers
+      - Accessible to keyboard and screen reader users
+      - Professional appearance that would not embarrass when sent to agencies
+    status: PENDING
+    dependencies:
+      - iteration_id: 2
+    estimated_hours: 3
+    risk_level: LOW
+    builders:
+      - id: 1
+        focus: "Metadata and structured data"
+      - id: 2
+        focus: "Performance optimization and Core Web Vitals"
+      - id: 3
+        focus: "Cross-browser testing and accessibility"
+
+# Content Data (for Builder reference)
+portfolio_projects:
+  - id: mirror-of-dreams
+    title: "Mirror of Dreams"
+    subtitle: "AI Reflection Tool"
+    description: "Tiered AI-powered reflection platform with PayPal subscriptions. Users explore dreams through 5 sacred questions and receive personalized insights."
+    status: live
+    live_url: "https://mirror-of-truth.xyz"
+    tech_stack:
+      - Next.js
+      - TypeScript
+      - Claude API
+      - PayPal
+      - Supabase
+      - tRPC
+    features:
+      - "Subscription tiers (Free/Pro/Unlimited)"
+      - "AI-powered personalized reflections"
+      - "PayPal payment integration"
+      - "Evolution tracking over time"
+    order: 1
+
+  - id: wealth
+    title: "Wealth"
+    subtitle: "Personal Finance SaaS"
+    description: "Complete financial tracking system with AI-powered categorization, Israeli bank connections, budgeting, and goal tracking."
+    status: live
+    tech_stack:
+      - Next.js
+      - TypeScript
+      - Prisma
+      - PostgreSQL
+      - Claude API
+      - tRPC
+    features:
+      - "Bank account sync (Israeli banks)"
+      - "AI transaction categorization"
+      - "Budget management with alerts"
+      - "Financial advisor chat"
+    order: 2
+
+  - id: statviz
+    title: "StatViz"
+    subtitle: "Statistical Reports Platform"
+    description: "Secure B2B platform for delivering interactive statistical reports to academic students. Password-protected access with Hebrew support."
+    status: live
+    tech_stack:
+      - Next.js
+      - TypeScript
+      - Prisma
+      - PostgreSQL
+      - JWT
+    features:
+      - "Admin panel for project management"
+      - "Password-protected student access"
+      - "Interactive HTML reports + DOCX"
+      - "Hebrew RTL support"
+    order: 3
+
+  - id: ai-research-pipeline
+    title: "AI Research Pipeline"
+    subtitle: "Factorial Design Research Tool"
+    description: "Research tool for generating controlled prompts for academic study on youth sports dropout in Israel. Supports random, equal, and weighted distributions."
+    status: live
+    tech_stack:
+      - Next.js 15
+      - TypeScript
+      - React 19
+      - Tailwind CSS
+    features:
+      - "Precise prompt count control (100-10,000)"
+      - "Three distribution methods"
+      - "Bilingual output (English + Hebrew)"
+      - "n8n workflow integration"
+    order: 4
+
+# Copy Content (for Builder reference)
+copy:
+  hero:
+    headline: "I Build SaaS Systems Fast"
+    subheadline: "Full-stack development powered by AI orchestration. From idea to deployed product, independently."
+    cta_primary: "View Portfolio"
+    cta_secondary: "Work With Me"
+
+  portfolio_header:
+    title: "What I've Built"
+    description: "Real systems, deployed and running. Each project showcases end-to-end development: architecture, implementation, and deployment."
+
+  how_i_work:
+    title: "How I Work"
+    content: |
+      I use **2L**, a development framework I built that coordinates AI agents
+      to explore, plan, build, and validate software autonomously.
+
+      This is why I deliver complete systems faster than traditional development.
+    cta: "Ask me about it →"
+
+  contact:
+    title: "Work With Me"
+    description: "Looking for a developer who can own your next feature or MVP?"
+    email: "ahiya.butman@gmail.com"
+    github: "github.com/Ahiya1"
+    cta: "Send a Message"
+
+  footer:
+    soul_link: "The philosophical side →"
+    copyright: "Built by Ahiya Butman"
+
+# Technical Reference
+redirects:
+  - source: "/journey"
+    destination: "/soul/journey"
+    permanent: true
+  - source: "/writing"
+    destination: "/soul/writing"
+    permanent: true
+  - source: "/writing/:slug"
+    destination: "/soul/writing/:slug"
+    permanent: true
+  - source: "/building"
+    destination: "/soul/building"
+    permanent: true
+  - source: "/blueprint/:slug"
+    destination: "/soul/blueprint/:slug"
+    permanent: true
+  - source: "/connect"
+    destination: "/soul/connect"
+    permanent: true
+
+metadata:
+  business:
+    title: "Ahiya Butman - Full-Stack Developer | SaaS & AI Systems"
+    description: "I build complete SaaS systems fast using AI-powered development. Full-stack, from idea to deployment. View my portfolio."
+    keywords:
+      - full-stack developer
+      - SaaS development
+      - AI integration
+      - freelance developer
+      - Next.js
+      - TypeScript
+      - startup MVP
+  soul:
+    title: "Ahiya - Technology that serves presence"
+    description: "Building contemplative technology from Sacred Potato energy. Consciousness through code."

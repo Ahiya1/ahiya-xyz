@@ -68,12 +68,14 @@ export const metadata: Metadata = {
   viewport: {
     width: "device-width",
     initialScale: 1,
-    maximumScale: 1,
   },
   icons: {
-    icon: "/logo-symbol.png",
-    shortcut: "/logo-symbol.png",
-    apple: "/logo-symbol.png",
+    icon: [
+      { url: "/logo-symbol-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/logo-symbol-16.png", sizes: "16x16", type: "image/png" },
+    ],
+    shortcut: "/logo-symbol-32.png",
+    apple: "/logo-symbol-180.png",
   },
 };
 
