@@ -1,0 +1,162 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Menu, X, Sparkles } from "lucide-react";
+
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+const navItems: NavItem[] = [
+  { label: "Portfolio", href: "#portfolio" },
+  { label: "How I Work", href: "#how-i-work" },
+  { label: "Contact", href: "#contact" },
+];
+
+export function Navigation() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  // Handle Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isOpen]);
+
+  return (
+    <>
+      {/* Navigation Bar */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0f1a]/80 backdrop-blur-sm">
+        <div className="container-wide">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <a href="#" className="flex items-center space-x-3 group">
+              <Image
+                src="/logo-symbol.png"
+                alt="Ahiya"
+                width={28}
+                height={28}
+                className="transition-transform duration-300 group-hover:scale-105"
+              />
+              <span className="text-lg font-medium text-white">Ahiya</span>
+            </a>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-8">
+              {navItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="text-slate-300 hover:text-white transition-colors"
+                >
+                  {item.label}
+                </a>
+              ))}
+
+              {/* Soul Link - Special Styling */}
+              <Link
+                href="/soul/"
+                className="flex items-center space-x-2 text-purple-300 hover:text-purple-200 transition-colors"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>Soul</span>
+              </Link>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden p-2 text-slate-300 hover:text-white transition-colors"
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isOpen}
+            >
+              {isOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+            onClick={() => setIsOpen(false)}
+            aria-hidden="true"
+          />
+
+          {/* Menu Panel */}
+          <div
+            className="fixed top-16 right-0 bottom-0 w-72 max-w-[80vw] bg-[#0a0f1a]/95 backdrop-blur-xl border-l border-white/10 z-40 md:hidden overflow-y-auto"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
+          >
+            <div className="p-6">
+              {/* Navigation Links */}
+              <nav className="space-y-2">
+                {navItems.map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-white/5 hover:text-white transition-all duration-300"
+                  >
+                    <span className="font-medium">{item.label}</span>
+                  </a>
+                ))}
+
+                {/* Soul Link - Mobile */}
+                <Link
+                  href="/soul/"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center space-x-4 px-4 py-3 rounded-xl bg-purple-500/15 text-purple-200 border border-purple-500/30 transition-all duration-300"
+                >
+                  <Sparkles className="w-5 h-5 text-purple-400" />
+                  <span className="font-medium">Soul</span>
+                </Link>
+              </nav>
+
+              {/* Quote */}
+              <div className="mt-8 pt-6 border-t border-white/10">
+                <div className="text-center">
+                  <p className="text-xs text-slate-500 italic leading-relaxed">
+                    &quot;Technology that serves presence,
+                    <br />
+                    not productivity.&quot;
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </>
+  );
+}
+
+export default Navigation;

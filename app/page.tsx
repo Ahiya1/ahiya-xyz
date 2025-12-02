@@ -1,74 +1,129 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
+import { Zap, ArrowRight, Mail, Github } from "lucide-react";
+import { Navigation } from "@/app/components/Navigation";
+import { Footer } from "@/app/components/Footer";
+import { PortfolioCard } from "@/app/components/PortfolioCard";
+import { SectionHeading } from "@/app/components/SectionHeading";
+import { portfolioProjects } from "@/app/data/portfolio";
 
-export default function ComingSoonPage() {
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#0a0f1a] text-white flex items-center justify-center relative overflow-hidden">
-      {/* Background gradient orbs */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" />
-        <div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"
-          style={{ animationDelay: "1s" }}
-        />
-      </div>
+    <main className="bg-[#0a0f1a] min-h-screen">
+      <Navigation />
 
-      {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-2xl">
-        {/* Logo */}
-        <div className="mb-8">
-          <Image
-            src="/logo-symbol.png"
-            alt="Ahiya"
-            width={64}
-            height={64}
-            className="mx-auto opacity-80"
-          />
-        </div>
+      {/* Hero Section */}
+      <section className="section-breathing pt-32">
+        <div className="container-content text-center">
+          {/* Badge */}
+          <div className="breathing-glass inline-flex items-center space-x-2 px-4 py-2 rounded-full mb-8">
+            <Zap className="w-4 h-4 text-purple-300" />
+            <span className="text-sm text-slate-300">Full-Stack Developer</span>
+          </div>
 
-        {/* Title */}
-        <h1 className="text-4xl md:text-6xl font-light mb-6 bg-gradient-to-r from-purple-200 via-white to-blue-200 bg-clip-text text-transparent">
-          Coming Soon
-        </h1>
+          {/* Headline */}
+          <h1 className="display-xl text-white mb-6">
+            I Build SaaS Systems <span className="text-gentle">Fast</span>
+          </h1>
 
-        {/* Subtitle */}
-        <p className="text-lg md:text-xl text-slate-300 mb-12 leading-relaxed">
-          Something new is emerging. In the meantime, explore the soul of what
-          I'm building.
-        </p>
-
-        {/* CTA Button */}
-        <Link
-          href="/soul/"
-          className="inline-flex items-center space-x-3 px-8 py-4 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-400/20 hover:border-purple-400/40 rounded-xl text-purple-200 font-medium transition-all duration-300 hover:scale-105"
-        >
-          <span>Enter the Soul</span>
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M13 7l5 5m0 0l-5 5m5-5H6"
-            />
-          </svg>
-        </Link>
-
-        {/* Quote */}
-        <div className="mt-16 p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10">
-          <p className="text-slate-300 italic text-sm md:text-base leading-relaxed">
-            "A sacred potato experiencing the present moment in all its ordinary
-            magnificence."
+          {/* Subheadline */}
+          <p className="body-xl text-slate-300 max-w-2xl mx-auto mb-10">
+            Full-stack development powered by AI orchestration.
+            From idea to deployed product, independently.
           </p>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="#portfolio"
+              className="inline-flex items-center justify-center px-6 py-3 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium transition-all duration-300 hover:bg-purple-500/20 hover:border-purple-400/50"
+            >
+              View Portfolio
+            </a>
+            <a
+              href="#contact"
+              className="inline-flex items-center justify-center px-6 py-3 border border-white/10 rounded-xl text-slate-300 font-medium transition-all duration-300 hover:bg-white/5 hover:border-white/20"
+            >
+              Work With Me
+            </a>
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
+
+      {/* Portfolio Section */}
+      <section id="portfolio" className="section-breathing">
+        <div className="container-wide">
+          <SectionHeading
+            title="What I've Built"
+            description="Real systems, deployed and running. Each project showcases end-to-end development: architecture, implementation, and deployment."
+          />
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+            {portfolioProjects.map((project) => (
+              <PortfolioCard key={project.id} project={project} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How I Work Section */}
+      <section id="how-i-work" className="section-breathing">
+        <div className="container-content">
+          <div className="text-center">
+            <h2 className="display-lg text-white mb-6">How I Work</h2>
+            <div className="max-w-2xl mx-auto">
+              <p className="body-xl text-slate-300 mb-6 leading-relaxed">
+                I use <span className="text-gentle font-medium">2L</span>, a development
+                framework I built that coordinates AI agents to explore, plan, build,
+                and validate software autonomously.
+              </p>
+              <p className="body-lg text-slate-400 mb-8">
+                This is why I deliver complete systems faster than traditional development.
+              </p>
+              <a
+                href="#contact"
+                className="inline-flex items-center space-x-2 text-purple-300 hover:text-purple-200 transition-colors"
+              >
+                <span>Ask me about it</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="section-breathing">
+        <div className="container-narrow">
+          <div className="contemplative-card p-8 md:p-12 text-center">
+            <h2 className="heading-xl text-white mb-4">Work With Me</h2>
+            <p className="body-lg text-slate-300 mb-8">
+              Looking for a developer who can own your next feature or MVP?
+            </p>
+
+            <a
+              href="mailto:ahiya.butman@gmail.com"
+              className="inline-flex items-center justify-center px-6 py-3 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium transition-all duration-300 hover:bg-purple-500/20 hover:border-purple-400/50 mb-6"
+            >
+              <Mail className="w-5 h-5 mr-2" />
+              Send a Message
+            </a>
+
+            <div className="flex items-center justify-center space-x-6 text-slate-400">
+              <a
+                href="https://github.com/Ahiya1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 hover:text-white transition-colors"
+              >
+                <Github className="w-5 h-5" />
+                <span>GitHub</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </main>
   );
 }

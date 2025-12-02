@@ -1,6 +1,6 @@
 current_plan: plan-1
-global_iteration_counter: 0
-current_iteration: 1
+global_iteration_counter: 1
+current_iteration: 2
 current_phase: validation
 plans:
 - plan_id: plan-1
