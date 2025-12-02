@@ -15,7 +15,8 @@ export const portfolioProjects: PortfolioProject[] = [
     description:
       "Tiered AI-powered reflection platform with PayPal subscriptions. Users explore dreams through 5 sacred questions and receive personalized insights.",
     status: "live",
-    liveUrl: "https://mirror-of-truth.xyz",
+    liveUrl: "https://selahmirror.xyz",
+    detailUrl: "/projects/mirror-of-dreams",
     techStack: ["Next.js", "TypeScript", "Claude API", "PayPal", "Supabase", "tRPC"],
   },
   {
@@ -25,6 +26,8 @@ export const portfolioProjects: PortfolioProject[] = [
     description:
       "Complete financial tracking system with AI-powered categorization, Israeli bank connections, budgeting, and goal tracking.",
     status: "live",
+    liveUrl: "https://selahwealth.xyz",
+    detailUrl: "/projects/wealth",
     techStack: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Claude API", "tRPC"],
   },
   {
@@ -34,6 +37,8 @@ export const portfolioProjects: PortfolioProject[] = [
     description:
       "Secure B2B platform for delivering interactive statistical reports to academic students. Password-protected access with Hebrew support.",
     status: "live",
+    liveUrl: "https://statviz.xyz",
+    detailUrl: "/projects/statviz",
     techStack: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "JWT"],
   },
   {
@@ -41,8 +46,9 @@ export const portfolioProjects: PortfolioProject[] = [
     title: "AI Research Pipeline",
     subtitle: "Factorial Design Research Tool",
     description:
-      "Research tool for generating controlled prompts for academic study on youth sports dropout in Israel. Supports random, equal, and weighted distributions.",
+      "Factorial design research tool for generating culturally nuanced, emotionally authentic questionnaire responses at scale. Supports any research domain with precise demographic control.",
     status: "live",
+    detailUrl: "/projects/ai-research-pipeline",
     techStack: ["Next.js 15", "TypeScript", "React 19", "Tailwind CSS"],
   },
 ];

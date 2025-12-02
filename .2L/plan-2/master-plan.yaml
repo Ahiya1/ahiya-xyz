@@ -1,0 +1,81 @@
+plan_id: plan-2
+created_at: "2025-12-02T10:50:00Z"
+status: PLANNED
+total_iterations: 1
+
+strategy: |
+  Single iteration approach for portfolio project pages and link fixes.
+
+  The scope is well-defined with clear acceptance criteria from the vision document.
+  All content (including 5 sample narratives for AI Research Pipeline) is provided.
+
+  Complexity Assessment: SIMPLE-MEDIUM
+  - 4 new pages to create
+  - 1 data file update
+  - 1 component modification
+  - No new dependencies
+  - Established patterns exist (soul/blueprint pages as templates)
+
+  Critical Path:
+  1. Type interface update (PortfolioCard.tsx)
+  2. Portfolio data update (portfolio.ts)
+  3. PortfolioCard link behavior change
+  4. Create 4 project detail pages (parallelizable)
+
+  Risk Level: LOW
+  - All patterns established in existing codebase
+  - Content fully specified in vision document
+  - No external dependencies or API integrations
+
+iterations:
+  - iteration_id: 1
+    global_iteration: 4
+    name: "Portfolio Project Pages & Link Fixes"
+    vision: "Create 4 project detail pages, fix portfolio links, showcase AI Research Pipeline with sample outputs"
+    scope: |
+      ## Builder Task Breakdown
+
+      ### Builder 1: Data & Component Updates
+      - Update PortfolioProject interface (add detailUrl field)
+      - Update portfolio.ts data:
+        - Fix Mirror of Dreams URL to selahmirror.xyz
+        - Add Wealth URL: selahwealth.xyz
+        - Add StatViz URL: statviz.xyz
+        - Add detailUrl to all projects
+        - Update AI Research Pipeline description
+      - Update PortfolioCard component to link to detailUrl
+
+      ### Builder 2: Mirror of Dreams & Wealth Pages
+      - Create /projects/mirror-of-dreams/page.tsx
+        - Hero with title, subtitle, description
+        - Features section (4 features)
+        - Tech stack display
+        - "Visit Live Site" CTA → selahmirror.xyz
+      - Create /projects/wealth/page.tsx
+        - Similar structure to Mirror of Dreams
+        - Features: Bank sync, AI categorization, Budget mgmt, Advisor chat
+        - "Visit Live Site" CTA → selahwealth.xyz
+
+      ### Builder 3: StatViz & AI Research Pipeline Pages
+      - Create /projects/statviz/page.tsx
+        - Features: Admin panel, Password access, HTML/DOCX reports, Hebrew RTL
+        - "Visit Live Site" CTA → statviz.xyz
+      - Create /projects/ai-research-pipeline/page.tsx
+        - Hero section with tagline
+        - "The Challenge" section
+        - "The Solution" section
+        - Sample Outputs section (5 narratives with demographic profiles)
+        - Technical Capabilities section
+        - Use Cases section
+        - Contact CTA (no external link)
+
+      ## Success Criteria
+      1. All 4 project detail pages exist and are accessible
+      2. Portfolio cards link to detail pages (not external sites directly)
+      3. Detail pages have correct live site links (except AI Pipeline)
+      4. AI Research Pipeline page displays all 5 sample outputs
+      5. Updated descriptions are accurate
+      6. Build passes without errors
+      7. Mobile responsive
+    status: PENDING
+    dependencies: []
