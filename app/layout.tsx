@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Inter, Crimson_Text } from "next/font/google";
-import { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -14,45 +14,53 @@ const crimson = Crimson_Text({
   variable: "--font-crimson",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://ahiya.xyz"),
-  title: "Ahiya - Technology that serves presence",
+  title: {
+    template: "%s | Ahiya Butman",
+    default: "Ahiya Butman - Full-Stack Developer | SaaS & AI Systems",
+  },
   description:
-    "Building contemplative technology from Sacred Potato energy. Each project is an exploration of consciousness through code.",
+    "I build complete SaaS systems fast using AI-powered development. Full-stack, from idea to deployment. View my portfolio.",
   keywords: [
-    "contemplative technology",
-    "consciousness",
-    "sacred potato",
-    "presence-first technology",
-    "mindful development",
-    "AI orchestration",
-    "full-stack development",
-    "meditation technology",
+    "full-stack developer",
+    "SaaS development",
+    "AI integration",
+    "freelance developer",
+    "Next.js",
+    "TypeScript",
+    "startup MVP",
   ],
   authors: [{ name: "Ahiya Butman" }],
   creator: "Ahiya Butman",
   openGraph: {
-    title: "Ahiya - Technology that serves presence",
-    description: "Building contemplative technology from Sacred Potato energy",
+    type: "website",
+    locale: "en_US",
     url: "https://ahiya.xyz",
-    siteName: "Ahiya",
+    siteName: "Ahiya Butman",
+    title: "Ahiya Butman - Full-Stack Developer | SaaS & AI Systems",
+    description:
+      "I build complete SaaS systems fast using AI-powered development. Full-stack, from idea to deployment. View my portfolio.",
     images: [
       {
         url: "/logo-text.png",
         width: 420,
         height: 210,
-        alt: "Ahiya - Building technology that serves presence",
+        alt: "Ahiya Butman - Full-Stack Developer",
       },
     ],
-    locale: "en_US",
-    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ahiya - Technology that serves presence",
-    description: "Building contemplative technology from Sacred Potato energy",
+    title: "Ahiya Butman - Full-Stack Developer | SaaS & AI Systems",
+    description:
+      "I build complete SaaS systems fast using AI-powered development.",
     images: ["/logo-text.png"],
-    creator: "@ahiya",
   },
   robots: {
     index: true,
@@ -64,10 +72,6 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
   },
   icons: {
     icon: [
@@ -86,6 +90,30 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${crimson.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Ahiya Butman",
+              jobTitle: "Full-Stack Developer",
+              description:
+                "I build complete SaaS systems fast using AI-powered development.",
+              url: "https://ahiya.xyz",
+              sameAs: ["https://github.com/Ahiya1"],
+              knowsAbout: [
+                "Next.js",
+                "TypeScript",
+                "React",
+                "SaaS Development",
+                "AI Integration",
+              ],
+            }),
+          }}
+        />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   );

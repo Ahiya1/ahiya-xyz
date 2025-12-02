@@ -46,10 +46,16 @@ export function Navigation() {
     <>
       {/* Navigation Bar */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0f1a]/80 backdrop-blur-sm">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-purple-500 focus:text-white focus:rounded-lg"
+        >
+          Skip to content
+        </a>
         <div className="container-wide">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <a href="#" className="flex items-center space-x-3 group">
+            <a href="#" className="flex items-center space-x-3 group" aria-label="Go to homepage">
               <Image
                 src="/logo-symbol.png"
                 alt="Ahiya"

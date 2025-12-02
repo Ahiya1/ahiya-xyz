@@ -17,7 +17,7 @@ export function Footer() {
             href="/soul/"
             className="inline-flex items-center space-x-2 text-purple-300 hover:text-purple-200 transition-colors group"
           >
-            <Sparkles className="w-4 h-4 group-hover:scale-110 transition-transform" />
+            <Sparkles className="w-4 h-4 group-hover:scale-110 transition-transform" aria-hidden="true" />
             <span className="text-sm">The philosophical side</span>
           </Link>
         </div>
@@ -39,7 +39,7 @@ export function Footer() {
         </p>
 
         {/* Copyright */}
-        <p className="text-center text-slate-600 text-xs">
+        <p className="text-center text-slate-500 text-xs">
           &copy; {currentYear} All rights reserved
         </p>
       </div>

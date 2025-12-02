@@ -9,7 +9,7 @@ import { portfolioProjects } from "@/app/data/portfolio";
 
 export default function HomePage() {
   return (
-    <main className="bg-[#0a0f1a] min-h-screen">
+    <main id="main-content" className="bg-[#0a0f1a] min-h-screen">
       <Navigation />
 
       {/* Hero Section */}
@@ -17,7 +17,7 @@ export default function HomePage() {
         <div className="container-content text-center">
           {/* Badge */}
           <div className="breathing-glass inline-flex items-center space-x-2 px-4 py-2 rounded-full mb-8">
-            <Zap className="w-4 h-4 text-purple-300" />
+            <Zap className="w-4 h-4 text-purple-300" aria-hidden="true" />
             <span className="text-sm text-slate-300">Full-Stack Developer</span>
           </div>
 
@@ -84,7 +84,7 @@ export default function HomePage() {
                 className="inline-flex items-center space-x-2 text-purple-300 hover:text-purple-200 transition-colors"
               >
                 <span>Ask me about it</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </a>
             </div>
           </div>
@@ -104,7 +104,7 @@ export default function HomePage() {
               href="mailto:ahiya.butman@gmail.com"
               className="inline-flex items-center justify-center px-6 py-3 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium transition-all duration-300 hover:bg-purple-500/20 hover:border-purple-400/50 mb-6"
             >
-              <Mail className="w-5 h-5 mr-2" />
+              <Mail className="w-5 h-5 mr-2" aria-hidden="true" />
               Send a Message
             </a>
 
@@ -115,8 +115,9 @@ export default function HomePage() {
                 rel="noopener noreferrer"
                 className="flex items-center space-x-2 hover:text-white transition-colors"
               >
-                <Github className="w-5 h-5" />
+                <Github className="w-5 h-5" aria-hidden="true" />
                 <span>GitHub</span>
+                <span className="sr-only">(opens in new tab)</span>
               </a>
             </div>
           </div>

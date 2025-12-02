@@ -1,7 +1,7 @@
 current_plan: plan-1
-global_iteration_counter: 1
-current_iteration: 2
-current_phase: validation
+global_iteration_counter: 2
+current_iteration: 3
+current_phase: building
 plans:
 - plan_id: plan-1
   name: ahiya.xyz Business Transformation

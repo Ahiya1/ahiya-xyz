@@ -92,7 +92,8 @@ export function PortfolioCard({ project }: PortfolioCardProps) {
             "
           >
             <span>Visit Site</span>
-            <ExternalLink className="w-3 h-3" />
+            <ExternalLink className="w-3 h-3" aria-hidden="true" />
+            <span className="sr-only">(opens in new tab)</span>
           </a>
         </div>
       )}
