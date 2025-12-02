@@ -1,6 +1,6 @@
 "use client";
 
-import { Zap, ArrowRight, Mail, Github } from "lucide-react";
+import { Zap, ArrowRight, Mail, Github, Code, Database, Bot, BarChart3 } from "lucide-react";
 import { Navigation } from "@/app/components/Navigation";
 import { Footer } from "@/app/components/Footer";
 import { PortfolioCard } from "@/app/components/PortfolioCard";
@@ -46,6 +46,42 @@ export default function HomePage() {
             >
               Work With Me
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* What I Do Section */}
+      <section id="services" className="section-breathing">
+        <div className="container-content">
+          <h2 className="display-lg text-white text-center mb-4">What I Do for Clients</h2>
+          <p className="body-lg text-slate-400 text-center mb-12 max-w-xl mx-auto">
+            Most projects delivered in 2–4 weeks. I work fast, with clear milestones.
+          </p>
+
+          <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+            <div className="breathing-glass p-6 rounded-2xl">
+              <Code className="w-8 h-8 text-purple-400 mb-4" aria-hidden="true" />
+              <h3 className="heading-lg text-white mb-2">Full-Stack SaaS Apps</h3>
+              <p className="text-slate-400">Complete web applications with auth, payments, and admin dashboards.</p>
+            </div>
+
+            <div className="breathing-glass p-6 rounded-2xl">
+              <Database className="w-8 h-8 text-purple-400 mb-4" aria-hidden="true" />
+              <h3 className="heading-lg text-white mb-2">Data Dashboards</h3>
+              <p className="text-slate-400">Interactive reports and visualization tools for business intelligence.</p>
+            </div>
+
+            <div className="breathing-glass p-6 rounded-2xl">
+              <Bot className="w-8 h-8 text-purple-400 mb-4" aria-hidden="true" />
+              <h3 className="heading-lg text-white mb-2">AI-Powered Systems</h3>
+              <p className="text-slate-400">LLM integrations, agents, and intelligent automation workflows.</p>
+            </div>
+
+            <div className="breathing-glass p-6 rounded-2xl">
+              <BarChart3 className="w-8 h-8 text-purple-400 mb-4" aria-hidden="true" />
+              <h3 className="heading-lg text-white mb-2">Research & Analysis Tools</h3>
+              <p className="text-slate-400">Statistical workflows, data pipelines, and custom research platforms.</p>
+            </div>
           </div>
         </div>
       </section>
