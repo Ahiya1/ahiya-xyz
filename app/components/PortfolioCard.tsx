@@ -2,30 +2,46 @@
 
 import React from "react";
 import Link from "next/link";
-import { ExternalLink, Sparkles, Wallet, BarChart3, FlaskConical } from "lucide-react";
+import { ArrowUpRight, Sparkles, Wallet, BarChart3, FlaskConical } from "lucide-react";
 
-// Project visual configs
-const projectVisuals: Record<string, { gradient: string; icon: React.ReactNode; pattern: string }> = {
+// Project visual configs - refined color palette
+const projectVisuals: Record<string, {
+  accent: string;
+  accentLight: string;
+  glow: string;
+  icon: React.ReactNode;
+}> = {
   "mirror-of-dreams": {
-    gradient: "from-purple-600/40 via-violet-500/30 to-indigo-600/20",
-    icon: <Sparkles className="w-10 h-10 text-purple-300" />,
-    pattern: "radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 50%)",
+    accent: "rgb(168, 85, 247)",
+    accentLight: "rgb(196, 141, 255)",
+    glow: "rgba(168, 85, 247, 0.4)",
+    icon: <Sparkles className="w-7 h-7" />,
   },
   "wealth": {
-    gradient: "from-emerald-600/40 via-teal-500/30 to-cyan-600/20",
-    icon: <Wallet className="w-10 h-10 text-emerald-300" />,
-    pattern: "radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 50%)",
+    accent: "rgb(16, 185, 129)",
+    accentLight: "rgb(52, 211, 153)",
+    glow: "rgba(16, 185, 129, 0.4)",
+    icon: <Wallet className="w-7 h-7" />,
   },
   "statviz": {
-    gradient: "from-blue-600/40 via-sky-500/30 to-cyan-600/20",
-    icon: <BarChart3 className="w-10 h-10 text-blue-300" />,
-    pattern: "radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%)",
+    accent: "rgb(59, 130, 246)",
+    accentLight: "rgb(96, 165, 250)",
+    glow: "rgba(59, 130, 246, 0.4)",
+    icon: <BarChart3 className="w-7 h-7" />,
   },
   "ai-research-pipeline": {
-    gradient: "from-amber-600/40 via-orange-500/30 to-rose-600/20",
-    icon: <FlaskConical className="w-10 h-10 text-amber-300" />,
-    pattern: "radial-gradient(circle at 20% 20%, rgba(245, 158, 11, 0.15) 0%, transparent 50%)",
+    accent: "rgb(251, 146, 60)",
+    accentLight: "rgb(253, 186, 116)",
+    glow: "rgba(251, 146, 60, 0.4)",
+    icon: <FlaskConical className="w-7 h-7" />,
   },
+};
+
+const defaultVisuals = {
+  accent: "rgb(148, 163, 184)",
+  accentLight: "rgb(203, 213, 225)",
+  glow: "rgba(148, 163, 184, 0.4)",
+  icon: <Sparkles className="w-7 h-7" />,
 };
 
 // Type definitions
@@ -44,111 +60,138 @@ export interface PortfolioCardProps {
   project: PortfolioProject;
 }
 
-/**
- * PortfolioCard Component
- *
- * A glass-morphism card component for displaying portfolio projects.
- * Features smooth hover transitions, status badges, and tech stack display.
- */
 export function PortfolioCard({ project }: PortfolioCardProps) {
-  const visuals = projectVisuals[project.id] || {
-    gradient: "from-slate-600/40 via-slate-500/30 to-slate-600/20",
-    icon: <Sparkles className="w-10 h-10 text-slate-300" />,
-    pattern: "radial-gradient(circle at 50% 50%, rgba(148, 163, 184, 0.15) 0%, transparent 50%)",
-  };
+  const visuals = projectVisuals[project.id] || defaultVisuals;
 
   return (
     <Link href={project.detailUrl}>
-      <div
-        className="
-          bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] rounded-2xl overflow-hidden
-          hover:bg-white/[0.06] hover:border-purple-400/20 hover:-translate-y-1
-          transition-all duration-300
-          group cursor-pointer
-        "
-      >
-        {/* Visual Header */}
+      <div className="group relative h-full">
+        {/* Glow effect on hover */}
         <div
-          className={`relative h-32 bg-gradient-to-br ${visuals.gradient} flex items-center justify-center`}
-          style={{ backgroundImage: visuals.pattern }}
-        >
-          {/* Decorative grid pattern */}
-          <div className="absolute inset-0 opacity-10" style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-            backgroundSize: '20px 20px'
-          }} />
+          className="absolute -inset-0.5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
+          style={{ background: visuals.glow }}
+        />
 
-          {/* Icon */}
-          <div className="relative z-10 p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 group-hover:scale-110 transition-transform duration-300">
-            {visuals.icon}
-          </div>
+        {/* Card */}
+        <div className="relative h-full bg-[#0d1220] border border-white/[0.08] rounded-3xl overflow-hidden group-hover:border-white/[0.15] transition-all duration-500">
 
-          {/* Status Badge - positioned in header */}
-          <div className="absolute top-3 right-3 px-3 py-1 bg-black/30 backdrop-blur-sm border border-white/10 rounded-full text-xs">
-            <span
-              className={`font-medium ${
-                project.status === "live"
-                  ? "text-emerald-300"
-                  : "text-amber-300"
-              }`}
-            >
-              {project.status === "live" ? "Live" : "In Dev"}
-            </span>
-          </div>
-        </div>
+          {/* Visual Header */}
+          <div className="relative h-44 overflow-hidden">
+            {/* Background gradient */}
+            <div
+              className="absolute inset-0 opacity-20"
+              style={{
+                background: `radial-gradient(ellipse 80% 50% at 50% -20%, ${visuals.accent}, transparent)`,
+              }}
+            />
 
-        {/* Content */}
-        <div className="p-6">
-          {/* Header with title and subtitle */}
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold text-white group-hover:text-purple-200 transition-colors duration-300">
-              {project.title}
-            </h3>
-            <p className="text-slate-400 text-sm mt-1">
-              {project.subtitle}
-            </p>
-          </div>
+            {/* Floating orbs */}
+            <div
+              className="absolute w-32 h-32 rounded-full blur-3xl opacity-30 group-hover:opacity-50 transition-opacity duration-700"
+              style={{
+                background: visuals.accent,
+                top: "-20%",
+                right: "10%",
+              }}
+            />
+            <div
+              className="absolute w-24 h-24 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700"
+              style={{
+                background: visuals.accentLight,
+                bottom: "10%",
+                left: "5%",
+              }}
+            />
 
-          {/* Description */}
-          <p className="text-slate-300 leading-relaxed mb-6 text-sm">
-            {project.description}
-          </p>
+            {/* Subtle grid */}
+            <div
+              className="absolute inset-0 opacity-[0.03]"
+              style={{
+                backgroundImage: `
+                  linear-gradient(${visuals.accent} 1px, transparent 1px),
+                  linear-gradient(90deg, ${visuals.accent} 1px, transparent 1px)
+                `,
+                backgroundSize: "40px 40px",
+              }}
+            />
 
-          {/* Tech Stack */}
-          <div className="flex flex-wrap gap-2 mb-6">
-            {project.techStack.map((tech) => (
-              <span
-                key={tech}
-                className="px-2 py-1 bg-white/[0.02] border border-white/[0.06] rounded-md text-xs text-slate-400 hover:text-slate-300 hover:bg-white/[0.04] transition-all duration-300"
+            {/* Icon container */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div
+                className="relative p-5 rounded-2xl transition-all duration-500 group-hover:scale-110"
+                style={{
+                  background: `linear-gradient(135deg, ${visuals.accent}15, ${visuals.accent}05)`,
+                  border: `1px solid ${visuals.accent}30`,
+                  boxShadow: `0 0 40px ${visuals.glow}`,
+                }}
               >
-                {tech}
-              </span>
-            ))}
-          </div>
-
-          {/* External Link - prevent propagation to allow card link */}
-          {project.liveUrl && (
-            <div className="flex justify-end">
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="
-                  inline-flex items-center space-x-2
-                  px-4 py-2 bg-emerald-500/12 border border-emerald-400/20 rounded-lg
-                  text-xs text-emerald-300 font-medium
-                  hover:bg-emerald-500/20 hover:scale-105
-                  transition-all duration-300
-                "
-              >
-                <span>Visit Site</span>
-                <ExternalLink className="w-3 h-3" aria-hidden="true" />
-                <span className="sr-only">(opens in new tab)</span>
-              </a>
+                <div style={{ color: visuals.accentLight }}>
+                  {visuals.icon}
+                </div>
+              </div>
             </div>
-          )}
+
+            {/* Status pill */}
+            <div className="absolute top-4 right-4">
+              <div
+                className={`
+                  px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-md
+                  ${project.status === "live"
+                    ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                    : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                  }
+                `}
+              >
+                {project.status === "live" ? "Live" : "In Dev"}
+              </div>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="p-6 pt-5">
+            {/* Title row */}
+            <div className="flex items-start justify-between gap-4 mb-3">
+              <div>
+                <h3 className="text-lg font-semibold text-white group-hover:text-white/90 transition-colors">
+                  {project.title}
+                </h3>
+                <p className="text-sm text-slate-500 mt-0.5">
+                  {project.subtitle}
+                </p>
+              </div>
+              <div
+                className="p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                style={{
+                  background: `${visuals.accent}15`,
+                  color: visuals.accentLight,
+                }}
+              >
+                <ArrowUpRight className="w-4 h-4" />
+              </div>
+            </div>
+
+            {/* Description */}
+            <p className="text-sm text-slate-400 leading-relaxed mb-5 line-clamp-2">
+              {project.description}
+            </p>
+
+            {/* Tech Stack */}
+            <div className="flex flex-wrap gap-1.5">
+              {project.techStack.slice(0, 4).map((tech) => (
+                <span
+                  key={tech}
+                  className="px-2.5 py-1 rounded-md text-xs text-slate-500 bg-white/[0.03] border border-white/[0.05]"
+                >
+                  {tech}
+                </span>
+              ))}
+              {project.techStack.length > 4 && (
+                <span className="px-2.5 py-1 rounded-md text-xs text-slate-600">
+                  +{project.techStack.length - 4}
+                </span>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </Link>
