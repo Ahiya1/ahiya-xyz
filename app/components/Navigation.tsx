@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, Sparkles } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 interface NavItem {
   label: string;
@@ -11,8 +10,9 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
+  { label: "About", href: "#about" },
+  { label: "Services", href: "#services" },
   { label: "Portfolio", href: "#portfolio" },
-  { label: "How I Work", href: "#how-i-work" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -77,15 +77,6 @@ export function Navigation() {
                   {item.label}
                 </a>
               ))}
-
-              {/* Soul Link - Special Styling */}
-              <Link
-                href="/soul/"
-                className="flex items-center space-x-2 text-purple-300 hover:text-purple-200 transition-colors"
-              >
-                <Sparkles className="w-4 h-4" />
-                <span>Soul</span>
-              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -135,28 +126,7 @@ export function Navigation() {
                     <span className="font-medium">{item.label}</span>
                   </a>
                 ))}
-
-                {/* Soul Link - Mobile */}
-                <Link
-                  href="/soul/"
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center space-x-4 px-4 py-3 rounded-xl bg-purple-500/15 text-purple-200 border border-purple-500/30 transition-all duration-300"
-                >
-                  <Sparkles className="w-5 h-5 text-purple-400" />
-                  <span className="font-medium">Soul</span>
-                </Link>
               </nav>
-
-              {/* Quote */}
-              <div className="mt-8 pt-6 border-t border-white/10">
-                <div className="text-center">
-                  <p className="text-xs text-slate-500 italic leading-relaxed">
-                    &quot;Technology that serves presence,
-                    <br />
-                    not productivity.&quot;
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
         </>

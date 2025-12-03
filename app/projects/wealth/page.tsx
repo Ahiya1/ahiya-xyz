@@ -50,6 +50,21 @@ const WealthPage: React.FC = () => {
     "tRPC",
   ];
 
+  const challenges = [
+    "Manual transaction entry is tedious and often abandoned",
+    "Generic categorization misses personal spending patterns",
+    "Israeli bank integration is rare in international finance apps",
+    "Budget alerts come too late, after overspending occurs",
+  ];
+
+  const solutions = [
+    "Automatic bank sync imports transactions in real-time",
+    "Claude AI learns your unique spending patterns for smart categorization",
+    "Native support for Israeli banks and local payment methods",
+    "Proactive budget alerts before you exceed limits",
+    "AI financial advisor provides personalized guidance based on your actual data",
+  ];
+
   if (!mounted) {
     return (
       <div className="min-h-screen bg-[#0a0f1a] flex items-center justify-center">
@@ -140,6 +155,50 @@ const WealthPage: React.FC = () => {
                 <span>Visit Live Site</span>
               </a>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* The Challenge Section */}
+      <section className="section-breathing">
+        <div className="container-content">
+          <h2 className="heading-xl text-center spacing-generous">
+            The Challenge
+          </h2>
+          <div className="contemplative-card p-6 md:p-8">
+            <p className="body-lg text-slate-300 mb-6">
+              Personal finance tools often fail Israeli users in key ways:
+            </p>
+            <ul className="space-y-4">
+              {challenges.map((challenge, index) => (
+                <li key={index} className="flex items-start space-x-3">
+                  <div className="w-2 h-2 rounded-full bg-red-400/60 mt-2 flex-shrink-0" />
+                  <span className="text-slate-300">{challenge}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* The Solution Section */}
+      <section className="section-breathing">
+        <div className="container-content">
+          <h2 className="heading-xl text-center spacing-generous">
+            The Solution
+          </h2>
+          <div className="contemplative-card p-6 md:p-8">
+            <p className="body-lg text-slate-300 mb-6">
+              Wealth brings intelligent, localized financial management:
+            </p>
+            <ul className="space-y-4">
+              {solutions.map((solution, index) => (
+                <li key={index} className="flex items-start space-x-3">
+                  <div className="w-2 h-2 rounded-full bg-emerald-400/60 mt-2 flex-shrink-0" />
+                  <span className="text-slate-300">{solution}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>

@@ -43,6 +43,21 @@ const StatVizPage: React.FC = () => {
 
   const techStack = ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "JWT"];
 
+  const challenges = [
+    "Traditional report delivery via email is insecure and untracked",
+    "Students lose access to reports or forward them inappropriately",
+    "No central system for consultants to manage multiple projects",
+    "Hebrew RTL content breaks in standard document viewers",
+  ];
+
+  const solutions = [
+    "Password-protected individual access ensures only authorized students view reports",
+    "Centralized admin panel for project and user management",
+    "Interactive HTML reports with embedded visualizations",
+    "Full Hebrew RTL support for natural reading experience",
+    "Dual format delivery (HTML + DOCX) for flexibility",
+  ];
+
   if (!mounted) {
     return (
       <div className="min-h-screen bg-[#0a0f1a] flex items-center justify-center">
@@ -133,6 +148,50 @@ const StatVizPage: React.FC = () => {
                 <span>Visit Live Site</span>
               </a>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* The Challenge Section */}
+      <section className="section-breathing">
+        <div className="container-content">
+          <h2 className="heading-xl text-center spacing-generous">
+            The Challenge
+          </h2>
+          <div className="contemplative-card p-6 md:p-8">
+            <p className="body-lg text-slate-300 mb-6">
+              Delivering statistical reports to academic students presents unique challenges:
+            </p>
+            <ul className="space-y-4">
+              {challenges.map((challenge, index) => (
+                <li key={index} className="flex items-start space-x-3">
+                  <div className="w-2 h-2 rounded-full bg-red-400/60 mt-2 flex-shrink-0" />
+                  <span className="text-slate-300">{challenge}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* The Solution Section */}
+      <section className="section-breathing">
+        <div className="container-content">
+          <h2 className="heading-xl text-center spacing-generous">
+            The Solution
+          </h2>
+          <div className="contemplative-card p-6 md:p-8">
+            <p className="body-lg text-slate-300 mb-6">
+              StatViz provides a secure, centralized platform for report delivery:
+            </p>
+            <ul className="space-y-4">
+              {solutions.map((solution, index) => (
+                <li key={index} className="flex items-start space-x-3">
+                  <div className="w-2 h-2 rounded-full bg-emerald-400/60 mt-2 flex-shrink-0" />
+                  <span className="text-slate-300">{solution}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>

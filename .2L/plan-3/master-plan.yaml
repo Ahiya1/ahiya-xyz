@@ -1,0 +1,60 @@
+plan_id: plan-3
+created_at: 2025-12-03T17:45:00Z
+status: PLANNED
+total_iterations: 1
+
+strategy: |
+  Single iteration approach. All work is frontend-only with no blocking dependencies.
+  Homepage sections can be built sequentially in one file. Project pages are independent.
+  Design patterns are fully established - maximize component and CSS reuse.
+
+  Builder allocation:
+  - Builder 1: Homepage redesign (Hero, About, Services, How I Work, Testimonial, CTA, Footer, Nav)
+  - Builder 2: Project page upgrades (StatViz, Mirror of Dreams, Wealth - add Challenge/Solution)
+
+  Content is fully specified in vision.md. Follow existing patterns from globals.css.
+
+iterations:
+  - iteration_id: 1
+    global_iteration: 5
+    name: "Homepage Redesign + Project Page Upgrades"
+    vision: |
+      Redesign homepage with new brand identity and upgrade project pages to case study format.
+
+      Homepage changes:
+      - New hero with philosophical headline
+      - New About section with four pillars
+      - Restructured Services section
+      - New How I Work with 3-phase process + 2L mention
+      - New Testimonial section (Michal Schriber)
+      - Redesigned CTA with GitHub link
+      - Updated Footer signature
+      - Navigation item updates
+
+      Project page upgrades (3 pages):
+      - StatViz: Add Challenge/Solution sections
+      - Mirror of Dreams: Add Challenge/Solution sections
+      - Wealth: Add Challenge/Solution sections
+      - AI Research Pipeline: Already done, minor consistency check
+
+    scope: |
+      Files to modify:
+      - app/page.tsx (homepage - major rewrite)
+      - app/components/Navigation.tsx (nav items)
+      - app/components/Footer.tsx (signature text)
+      - app/projects/statviz/page.tsx (add case study sections)
+      - app/projects/mirror-of-dreams/page.tsx (add case study sections)
+      - app/projects/wealth/page.tsx (add case study sections)
+      - app/data/portfolio.ts (update descriptions per vision)
+
+      Patterns to use:
+      - section-breathing for section padding
+      - contemplative-card for feature cards
+      - breathing-glass for subtle cards
+      - display-xl/lg for headlines
+      - text-gentle for gradient text
+      - SectionHeading component for section titles
+      - PortfolioCard component (unchanged)
+
+    status: PENDING
+    dependencies: []
