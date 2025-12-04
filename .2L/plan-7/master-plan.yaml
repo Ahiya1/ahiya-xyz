@@ -1,0 +1,60 @@
+plan_id: plan-7
+created_at: 2025-12-04T14:20:00Z
+status: PLANNED
+total_iterations: 1
+
+strategy: |
+  Single iteration approach for Premium B2B Positioning & 2L Deep Dive.
+  All 3 master explorers unanimously recommend SINGLE ITERATION due to:
+  - Focused scope (frontend-focused, existing design system)
+  - No complex external integrations
+  - Reusable existing patterns and CSS classes
+  - Cohesive changes that relate to B2B positioning
+
+  Work breakdown:
+  1. Create /2l page (2L methodology deep-dive)
+  2. Create /capabilities page (HTML with print styles)
+  3. Update homepage B2B messaging + add CTA strip
+  4. Update navigation (add 2L link)
+  5. Add "Built with 2L" badges to project pages
+  6. Premium styling enhancements
+
+  Implementation order:
+  - Builder-1: 2L page (requires 2L system knowledge from exploration)
+  - Builder-2: Capabilities page + CTA strip
+  - Builder-3: Homepage B2B refresh + nav update
+  - Builder-4: Project page badges + premium touches
+
+iterations:
+  - iteration_id: 1
+    global_iteration: 9
+    name: "Premium B2B Positioning & 2L Deep Dive"
+    vision: "Transform site into premium B2B-focused portfolio with dedicated 2L methodology page, capabilities sheet, and polished enterprise feel"
+    scope: |
+      Builder-1: 2L Methodology Page (/app/2l/page.tsx)
+        - Hero with bold AI development statement
+        - Visual pipeline diagram (clean, professional)
+        - Agent types overview
+        - Client benefits section
+        - "This is how your project gets built" narrative
+        - CTA linking to contact
+
+      Builder-2: Capabilities Page + CTA Strip (/app/capabilities/page.tsx)
+        - HTML page with @media print styles for PDF download
+        - 9 sections from vision specification
+        - Print-optimized layout
+        - Add CTA strip below homepage hero
+
+      Builder-3: Homepage B2B Refresh + Navigation
+        - Update hero messaging (precision, speed, reliability)
+        - Update How We Work section for B2B
+        - Add 2L link to navigation
+        - Add capabilities/book call CTAs
+
+      Builder-4: Project Badges + Premium Polish
+        - Add "Built with 2L" badges to all 4 project pages
+        - Typography improvements (bolder headings)
+        - Enhanced spacing between sections
+        - Subtle hover improvements on mockups
+    status: PENDING
+    dependencies: []

@@ -503,3 +503,103 @@ body::after {
     opacity: 1;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PRINT STYLES - For capabilities page and other printable content
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media print {
+  /* Hide decorative elements */
+  body::after {
+    display: none;
+  }
+
+  /* Utility classes for print control */
+  .print-hide {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .print-break-before {
+    page-break-before: always;
+  }
+
+  .print-break-after {
+    page-break-after: always;
+  }
+
+  .print-avoid-break {
+    break-inside: avoid;
+  }
+
+  /* Reset background and colors */
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  main {
+    background: white !important;
+  }
+
+  /* Reset card styles */
+  .contemplative-card,
+  .breathing-glass {
+    background: white !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Text color overrides for print readability */
+  .text-white {
+    color: #1e293b !important;
+  }
+
+  .text-slate-200,
+  .text-slate-300 {
+    color: #334155 !important;
+  }
+
+  .text-slate-400,
+  .text-slate-500 {
+    color: #64748b !important;
+  }
+
+  /* Reset gradient text for print */
+  .text-gentle {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: #7c3aed !important;
+    background-clip: initial !important;
+    color: #7c3aed !important;
+  }
+
+  /* Hide navigation and footer for print */
+  nav {
+    display: none !important;
+  }
+
+  footer {
+    display: none !important;
+  }
+
+  /* Reset hero gradient */
+  .hero-gradient-bg::before {
+    display: none;
+  }
+
+  /* Ensure links are visible and accessible */
+  a {
+    color: #7c3aed !important;
+    text-decoration: underline;
+  }
+
+  /* Section spacing for print */
+  .section-breathing {
+    padding: 2rem 0;
+  }
+}

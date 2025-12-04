@@ -264,6 +264,16 @@ const WealthPage: React.FC = () => {
             Personal Finance, Simplified
           </h1>
 
+          {/* Built with 2L Badge */}
+          <div className="mb-6">
+            <Link
+              href="/2l"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-400/20 text-purple-300 text-xs font-medium hover:bg-purple-500/20 hover:border-purple-400/30 transition-all duration-300"
+            >
+              Built with 2L
+            </Link>
+          </div>
+
           {/* One powerful line */}
           <p className="body-xl text-slate-300 max-w-xl mx-auto">
             Clarity from financial chaos.

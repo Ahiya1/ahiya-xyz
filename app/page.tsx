@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Mail, Github } from "lucide-react";
+import Link from "next/link";
+import { Mail, Github, Grid, Workflow, FileText } from "lucide-react";
 import { Navigation } from "@/app/components/Navigation";
 import { Footer } from "@/app/components/Footer";
 import { PortfolioCard } from "@/app/components/PortfolioCard";
@@ -62,7 +63,7 @@ export default function HomePage() {
 
           {/* Subheadline - fades in after hero words */}
           <p className="body-xl text-slate-300 max-w-2xl mx-auto mb-10 hero-subline" style={{ animationDelay: '0.8s' }}>
-            Research systems. Business tools. AI pipelines.
+            Precision-engineered systems delivered in weeks, not months.
           </p>
 
           {/* CTAs - fade in after subline */}
@@ -78,6 +79,47 @@ export default function HomePage() {
               className="inline-flex items-center justify-center px-6 py-3 border border-white/10 rounded-xl text-slate-300 font-medium transition-all duration-300 hover:bg-white/5 hover:border-white/20"
             >
               Let's Build
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Strip */}
+      <section className="py-8 border-b border-white/5 section-reveal section-reveal-1">
+        <div className="container-wide">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
+            {/* Primary CTA */}
+            <a
+              href="#portfolio"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium transition-all duration-300 hover:bg-purple-500/20 hover:border-purple-400/50"
+            >
+              <Grid className="w-4 h-4" />
+              See the Work
+            </a>
+
+            {/* Secondary CTAs */}
+            <Link
+              href="/2l"
+              className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/10 rounded-xl text-slate-300 font-medium transition-all duration-300 hover:bg-white/5 hover:border-white/20"
+            >
+              <Workflow className="w-4 h-4" />
+              How I Build
+            </Link>
+
+            <Link
+              href="/capabilities"
+              className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/10 rounded-xl text-slate-300 font-medium transition-all duration-300 hover:bg-white/5 hover:border-white/20"
+            >
+              <FileText className="w-4 h-4" />
+              Capabilities
+            </Link>
+
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium transition-all duration-300 hover:bg-purple-500/20 hover:border-purple-400/50"
+            >
+              <Mail className="w-4 h-4" />
+              Get in Touch
             </a>
           </div>
         </div>
@@ -114,7 +156,7 @@ export default function HomePage() {
               <div className="text-4xl mb-4">&#127919;</div>
               <h3 className="heading-lg text-white mb-3">Define</h3>
               <p className="text-slate-400">
-                We talk. I listen. You see the blueprint before I write a line of code.
+                We align on requirements. You see the architecture before development begins.
               </p>
             </div>
             <div
@@ -126,7 +168,7 @@ export default function HomePage() {
               <div className="text-4xl mb-4">&#9889;</div>
               <h3 className="heading-lg text-white mb-3">Build</h3>
               <p className="text-slate-400">
-                I move fast. You stay in the loop. No surprises.
+                Parallel agents accelerate delivery. You stay informed. No surprises.
               </p>
             </div>
             <div
@@ -138,14 +180,15 @@ export default function HomePage() {
               <div className="text-4xl mb-4">&#128640;</div>
               <h3 className="heading-lg text-white mb-3">Launch</h3>
               <p className="text-slate-400">
-                It works. It's documented. I'm here if you need me.
+                Production-ready. Documented. Supported.
               </p>
             </div>
           </div>
 
           {/* 2L Mention */}
           <p className="text-center text-slate-500 text-sm">
-            Powered by <span className="text-gentle">2L</span> — my AI orchestration framework.
+            Powered by <Link href="/2l" className="text-gentle hover:underline">2L</Link> — my AI orchestration framework.{" "}
+            <Link href="/2l" className="text-purple-400 hover:text-purple-300 transition-colors">Learn how it works</Link>
           </p>
         </div>
       </section>
