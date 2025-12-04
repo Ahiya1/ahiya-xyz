@@ -12,25 +12,40 @@ interface MockupScreen {
   elements: { type: string; label: string; accent?: boolean }[];
 }
 
-// MirrorDemo - Custom interactive demo with cosmic background and AI typing effect
+// Demo constants - defined outside component to avoid re-creation
+const DEMO_DREAM_TITLE = "Launch My Sustainable Fashion Brand";
+const DEMO_DREAM_CATEGORY = "Entrepreneurial";
+const DEMO_DAYS_REMAINING = 180;
+const DEMO_REFLECTION_QUESTIONS = [
+  "What draws you to this dream?",
+  "What's one step you could take today?",
+  "What fears are you holding?",
+  "What would success feel like?"
+];
+const DEMO_AI_REFLECTION = "Your dream of sustainable fashion reveals a deep alignment between your values and your ambitions. You speak about 'willingness to fail publicly' - this isn't fear, this is courage that has already decided. The 15 hours weekly you're offering isn't sacrifice; it's investment in becoming who you already are...";
+
+// MirrorDemo - Custom interactive demo showing LIFE DREAMS companion
 function MirrorDemo() {
   const [mounted, setMounted] = useState(false);
   const [displayedText, setDisplayedText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
-
-  const dreamEntry = "Last night I dreamed of flying over an endless ocean...";
-  const aiReflection = "Your dream of flight over water suggests a desire for freedom and emotional exploration. The endless ocean represents the vast unconscious, while flying symbolizes transcendence and perspective.";
+  const [activeQuestion, setActiveQuestion] = useState(0);
 
   useEffect(() => {
     setMounted(true);
+
+    // Cycle through questions
+    const questionInterval = setInterval(() => {
+      setActiveQuestion(prev => (prev + 1) % DEMO_REFLECTION_QUESTIONS.length);
+    }, 3000);
 
     // Start typing after a delay
     let typeInterval: NodeJS.Timeout;
     const startDelay = setTimeout(() => {
       let i = 0;
       typeInterval = setInterval(() => {
-        if (i < aiReflection.length) {
-          setDisplayedText(aiReflection.slice(0, i + 1));
+        if (i < DEMO_AI_REFLECTION.length) {
+          setDisplayedText(DEMO_AI_REFLECTION.slice(0, i + 1));
           i++;
         } else {
           clearInterval(typeInterval);
@@ -47,6 +62,7 @@ function MirrorDemo() {
       clearTimeout(startDelay);
       if (typeInterval) clearInterval(typeInterval);
       clearInterval(cursorInterval);
+      clearInterval(questionInterval);
     };
   }, []);
 
@@ -89,15 +105,37 @@ function MirrorDemo() {
       </div>
 
       <div className="relative p-6 space-y-6">
-        {/* Dream entry */}
+        {/* Dream Card */}
         <div className="p-4 bg-slate-800/30 rounded-lg border border-slate-700/30">
-          <div className="text-xs text-purple-400/70 mb-2">Your Dream</div>
-          <p className="text-slate-300 italic font-serif">{dreamEntry}</p>
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs text-purple-400/70 px-2 py-1 bg-purple-500/10 rounded-full">{DEMO_DREAM_CATEGORY}</span>
+            <span className="text-xs text-slate-500">{DEMO_DAYS_REMAINING} days remaining</span>
+          </div>
+          <h3 className="text-lg text-white font-medium mb-3">{DEMO_DREAM_TITLE}</h3>
+
+          {/* Reflection Questions */}
+          <div className="space-y-2">
+            {DEMO_REFLECTION_QUESTIONS.map((question, i) => (
+              <div
+                key={i}
+                className={`text-sm px-3 py-2 rounded transition-all duration-300 ${
+                  i === activeQuestion
+                    ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
+                    : 'text-slate-500'
+                }`}
+              >
+                {question}
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* AI Reflection */}
+        {/* AI Companion Response */}
         <div className="p-4 bg-purple-500/5 rounded-lg border border-purple-500/20 demo-cosmic-glow">
-          <div className="text-xs text-purple-400 mb-2">AI Reflection</div>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="text-xs text-purple-400">AI Companion</div>
+            <span className="text-xs text-slate-600">Gentle Clarity</span>
+          </div>
           <p className="text-slate-200 leading-relaxed min-h-[5rem]">
             {displayedText}
             <span className={`inline-block w-0.5 h-4 bg-purple-400 ml-0.5 align-middle transition-opacity duration-100 ${showCursor ? 'opacity-100' : 'opacity-0'}`} />
@@ -204,93 +242,93 @@ const MirrorOfDreamsPage: React.FC = () => {
   // Visual Mockup data
   const mockupScreens: MockupScreen[] = [
     {
-      title: "Dream Journal",
-      description: "Capture your dreams with guided questions",
+      title: "Create Your Dream",
+      description: "Define your life aspirations with guided reflection",
       elements: [
-        { type: 'header', label: 'New Entry' },
-        { type: 'input', label: 'What did you dream about?' },
-        { type: 'list', label: '5 Sacred Questions' },
-        { type: 'button', label: 'Save & Reflect' },
+        { type: 'header', label: 'New Dream' },
+        { type: 'input', label: 'What do you dream of becoming?' },
+        { type: 'list', label: '4 Reflection Questions' },
+        { type: 'button', label: 'Begin Journey' },
       ]
     },
     {
-      title: "AI Reflection",
-      description: "Personalized insights from Claude",
+      title: "AI Companion",
+      description: "Personalized guidance from Claude",
       elements: [
         { type: 'header', label: 'Your Reflection' },
         { type: 'card', label: 'AI Insight', accent: true },
-        { type: 'list', label: 'Patterns Detected' },
-        { type: 'button', label: 'Explore More' },
+        { type: 'list', label: 'Evolution Over Time' },
+        { type: 'button', label: 'Continue Growing' },
       ]
     },
   ];
 
   // Metrics data
   const metrics: MetricItem[] = [
-    { value: "3", label: "Subscription Tiers" },
-    { value: "AI", label: "Claude Reflections" },
+    { value: "4", label: "Reflection Questions" },
+    { value: "3", label: "AI Tones" },
+    { value: "Track", label: "Evolution Reports" },
     { value: "Secure", label: "PayPal Integration" },
-    { value: "Track", label: "Evolution Over Time" },
   ];
 
   // Tech Deep-Dive data
   const techDeepDive: TechDeepDiveItem[] = [
     { name: "Next.js", why: "React framework with server-side rendering for fast loads." },
-    { name: "TypeScript", why: "Type safety for complex dream data structures." },
+    { name: "TypeScript", why: "Type safety for complex dream and reflection data structures." },
     { name: "Supabase", why: "Authentication and PostgreSQL database in one." },
-    { name: "Claude API", why: "Emotionally intelligent AI for personalized dream insights." },
-    { name: "tRPC", why: "End-to-end type-safe API for dream submissions." },
+    { name: "Claude API", why: "Emotionally intelligent AI companion for personalized reflections." },
+    { name: "tRPC", why: "End-to-end type-safe API for dream and reflection management." },
     { name: "PayPal", why: "Trusted subscription management for tier upgrades." },
   ];
 
-  // Next Project data
+  // Next Project data - Updated from /projects/wealth to /projects/statviz
   const nextProject: NextProject = {
-    href: "/projects/wealth",
-    emoji: "\u{1F4B0}",
-    title: "Wealth",
-    subtitle: "Personal Finance, Simplified"
+    href: "/projects/statviz",
+    emoji: "\u{1F4CA}",
+    title: "StatViz",
+    subtitle: "Data Visualization Dashboard"
   };
 
   const features = [
     {
-      icon: "\u{1F451}",
-      title: "Subscription Tiers",
-      description:
-        "Free, Pro, and Unlimited. Each tier unlocks deeper AI insights and tracking.",
-    },
-    {
       icon: "\u{2728}",
-      title: "AI Reflections",
+      title: "AI Companion",
       description:
-        "Personalized insights from Claude AI. No generic advice\u2014only recognition of what's within.",
+        "Three calibrated tones: Gentle Clarity, Luminous Intensity, Sacred Fusion. Each offers a different lens for your aspirations.",
     },
     {
-      icon: "\u{1F4B3}",
-      title: "PayPal Integration",
+      icon: "\u{1F4AD}",
+      title: "4 Reflection Questions",
       description:
-        "Seamless, secure subscriptions. Easy to start, easy to manage.",
+        "Structured prompts guide you deeper: What draws you? What step today? What fears? What would success feel like?",
     },
     {
       icon: "\u{1F4C8}",
-      title: "Evolution Tracking",
+      title: "Evolution Reports",
       description:
-        "Watch patterns emerge over time. See your growth across sessions.",
+        "After 4+ reflections, see how your relationship with each dream has evolved over time.",
+    },
+    {
+      icon: "\u{1F451}",
+      title: "Subscription Tiers",
+      description:
+        "Free, Pro, and Unlimited. Each tier unlocks deeper AI insights and more dreams to track.",
     },
   ];
 
   const challenges = [
-    "Dream journaling apps offer storage but no insight",
-    "Generic AI responses lack emotional depth",
-    "No pathway from casual to deeper exploration",
-    "Subscription fatigue from apps that don't deliver",
+    "Goal tracking apps focus on tasks, not meaning",
+    "No space for reflection on what dreams truly mean to you",
+    "Disconnection between daily actions and life aspirations",
+    "Generic productivity tools ignore the emotional journey",
   ];
 
   const solutions = [
-    "Claude AI generates deeply personalized reflections",
-    "5 sacred questions guide structured self-exploration",
-    "Tiered access lets users grow at their own pace",
-    "Evolution tracking reveals patterns across sessions",
-    "PayPal for seamless, trusted subscription management",
+    "AI companion that knows your journey and reflects it back",
+    "4 structured questions guide deeper self-understanding",
+    "Evolution tracking reveals how you grow toward your dreams",
+    "Three AI tones match your mood and needs",
+    "Cosmic glass aesthetic invites contemplation, not hustle",
   ];
 
   if (!mounted) {
@@ -355,9 +393,9 @@ const MirrorOfDreamsPage: React.FC = () => {
             {"\u{1F319}"}
           </div>
 
-          {/* Bold title */}
+          {/* Bold title - FIXED: Now about LIFE DREAMS */}
           <h1 className="display-xl text-white mb-4">
-            Dream Journal with AI Insight
+            AI Companion for Life Dreams
           </h1>
 
           {/* Built with 2L Badge */}
@@ -370,9 +408,9 @@ const MirrorOfDreamsPage: React.FC = () => {
             </Link>
           </div>
 
-          {/* One powerful line */}
+          {/* One powerful line - FIXED: About aspirations, not sleep */}
           <p className="body-xl text-slate-300 max-w-xl mx-auto">
-            Capture, understand, remember.
+            Connect with your aspirations through AI-guided reflection.
           </p>
 
           {/* CTA Buttons - Dual CTAs */}
@@ -404,7 +442,7 @@ const MirrorOfDreamsPage: React.FC = () => {
         <div className="container-content">
           <h2 className="heading-xl text-center mb-4">See It In Action</h2>
           <p className="text-center text-slate-400 mb-12">
-            Watch the AI reflect on your dreams
+            Watch the AI companion reflect on your life dreams
           </p>
 
           <MirrorDemo />
@@ -417,7 +455,7 @@ const MirrorOfDreamsPage: React.FC = () => {
           <h2 className="heading-xl text-center mb-12">The Challenge</h2>
           <div className="contemplative-card p-6 md:p-8">
             <p className="body-lg text-slate-300 mb-6">
-              Dream exploration tools fall short:
+              Tools for life aspirations fall short:
             </p>
             <ul className="space-y-4">
               {challenges.map((challenge, index) => (
@@ -437,7 +475,7 @@ const MirrorOfDreamsPage: React.FC = () => {
           <h2 className="heading-xl text-center mb-12">The Solution</h2>
           <div className="contemplative-card p-6 md:p-8">
             <p className="body-lg text-slate-300 mb-6">
-              Space for genuine self-discovery:
+              A space for genuine self-discovery:
             </p>
             <ul className="space-y-4">
               {solutions.map((solution, index) => (
@@ -533,9 +571,9 @@ const MirrorOfDreamsPage: React.FC = () => {
       <section className="py-24 section-reveal section-reveal-8">
         <div className="container-narrow text-center">
           <div className="contemplative-card p-8 md:p-12">
-            <h2 className="heading-xl mb-6">Ready to Explore?</h2>
+            <h2 className="heading-xl mb-6">Ready to Explore Your Dreams?</h2>
             <p className="body-lg text-slate-300 mb-8">
-              Discover your dreams through AI-powered reflection.
+              Connect with your life aspirations through AI-guided reflection.
             </p>
             <a
               href={liveLink}

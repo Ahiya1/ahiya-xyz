@@ -1,0 +1,254 @@
+# Master Plan: Plan-10 - Premium Project Pages
+# Generated: 2025-12-04
+# Based on: 4 Master Explorer Reports
+
+plan_id: plan-10
+name: "Premium Project Pages"
+complexity: COMPLEX
+strategy: SINGLE_ITERATION
+
+# ============================================
+# SYNTHESIS FROM MASTER EXPLORATION
+# ============================================
+
+key_findings:
+  critical_issues:
+    - location: "/app/projects/mirror-of-dreams/page.tsx:21-22"
+      issue: "Demo shows SLEEP dreams instead of LIFE dreams"
+      truth: "Mirror of Dreams is AI companion for life aspirations, NOT sleep dream interpretation"
+      fix: "Complete overhaul of demo content and messaging"
+      risk: HIGH
+
+    - location: "/app/capabilities/page.tsx:73-77"
+      issue: "Claims 'UX-Light Tools' - UNDERSELLS capability"
+      truth: "Ahiya is competent at full UI/UX development"
+      fix: "Change to 'Premium Web UIs' or similar"
+      risk: MEDIUM
+
+    - location: "/public/ahiya-capabilities.pdf"
+      issue: "Same 'UX-Light' underselling in PDF"
+      fix: "Regenerate PDF with updated content"
+      risk: MEDIUM
+
+    - location: "/app/projects/wealth/"
+      issue: "Wealth project to be replaced by SelahReach"
+      fix: "Delete wealth page, create selahreach, update all references"
+      risk: MEDIUM
+
+  project_insights:
+    mirror_of_dreams:
+      actual_purpose: "AI companion for tracking life dreams/aspirations"
+      key_features:
+        - "Dream creation with categories (Career, Health, Creative, etc.)"
+        - "4 reflection questions per dream"
+        - "3 AI tones: Gentle Clarity, Luminous Intensity, Sacred Fusion"
+        - "Evolution reports after 4+ reflections"
+      visual_style: "Cosmic glass with restraint"
+      live_url: "selahmirror.xyz"
+
+    statviz:
+      actual_purpose: "Secure statistical report delivery for graduate students"
+      key_features:
+        - "Dual format: DOCX + Interactive HTML"
+        - "Password-protected project access"
+        - "Hebrew RTL support"
+        - "Admin dashboard for project management"
+      visual_style: "Professional, academic, blue gradient"
+      live_url: "statviz.xyz"
+
+    selahreach:
+      actual_purpose: "AI-powered B2B outreach automation with Claude Code"
+      key_features:
+        - "Kanban pipeline view"
+        - "Claude Code integration for email drafting"
+        - "Gmail MCP for sending"
+        - "Activity tracking and logging"
+      visual_style: "Terminal/code aesthetic like 2L page"
+      live_url: null  # Internal tool
+
+    ai_research_pipeline:
+      actual_purpose: "Synthetic culturally-authentic narrative generation"
+      key_features:
+        - "Factorial demographic design"
+        - "Cultural nuance handling"
+        - "Multiple output formats"
+      enhancement: "Add research-viz visualizations (NetworkGraph, ThemeClusterChart)"
+
+  architecture_patterns:
+    animation_approach: "requestAnimationFrame + IntersectionObserver"
+    demo_structure: "macOS window chrome + interactive content"
+    color_palette:
+      background: "#0a0f1a"
+      purple_primary: "#a78bfa"
+      purple_light: "#c084fc"
+      emerald: "#22c55e"
+    styling: "Tailwind CSS + custom keyframes in globals.css"
+
+# ============================================
+# ITERATION STRUCTURE
+# ============================================
+
+iterations:
+  - iteration: 12
+    name: "Premium Project Pages Transformation"
+    strategy: "5 parallel builders with distinct responsibilities"
+
+    builders:
+      - id: builder-1
+        name: "Mirror of Dreams Complete Overhaul"
+        priority: P0
+        scope:
+          - "Fix WRONG demo content (sleep dreams → life aspirations)"
+          - "Update hero: 'Dream Journal with AI Insight' → 'AI Companion for Life Dreams'"
+          - "Fix 4 reflection questions demo"
+          - "Show correct AI companion response"
+          - "Update challenges/solutions to match life dreams concept"
+          - "Fix nextProject link (wealth → statviz)"
+        files:
+          - /app/projects/mirror-of-dreams/page.tsx
+        demo_content:
+          dream_title: "Launch My Sustainable Fashion Brand"
+          questions:
+            - "What draws you to this dream?"
+            - "What's one step you could take today?"
+            - "What fears are you holding?"
+            - "What would success feel like?"
+          ai_response: "Your dream of sustainable fashion reveals a deep alignment between your values and your ambitions..."
+
+      - id: builder-2
+        name: "SelahReach New Page + Wealth Deletion"
+        priority: P1
+        scope:
+          - "CREATE new /app/projects/selahreach/page.tsx"
+          - "DELETE /app/projects/wealth/page.tsx"
+          - "Terminal/code aesthetic matching 2L page"
+          - "Claude Code workflow demo"
+          - "Kanban pipeline visualization"
+          - "Email template preview"
+        files:
+          - /app/projects/selahreach/page.tsx (CREATE)
+          - /app/projects/wealth/page.tsx (DELETE)
+        demo_features:
+          - "Pipeline Kanban with drag animation"
+          - "Terminal showing Claude Code workflow"
+          - "Email preview with P.S. line"
+          - "Activity timeline"
+
+      - id: builder-3
+        name: "StatViz Premium Upgrade"
+        priority: P1
+        scope:
+          - "Upgrade demo to show report delivery experience"
+          - "Add password-protected access flow"
+          - "Show interactive HTML report preview"
+          - "More premium feel matching 2L page"
+          - "Hebrew RTL demonstration"
+        files:
+          - /app/projects/statviz/page.tsx
+
+      - id: builder-4
+        name: "AI Research Pipeline + Research-Viz"
+        priority: P2
+        scope:
+          - "Add pipeline flow visualization"
+          - "Integrate research-viz concepts (NetworkGraph, themes)"
+          - "Polish existing sample narratives section"
+          - "Add insights/statistics section"
+          - "More premium animations"
+        files:
+          - /app/projects/ai-research-pipeline/page.tsx
+
+      - id: builder-5
+        name: "Capabilities + PDF + Portfolio Integration"
+        priority: P0
+        scope:
+          - "Fix 'UX-Light Tools' → 'Premium Web UIs'"
+          - "Update PDF generation script"
+          - "Regenerate PDF"
+          - "Update portfolio.ts: remove Wealth, add SelahReach"
+          - "Add selahreach visual config to PortfolioCard"
+          - "Verify all links work"
+        files:
+          - /app/capabilities/page.tsx
+          - /scripts/generate-capabilities-pdf.tsx
+          - /public/ahiya-capabilities.pdf (regenerate)
+          - /app/data/portfolio.ts
+          - /app/components/PortfolioCard.tsx
+
+# ============================================
+# INTEGRATION STRATEGY
+# ============================================
+
+integration:
+  approach: "Zone-based integration"
+  zones:
+    - zone: "A"
+      builders: [builder-1]
+      files: [mirror-of-dreams/page.tsx]
+
+    - zone: "B"
+      builders: [builder-2]
+      files: [selahreach/page.tsx, wealth deletion]
+
+    - zone: "C"
+      builders: [builder-3]
+      files: [statviz/page.tsx]
+
+    - zone: "D"
+      builders: [builder-4]
+      files: [ai-research-pipeline/page.tsx]
+
+    - zone: "E"
+      builders: [builder-5]
+      files: [capabilities, portfolio.ts, PortfolioCard.tsx, PDF]
+
+  conflict_areas:
+    - "portfolio.ts touched by builder-2 (selahreach entry) and builder-5 (wealth removal)"
+    - "PortfolioCard.tsx visual config for selahreach"
+
+  resolution: "Builder-5 handles all portfolio.ts and PortfolioCard.tsx changes"
+
+# ============================================
+# VALIDATION CRITERIA
+# ============================================
+
+validation:
+  p0_requirements:
+    - "Mirror of Dreams demo shows LIFE dreams, not sleep dreams"
+    - "No 'UX-Light' anywhere (page or PDF)"
+    - "Wealth page deleted"
+    - "SelahReach page exists and links work"
+    - "npm run build succeeds"
+    - "npm run lint passes"
+
+  p1_requirements:
+    - "All project pages match premium 2L page energy"
+    - "All demos are interactive"
+    - "Portfolio shows correct 4 projects"
+    - "All nextProject links point to valid pages"
+    - "PDF reflects updated capabilities"
+
+  p2_requirements:
+    - "AI Research Pipeline has visualization enhancements"
+    - "All animations respect reduced motion"
+    - "Mobile responsive verified"
+
+  testing_commands:
+    - "npm run build"
+    - "npm run lint"
+    - "npm run dev # manual visual check"
+
+# ============================================
+# SUCCESS CRITERIA
+# ============================================
+
+success_definition: |
+  All project pages transformed from "weakest link" to "absolutely PREMIUM":
+
+  1. Mirror of Dreams accurately shows life dreams AI companion
+  2. SelahReach showcases Claude Code integration
+  3. StatViz demonstrates secure report delivery
+  4. AI Research Pipeline includes visual proof
+  5. Capabilities page reflects full UI competence
+  6. Portfolio updated with correct projects
+  7. Overall impression: "I need to hire this developer"

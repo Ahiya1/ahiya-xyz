@@ -860,3 +860,40 @@ html {
 }
 
 /* ========== END BUILDER-3 Agent Orb ========== */
+
+/* ========== BUILDER-4: AI Research Pipeline Animations ========== */
+
+/* Theme node floating animation with slight scale breathing */
+@keyframes theme-node-float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-6px) scale(1.02);
+  }
+}
+
+.theme-node-float {
+  animation: theme-node-float 4s ease-in-out infinite;
+}
+
+/* Pipeline flow particle animation */
+@keyframes flow {
+  0% {
+    left: 0;
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+/* Reduced motion respect for Builder-4 animations */
+@media (prefers-reduced-motion: reduce) {
+  .theme-node-float {
+    animation: none;
+  }
+}
+
+/* ========== END BUILDER-4 AI Research Pipeline ========== */

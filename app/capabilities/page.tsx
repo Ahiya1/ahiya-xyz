@@ -71,8 +71,8 @@ export default function CapabilitiesPage() {
     },
     {
       icon: Sparkles,
-      title: "UX-Light Tools",
-      description: "Minimal UI, powerful logic",
+      title: "Premium Web UIs",
+      description: "Beautiful, responsive, production-ready interfaces",
     },
   ];
 

@@ -177,8 +177,8 @@ const capabilities = [
     description: 'Fast, scalable, containerized, production-ready',
   },
   {
-    title: 'UX-Light Tools, Heavy Logic',
-    description: 'Minimal interfaces backed by powerful systems',
+    title: 'Premium Web UIs',
+    description: 'Beautiful, responsive, production-ready interfaces',
   },
 ];
 
@@ -190,14 +190,14 @@ const selectedWork = [
     description: 'B2B platform for interactive statistical reports with Hebrew support and password-protected access.',
   },
   {
-    title: 'Wealth',
-    subtitle: 'Personal Finance SaaS',
-    description: 'Complete budgeting with Israeli bank connections, AI categorization, and forecasting.',
+    title: 'SelahReach',
+    subtitle: 'Intelligent Outreach Automation',
+    description: 'AI-powered outreach system with Claude Code integration for personalized client communication.',
   },
   {
     title: 'Mirror of Dreams',
-    subtitle: 'AI Reflection Engine',
-    description: 'Semantic journaling with insights, prompt flows, vector search, and daily reflection cycles.',
+    subtitle: 'AI Life Dreams Companion',
+    description: 'AI-powered life dreams exploration with personalized insights, reflection prompts, and growth tracking.',
   },
   {
     title: 'AI Research Pipeline',

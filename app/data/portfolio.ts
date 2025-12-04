@@ -20,15 +20,14 @@ export const portfolioProjects: PortfolioProject[] = [
     techStack: ["Next.js", "TypeScript", "Claude API", "PayPal", "Supabase", "tRPC"],
   },
   {
-    id: "wealth",
-    title: "Wealth",
-    subtitle: "Personal Finance SaaS",
+    id: "selahreach",
+    title: "SelahReach",
+    subtitle: "Intelligent Outreach Automation",
     description:
-      "Complete financial tracking system with AI-powered categorization, Israeli bank connections, budgeting, and goal tracking.",
-    status: "live",
-    liveUrl: "https://selahwealth.xyz",
-    detailUrl: "/projects/wealth",
-    techStack: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Claude API", "tRPC"],
+      "AI-powered outreach system with Claude Code integration for personalized client communication and pipeline tracking.",
+    status: "live" as const,
+    detailUrl: "/projects/selahreach",
+    techStack: ["Claude Code", "tRPC", "Next.js"],
   },
   {
     id: "statviz",

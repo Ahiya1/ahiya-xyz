@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown, Lock, ArrowRight } from "lucide-react";
+import { ChevronDown, Lock, ArrowRight, FileText, Users, Brain, CheckCircle, Database, Sparkles } from "lucide-react";
 
 // TypeScript interfaces
 interface SampleNarrative {
@@ -25,6 +25,7 @@ interface SampleNarrative {
 interface MetricItem {
   value: string;
   label: string;
+  icon: React.ReactNode;
 }
 
 interface TechDeepDiveItem {
@@ -37,6 +38,296 @@ interface NextProject {
   emoji: string;
   title: string;
   subtitle: string;
+}
+
+interface PipelineStep {
+  icon: React.ReactNode;
+  label: string;
+  description: string;
+}
+
+interface ThemeNode {
+  id: string;
+  label: string;
+  size: number;
+  x: number;
+  y: number;
+  color: string;
+  connections: string[];
+}
+
+// Pipeline Flow Visualization Component
+function PipelineFlowVisualization() {
+  const [mounted, setMounted] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Auto-advance through pipeline steps
+  useEffect(() => {
+    if (!mounted) return;
+    const interval = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % 5);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, [mounted]);
+
+  const steps: PipelineStep[] = [
+    { icon: <FileText className="w-5 h-5" />, label: "Research Question", description: "Define your study parameters" },
+    { icon: <Users className="w-5 h-5" />, label: "Demographic Design", description: "Factorial variable combinations" },
+    { icon: <Brain className="w-5 h-5" />, label: "AI Generation", description: "Culturally-aware synthesis" },
+    { icon: <CheckCircle className="w-5 h-5" />, label: "Quality Check", description: "Validation & authenticity" },
+    { icon: <Database className="w-5 h-5" />, label: "Output", description: "Structured data export" },
+  ];
+
+  if (!mounted) return <div className="h-32 bg-slate-800/30 rounded-xl animate-pulse" />;
+
+  return (
+    <div className="contemplative-card p-6 md:p-8 overflow-hidden">
+      {/* Pipeline Steps */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-2">
+        {steps.map((step, index) => (
+          <React.Fragment key={index}>
+            {/* Step Node */}
+            <div
+              className={`flex flex-col items-center transition-all duration-500 ${
+                activeStep === index
+                  ? "scale-110"
+                  : activeStep > index
+                  ? "opacity-60"
+                  : "opacity-40"
+              }`}
+            >
+              <div
+                className={`w-14 h-14 rounded-xl flex items-center justify-center mb-2 transition-all duration-500 ${
+                  activeStep === index
+                    ? "bg-purple-500/30 border-2 border-purple-400 shadow-lg shadow-purple-500/30"
+                    : activeStep > index
+                    ? "bg-emerald-500/20 border border-emerald-400/50"
+                    : "bg-white/5 border border-white/10"
+                }`}
+              >
+                <div
+                  className={`transition-colors duration-500 ${
+                    activeStep === index
+                      ? "text-purple-300"
+                      : activeStep > index
+                      ? "text-emerald-400"
+                      : "text-slate-500"
+                  }`}
+                >
+                  {step.icon}
+                </div>
+              </div>
+              <span
+                className={`text-xs font-medium text-center transition-colors duration-500 ${
+                  activeStep === index
+                    ? "text-purple-300"
+                    : "text-slate-400"
+                }`}
+              >
+                {step.label}
+              </span>
+              <span className="text-[10px] text-slate-500 text-center max-w-[100px] mt-1 hidden md:block">
+                {step.description}
+              </span>
+            </div>
+
+            {/* Connector Line */}
+            {index < steps.length - 1 && (
+              <div className="hidden md:block w-12 lg:w-20 h-[2px] relative">
+                <div className="absolute inset-0 bg-white/10 rounded-full" />
+                <div
+                  className={`absolute inset-y-0 left-0 rounded-full transition-all duration-700 ${
+                    activeStep > index
+                      ? "w-full bg-emerald-400/60"
+                      : activeStep === index
+                      ? "w-1/2 bg-purple-400/60 animate-pulse"
+                      : "w-0"
+                  }`}
+                />
+                {/* Animated particle */}
+                {activeStep === index && (
+                  <div className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-purple-400 shadow-lg shadow-purple-400/50 animate-[flow_1s_ease-in-out_infinite]" />
+                )}
+              </div>
+            )}
+          </React.Fragment>
+        ))}
+      </div>
+
+      {/* Mobile Progress Bar */}
+      <div className="md:hidden mt-6">
+        <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-purple-500 to-purple-400 transition-all duration-500"
+            style={{ width: `${((activeStep + 1) / steps.length) * 100}%` }}
+          />
+        </div>
+        <p className="text-center text-sm text-slate-400 mt-3">
+          {steps[activeStep]?.description}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// Theme Network Visualization Component
+function ThemeNetworkVisualization() {
+  const [mounted, setMounted] = useState(false);
+  const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const themes: ThemeNode[] = [
+    { id: "family", label: "Family Pressure", size: 48, x: 50, y: 25, color: "purple", connections: ["time", "cultural"] },
+    { id: "financial", label: "Financial Burden", size: 42, x: 20, y: 50, color: "pink", connections: ["travel", "equipment"] },
+    { id: "cultural", label: "Cultural Barriers", size: 52, x: 80, y: 45, color: "blue", connections: ["family", "identity"] },
+    { id: "time", label: "Time Conflict", size: 38, x: 35, y: 70, color: "emerald", connections: ["family", "education"] },
+    { id: "identity", label: "Identity Struggle", size: 44, x: 65, y: 75, color: "amber", connections: ["cultural", "community"] },
+    { id: "travel", label: "Travel Exhaustion", size: 36, x: 15, y: 80, color: "rose", connections: ["financial", "time"] },
+    { id: "education", label: "Academic Priority", size: 40, x: 50, y: 55, color: "cyan", connections: ["time", "future"] },
+    { id: "community", label: "Community Support", size: 34, x: 85, y: 70, color: "violet", connections: ["identity", "cultural"] },
+    { id: "equipment", label: "Equipment Costs", size: 30, x: 8, y: 35, color: "orange", connections: ["financial"] },
+    { id: "future", label: "Career Focus", size: 36, x: 70, y: 20, color: "teal", connections: ["education"] },
+  ];
+
+  const getColorClass = (color: string, isHovered: boolean) => {
+    const colors: Record<string, { bg: string; border: string; text: string }> = {
+      purple: { bg: "bg-purple-500/20", border: "border-purple-400/50", text: "text-purple-300" },
+      pink: { bg: "bg-pink-500/20", border: "border-pink-400/50", text: "text-pink-300" },
+      blue: { bg: "bg-blue-500/20", border: "border-blue-400/50", text: "text-blue-300" },
+      emerald: { bg: "bg-emerald-500/20", border: "border-emerald-400/50", text: "text-emerald-300" },
+      amber: { bg: "bg-amber-500/20", border: "border-amber-400/50", text: "text-amber-300" },
+      rose: { bg: "bg-rose-500/20", border: "border-rose-400/50", text: "text-rose-300" },
+      cyan: { bg: "bg-cyan-500/20", border: "border-cyan-400/50", text: "text-cyan-300" },
+      violet: { bg: "bg-violet-500/20", border: "border-violet-400/50", text: "text-violet-300" },
+      orange: { bg: "bg-orange-500/20", border: "border-orange-400/50", text: "text-orange-300" },
+      teal: { bg: "bg-teal-500/20", border: "border-teal-400/50", text: "text-teal-300" },
+    };
+    return colors[color] || colors.purple;
+  };
+
+  if (!mounted) return <div className="h-[400px] bg-slate-800/30 rounded-xl animate-pulse" />;
+
+  return (
+    <div className="contemplative-card p-6 md:p-8">
+      <div className="relative h-[350px] md:h-[400px] overflow-hidden">
+        {/* Connection Lines (SVG) */}
+        <svg className="absolute inset-0 w-full h-full" style={{ zIndex: 0 }}>
+          {themes.map((theme) =>
+            theme.connections.map((connId) => {
+              const connTheme = themes.find((t) => t.id === connId);
+              if (!connTheme) return null;
+              const isActive = hoveredNode === theme.id || hoveredNode === connId;
+              return (
+                <line
+                  key={`${theme.id}-${connId}`}
+                  x1={`${theme.x}%`}
+                  y1={`${theme.y}%`}
+                  x2={`${connTheme.x}%`}
+                  y2={`${connTheme.y}%`}
+                  stroke={isActive ? "rgba(168, 85, 247, 0.5)" : "rgba(255, 255, 255, 0.08)"}
+                  strokeWidth={isActive ? "2" : "1"}
+                  strokeDasharray={isActive ? "0" : "4"}
+                  className="transition-all duration-300"
+                />
+              );
+            })
+          )}
+        </svg>
+
+        {/* Theme Nodes */}
+        {themes.map((theme, index) => {
+          const colors = getColorClass(theme.color, hoveredNode === theme.id);
+          const isConnected = hoveredNode
+            ? themes.find((t) => t.id === hoveredNode)?.connections.includes(theme.id) || theme.id === hoveredNode
+            : true;
+          return (
+            <div
+              key={theme.id}
+              className={`absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-500 cursor-pointer ${
+                hoveredNode && !isConnected ? "opacity-30 scale-90" : "opacity-100"
+              }`}
+              style={{
+                left: `${theme.x}%`,
+                top: `${theme.y}%`,
+                animationDelay: `${index * 0.3}s`,
+              }}
+              onMouseEnter={() => setHoveredNode(theme.id)}
+              onMouseLeave={() => setHoveredNode(null)}
+            >
+              <div
+                className={`
+                  flex items-center justify-center rounded-full border backdrop-blur-sm
+                  transition-all duration-300 theme-node-float
+                  ${colors.bg} ${colors.border}
+                  ${hoveredNode === theme.id ? "scale-125 shadow-lg" : ""}
+                `}
+                style={{
+                  width: `${theme.size}px`,
+                  height: `${theme.size}px`,
+                  animationDelay: `${index * 0.5}s`,
+                }}
+              >
+                <span className={`text-[9px] md:text-[10px] font-medium text-center px-1 ${colors.text}`}>
+                  {theme.label.split(" ")[0]}
+                </span>
+              </div>
+              {/* Tooltip on hover */}
+              {hoveredNode === theme.id && (
+                <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/90 px-2 py-1 rounded text-xs text-white border border-white/10 z-10">
+                  {theme.label}
+                </div>
+              )}
+            </div>
+          );
+        })}
+
+        {/* Legend */}
+        <div className="absolute bottom-0 left-0 right-0 flex justify-center gap-4 text-[10px] text-slate-500">
+          <span>Node size = theme frequency</span>
+          <span>Lines = theme relationships</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Statistics Card Component
+function StatCard({ value, label, icon, delay }: { value: string; label: string; icon: React.ReactNode; delay: number }) {
+  const [count, setCount] = useState("0");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    const timer = setTimeout(() => {
+      setCount(value);
+    }, delay);
+    return () => clearTimeout(timer);
+  }, [mounted, value, delay]);
+
+  return (
+    <div className="breathing-glass p-6 text-center group hover:border-purple-400/20 transition-all duration-300">
+      <div className="flex justify-center mb-3 text-purple-400 opacity-60 group-hover:opacity-100 transition-opacity">
+        {icon}
+      </div>
+      <div className="text-3xl md:text-4xl font-bold text-gentle mb-2 tabular-nums">
+        {count}
+      </div>
+      <div className="text-slate-400 text-sm">
+        {label}
+      </div>
+    </div>
+  );
 }
 
 const AIResearchPipelinePage: React.FC = () => {
@@ -54,10 +345,11 @@ const AIResearchPipelinePage: React.FC = () => {
         setVisibleParagraphs(prev => [...prev, i]);
       }, i * 200);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Handle tab change with streaming reveal
-  const handleTabChange = (index: number) => {
+  const handleTabChange = useCallback((index: number) => {
     if (index === activeNarrative || isTransitioning) return;
 
     setIsTransitioning(true);
@@ -75,7 +367,8 @@ const AIResearchPipelinePage: React.FC = () => {
         }, i * 200);
       });
     }, 300);
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeNarrative, isTransitioning]);
 
   const sampleNarratives: SampleNarrative[] = [
     {
@@ -250,12 +543,12 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
     { name: "Tailwind CSS", why: "Rapid UI development with consistent design system." },
   ];
 
-  // Metrics
+  // Enhanced Metrics with icons
   const metrics: MetricItem[] = [
-    { value: "10K+", label: "Responses Possible" },
-    { value: "5+", label: "Demographic Variables" },
-    { value: "2", label: "Languages (EN/HE)" },
-    { value: "100%", label: "Culturally Aware" },
+    { value: "10K+", label: "Narratives Generated", icon: <FileText className="w-5 h-5" /> },
+    { value: "5+", label: "Cultural Groups", icon: <Users className="w-5 h-5" /> },
+    { value: "12+", label: "Themes Identified", icon: <Sparkles className="w-5 h-5" /> },
+    { value: "100%", label: "Culturally Authentic", icon: <CheckCircle className="w-5 h-5" /> },
   ];
 
   // Next Project
@@ -341,7 +634,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
 
           {/* Bold title */}
           <h1 className="display-xl text-white mb-4">
-            AI-Powered Academic Research
+            Synthetic Research Data
           </h1>
 
           {/* Built with 2L Badge */}
@@ -356,8 +649,20 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
 
           {/* One powerful line */}
           <p className="body-xl text-slate-300 max-w-xl mx-auto">
-            From raw sources to publication-ready insights. Automatically.
+            Culturally-authentic narratives at research scale.
           </p>
+
+          {/* Key differentiator badges */}
+          <div className="flex flex-wrap justify-center gap-2 mt-6">
+            {["Cultural Nuance", "Factorial Design", "10K+ Scale"].map((badge) => (
+              <span
+                key={badge}
+                className="px-3 py-1 text-xs bg-white/5 border border-white/10 rounded-full text-slate-400"
+              >
+                {badge}
+              </span>
+            ))}
+          </div>
 
           {/* CTA Buttons - Dual CTAs */}
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
@@ -380,8 +685,52 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
         </div>
       </section>
 
-      {/* The Challenge Section */}
+      {/* Pipeline Flow Section - NEW */}
       <section className="py-24 section-reveal section-reveal-1">
+        <div className="container-content">
+          <h2 className="heading-xl text-center mb-4">The Pipeline</h2>
+          <p className="text-center text-slate-400 mb-8">
+            From research question to publication-ready data
+          </p>
+          <PipelineFlowVisualization />
+        </div>
+      </section>
+
+      {/* Statistics Section - NEW */}
+      <section className="py-24 section-reveal section-reveal-2">
+        <div className="container-content">
+          <h2 className="heading-xl text-center mb-4">Scale & Quality</h2>
+          <p className="text-center text-slate-400 mb-12">
+            Production-grade research data generation
+          </p>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {metrics.map((metric, index) => (
+              <StatCard
+                key={index}
+                value={metric.value}
+                label={metric.label}
+                icon={metric.icon}
+                delay={index * 200}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Theme Network Visualization Section - NEW */}
+      <section className="py-24 section-reveal section-reveal-3">
+        <div className="container-content">
+          <h2 className="heading-xl text-center mb-4">Theme Discovery</h2>
+          <p className="text-center text-slate-400 mb-8">
+            Emergent themes from generated narratives
+          </p>
+          <ThemeNetworkVisualization />
+        </div>
+      </section>
+
+      {/* The Challenge Section */}
+      <section className="py-24 section-reveal section-reveal-4">
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">The Challenge</h2>
           <div className="contemplative-card p-6 md:p-8">
@@ -401,7 +750,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       </section>
 
       {/* The Solution Section */}
-      <section className="py-24 section-reveal section-reveal-2">
+      <section className="py-24 section-reveal section-reveal-5">
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">The Solution</h2>
           <div className="contemplative-card p-6 md:p-8">
@@ -420,42 +769,49 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
         </div>
       </section>
 
-      {/* Sample Outputs Section - PRESERVED AS-IS (this IS the visual proof) */}
-      <section className="py-24 section-reveal section-reveal-3">
+      {/* Sample Outputs Section - ENHANCED with better animations */}
+      <section className="py-24 section-reveal section-reveal-6">
         <div className="container-wide">
           <h2 className="heading-xl text-center mb-4">Sample Outputs</h2>
           <p className="text-center text-slate-400 mb-8">
-            Cultural nuance. Emotional authenticity.
+            Cultural nuance. Emotional authenticity. Real stories.
           </p>
 
-          {/* Tab Navigation */}
+          {/* Tab Navigation - Enhanced */}
           <div className="flex flex-wrap justify-center gap-2 mb-8">
             {sampleNarratives.map((sample, index) => (
               <button
                 key={sample.id}
                 onClick={() => handleTabChange(index)}
                 disabled={isTransitioning}
-                className={`px-4 py-2 rounded-lg text-sm transition-all ${
+                className={`px-4 py-2 rounded-lg text-sm transition-all duration-300 ${
                   activeNarrative === index
-                    ? "bg-purple-500/20 border border-purple-400/40 text-purple-300"
-                    : "bg-white/[0.04] border border-white/[0.08] text-slate-400 hover:text-slate-300"
+                    ? "bg-purple-500/20 border border-purple-400/40 text-purple-300 shadow-lg shadow-purple-500/10"
+                    : "bg-white/[0.04] border border-white/[0.08] text-slate-400 hover:text-slate-300 hover:border-white/15"
                 } ${isTransitioning ? "opacity-50 cursor-not-allowed" : ""}`}
               >
-                Sample {index + 1}
+                <span className="hidden sm:inline">{sample.title.split(" ")[0]}</span>
+                <span className="sm:hidden">Sample {index + 1}</span>
               </button>
             ))}
           </div>
 
-          {/* Active Narrative Display */}
-          <div className={`contemplative-card p-6 md:p-8 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
-            <h3 className="heading-lg text-purple-300 mb-6">
-              {sampleNarratives[activeNarrative]?.title}
-            </h3>
+          {/* Active Narrative Display - Enhanced */}
+          <div className={`contemplative-card p-6 md:p-8 transition-all duration-300 ${isTransitioning ? 'opacity-50 scale-[0.99]' : 'opacity-100 scale-100'}`}>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
+                <Users className="w-5 h-5 text-purple-400" />
+              </div>
+              <h3 className="heading-lg text-purple-300">
+                {sampleNarratives[activeNarrative]?.title}
+              </h3>
+            </div>
 
             <div className="grid md:grid-cols-3 gap-6">
               {/* Demographic Profile */}
-              <div className="breathing-glass p-4">
-                <h4 className="font-semibold text-slate-200 mb-4">
+              <div className="breathing-glass p-4 md:sticky md:top-4">
+                <h4 className="font-semibold text-slate-200 mb-4 flex items-center gap-2">
+                  <Database className="w-4 h-4 text-purple-400" />
                   Demographic Profile
                 </h4>
                 <div className="space-y-2 text-sm">
@@ -470,7 +826,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
                           style={{ transitionDelay: `${idx * 50}ms` }}
                         >
                           <span className="text-slate-400">{formatKey(key)}:</span>
-                          <span className="text-slate-300">{value}</span>
+                          <span className="text-slate-300 text-right">{value}</span>
                         </div>
                       )
                     )}
@@ -479,8 +835,9 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
 
               {/* Narrative Text */}
               <div className="md:col-span-2">
-                <h4 className="font-semibold text-slate-200 mb-4">
-                  Full Narrative
+                <h4 className="font-semibold text-slate-200 mb-4 flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-purple-400" />
+                  Generated Narrative
                 </h4>
                 <div className="prose prose-invert prose-sm max-w-none">
                   {sampleNarratives[activeNarrative]?.narrative
@@ -503,14 +860,14 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       </section>
 
       {/* Technical Capabilities Section */}
-      <section className="py-24 section-reveal section-reveal-4">
+      <section className="py-24 section-reveal section-reveal-7">
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">Capabilities</h2>
           <div className="grid md:grid-cols-2 gap-6">
             {capabilities.map((capability, index) => (
               <div
                 key={index}
-                className="contemplative-card p-6"
+                className="contemplative-card p-6 hover:border-purple-400/20 transition-all"
               >
                 <h3 className="heading-lg text-purple-300 mb-2">
                   {capability.title}
@@ -523,14 +880,14 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       </section>
 
       {/* Use Cases Section */}
-      <section className="py-24 section-reveal section-reveal-5">
+      <section className="py-24 section-reveal section-reveal-8">
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">Use Cases</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {useCases.map((useCase, index) => (
               <div
                 key={index}
-                className="breathing-glass p-4 text-center text-slate-300"
+                className="breathing-glass p-4 text-center text-slate-300 hover:border-purple-400/20 transition-all"
               >
                 {useCase}
               </div>
@@ -540,13 +897,13 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       </section>
 
       {/* Tech Deep-Dive Section (replaces Tech Stack) */}
-      <section className="py-24 section-reveal section-reveal-6">
+      <section className="py-24 section-reveal section-reveal-9">
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">Built With</h2>
 
           <div className="grid md:grid-cols-2 gap-6">
             {techDeepDive.map((tech, index) => (
-              <div key={index} className="contemplative-card p-6">
+              <div key={index} className="contemplative-card p-6 hover:border-purple-400/20 transition-all">
                 <h3 className="heading-lg text-purple-300 mb-2">{tech.name}</h3>
                 <p className="text-slate-400">{tech.why}</p>
               </div>
@@ -555,28 +912,8 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
         </div>
       </section>
 
-      {/* Metrics Section (NEW) */}
-      <section className="py-24 section-reveal section-reveal-7">
-        <div className="container-content">
-          <h2 className="heading-xl text-center mb-12">Impact</h2>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {metrics.map((metric, index) => (
-              <div key={index} className="breathing-glass p-6 text-center">
-                <div className="text-3xl md:text-4xl font-bold text-gentle mb-2">
-                  {metric.value}
-                </div>
-                <div className="text-slate-400 text-sm">
-                  {metric.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Next Project Section (ENHANCED preview card) */}
-      <section className="py-24 section-reveal section-reveal-8">
+      <section className="py-24 section-reveal section-reveal-10">
         <div className="container-content">
           <p className="text-slate-500 text-sm text-center mb-4">Continue Exploring</p>
 

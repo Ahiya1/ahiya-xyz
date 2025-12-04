@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Sparkles, Wallet, BarChart3, FlaskConical } from "lucide-react";
+import { ArrowUpRight, Sparkles, BarChart3, FlaskConical, Terminal } from "lucide-react";
 
 // Custom hook for scroll-triggered fade-in
 function useScrollReveal() {
@@ -43,11 +43,11 @@ const projectVisuals: Record<string, {
     glow: "rgba(168, 85, 247, 0.4)",
     icon: <Sparkles className="w-7 h-7" />,
   },
-  "wealth": {
-    accent: "rgb(16, 185, 129)",
-    accentLight: "rgb(52, 211, 153)",
-    glow: "rgba(16, 185, 129, 0.4)",
-    icon: <Wallet className="w-7 h-7" />,
+  "selahreach": {
+    accent: "rgb(139, 92, 246)",
+    accentLight: "rgb(167, 139, 250)",
+    glow: "rgba(139, 92, 246, 0.4)",
+    icon: <Terminal className="w-7 h-7" />,
   },
   "statviz": {
     accent: "rgb(59, 130, 246)",
