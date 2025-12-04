@@ -1,16 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Lock, ArrowRight } from "lucide-react";
 
-// Placeholder hook - sections are always visible
-function useScrollReveal() {
-  const ref = useRef<HTMLDivElement>(null);
-  return { ref };
-}
-
+// TypeScript interfaces
 interface SampleNarrative {
   id: string;
   title: string;
@@ -27,18 +22,26 @@ interface SampleNarrative {
   narrative: string;
 }
 
+interface MetricItem {
+  value: string;
+  label: string;
+}
+
+interface TechDeepDiveItem {
+  name: string;
+  why: string;
+}
+
+interface NextProject {
+  href: string;
+  emoji: string;
+  title: string;
+  subtitle: string;
+}
+
 const AIResearchPipelinePage: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [activeNarrative, setActiveNarrative] = useState(0);
-
-  // Scroll reveal hooks for each section
-  const challengeReveal = useScrollReveal();
-  const solutionReveal = useScrollReveal();
-  const samplesReveal = useScrollReveal();
-  const capabilitiesReveal = useScrollReveal();
-  const useCasesReveal = useScrollReveal();
-  const techReveal = useScrollReveal();
-  const ctaReveal = useScrollReveal();
 
   useEffect(() => {
     setMounted(true);
@@ -208,7 +211,30 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
     "Training data for ML models",
   ];
 
-  const techStack = ["Next.js 15", "TypeScript", "React 19", "Tailwind CSS"];
+  // Tech Deep-Dive (replaces techStack)
+  const techDeepDive: TechDeepDiveItem[] = [
+    { name: "Next.js 15", why: "Server components for fast generation. Modern React patterns." },
+    { name: "TypeScript", why: "Type-safe factorial design. Compile-time validation." },
+    { name: "React 19", why: "Latest React with concurrent features for smooth UI." },
+    { name: "Claude API", why: "Culturally-aware narrative generation with emotional depth." },
+    { name: "Tailwind CSS", why: "Rapid UI development with consistent design system." },
+  ];
+
+  // Metrics
+  const metrics: MetricItem[] = [
+    { value: "10K+", label: "Responses Possible" },
+    { value: "5+", label: "Demographic Variables" },
+    { value: "2", label: "Languages (EN/HE)" },
+    { value: "100%", label: "Culturally Aware" },
+  ];
+
+  // Next Project
+  const nextProject: NextProject = {
+    href: "/projects/statviz",
+    emoji: "\u{1F4CA}",
+    title: "StatViz",
+    subtitle: "Statistical Analysis, Visualized"
+  };
 
   const formatKey = (key: string): string => {
     const keyMap: Record<string, string> = {
@@ -293,6 +319,20 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
             From raw sources to publication-ready insights. Automatically.
           </p>
 
+          {/* CTA Buttons - Dual CTAs */}
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="mailto:ahiya.butman@gmail.com"
+              className="gentle-button inline-flex items-center space-x-3 text-lg px-8 py-4"
+            >
+              <span>Contact for Access</span>
+            </a>
+            <div className="inline-flex items-center space-x-3 px-6 py-3 border border-white/10 rounded-xl text-slate-500">
+              <Lock className="w-5 h-5" aria-hidden="true" />
+              <span>Private Repository</span>
+            </div>
+          </div>
+
           {/* Scroll indicator */}
           <div className="mt-16 animate-bounce">
             <ChevronDown className="w-6 h-6 text-slate-500 mx-auto" />
@@ -301,10 +341,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       </section>
 
       {/* The Challenge Section */}
-      <section
-        ref={challengeReveal.ref}
-        className="py-24"
-      >
+      <section className="py-24 section-reveal section-reveal-1">
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">The Challenge</h2>
           <div className="contemplative-card p-6 md:p-8">
@@ -324,10 +361,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       </section>
 
       {/* The Solution Section */}
-      <section
-        ref={solutionReveal.ref}
-        className="py-24"
-      >
+      <section className="py-24 section-reveal section-reveal-2">
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">The Solution</h2>
           <div className="contemplative-card p-6 md:p-8">
@@ -346,11 +380,8 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
         </div>
       </section>
 
-      {/* Sample Outputs Section */}
-      <section
-        ref={samplesReveal.ref}
-        className="py-24"
-      >
+      {/* Sample Outputs Section - PRESERVED AS-IS (this IS the visual proof) */}
+      <section className="py-24 section-reveal section-reveal-3">
         <div className="container-wide">
           <h2 className="heading-xl text-center mb-4">Sample Outputs</h2>
           <p className="text-center text-slate-400 mb-8">
@@ -420,10 +451,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       </section>
 
       {/* Technical Capabilities Section */}
-      <section
-        ref={capabilitiesReveal.ref}
-        className="py-24"
-      >
+      <section className="py-24 section-reveal section-reveal-4">
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">Capabilities</h2>
           <div className="grid md:grid-cols-2 gap-6">
@@ -443,10 +471,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       </section>
 
       {/* Use Cases Section */}
-      <section
-        ref={useCasesReveal.ref}
-        className="py-24"
-      >
+      <section className="py-24 section-reveal section-reveal-5">
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">Use Cases</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -462,41 +487,64 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
         </div>
       </section>
 
-      {/* Tech Stack Section */}
-      <section
-        ref={techReveal.ref}
-        className="py-24"
-      >
-        <div className="container-content text-center">
-          <h2 className="heading-xl mb-8">Tech Stack</h2>
-          <div className="flex flex-wrap justify-center gap-3">
-            {techStack.map((tech) => (
-              <span
-                key={tech}
-                className="px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-lg text-slate-300"
-              >
-                {tech}
-              </span>
+      {/* Tech Deep-Dive Section (replaces Tech Stack) */}
+      <section className="py-24 section-reveal section-reveal-6">
+        <div className="container-content">
+          <h2 className="heading-xl text-center mb-12">Built With</h2>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {techDeepDive.map((tech, index) => (
+              <div key={index} className="contemplative-card p-6">
+                <h3 className="heading-lg text-purple-300 mb-2">{tech.name}</h3>
+                <p className="text-slate-400">{tech.why}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* View Next Project */}
-      <div className="text-center mb-16">
-        <Link
-          href="/projects/statviz"
-          className="text-slate-400 hover:text-white transition-colors"
-        >
-          Next: StatViz &rarr;
-        </Link>
-      </div>
+      {/* Metrics Section (NEW) */}
+      <section className="py-24 section-reveal section-reveal-7">
+        <div className="container-content">
+          <h2 className="heading-xl text-center mb-12">Impact</h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {metrics.map((metric, index) => (
+              <div key={index} className="breathing-glass p-6 text-center">
+                <div className="text-3xl md:text-4xl font-bold text-gentle mb-2">
+                  {metric.value}
+                </div>
+                <div className="text-slate-400 text-sm">
+                  {metric.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Next Project Section (ENHANCED preview card) */}
+      <section className="py-24 section-reveal section-reveal-8">
+        <div className="container-content">
+          <p className="text-slate-500 text-sm text-center mb-4">Continue Exploring</p>
+
+          <Link href={nextProject.href} className="group block max-w-md mx-auto">
+            <div className="contemplative-card p-6 flex items-center gap-4 group-hover:border-purple-400/20 transition-all">
+              <div className="text-4xl">{nextProject.emoji}</div>
+              <div className="flex-1">
+                <h3 className="heading-lg text-white group-hover:text-purple-300 transition-colors">
+                  {nextProject.title}
+                </h3>
+                <p className="text-slate-400 text-sm">{nextProject.subtitle}</p>
+              </div>
+              <ArrowRight className="w-5 h-5 text-slate-500 group-hover:text-purple-300 group-hover:translate-x-1 transition-all" />
+            </div>
+          </Link>
+        </div>
+      </section>
 
       {/* Contact CTA Section */}
-      <section
-        ref={ctaReveal.ref}
-        className="py-24"
-      >
+      <section className="py-24">
         <div className="container-narrow text-center">
           <div className="contemplative-card p-8 md:p-12">
             <h2 className="heading-xl mb-6">Need Custom Research Generation?</h2>

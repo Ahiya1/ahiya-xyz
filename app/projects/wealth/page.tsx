@@ -1,31 +1,159 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink, ChevronDown } from "lucide-react";
+import { ExternalLink, ChevronDown, Lock, ArrowRight } from "lucide-react";
 
-// Placeholder hook - sections are always visible
-function useScrollReveal() {
-  const ref = useRef<HTMLDivElement>(null);
-  return { ref };
+// TypeScript interfaces
+interface MockupScreen {
+  title: string;
+  description: string;
+  elements: { type: string; label: string; accent?: boolean }[];
+}
+
+interface MetricItem {
+  value: string;
+  label: string;
+}
+
+interface TechDeepDiveItem {
+  name: string;
+  why: string;
+}
+
+interface NextProject {
+  href: string;
+  emoji: string;
+  title: string;
+  subtitle: string;
+}
+
+// Mockup element renderer
+function MockupElement({ element }: { element: MockupScreen['elements'][0] }) {
+  switch (element.type) {
+    case 'header':
+      return (
+        <div className="h-8 bg-white/[0.08] rounded-lg flex items-center px-3">
+          <span className="text-xs text-slate-400">{element.label}</span>
+        </div>
+      );
+    case 'card':
+      return (
+        <div className={`p-3 rounded-lg ${element.accent ? 'bg-emerald-500/10 border border-emerald-400/20' : 'bg-white/[0.04]'}`}>
+          <div className="text-xs text-slate-500 mb-1">{element.label}</div>
+          <div className={`text-lg font-semibold ${element.accent ? 'text-emerald-300' : 'text-slate-300'}`}>
+            ---
+          </div>
+        </div>
+      );
+    case 'list':
+      return (
+        <div className="space-y-2">
+          <div className="text-xs text-slate-500">{element.label}</div>
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="h-6 bg-white/[0.04] rounded" />
+          ))}
+        </div>
+      );
+    case 'button':
+      return (
+        <div className="h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center px-3">
+          <span className="text-xs text-emerald-300">{element.label}</span>
+        </div>
+      );
+    case 'input':
+      return (
+        <div className="h-8 bg-white/[0.04] rounded-lg border border-white/10 flex items-center px-3">
+          <span className="text-xs text-slate-500">{element.label}</span>
+        </div>
+      );
+    case 'chart':
+      return (
+        <div className="h-24 bg-white/[0.04] rounded-lg flex items-end justify-center gap-1 p-3">
+          {[40, 65, 45, 80, 55, 70, 60].map((h, i) => (
+            <div
+              key={i}
+              className="w-4 bg-emerald-400/40 rounded-t"
+              style={{ height: `${h}%` }}
+            />
+          ))}
+        </div>
+      );
+    case 'table':
+      return (
+        <div className="space-y-1">
+          <div className="text-xs text-slate-500 mb-2">{element.label}</div>
+          <div className="grid grid-cols-3 gap-1">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="h-5 bg-white/[0.04] rounded" />
+            ))}
+          </div>
+        </div>
+      );
+    default:
+      return null;
+  }
 }
 
 const WealthPage: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
-
-  // Scroll reveal hooks for each section
-  const challengeReveal = useScrollReveal();
-  const solutionReveal = useScrollReveal();
-  const featuresReveal = useScrollReveal();
-  const techReveal = useScrollReveal();
-  const ctaReveal = useScrollReveal();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const liveLink = "https://selahwealth.xyz";
+
+  // Visual Mockup data
+  const mockupScreens: MockupScreen[] = [
+    {
+      title: "Financial Dashboard",
+      description: "Real-time overview of your finances",
+      elements: [
+        { type: 'header', label: 'Dashboard' },
+        { type: 'card', label: 'Total Balance', accent: true },
+        { type: 'chart', label: 'Monthly Spending' },
+        { type: 'list', label: 'Recent Transactions' },
+      ]
+    },
+    {
+      title: "Transaction View",
+      description: "AI-categorized transaction management",
+      elements: [
+        { type: 'header', label: 'Transactions' },
+        { type: 'input', label: 'Search transactions...' },
+        { type: 'table', label: 'Transaction List' },
+        { type: 'button', label: 'Export Data' },
+      ]
+    },
+  ];
+
+  // Metrics data
+  const metrics: MetricItem[] = [
+    { value: "Local", label: "Israeli Bank Sync" },
+    { value: "AI", label: "Smart Categorization" },
+    { value: "Real-time", label: "Budget Alerts" },
+    { value: "Personal", label: "AI Financial Advisor" },
+  ];
+
+  // Tech Deep-Dive data
+  const techDeepDive: TechDeepDiveItem[] = [
+    { name: "Next.js 15", why: "Full-stack framework for responsive financial dashboard." },
+    { name: "TypeScript", why: "Type-safe financial calculations. No currency bugs." },
+    { name: "Prisma + PostgreSQL", why: "Reliable ORM for transaction storage and querying." },
+    { name: "Claude API", why: "AI-powered categorization and personalized financial advice." },
+    { name: "tRPC", why: "Type-safe API layer between frontend and backend." },
+    { name: "Supabase Auth", why: "Secure authentication for sensitive financial data." },
+  ];
+
+  // Next Project data
+  const nextProject: NextProject = {
+    href: "/projects/ai-research-pipeline",
+    emoji: "\u{1F52C}",
+    title: "AI Research Pipeline",
+    subtitle: "AI-Powered Academic Research"
+  };
 
   const features = [
     {
@@ -52,15 +180,6 @@ const WealthPage: React.FC = () => {
       description:
         "Financial advisor that understands your complete picture. Personalized guidance.",
     },
-  ];
-
-  const techStack = [
-    "Next.js",
-    "TypeScript",
-    "Prisma",
-    "PostgreSQL",
-    "Claude API",
-    "tRPC",
   ];
 
   const challenges = [
@@ -150,8 +269,8 @@ const WealthPage: React.FC = () => {
             Clarity from financial chaos.
           </p>
 
-          {/* CTA Button */}
-          <div className="mt-8">
+          {/* CTA Buttons - Dual CTAs */}
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href={liveLink}
               target="_blank"
@@ -159,8 +278,12 @@ const WealthPage: React.FC = () => {
               className="gentle-button inline-flex items-center space-x-3 text-lg px-8 py-4"
             >
               <ExternalLink className="w-5 h-5" aria-hidden="true" />
-              <span>Visit Live Site</span>
+              <span>View Live</span>
             </a>
+            <div className="inline-flex items-center space-x-3 px-6 py-3 border border-white/10 rounded-xl text-slate-500">
+              <Lock className="w-5 h-5" aria-hidden="true" />
+              <span>Private Repository</span>
+            </div>
           </div>
 
           {/* Scroll indicator */}
@@ -170,11 +293,46 @@ const WealthPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Visual Mockup Section */}
+      <section className="py-24 section-reveal section-reveal-1">
+        <div className="container-content">
+          <h2 className="heading-xl text-center mb-4">See It In Action</h2>
+          <p className="text-center text-slate-400 mb-12">
+            A glimpse into the interface
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {mockupScreens.map((screen, index) => (
+              <div key={index} className="contemplative-card p-6 overflow-hidden">
+                {/* Mockup Header */}
+                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/10">
+                  <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-red-400/60" />
+                    <div className="w-3 h-3 rounded-full bg-yellow-400/60" />
+                    <div className="w-3 h-3 rounded-full bg-green-400/60" />
+                  </div>
+                  <span className="text-xs text-slate-500 ml-2">{screen.title}</span>
+                </div>
+
+                {/* Mockup Content */}
+                <div className="space-y-3">
+                  {screen.elements.map((element, idx) => (
+                    <MockupElement key={idx} element={element} />
+                  ))}
+                </div>
+
+                {/* Caption */}
+                <p className="mt-4 pt-3 border-t border-white/5 text-sm text-slate-500">
+                  {screen.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* The Challenge Section */}
-      <section
-        ref={challengeReveal.ref}
-        className="py-24"
-      >
+      <section className="py-24 section-reveal section-reveal-2">
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">The Challenge</h2>
           <div className="contemplative-card p-6 md:p-8">
@@ -194,10 +352,7 @@ const WealthPage: React.FC = () => {
       </section>
 
       {/* The Solution Section */}
-      <section
-        ref={solutionReveal.ref}
-        className="py-24"
-      >
+      <section className="py-24 section-reveal section-reveal-3">
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">The Solution</h2>
           <div className="contemplative-card p-6 md:p-8">
@@ -217,10 +372,7 @@ const WealthPage: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section
-        ref={featuresReveal.ref}
-        className="py-24"
-      >
+      <section className="py-24 section-reveal section-reveal-4">
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">Key Features</h2>
 
@@ -241,41 +393,64 @@ const WealthPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Tech Stack Section */}
-      <section
-        ref={techReveal.ref}
-        className="py-24"
-      >
-        <div className="container-content text-center">
-          <h2 className="heading-xl mb-8">Tech Stack</h2>
-          <div className="flex flex-wrap justify-center gap-3">
-            {techStack.map((tech) => (
-              <span
-                key={tech}
-                className="px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-lg text-slate-300"
-              >
-                {tech}
-              </span>
+      {/* Tech Deep-Dive Section */}
+      <section className="py-24 section-reveal section-reveal-5">
+        <div className="container-content">
+          <h2 className="heading-xl text-center mb-12">Built With</h2>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {techDeepDive.map((tech, index) => (
+              <div key={index} className="contemplative-card p-6">
+                <h3 className="heading-lg text-emerald-300 mb-2">{tech.name}</h3>
+                <p className="text-slate-400">{tech.why}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* View Next Project */}
-      <div className="text-center mb-16">
-        <Link
-          href="/projects/ai-research-pipeline"
-          className="text-slate-400 hover:text-white transition-colors"
-        >
-          Next: AI Research Pipeline &rarr;
-        </Link>
-      </div>
+      {/* Metrics Section */}
+      <section className="py-24 section-reveal section-reveal-6">
+        <div className="container-content">
+          <h2 className="heading-xl text-center mb-12">Impact</h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {metrics.map((metric, index) => (
+              <div key={index} className="breathing-glass p-6 text-center">
+                <div className="text-3xl md:text-4xl font-bold text-gentle mb-2">
+                  {metric.value}
+                </div>
+                <div className="text-slate-400 text-sm">
+                  {metric.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Next Project Section */}
+      <section className="py-24 section-reveal section-reveal-7">
+        <div className="container-content">
+          <p className="text-slate-500 text-sm text-center mb-4">Continue Exploring</p>
+
+          <Link href={nextProject.href} className="group block max-w-md mx-auto">
+            <div className="contemplative-card p-6 flex items-center gap-4 group-hover:border-purple-400/20 transition-all">
+              <div className="text-4xl">{nextProject.emoji}</div>
+              <div className="flex-1">
+                <h3 className="heading-lg text-white group-hover:text-purple-300 transition-colors">
+                  {nextProject.title}
+                </h3>
+                <p className="text-slate-400 text-sm">{nextProject.subtitle}</p>
+              </div>
+              <ArrowRight className="w-5 h-5 text-slate-500 group-hover:text-purple-300 group-hover:translate-x-1 transition-all" />
+            </div>
+          </Link>
+        </div>
+      </section>
 
       {/* CTA Section */}
-      <section
-        ref={ctaReveal.ref}
-        className="py-24"
-      >
+      <section className="py-24 section-reveal section-reveal-8">
         <div className="container-narrow text-center">
           <div className="contemplative-card p-8 md:p-12">
             <h2 className="heading-xl mb-6">Ready to Take Control?</h2>

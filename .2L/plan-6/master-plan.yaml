@@ -1,0 +1,43 @@
+plan_id: plan-6
+created_at: 2025-12-04T13:00:00Z
+status: PLANNED
+total_iterations: 1
+
+strategy: |
+  Single iteration approach for transforming all 4 project pages into phenomenal
+  mini-experiences. All features are interdependent and splitting would create
+  inconsistent pages. Work includes:
+
+  1. CSS-only scroll animations (fix broken useScrollReveal)
+  2. Visual mockups for each project (HTML-based representations)
+  3. GitHub links with lock icons for private repos
+  4. Tech deep-dive sections explaining "why" each technology
+  5. Metrics sections with concrete numbers
+  6. Enhanced "Next Project" navigation with preview cards
+  7. Staggered hero animations
+
+  Implementation order:
+  - globals.css first (foundation)
+  - One page as template (statviz - simplest)
+  - Apply pattern to remaining 3 pages
+  - Content/assets last
+
+iterations:
+  - iteration_id: 1
+    global_iteration: 8
+    name: "Phenomenal Project Pages"
+    vision: "Transform all 4 project pages into compelling mini-experiences with visual proof, tech deep-dives, metrics, and working animations"
+    scope: |
+      Builder-1: CSS & Template (globals.css + statviz page as template)
+      Builder-2: Wealth & Mirror of Dreams pages
+      Builder-3: AI Research Pipeline page
+
+      All builders implement:
+      - Visual mockup section (HTML-based app representation)
+      - Metrics section with 3-4 concrete numbers
+      - Tech deep-dive section (technology + "why")
+      - GitHub link or "Private Repository" badge
+      - CSS-only staggered animations
+      - Enhanced "Next Project" preview card
+    status: PENDING
+    dependencies: []

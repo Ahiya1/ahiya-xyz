@@ -6,7 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "outreach": "npx tsx scripts/agency-outreach.ts",
+    "outreach:list": "npx tsx scripts/agency-outreach.ts --list",
+    "outreach:preview": "npx tsx scripts/agency-outreach.ts --dry-run",
+    "outreach:send": "npx tsx scripts/agency-outreach.ts --send"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.10",
