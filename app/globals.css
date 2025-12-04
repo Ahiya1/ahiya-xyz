@@ -264,6 +264,34 @@ body::after {
   }
 }
 
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Hero gradient background */
+.hero-gradient-bg {
+  position: relative;
+}
+
+.hero-gradient-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(168, 85, 247, 0.08) 0%,
+    rgba(139, 92, 246, 0.04) 25%,
+    rgba(99, 102, 241, 0.06) 50%,
+    rgba(168, 85, 247, 0.04) 75%,
+    rgba(139, 92, 246, 0.08) 100%
+  );
+  background-size: 200% 200%;
+  animation: gradient-shift 25s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
 .animate-float {
   animation: soft-float 8s ease-in-out infinite;
 }

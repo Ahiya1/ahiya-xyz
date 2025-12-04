@@ -1,0 +1,43 @@
+plan_id: plan-4
+name: "Homepage — Alive & Confident"
+created_at: "2025-12-04T10:30:00Z"
+status: PLANNED
+complexity: MEDIUM
+total_iterations: 1
+
+iterations:
+  - iteration_id: 6
+    local_id: 1
+    vision: "Strip down homepage to essentials with subtle animations for aliveness"
+    status: PENDING
+    builders:
+      - builder_id: 1
+        scope: "Homepage transformation + animations"
+        files:
+          - app/page.tsx
+          - app/globals.css
+          - app/components/Navigation.tsx
+          - app/components/Footer.tsx
+
+exploration_summary:
+  architecture:
+    current_sections: 7
+    target_sections: 5
+    removed: ["About", "Services"]
+    modified: ["Hero", "How I Work", "Testimonials", "CTA", "Footer"]
+    kept: ["Portfolio"]
+
+  animation_approach:
+    gradient_shift: "CSS @keyframes in globals.css"
+    scroll_fade: "Intersection Observer with fade-in-up class"
+    hover_states: "Tailwind transform + shadow utilities"
+    existing_patterns: true
+
+  risk_level: LOW
+  estimated_complexity: MEDIUM
+
+notes:
+  - Single builder handles all changes (tightly coupled content)
+  - Existing animation infrastructure means low risk
+  - Clear before/after content in vision.md
+  - No new dependencies required
