@@ -5,30 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, ChevronDown } from "lucide-react";
 
-// Custom hook for scroll-triggered fade-in
+// Placeholder hook - sections are always visible
 function useScrollReveal() {
   const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  return { ref, isVisible };
+  return { ref };
 }
 
 const WealthPage: React.FC = () => {
@@ -193,11 +173,7 @@ const WealthPage: React.FC = () => {
       {/* The Challenge Section */}
       <section
         ref={challengeReveal.ref}
-        className={`py-24 transition-all duration-700 ${
-          challengeReveal.isVisible
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-8"
-        }`}
+        className="py-24"
       >
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">The Challenge</h2>
@@ -220,11 +196,7 @@ const WealthPage: React.FC = () => {
       {/* The Solution Section */}
       <section
         ref={solutionReveal.ref}
-        className={`py-24 transition-all duration-700 ${
-          solutionReveal.isVisible
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-8"
-        }`}
+        className="py-24"
       >
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">The Solution</h2>
@@ -247,25 +219,16 @@ const WealthPage: React.FC = () => {
       {/* Features Section */}
       <section
         ref={featuresReveal.ref}
-        className={`py-24 transition-all duration-700 ${
-          featuresReveal.isVisible
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-8"
-        }`}
+        className="py-24"
       >
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">Key Features</h2>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {features.map((feature, index) => (
+            {features.map((feature) => (
               <div
                 key={feature.title}
-                style={{ transitionDelay: `${index * 100}ms` }}
-                className={`contemplative-card p-6 md:p-8 transition-all duration-500 ${
-                  featuresReveal.isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-8"
-                }`}
+                className="contemplative-card p-6 md:p-8"
               >
                 <div className="text-3xl md:text-4xl mb-6">{feature.icon}</div>
                 <h3 className="heading-lg mb-4">{feature.title}</h3>
@@ -281,24 +244,15 @@ const WealthPage: React.FC = () => {
       {/* Tech Stack Section */}
       <section
         ref={techReveal.ref}
-        className={`py-24 transition-all duration-700 ${
-          techReveal.isVisible
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-8"
-        }`}
+        className="py-24"
       >
         <div className="container-content text-center">
           <h2 className="heading-xl mb-8">Tech Stack</h2>
           <div className="flex flex-wrap justify-center gap-3">
-            {techStack.map((tech, index) => (
+            {techStack.map((tech) => (
               <span
                 key={tech}
-                style={{ transitionDelay: `${index * 100}ms` }}
-                className={`px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-lg text-slate-300 transition-all duration-500 ${
-                  techReveal.isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-8"
-                }`}
+                className="px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-lg text-slate-300"
               >
                 {tech}
               </span>
@@ -320,11 +274,7 @@ const WealthPage: React.FC = () => {
       {/* CTA Section */}
       <section
         ref={ctaReveal.ref}
-        className={`py-24 transition-all duration-700 ${
-          ctaReveal.isVisible
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-8"
-        }`}
+        className="py-24"
       >
         <div className="container-narrow text-center">
           <div className="contemplative-card p-8 md:p-12">

@@ -5,30 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 
-// Custom hook for scroll-triggered fade-in
+// Placeholder hook - sections are always visible
 function useScrollReveal() {
   const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  return { ref, isVisible };
+  return { ref };
 }
 
 interface SampleNarrative {
@@ -323,11 +303,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       {/* The Challenge Section */}
       <section
         ref={challengeReveal.ref}
-        className={`py-24 transition-all duration-700 ${
-          challengeReveal.isVisible
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-8"
-        }`}
+        className="py-24"
       >
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">The Challenge</h2>
@@ -350,11 +326,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       {/* The Solution Section */}
       <section
         ref={solutionReveal.ref}
-        className={`py-24 transition-all duration-700 ${
-          solutionReveal.isVisible
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-8"
-        }`}
+        className="py-24"
       >
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">The Solution</h2>
@@ -377,11 +349,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       {/* Sample Outputs Section */}
       <section
         ref={samplesReveal.ref}
-        className={`py-24 transition-all duration-700 ${
-          samplesReveal.isVisible
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-8"
-        }`}
+        className="py-24"
       >
         <div className="container-wide">
           <h2 className="heading-xl text-center mb-4">Sample Outputs</h2>
@@ -454,11 +422,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       {/* Technical Capabilities Section */}
       <section
         ref={capabilitiesReveal.ref}
-        className={`py-24 transition-all duration-700 ${
-          capabilitiesReveal.isVisible
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-8"
-        }`}
+        className="py-24"
       >
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">Capabilities</h2>
@@ -466,12 +430,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
             {capabilities.map((capability, index) => (
               <div
                 key={index}
-                style={{ transitionDelay: `${index * 100}ms` }}
-                className={`contemplative-card p-6 transition-all duration-500 ${
-                  capabilitiesReveal.isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-8"
-                }`}
+                className="contemplative-card p-6"
               >
                 <h3 className="heading-lg text-purple-300 mb-2">
                   {capability.title}
@@ -486,11 +445,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       {/* Use Cases Section */}
       <section
         ref={useCasesReveal.ref}
-        className={`py-24 transition-all duration-700 ${
-          useCasesReveal.isVisible
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-8"
-        }`}
+        className="py-24"
       >
         <div className="container-content">
           <h2 className="heading-xl text-center mb-12">Use Cases</h2>
@@ -498,12 +453,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
             {useCases.map((useCase, index) => (
               <div
                 key={index}
-                style={{ transitionDelay: `${index * 100}ms` }}
-                className={`breathing-glass p-4 text-center text-slate-300 transition-all duration-500 ${
-                  useCasesReveal.isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-8"
-                }`}
+                className="breathing-glass p-4 text-center text-slate-300"
               >
                 {useCase}
               </div>
@@ -515,24 +465,15 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       {/* Tech Stack Section */}
       <section
         ref={techReveal.ref}
-        className={`py-24 transition-all duration-700 ${
-          techReveal.isVisible
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-8"
-        }`}
+        className="py-24"
       >
         <div className="container-content text-center">
           <h2 className="heading-xl mb-8">Tech Stack</h2>
           <div className="flex flex-wrap justify-center gap-3">
-            {techStack.map((tech, index) => (
+            {techStack.map((tech) => (
               <span
                 key={tech}
-                style={{ transitionDelay: `${index * 100}ms` }}
-                className={`px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-lg text-slate-300 transition-all duration-500 ${
-                  techReveal.isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-8"
-                }`}
+                className="px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-lg text-slate-300"
               >
                 {tech}
               </span>
@@ -554,11 +495,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       {/* Contact CTA Section */}
       <section
         ref={ctaReveal.ref}
-        className={`py-24 transition-all duration-700 ${
-          ctaReveal.isVisible
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-8"
-        }`}
+        className="py-24"
       >
         <div className="container-narrow text-center">
           <div className="contemplative-card p-8 md:p-12">
