@@ -1,0 +1,71 @@
+plan_id: plan-8
+created_at: 2025-12-04T15:00:00Z
+status: PLANNED
+total_iterations: 1
+
+strategy: |
+  Single iteration with 6 parallel builders for "Undeniably Premium & Alive" transformation.
+
+  All 4 master explorers recommend SINGLE ITERATION due to:
+  - Navigation fix is simple (10 min)
+  - PDF generation is self-contained
+  - Demos are independent per project
+  - Animation work is additive enhancement
+
+  Critical path:
+  1. Builder-1 fixes navigation FIRST (blocks nothing but critical)
+  2. Builder-2 creates PDF system (independent)
+  3. Builder-3 animates 2L page (independent)
+  4. Builder-4 creates StatViz + Wealth demos (independent)
+  5. Builder-5 creates Mirror + AI Pipeline demos (independent)
+  6. Builder-6 adds global animations + polish (can run parallel)
+
+  Key technical decisions from exploration:
+  - PDF: @react-pdf/renderer with build-time generation
+  - Animations: CSS-first with Intersection Observer for scroll triggers
+  - Demos: React hooks only (useState, useEffect), no external libraries
+  - "How I Work" copy fix included in Builder-1
+
+iterations:
+  - iteration_id: 1
+    global_iteration: 10
+    name: "Undeniably Premium & Alive"
+    vision: "Transform site from pretty premium to undeniably premium - fix navigation, create real PDF, animate 2L page, build custom project demos, make everything alive"
+    scope: |
+      Builder-1: Navigation Fix + Copy Fixes (CRITICAL - do first)
+        - Fix Navigation.tsx to use Link for internal routes
+        - Change "How We Work" to "How I Work" in page.tsx
+        - Quick win, unblocks testing
+
+      Builder-2: PDF Generation System
+        - Install @react-pdf/renderer
+        - Create /scripts/generate-capabilities-pdf.tsx
+        - Generate PDF at build time to /public/capabilities.pdf
+        - Redesign /app/capabilities/page.tsx as landing page
+        - Add download button to homepage CTA strip
+
+      Builder-3: 2L Page Animations
+        - Animate pipeline diagram (sequential phase lighting)
+        - Add floating/pulsing agent icons
+        - Add count-up animation for metrics
+        - Enhanced hover states on cards
+        - Make the meta-reference shine ("7 plans, 10 iterations")
+
+      Builder-4: StatViz + Wealth Interactive Demos
+        - StatViz: Animated bar chart, toggle views, counting metrics
+        - Wealth: Ticking balance, animated categories, transaction list
+        - Replace generic MockupElement with custom components
+
+      Builder-5: Mirror of Dreams + AI Pipeline Demos
+        - Mirror: Cosmic background, AI typing effect, ethereal glow
+        - AI Pipeline: Enhance existing tabs with streaming text reveal
+        - Replace generic MockupElement with custom components
+
+      Builder-6: Global Animations + Premium Polish
+        - Fix section-reveal to use Intersection Observer
+        - Add useCountUp hook for metrics everywhere
+        - Typography improvements (font weights, letter-spacing)
+        - Enhanced hover states on all interactive elements
+        - Spacing improvements between sections
+    status: PENDING
+    dependencies: []

@@ -29,6 +29,114 @@ interface NextProject {
   subtitle: string;
 }
 
+// Interactive Wealth Demo Component
+function WealthDemo() {
+  const [mounted, setMounted] = useState(false);
+  const [balance, setBalance] = useState(0);
+  const [animate, setAnimate] = useState(false);
+  const targetBalance = 24750;
+
+  useEffect(() => {
+    setMounted(true);
+
+    // Animate balance counter
+    let start: number;
+    const duration = 2000;
+    const animateBalance = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setBalance(Math.floor(eased * targetBalance));
+      if (progress < 1) requestAnimationFrame(animateBalance);
+    };
+    setTimeout(() => {
+      setAnimate(true);
+      requestAnimationFrame(animateBalance);
+    }, 500);
+  }, []);
+
+  if (!mounted) return <div className="h-64 bg-slate-800/50 rounded-lg" />;
+
+  const categories = [
+    { name: 'Housing', percent: 35, color: 'bg-purple-500' },
+    { name: 'Food', percent: 22, color: 'bg-blue-500' },
+    { name: 'Transport', percent: 15, color: 'bg-emerald-500' },
+    { name: 'Savings', percent: 28, color: 'bg-amber-500' },
+  ];
+
+  const transactions = [
+    { name: 'Salary', amount: '+12,500', type: 'income' },
+    { name: 'Rent', amount: '-4,200', type: 'expense' },
+    { name: 'Groceries', amount: '-850', type: 'expense' },
+  ];
+
+  return (
+    <div className="bg-slate-900/80 backdrop-blur-sm rounded-xl border border-slate-700/50 overflow-hidden">
+      {/* Window chrome */}
+      <div className="flex items-center gap-2 px-4 py-3 bg-slate-800/50 border-b border-slate-700/50">
+        <div className="w-3 h-3 rounded-full bg-red-500/80" />
+        <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+        <div className="w-3 h-3 rounded-full bg-green-500/80" />
+        <span className="ml-2 text-xs text-slate-500">Wealth</span>
+      </div>
+
+      <div className="p-6">
+        {/* Balance */}
+        <div className="mb-6">
+          <div className="text-sm text-slate-400 mb-1">Total Balance</div>
+          <div className="flex items-baseline gap-2 flex-wrap">
+            <span className="text-3xl font-bold text-white tabular-nums">
+              {new Intl.NumberFormat('he-IL', { style: 'currency', currency: 'ILS' }).format(balance)}
+            </span>
+            <span className="text-sm text-emerald-400 demo-pulse-green px-2 py-0.5 bg-emerald-500/10 rounded-full">
+              +2.3%
+            </span>
+          </div>
+        </div>
+
+        {/* Categories */}
+        <div className="space-y-3 mb-6">
+          {categories.map((cat, i) => (
+            <div key={cat.name}>
+              <div className="flex justify-between text-xs mb-1">
+                <span className="text-slate-400">{cat.name}</span>
+                <span className="text-slate-300">{cat.percent}%</span>
+              </div>
+              <div className="h-2 bg-slate-700/50 rounded-full overflow-hidden">
+                <div
+                  className={`h-full ${cat.color} rounded-full`}
+                  style={{
+                    width: animate ? `${cat.percent}%` : '0%',
+                    transition: `width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) ${0.3 + i * 0.15}s`,
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Transactions */}
+        <div className="space-y-2">
+          {transactions.map((tx, i) => (
+            <div
+              key={tx.name}
+              className="flex justify-between text-sm py-2 border-b border-slate-700/30"
+              style={{
+                animation: animate ? `slide-in-right 0.5s ease ${0.8 + i * 0.1}s both` : 'none',
+              }}
+            >
+              <span className="text-slate-300">{tx.name}</span>
+              <span className={tx.type === 'income' ? 'text-emerald-400' : 'text-slate-400'}>
+                {tx.amount}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Mockup element renderer
 function MockupElement({ element }: { element: MockupScreen['elements'][0] }) {
   switch (element.type) {
@@ -294,6 +402,11 @@ const WealthPage: React.FC = () => {
               <Lock className="w-5 h-5" aria-hidden="true" />
               <span>Private Repository</span>
             </div>
+          </div>
+
+          {/* Interactive Demo */}
+          <div className="mt-12 max-w-md mx-auto">
+            <WealthDemo />
           </div>
 
           {/* Scroll indicator */}

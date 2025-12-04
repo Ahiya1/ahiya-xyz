@@ -42,10 +42,40 @@ interface NextProject {
 const AIResearchPipelinePage: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [activeNarrative, setActiveNarrative] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [visibleParagraphs, setVisibleParagraphs] = useState<number[]>([]);
 
   useEffect(() => {
     setMounted(true);
+    // Initialize visible paragraphs for first narrative
+    const initialParagraphs = sampleNarratives[0]?.narrative.split('\n\n') || [];
+    initialParagraphs.forEach((_, i) => {
+      setTimeout(() => {
+        setVisibleParagraphs(prev => [...prev, i]);
+      }, i * 200);
+    });
   }, []);
+
+  // Handle tab change with streaming reveal
+  const handleTabChange = (index: number) => {
+    if (index === activeNarrative || isTransitioning) return;
+
+    setIsTransitioning(true);
+    setVisibleParagraphs([]);
+
+    setTimeout(() => {
+      setActiveNarrative(index);
+      setIsTransitioning(false);
+
+      // Stagger paragraph reveals
+      const paragraphs = sampleNarratives[index]?.narrative.split('\n\n') || [];
+      paragraphs.forEach((_, i) => {
+        setTimeout(() => {
+          setVisibleParagraphs(prev => [...prev, i]);
+        }, i * 200);
+      });
+    }, 300);
+  };
 
   const sampleNarratives: SampleNarrative[] = [
     {
@@ -403,12 +433,13 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
             {sampleNarratives.map((sample, index) => (
               <button
                 key={sample.id}
-                onClick={() => setActiveNarrative(index)}
+                onClick={() => handleTabChange(index)}
+                disabled={isTransitioning}
                 className={`px-4 py-2 rounded-lg text-sm transition-all ${
                   activeNarrative === index
                     ? "bg-purple-500/20 border border-purple-400/40 text-purple-300"
                     : "bg-white/[0.04] border border-white/[0.08] text-slate-400 hover:text-slate-300"
-                }`}
+                } ${isTransitioning ? "opacity-50 cursor-not-allowed" : ""}`}
               >
                 Sample {index + 1}
               </button>
@@ -416,7 +447,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
           </div>
 
           {/* Active Narrative Display */}
-          <div className="contemplative-card p-6 md:p-8">
+          <div className={`contemplative-card p-6 md:p-8 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
             <h3 className="heading-lg text-purple-300 mb-6">
               {sampleNarratives[activeNarrative]?.title}
             </h3>
@@ -430,8 +461,14 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
                 <div className="space-y-2 text-sm">
                   {sampleNarratives[activeNarrative] &&
                     Object.entries(sampleNarratives[activeNarrative].profile).map(
-                      ([key, value]) => (
-                        <div key={key} className="flex justify-between">
+                      ([key, value], idx) => (
+                        <div
+                          key={key}
+                          className={`flex justify-between transition-all duration-300 ${
+                            visibleParagraphs.length > 0 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+                          }`}
+                          style={{ transitionDelay: `${idx * 50}ms` }}
+                        >
                           <span className="text-slate-400">{formatKey(key)}:</span>
                           <span className="text-slate-300">{value}</span>
                         </div>
@@ -449,7 +486,12 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
                   {sampleNarratives[activeNarrative]?.narrative
                     .split("\n\n")
                     .map((paragraph, idx) => (
-                      <p key={idx} className="text-slate-300 leading-relaxed mb-4">
+                      <p
+                        key={idx}
+                        className={`narrative-paragraph text-slate-300 leading-relaxed mb-4 ${
+                          visibleParagraphs.includes(idx) ? 'visible' : ''
+                        }`}
+                      >
                         {paragraph}
                       </p>
                     ))}

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
@@ -10,11 +11,11 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: "Work", href: "#portfolio" },
-  { label: "Process", href: "#how-we-work" },
+  { label: "Work", href: "/#portfolio" },
+  { label: "Process", href: "/#how-i-work" },
   { label: "2L", href: "/2l" },
   { label: "Capabilities", href: "/capabilities" },
-  { label: "Contact", href: "#contact" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export function Navigation() {
@@ -70,13 +71,13 @@ export function Navigation() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.href}
                   href={item.href}
                   className="text-slate-300 hover:text-white transition-colors"
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
             </div>
 
@@ -118,14 +119,14 @@ export function Navigation() {
               {/* Navigation Links */}
               <nav className="space-y-2">
                 {navItems.map((item) => (
-                  <a
+                  <Link
                     key={item.href}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
                     className="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-white/5 hover:text-white transition-all duration-300"
                   >
                     <span className="font-medium">{item.label}</span>
-                  </a>
+                  </Link>
                 ))}
               </nav>
             </div>

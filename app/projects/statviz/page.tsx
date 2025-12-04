@@ -29,6 +29,92 @@ interface NextProject {
   subtitle: string;
 }
 
+// Interactive StatViz Demo Component
+function StatVizDemo() {
+  const [mounted, setMounted] = useState(false);
+  const [activeView, setActiveView] = useState<'distribution' | 'correlation' | 'significance'>('distribution');
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    setTimeout(() => setAnimate(true), 300);
+  }, []);
+
+  // Reset animation when view changes
+  useEffect(() => {
+    if (mounted) {
+      setAnimate(false);
+      setTimeout(() => setAnimate(true), 50);
+    }
+  }, [activeView, mounted]);
+
+  if (!mounted) return <div className="h-64 bg-slate-800/50 rounded-lg" />;
+
+  const barHeights = activeView === 'distribution'
+    ? [45, 78, 92, 65, 38, 55, 82]
+    : activeView === 'correlation'
+    ? [25, 45, 65, 85, 75, 55, 35]
+    : [60, 40, 80, 30, 70, 50, 90];
+
+  const metrics = activeView === 'distribution'
+    ? { mean: '42.7', stdDev: '12.3', n: '1,247' }
+    : activeView === 'correlation'
+    ? { mean: '0.73', stdDev: '0.18', n: '856' }
+    : { mean: 'p<0.01', stdDev: 't=3.42', n: '512' };
+
+  return (
+    <div className="bg-slate-900/80 backdrop-blur-sm rounded-xl border border-slate-700/50 overflow-hidden">
+      {/* Window chrome */}
+      <div className="flex items-center gap-2 px-4 py-3 bg-slate-800/50 border-b border-slate-700/50">
+        <div className="w-3 h-3 rounded-full bg-red-500/80" />
+        <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+        <div className="w-3 h-3 rounded-full bg-green-500/80" />
+        <span className="ml-2 text-xs text-slate-500">StatViz</span>
+      </div>
+
+      <div className="p-6">
+        {/* Toggle buttons */}
+        <div className="flex gap-2 mb-6 flex-wrap">
+          {(['distribution', 'correlation', 'significance'] as const).map((view) => (
+            <button
+              key={view}
+              onClick={() => setActiveView(view)}
+              className={`px-3 py-1 text-xs rounded-md transition-all ${
+                activeView === view
+                  ? 'bg-purple-500/20 text-purple-300 border border-purple-500/50'
+                  : 'bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:text-slate-300'
+              }`}
+            >
+              {view.charAt(0).toUpperCase() + view.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Bar chart */}
+        <div className="flex items-end justify-between h-32 gap-2 mb-4">
+          {barHeights.map((height, i) => (
+            <div
+              key={i}
+              className="flex-1 bg-gradient-to-t from-purple-600 to-purple-400 rounded-t-sm demo-bar"
+              style={{
+                height: animate ? `${height}%` : '0%',
+                transition: `height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) ${i * 0.1}s`,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Metrics row */}
+        <div className="flex justify-between text-xs text-slate-400">
+          <span>Mean: <span className="text-slate-200 tabular-nums">{metrics.mean}</span></span>
+          <span>Std Dev: <span className="text-slate-200 tabular-nums">{metrics.stdDev}</span></span>
+          <span>N: <span className="text-slate-200 tabular-nums">{metrics.n}</span></span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Mockup Element Renderer
 function MockupElement({ element }: { element: MockupScreen['elements'][0] }) {
   switch (element.type) {
@@ -293,6 +379,11 @@ const StatVizPage: React.FC = () => {
               <Lock className="w-5 h-5" aria-hidden="true" />
               <span>Private Repository</span>
             </div>
+          </div>
+
+          {/* Interactive Demo */}
+          <div className="mt-12 max-w-md mx-auto">
+            <StatVizDemo />
           </div>
 
           {/* Scroll indicator */}

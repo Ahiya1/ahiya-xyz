@@ -12,6 +12,102 @@ interface MockupScreen {
   elements: { type: string; label: string; accent?: boolean }[];
 }
 
+// MirrorDemo - Custom interactive demo with cosmic background and AI typing effect
+function MirrorDemo() {
+  const [mounted, setMounted] = useState(false);
+  const [displayedText, setDisplayedText] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
+
+  const dreamEntry = "Last night I dreamed of flying over an endless ocean...";
+  const aiReflection = "Your dream of flight over water suggests a desire for freedom and emotional exploration. The endless ocean represents the vast unconscious, while flying symbolizes transcendence and perspective.";
+
+  useEffect(() => {
+    setMounted(true);
+
+    // Start typing after a delay
+    let typeInterval: NodeJS.Timeout;
+    const startDelay = setTimeout(() => {
+      let i = 0;
+      typeInterval = setInterval(() => {
+        if (i < aiReflection.length) {
+          setDisplayedText(aiReflection.slice(0, i + 1));
+          i++;
+        } else {
+          clearInterval(typeInterval);
+        }
+      }, 35);
+    }, 1000);
+
+    // Cursor blink
+    const cursorInterval = setInterval(() => {
+      setShowCursor(prev => !prev);
+    }, 530);
+
+    return () => {
+      clearTimeout(startDelay);
+      if (typeInterval) clearInterval(typeInterval);
+      clearInterval(cursorInterval);
+    };
+  }, []);
+
+  if (!mounted) return <div className="h-80 bg-slate-800/50 rounded-lg animate-pulse" />;
+
+  // Generate random stars
+  const stars = Array.from({ length: 20 }, (_, i) => ({
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
+    size: Math.random() * 3 + 1,
+    delay: Math.random() * 3,
+  }));
+
+  return (
+    <div className="relative bg-gradient-to-b from-slate-900 via-purple-900/20 to-slate-900 rounded-xl border border-slate-700/50 overflow-hidden">
+      {/* Cosmic background with stars */}
+      <div className="absolute inset-0">
+        {stars.map((star, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full bg-white demo-star"
+            style={{
+              left: star.left,
+              top: star.top,
+              width: star.size,
+              height: star.size,
+              animationDelay: `${star.delay}s`,
+              opacity: 0.3,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Window chrome */}
+      <div className="relative flex items-center gap-2 px-4 py-3 bg-slate-800/50 border-b border-slate-700/50">
+        <div className="w-3 h-3 rounded-full bg-red-500/80" />
+        <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+        <div className="w-3 h-3 rounded-full bg-green-500/80" />
+        <span className="ml-2 text-xs text-slate-500">Mirror of Dreams</span>
+      </div>
+
+      <div className="relative p-6 space-y-6">
+        {/* Dream entry */}
+        <div className="p-4 bg-slate-800/30 rounded-lg border border-slate-700/30">
+          <div className="text-xs text-purple-400/70 mb-2">Your Dream</div>
+          <p className="text-slate-300 italic font-serif">{dreamEntry}</p>
+        </div>
+
+        {/* AI Reflection */}
+        <div className="p-4 bg-purple-500/5 rounded-lg border border-purple-500/20 demo-cosmic-glow">
+          <div className="text-xs text-purple-400 mb-2">AI Reflection</div>
+          <p className="text-slate-200 leading-relaxed min-h-[5rem]">
+            {displayedText}
+            <span className={`inline-block w-0.5 h-4 bg-purple-400 ml-0.5 align-middle transition-opacity duration-100 ${showCursor ? 'opacity-100' : 'opacity-0'}`} />
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface MetricItem {
   value: string;
   label: string;
@@ -303,41 +399,15 @@ const MirrorOfDreamsPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Visual Mockup Section */}
+      {/* Visual Mockup Section - Custom MirrorDemo */}
       <section className="py-24 section-reveal section-reveal-1">
         <div className="container-content">
           <h2 className="heading-xl text-center mb-4">See It In Action</h2>
           <p className="text-center text-slate-400 mb-12">
-            A glimpse into the interface
+            Watch the AI reflect on your dreams
           </p>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {mockupScreens.map((screen, index) => (
-              <div key={index} className="contemplative-card p-6 overflow-hidden">
-                {/* Mockup Header */}
-                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/10">
-                  <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-red-400/60" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-400/60" />
-                    <div className="w-3 h-3 rounded-full bg-green-400/60" />
-                  </div>
-                  <span className="text-xs text-slate-500 ml-2">{screen.title}</span>
-                </div>
-
-                {/* Mockup Content */}
-                <div className="space-y-3">
-                  {screen.elements.map((element, idx) => (
-                    <MockupElement key={idx} element={element} />
-                  ))}
-                </div>
-
-                {/* Caption */}
-                <p className="mt-4 pt-3 border-t border-white/5 text-sm text-slate-500">
-                  {screen.description}
-                </p>
-              </div>
-            ))}
-          </div>
+          <MirrorDemo />
         </div>
       </section>
 

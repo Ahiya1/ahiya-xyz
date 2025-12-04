@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "generate:pdf": "npx tsx scripts/generate-capabilities-pdf.tsx",
+    "prebuild": "npm run generate:pdf",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -13,6 +15,7 @@
     "outreach:send": "npx tsx scripts/agency-outreach.ts --send"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.3.1",
     "@tailwindcss/postcss": "^4.1.10",
     "lucide-react": "^0.517.0",
     "next": "15.3.4",

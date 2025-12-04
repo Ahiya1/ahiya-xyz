@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { Navigation } from "@/app/components/Navigation";
 import { Footer } from "@/app/components/Footer";
@@ -19,6 +19,36 @@ import {
   Mail,
   ArrowDown,
 } from "lucide-react";
+
+// Inline count-up hook for metrics animation
+function useCountUp(target: number, duration = 2000) {
+  const [count, setCount] = useState(0);
+  const [hasStarted, setHasStarted] = useState(false);
+  const startRef = useRef(false);
+
+  const start = useCallback(() => {
+    if (startRef.current) return;
+    startRef.current = true;
+    setHasStarted(true);
+
+    let startTime: number;
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      // Ease-out cubic for natural feel
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(eased * target));
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setCount(target); // Ensure exact final value
+      }
+    };
+    requestAnimationFrame(animate);
+  }, [target, duration]);
+
+  return { count, start, hasStarted };
+}
 
 // Phase data for the pipeline
 const phases = [
@@ -145,21 +175,56 @@ const technicalItems = [
   },
 ];
 
-// Case study metrics
+// Case study metrics - with numeric values for count-up animation
 const metrics = [
-  { label: "7 iterations", value: "7" },
-  { label: "10+ features per iteration", value: "10+" },
-  { label: "Real-time observability", value: "Live" },
-  { label: "Self-healing active", value: "On" },
+  { label: "Plans Completed", value: 7, isNumeric: true },
+  { label: "Iterations Shipped", value: 10, isNumeric: true },
+  { label: "Real-time observability", value: "Live", isNumeric: false },
+  { label: "Self-healing active", value: "On", isNumeric: false },
 ];
 
 export default function TwoLPage() {
   const [mounted, setMounted] = useState<boolean>(false);
   const [openItem, setOpenItem] = useState<string | null>(null);
+  const [activePhase, setActivePhase] = useState(0);
+  const [metricsVisible, setMetricsVisible] = useState(false);
+  const metricsRef = useRef<HTMLDivElement>(null);
+
+  // Count-up hooks for metrics
+  const plansCount = useCountUp(7, 1500);
+  const iterationsCount = useCountUp(10, 1800);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Pipeline phase cycling animation
+  useEffect(() => {
+    if (!mounted) return;
+    const interval = setInterval(() => {
+      setActivePhase((prev) => (prev + 1) % phases.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [mounted]);
+
+  // Intersection observer for metrics count-up trigger
+  useEffect(() => {
+    if (!mounted || !metricsRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !metricsVisible) {
+          setMetricsVisible(true);
+          plansCount.start();
+          iterationsCount.start();
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(metricsRef.current);
+    return () => observer.disconnect();
+  }, [mounted, metricsVisible, plansCount, iterationsCount]);
 
   // Loading state for hydration
   if (!mounted) {
@@ -233,8 +298,10 @@ export default function TwoLPage() {
 
           {/* Pipeline Phases */}
           <div className="relative">
-            {/* Connection line */}
-            <div className="hidden lg:block absolute top-7 left-[7%] right-[7%] h-0.5 bg-purple-500/20" />
+            {/* Connection line with animated gradient flow */}
+            <div className="hidden lg:block absolute top-7 left-[7%] right-[7%] h-0.5 bg-purple-500/20">
+              <div className="absolute inset-0 pipeline-line-animated" />
+            </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6 lg:gap-4">
               {phases.map((phase, index) => (
@@ -242,11 +309,19 @@ export default function TwoLPage() {
                   key={phase.name}
                   className="relative flex flex-col items-center text-center"
                 >
-                  {/* Circle with icon */}
-                  <div className="w-14 h-14 rounded-full bg-purple-500/10 border border-purple-400/30 flex items-center justify-center mb-3 relative z-10 bg-[#0a0f1a]">
-                    <phase.icon className="w-6 h-6 text-purple-300" />
+                  {/* Circle with icon - active phase has pulse animation */}
+                  <div
+                    className={`w-14 h-14 rounded-full bg-purple-500/10 border border-purple-400/30 flex items-center justify-center mb-3 relative z-10 bg-[#0a0f1a] transition-all duration-300 ${
+                      activePhase === index ? 'pipeline-phase-active border-purple-400/60' : ''
+                    }`}
+                  >
+                    <phase.icon className={`w-6 h-6 transition-colors duration-300 ${
+                      activePhase === index ? 'text-purple-200' : 'text-purple-300'
+                    }`} />
                   </div>
-                  <h3 className="text-sm font-medium text-white mb-1">
+                  <h3 className={`text-sm font-medium mb-1 transition-colors duration-300 ${
+                    activePhase === index ? 'text-purple-200' : 'text-white'
+                  }`}>
                     {phase.name}
                   </h3>
                   <p className="text-xs text-slate-500 leading-relaxed">
@@ -287,9 +362,9 @@ export default function TwoLPage() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {agents.map((agent) => (
-              <div key={agent.name} className="contemplative-card p-6">
-                <div className="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-400/30 flex items-center justify-center mb-4">
+            {agents.map((agent, index) => (
+              <div key={agent.name} className="contemplative-card card-lift-premium p-6">
+                <div className={`w-12 h-12 rounded-full bg-purple-500/10 border border-purple-400/30 flex items-center justify-center mb-4 icon-float icon-float-delay-${index % 3}`}>
                   <agent.icon className="w-5 h-5 text-purple-300" />
                 </div>
                 <h3 className="heading-lg text-white mb-2">{agent.name}</h3>
@@ -311,7 +386,7 @@ export default function TwoLPage() {
 
           <div className="grid sm:grid-cols-2 gap-6">
             {benefits.map((benefit) => (
-              <div key={benefit.title} className="contemplative-card p-6">
+              <div key={benefit.title} className="contemplative-card card-lift-premium p-6">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-400/30 flex items-center justify-center flex-shrink-0">
                     <benefit.icon className="w-5 h-5 text-purple-300" />
@@ -342,15 +417,19 @@ export default function TwoLPage() {
             </p>
           </div>
 
-          {/* Metrics Row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            {metrics.map((metric) => (
+          {/* Metrics Row with count-up animation */}
+          <div ref={metricsRef} className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            {metrics.map((metric, index) => (
               <div
                 key={metric.label}
-                className="contemplative-card p-4 text-center"
+                className="contemplative-card card-lift-premium p-4 text-center"
               >
-                <div className="text-2xl font-bold text-purple-300 mb-1">
-                  {metric.value}
+                <div className="text-2xl font-bold text-purple-300 mb-1 tabular-nums">
+                  {metric.isNumeric
+                    ? index === 0
+                      ? plansCount.count
+                      : iterationsCount.count
+                    : metric.value}
                 </div>
                 <div className="text-xs text-slate-500">{metric.label}</div>
               </div>

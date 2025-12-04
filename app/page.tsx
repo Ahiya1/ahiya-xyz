@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Mail, Github, Grid, Workflow, FileText } from "lucide-react";
+import { Mail, Github, Grid, Workflow, FileText, Download } from "lucide-react";
 import { Navigation } from "@/app/components/Navigation";
 import { Footer } from "@/app/components/Footer";
 import { PortfolioCard } from "@/app/components/PortfolioCard";
@@ -115,6 +115,15 @@ export default function HomePage() {
             </Link>
 
             <a
+              href="/ahiya-capabilities.pdf"
+              download
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:text-white transition-colors"
+            >
+              <Download className="w-4 h-4" />
+              Download PDF
+            </a>
+
+            <a
               href="#contact"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium transition-all duration-300 hover:bg-purple-500/20 hover:border-purple-400/50"
             >
@@ -140,10 +149,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* How We Work Section */}
-      <section id="how-we-work" className="section-breathing">
+      {/* How I Work Section */}
+      <section id="how-i-work" className="section-breathing">
         <div className="container-content">
-          <h2 className="display-lg text-white text-center mb-12">How We Work</h2>
+          <h2 className="display-lg text-white text-center mb-12">How I Work</h2>
 
           {/* Three Steps */}
           <div className="grid sm:grid-cols-3 gap-8 max-w-4xl mx-auto mb-8">
@@ -156,7 +165,7 @@ export default function HomePage() {
               <div className="text-4xl mb-4">&#127919;</div>
               <h3 className="heading-lg text-white mb-3">Define</h3>
               <p className="text-slate-400">
-                We align on requirements. You see the architecture before development begins.
+                I align on requirements. You see the architecture before development begins.
               </p>
             </div>
             <div
