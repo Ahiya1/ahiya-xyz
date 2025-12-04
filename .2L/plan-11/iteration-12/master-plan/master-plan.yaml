@@ -1,0 +1,169 @@
+# Master Plan: Plan-11 Immersive Project Worlds
+# Generated: 2025-12-04
+# Complexity: MEDIUM
+
+plan_id: plan-11
+iteration: 12
+status: BUILDING
+
+## Overview
+Transform 3 project pages into immersive mini-worlds:
+- Mirror of Dreams → Cosmic Reflection Chamber
+- SelahReach → Command Center
+- AI Research Pipeline → Research Lab
+
+## Exploration Insights Summary
+
+### Mirror of Dreams (from Explorer-1)
+- 5 sacred reflection questions (not 4 as initially thought)
+- 3 AI tones: Sacred Fusion (default), Gentle Clarity, Luminous Fire
+- Visual palette: Deep navy (#0f0f23), purple gradients, golden accents
+- Key vibe: "Consciousness recognition technology - no fixing, only truth"
+
+### SelahReach (from Explorer-2)
+- 7 pipeline stages: Lead → Contacted → Replied → Call Scheduled → Proposal → Won/Lost
+- P.S. line: "This email was composed and sent by an AI system I built"
+- Visual palette: Stage-specific colors (gray, blue, yellow, purple, orange, green, red)
+- Key vibe: "AI-Operated CRM / Outreach Command Center"
+
+### Current Pages (from Explorer-3)
+- StatViz is gold standard with fixed ambient layer + gradient orbs
+- Other 3 pages have demos but NO ambient backgrounds
+- Key pattern: Fixed positioned layer with pointer-events-none
+- Need: Floating particles, gradient orbs, breathing animations per theme
+
+## Builder Assignments
+
+builders:
+  - builder_id: 1
+    name: "Cosmic Reflection Chamber"
+    files:
+      - /app/projects/mirror-of-dreams/page.tsx
+    task: |
+      Transform Mirror of Dreams page into cosmic reflection chamber:
+
+      1. ADD ambient background layer (fixed, pointer-events-none):
+         - Multiple floating star particles (30-50)
+         - Purple nebula gradient orbs (2-3 large blurs)
+         - Gentle breathing animations
+
+      2. UPDATE demo to use ACTUAL app elements:
+         - Real 5 questions from Explorer-1 report
+         - Tone selector: "Let the Mirror Breathe", "Gentle Clarity", "Luminous Fire"
+         - Sample AI response in actual voice
+
+      3. Visual identity:
+         - Deep navy background (#0f0f23 to #1a1a2e)
+         - Purple (#9333ea) and gold (#fbbf24) accents
+         - Glass morphism cards
+         - Golden mirror frame glow for output
+
+      4. Breathing animations throughout
+
+    dependencies: []
+
+  - builder_id: 2
+    name: "Command Center"
+    files:
+      - /app/projects/selahreach/page.tsx
+    task: |
+      Transform SelahReach page into command center:
+
+      1. ADD ambient background layer:
+         - Subtle grid pattern overlay
+         - Data stream particles (10-15 horizontal/vertical)
+         - Pulsing status dots in corners
+         - Purple/green gradient orbs
+
+      2. ENHANCE existing demos:
+         - Kanban should feel more alive (breathing cards)
+         - Terminal should have more operational feel
+         - Add activity feed showing "recent actions"
+
+      3. Visual identity:
+         - Dark with subtle grid
+         - Purple (#a78bfa) primary, green (#22c55e) for success
+         - Terminal aesthetic touches
+
+      4. The P.S. line should be highlighted prominently
+
+    dependencies: []
+
+  - builder_id: 3
+    name: "Research Lab"
+    files:
+      - /app/projects/ai-research-pipeline/page.tsx
+    task: |
+      Transform AI Research Pipeline page into research lab:
+
+      1. ADD ambient background layer:
+         - Floating data points (20-30 particles)
+         - Teal/cyan gradient orbs
+         - Subtle diagonal light beam effects
+         - Research grid overlay (very faint)
+
+      2. ENHANCE existing demos:
+         - Pipeline should feel like data transformation
+         - Theme network should be more interactive (connection lines glow on hover)
+         - Narrative cards should feel like research artifacts
+
+      3. Visual identity:
+         - Dark with data-grid subtle pattern
+         - Teal/cyan (#22d3d8) primary
+         - Scientific, precise aesthetic
+
+    dependencies: []
+
+  - builder_id: 4
+    name: "CSS Animations"
+    files:
+      - /app/globals.css
+    task: |
+      Add new ambient animations to globals.css:
+
+      1. Shared base animations:
+         - ambient-float (floating particles)
+         - ambient-drift (slow background drift)
+         - ambient-pulse (gentle glow pulse)
+         - star-twinkle
+
+      2. Cosmic theme (Mirror of Dreams):
+         - cosmic-nebula-breathe
+         - cosmic-star-drift
+
+      3. Command theme (SelahReach):
+         - data-stream-flow
+         - status-pulse
+         - command-grid-overlay class
+
+      4. Research theme (AI Research Pipeline):
+         - research-data-drift
+         - lab-light-beam
+         - data-ring-pulse
+
+      5. Reduced motion support for all
+
+    dependencies: []
+
+## Integration Strategy
+- Pages are independent - minimal integration needed
+- Each builder creates self-contained ambient layer
+- CSS animations shared in globals.css
+- Run builders 1-3 in parallel, builder 4 can also run in parallel
+
+## Validation Criteria
+- Build passes
+- Lint passes
+- Each page has distinct visual identity
+- Ambient elements are subtle (not distracting)
+- Reduced motion respected
+- Mobile responsive
+- Performance maintained (60fps target)
+
+## Files NOT to Modify
+- /app/projects/statviz/page.tsx (already gold standard)
+- Site navigation
+- Basic page structure
+
+parallel_builders: [1, 2, 3, 4]
+sequential_builders: []

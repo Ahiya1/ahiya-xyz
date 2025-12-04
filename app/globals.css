@@ -897,3 +897,188 @@ html {
 }
 
 /* ========== END BUILDER-4 AI Research Pipeline ========== */
+
+/* ========== PLAN-11: Immersive Project World Animations ========== */
+
+/* --- Shared Base Animations --- */
+
+/* Floating particle base - multi-axis movement with opacity variation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translateY(-15px) translateX(5px);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-8px) translateX(-5px);
+    opacity: 0.3;
+  }
+  75% {
+    transform: translateY(-20px) translateX(3px);
+    opacity: 0.25;
+  }
+}
+
+/* Star twinkle effect */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.2); }
+}
+
+/* Gentle breathing - subtle scale and opacity */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.02); opacity: 1; }
+}
+
+/* --- Cosmic Theme (Mirror of Dreams) --- */
+
+/* Cosmic nebula breathing - larger scale variation */
+@keyframes cosmic-nebula {
+  0%, 100% {
+    opacity: 0.08;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.15;
+    transform: scale(1.1);
+  }
+}
+
+/* Cosmic star drift - gentle upward-right movement */
+@keyframes cosmic-drift {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  100% {
+    transform: translateY(-50px) translateX(20px);
+  }
+}
+
+/* Golden mirror glow - warm ambient box-shadow pulse */
+@keyframes mirror-glow {
+  0%, 100% {
+    box-shadow: 0 0 40px rgba(251, 191, 36, 0.15),
+                0 0 80px rgba(251, 191, 36, 0.08);
+  }
+  50% {
+    box-shadow: 0 0 60px rgba(251, 191, 36, 0.2),
+                0 0 100px rgba(251, 191, 36, 0.12);
+  }
+}
+
+/* --- Command Theme (SelahReach) --- */
+
+/* Data stream flow - horizontal streaming effect */
+@keyframes dataStream {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  10% { opacity: 0.5; }
+  90% { opacity: 0.5; }
+  100% {
+    transform: translateX(100vw);
+    opacity: 0;
+  }
+}
+
+/* Status indicator pulse - glow breathing */
+@keyframes statusPulse {
+  0%, 100% {
+    opacity: 0.5;
+    box-shadow: 0 0 4px currentColor;
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 12px currentColor;
+  }
+}
+
+/* Card hover breathe - subtle scale */
+@keyframes cardBreathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.01); }
+}
+
+/* --- Research Theme (AI Research Pipeline) --- */
+
+/* Research data drift - triangular float path */
+@keyframes researchDrift {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  33% {
+    transform: translateY(-20px) translateX(10px);
+  }
+  66% {
+    transform: translateY(-10px) translateX(-5px);
+  }
+}
+
+/* Lab light beam - sweeping beam effect */
+@keyframes labBeam {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  50% {
+    opacity: 0.05;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(200%) skewX(-15deg);
+  }
+}
+
+/* Data node pulse - scale and opacity pulse */
+@keyframes nodePulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* Connection line glow - SVG stroke animation */
+@keyframes connectionGlow {
+  0%, 100% {
+    stroke-opacity: 0.2;
+    filter: drop-shadow(0 0 2px currentColor);
+  }
+  50% {
+    stroke-opacity: 0.4;
+    filter: drop-shadow(0 0 6px currentColor);
+  }
+}
+
+/* --- Ambient Background Utility Classes --- */
+
+.ambient-container {
+  @apply fixed inset-0 pointer-events-none z-0 overflow-hidden;
+}
+
+.ambient-orb {
+  @apply absolute rounded-full;
+}
+
+.ambient-particle {
+  @apply absolute rounded-full;
+}
+
+/* --- Plan-11 Reduced Motion Support --- */
+@media (prefers-reduced-motion: reduce) {
+  .ambient-container *,
+  .ambient-orb,
+  .ambient-particle {
+    animation: none !important;
+  }
+}
+
+/* ========== END PLAN-11 Immersive Project World Animations ========== */
