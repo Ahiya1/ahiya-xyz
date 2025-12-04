@@ -57,7 +57,7 @@ export function Navigation() {
         <div className="container-wide">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <a href="#" className="flex items-center space-x-3 group" aria-label="Go to homepage">
+            <Link href="/" className="flex items-center space-x-3 group" aria-label="Go to homepage">
               <Image
                 src="/logo-symbol.png"
                 alt="Ahiya"
@@ -66,7 +66,7 @@ export function Navigation() {
                 className="transition-transform duration-300 group-hover:scale-105"
               />
               <span className="text-lg font-medium text-white">Ahiya</span>
-            </a>
+            </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">

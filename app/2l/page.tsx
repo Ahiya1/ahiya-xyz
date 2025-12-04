@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Navigation } from "@/app/components/Navigation";
 import { Footer } from "@/app/components/Footer";
@@ -20,35 +20,12 @@ import {
   ArrowDown,
 } from "lucide-react";
 
-// Inline count-up hook for metrics animation
-function useCountUp(target: number, duration = 2000) {
-  const [count, setCount] = useState(0);
-  const [hasStarted, setHasStarted] = useState(false);
-  const startRef = useRef(false);
-
-  const start = useCallback(() => {
-    if (startRef.current) return;
-    startRef.current = true;
-    setHasStarted(true);
-
-    let startTime: number;
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      // Ease-out cubic for natural feel
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(eased * target));
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        setCount(target); // Ensure exact final value
-      }
-    };
-    requestAnimationFrame(animate);
-  }, [target, duration]);
-
-  return { count, start, hasStarted };
-}
+// 2L Components
+import { TerminalAnimation } from "@/app/components/2l/TerminalAnimation";
+import { AgentVisualization } from "@/app/components/2l/AgentVisualization";
+import { LiveDashboard } from "@/app/components/2l/LiveDashboard";
+import { CodeGenDemo } from "@/app/components/2l/CodeGenDemo";
+import { SlashCommands } from "@/app/components/2l/SlashCommands";
 
 // Phase data for the pipeline
 const phases = [
@@ -166,7 +143,7 @@ const technicalItems = [
   {
     name: "Graceful Degradation",
     content:
-      "2L works without internet. Works without external dependencies. Core functionality runs entirely local. Optional features fail safely without blocking progress.",
+      "Optional features like the event dashboard fail safely without blocking builds. Core pipeline continues even if observability tools are unavailable. Non-blocking event logging ensures builds are never slowed.",
   },
   {
     name: "5-Tier Validation",
@@ -175,24 +152,10 @@ const technicalItems = [
   },
 ];
 
-// Case study metrics - with numeric values for count-up animation
-const metrics = [
-  { label: "Plans Completed", value: 7, isNumeric: true },
-  { label: "Iterations Shipped", value: 10, isNumeric: true },
-  { label: "Real-time observability", value: "Live", isNumeric: false },
-  { label: "Self-healing active", value: "On", isNumeric: false },
-];
-
 export default function TwoLPage() {
   const [mounted, setMounted] = useState<boolean>(false);
   const [openItem, setOpenItem] = useState<string | null>(null);
   const [activePhase, setActivePhase] = useState(0);
-  const [metricsVisible, setMetricsVisible] = useState(false);
-  const metricsRef = useRef<HTMLDivElement>(null);
-
-  // Count-up hooks for metrics
-  const plansCount = useCountUp(7, 1500);
-  const iterationsCount = useCountUp(10, 1800);
 
   useEffect(() => {
     setMounted(true);
@@ -206,25 +169,6 @@ export default function TwoLPage() {
     }, 2000);
     return () => clearInterval(interval);
   }, [mounted]);
-
-  // Intersection observer for metrics count-up trigger
-  useEffect(() => {
-    if (!mounted || !metricsRef.current) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !metricsVisible) {
-          setMetricsVisible(true);
-          plansCount.start();
-          iterationsCount.start();
-        }
-      },
-      { threshold: 0.3 }
-    );
-
-    observer.observe(metricsRef.current);
-    return () => observer.disconnect();
-  }, [mounted, metricsVisible, plansCount, iterationsCount]);
 
   // Loading state for hydration
   if (!mounted) {
@@ -284,8 +228,37 @@ export default function TwoLPage() {
         </div>
       </section>
 
+      {/* Terminal Animation Section */}
+      <section className="section-breathing section-reveal section-reveal-1">
+        <div className="container-wide">
+          <div className="text-center mb-12">
+            <h2 className="display-lg text-white mb-4">Watch 2L in Action</h2>
+            <p className="body-lg text-slate-400 max-w-2xl mx-auto">
+              A real 2L session building this very page. Multiple agents working in parallel,
+              validating, and shipping.
+            </p>
+          </div>
+          <TerminalAnimation />
+        </div>
+      </section>
+
+      {/* Recursive Showcase - Built with 2L */}
+      <section className="section-breathing section-reveal section-reveal-2">
+        <div className="container-wide">
+          <div className="text-center mb-8">
+            <h2 className="display-lg text-white mb-4">
+              You're Looking at 2L's Work Right Now
+            </h2>
+            <p className="body-lg text-slate-400 max-w-2xl mx-auto">
+              This entire portfolio was built using 2L. Not a demo. Actual proof.
+            </p>
+          </div>
+          <LiveDashboard />
+        </div>
+      </section>
+
       {/* Pipeline Section */}
-      <section id="pipeline" className="section-breathing section-reveal section-reveal-1">
+      <section id="pipeline" className="section-breathing section-reveal section-reveal-3">
         <div className="container-wide">
           <div className="text-center mb-12">
             <h2 className="display-lg text-white mb-4">The 2L Pipeline</h2>
@@ -347,8 +320,20 @@ export default function TwoLPage() {
         </div>
       </section>
 
+      {/* Agent Visualization */}
+      <section className="section-breathing section-reveal section-reveal-4">
+        <div className="container-wide">
+          <div className="text-center mb-8">
+            <h2 className="display-lg text-white mb-4">
+              Agents Working in Parallel
+            </h2>
+          </div>
+          <AgentVisualization />
+        </div>
+      </section>
+
       {/* Agent Types Section */}
-      <section className="section-breathing section-reveal section-reveal-2">
+      <section className="section-breathing section-reveal section-reveal-5">
         <div className="container-wide">
           <div className="text-center mb-12">
             <h2 className="display-lg text-white mb-4">
@@ -376,7 +361,7 @@ export default function TwoLPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="section-breathing section-reveal section-reveal-3">
+      <section className="section-breathing section-reveal section-reveal-6">
         <div className="container-wide">
           <div className="text-center mb-12">
             <h2 className="display-lg text-white mb-4">
@@ -406,57 +391,38 @@ export default function TwoLPage() {
         </div>
       </section>
 
-      {/* Case Study Section */}
-      <section id="case-study" className="section-breathing section-reveal section-reveal-4">
+      {/* Slash Commands Showcase */}
+      <section className="section-breathing section-reveal section-reveal-7">
         <div className="container-wide">
-          <div className="text-center mb-12">
-            <h2 className="display-lg text-white mb-4">Built with 2L</h2>
+          <div className="text-center mb-8">
+            <h2 className="display-lg text-white mb-4">
+              The Developer Interface
+            </h2>
             <p className="body-lg text-slate-400 max-w-2xl mx-auto">
-              This portfolio site was itself built using the 2L system. Here's
-              what that looked like:
+              Simple commands, powerful orchestration.
             </p>
           </div>
+          <SlashCommands />
+        </div>
+      </section>
 
-          {/* Metrics Row with count-up animation */}
-          <div ref={metricsRef} className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            {metrics.map((metric, index) => (
-              <div
-                key={metric.label}
-                className="contemplative-card card-lift-premium p-4 text-center"
-              >
-                <div className="text-2xl font-bold text-purple-300 mb-1 tabular-nums">
-                  {metric.isNumeric
-                    ? index === 0
-                      ? plansCount.count
-                      : iterationsCount.count
-                    : metric.value}
-                </div>
-                <div className="text-xs text-slate-500">{metric.label}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Case Study Detail */}
-          <div className="max-w-2xl mx-auto text-center">
-            <p className="text-slate-400 mb-6">
-              Each major feature set shipped as a complete iteration. The 2L
-              dashboard tracked every agent in real-time. When validation caught
-              issues, healing agents fixed them automatically. The result: a
-              production site that evolved incrementally, with full audit trails
-              for every change.
+      {/* Code Generation Demo */}
+      <section className="section-breathing section-reveal section-reveal-8">
+        <div className="container-wide">
+          <div className="text-center mb-8">
+            <h2 className="display-lg text-white mb-4">
+              AI Writing Code
+            </h2>
+            <p className="body-lg text-slate-400 max-w-2xl mx-auto">
+              Watch a builder agent write component code in real-time.
             </p>
-            <Link
-              href="/#portfolio"
-              className="inline-flex items-center justify-center px-6 py-3 border border-white/10 rounded-xl text-slate-300 font-medium transition-all duration-300 hover:bg-white/5 hover:border-white/20"
-            >
-              See the Work
-            </Link>
           </div>
+          <CodeGenDemo />
         </div>
       </section>
 
       {/* Technical Depth Section */}
-      <section className="section-breathing section-reveal section-reveal-5">
+      <section className="section-breathing section-reveal section-reveal-9">
         <div className="container-content">
           <div className="text-center mb-12">
             <h2 className="display-lg text-white mb-4">Under the Hood</h2>
@@ -507,7 +473,7 @@ export default function TwoLPage() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="section-breathing section-reveal section-reveal-6">
+      <section className="section-breathing section-reveal section-reveal-10">
         <div className="container-narrow">
           <div className="contemplative-card p-8 md:p-12 text-center">
             <h2 className="heading-xl text-white mb-4">

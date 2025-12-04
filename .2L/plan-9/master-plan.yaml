@@ -1,0 +1,238 @@
+# Master Plan: Plan-9 - 2L Page Command Center Experience
+# Generated: 2025-12-04
+# Based on: 4 Master Explorer Reports
+
+plan_id: plan-9
+name: "2L Page - Command Center Experience"
+complexity: COMPLEX
+strategy: SINGLE_ITERATION
+
+# ============================================
+# SYNTHESIS FROM MASTER EXPLORATION
+# ============================================
+
+key_findings:
+  critical_bugs:
+    - location: "/app/components/Navigation.tsx:60"
+      issue: "Logo uses href='#' instead of href='/'"
+      fix: "Change to <Link href='/'>"
+      risk: LOW
+
+    - location: "/app/2l/page.tsx:166-170"
+      issue: "False claim: '2L works without internet'"
+      truth: "2L runs through Claude API, requires internet"
+      fix: "Rewrite to focus on checkpoint resilience"
+      risk: LOW
+
+  real_2l_system:
+    slash_commands: 23
+    agent_types: 10
+    pipeline_phases: 7
+    event_types: 11
+
+  this_project_metrics:
+    plans_completed: 8
+    total_iterations: 10
+    total_events: 223
+    agents_spawned: 206+
+    max_parallel_builders: 6
+    validation_confidence: "92-95%"
+
+  animation_infrastructure:
+    framer_motion: false
+    css_keyframes: 13
+    existing_hooks:
+      - useCountUp (page.tsx)
+      - useTypewriter (soul/building/page.tsx)
+      - useSimpleBreathing (soul/building/page.tsx)
+    patterns:
+      - IntersectionObserver for scroll triggers
+      - requestAnimationFrame for smooth animations
+      - CSS-first approach (GPU-accelerated)
+
+  dependencies_needed: NONE
+
+# ============================================
+# ITERATION STRUCTURE
+# ============================================
+
+iterations:
+  - iteration: 11
+    name: "Command Center Transformation"
+    strategy: "5 parallel builders with distinct responsibilities"
+
+    builders:
+      - id: builder-1
+        name: "Critical Fixes & Metrics"
+        priority: P0
+        scope:
+          - "Fix Navigation.tsx logo bug (line 60)"
+          - "Remove/rewrite false internet claim (lines 166-170)"
+          - "Update metrics to real values (8 plans, 10 iterations, 206+ agents)"
+          - "Fix any other inaccurate content"
+        files:
+          - /app/components/Navigation.tsx
+          - /app/2l/page.tsx
+        estimated_changes: "~20 lines"
+
+      - id: builder-2
+        name: "Terminal Animation Component"
+        priority: P1
+        scope:
+          - "Create TerminalAnimation.tsx component"
+          - "Implement typing effect with realistic timing (50-80ms/char)"
+          - "Add command output streaming"
+          - "Show real 2L sequences (from explorer-2 report)"
+          - "Add progress bars with animations"
+          - "Include looping/cycling behavior"
+        files:
+          - /app/components/2l/TerminalAnimation.tsx (NEW)
+          - /app/globals.css (additions)
+        animation_specs:
+          typing_speed: "50-80ms per character"
+          command_delay: "800ms between commands"
+          progress_bar: "CSS scaleX animation"
+          cursor: "1s blink animation"
+
+      - id: builder-3
+        name: "Agent Visualization & Dashboard"
+        priority: P1
+        scope:
+          - "Create AgentVisualization.tsx with floating orbs"
+          - "Create LiveDashboard.tsx with real metrics"
+          - "Count-up animations triggered by IntersectionObserver"
+          - "Show agent types with glow effects"
+          - "Mini timeline of plans"
+        files:
+          - /app/components/2l/AgentVisualization.tsx (NEW)
+          - /app/components/2l/LiveDashboard.tsx (NEW)
+          - /app/globals.css (additions)
+        visual_specs:
+          orb_colors:
+            explorer: "#a78bfa"
+            builder: "#c084fc"
+            validator: "#22c55e"
+            healer: "#f472b6"
+          animation: "CSS float + glow (no JS)"
+
+      - id: builder-4
+        name: "Code Generation Demo & Pipeline"
+        priority: P2
+        scope:
+          - "Create CodeGenDemo.tsx with syntax highlighting"
+          - "Show code being 'written' by AI"
+          - "Enhance existing pipeline with traveling indicator"
+          - "Add agent orbs at pipeline stages"
+          - "Create SlashCommands.tsx showcase"
+        files:
+          - /app/components/2l/CodeGenDemo.tsx (NEW)
+          - /app/components/2l/SlashCommands.tsx (NEW)
+          - /app/globals.css (additions)
+        code_sample: "TerminalAnimation component being typed"
+
+      - id: builder-5
+        name: "Page Integration & Polish"
+        priority: P1
+        scope:
+          - "Integrate all new components into page.tsx"
+          - "Add Recursive Showcase section (THIS SITE WAS BUILT WITH 2L)"
+          - "Reorder sections for narrative flow"
+          - "Performance optimization (IntersectionObserver)"
+          - "Mobile responsiveness verification"
+          - "Reduced motion support"
+        files:
+          - /app/2l/page.tsx
+          - /app/globals.css
+        section_order:
+          1: "Hero (existing, refined)"
+          2: "Terminal Animation (NEW - hero feature)"
+          3: "Recursive Showcase (NEW - meta-reference)"
+          4: "Live Dashboard (NEW - real metrics)"
+          5: "Agent Visualization (NEW)"
+          6: "Pipeline (enhanced)"
+          7: "Slash Commands (NEW)"
+          8: "Technical Depth (existing, fixed)"
+          9: "CTA (existing)"
+
+# ============================================
+# INTEGRATION STRATEGY
+# ============================================
+
+integration:
+  approach: "Zone-based integration"
+  zones:
+    - zone: "A"
+      builders: [builder-1]
+      files: [Navigation.tsx, page.tsx content fixes]
+
+    - zone: "B"
+      builders: [builder-2, builder-3, builder-4]
+      files: [New components in /app/components/2l/]
+
+    - zone: "C"
+      builders: [builder-5]
+      files: [page.tsx integration, globals.css polish]
+
+  execution_order:
+    - round_1: "All zones in parallel"
+    - round_2: "Integration of zone B into zone C"
+    - round_3: "Final cohesion check"
+
+# ============================================
+# VALIDATION CRITERIA
+# ============================================
+
+validation:
+  p0_requirements:
+    - "Logo navigates to homepage from all pages"
+    - "No false 'works without internet' claim"
+    - "npm run build succeeds"
+    - "npm run lint passes"
+
+  p1_requirements:
+    - "Terminal animation plays and loops"
+    - "Agent orbs float and glow"
+    - "Dashboard metrics count up"
+    - "All components render on mobile"
+
+  p2_requirements:
+    - "Code generation demo types"
+    - "Pipeline has traveling indicator"
+    - "Slash commands display correctly"
+    - "Reduced motion is respected"
+
+  testing_commands:
+    - "npm run build"
+    - "npm run lint"
+    - "npm run dev # manual visual check"
+
+# ============================================
+# RISK MITIGATION
+# ============================================
+
+risks:
+  - risk: "Animation performance on mobile"
+    mitigation: "CSS-first approach, IntersectionObserver pause"
+
+  - risk: "Breaking Navigation component"
+    mitigation: "Test on all pages post-fix"
+
+  - risk: "Content accuracy"
+    mitigation: "All content verified against ~/.claude/ during exploration"
+
+# ============================================
+# SUCCESS CRITERIA
+# ============================================
+
+success_definition: |
+  The 2L page transforms from an informational description into a
+  command center experience where visitors FEEL AI agents building
+  software. Key indicators:
+
+  1. Logo works (navigates home)
+  2. No false claims
+  3. Terminal demo shows real 2L sequences
+  4. Agent orbs visibly "work"
+  5. Dashboard shows THIS PROJECT's real metrics
+  6. The recursive meta-reference is prominently featured
+  7. Overall impression: "I'm watching AI agents build software. I want this."

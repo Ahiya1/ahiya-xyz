@@ -843,3 +843,20 @@ html {
 }
 
 /* ========== END BUILDER-3 ========== */
+
+/* ========== BUILDER-3: Agent Orb Animations ========== */
+
+@keyframes agent-orb-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-12px) scale(1.05); }
+}
+
+.agent-orb-float {
+  animation: agent-orb-float 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agent-orb-float { animation: none; }
+}
+
+/* ========== END BUILDER-3 Agent Orb ========== */
