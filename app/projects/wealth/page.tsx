@@ -1,12 +1,45 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ChevronDown } from "lucide-react";
+
+// Custom hook for scroll-triggered fade-in
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isVisible };
+}
 
 const WealthPage: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
+
+  // Scroll reveal hooks for each section
+  const challengeReveal = useScrollReveal();
+  const solutionReveal = useScrollReveal();
+  const featuresReveal = useScrollReveal();
+  const techReveal = useScrollReveal();
+  const ctaReveal = useScrollReveal();
 
   useEffect(() => {
     setMounted(true);
@@ -17,27 +50,27 @@ const WealthPage: React.FC = () => {
   const features = [
     {
       icon: "\u{1F3E6}",
-      title: "Bank Account Sync",
+      title: "Bank Sync",
       description:
-        "Connect your Israeli bank accounts for automatic transaction imports. Real-time sync keeps your finances up-to-date without manual entry.",
+        "Connect Israeli bank accounts for automatic transaction imports. Real-time sync.",
     },
     {
       icon: "\u{1F3F7}\uFE0F",
-      title: "AI Transaction Categorization",
+      title: "AI Categorization",
       description:
-        "Claude-powered intelligent categorization that learns your spending patterns. Automatically tags and organizes transactions with high accuracy.",
+        "Claude-powered categorization that learns your patterns. Automatic, accurate.",
     },
     {
       icon: "\u{1F4CA}",
-      title: "Budget Management with Alerts",
+      title: "Budget Alerts",
       description:
-        "Set budgets by category and receive smart alerts before you overspend. Track your progress with visual dashboards and insights.",
+        "Set budgets by category. Get smart alerts before you overspend.",
     },
     {
       icon: "\u{1F4AC}",
-      title: "Financial Advisor Chat",
+      title: "AI Advisor",
       description:
-        "AI-powered financial advisor that understands your complete picture. Get personalized advice based on your actual spending and goals.",
+        "Financial advisor that understands your complete picture. Personalized guidance.",
     },
   ];
 
@@ -51,18 +84,18 @@ const WealthPage: React.FC = () => {
   ];
 
   const challenges = [
-    "Manual transaction entry is tedious and often abandoned",
-    "Generic categorization misses personal spending patterns",
-    "Israeli bank integration is rare in international finance apps",
-    "Budget alerts come too late, after overspending occurs",
+    "Manual transaction entry gets abandoned",
+    "Generic categorization misses personal patterns",
+    "Israeli bank integration is rare",
+    "Budget alerts come after overspending",
   ];
 
   const solutions = [
     "Automatic bank sync imports transactions in real-time",
-    "Claude AI learns your unique spending patterns for smart categorization",
-    "Native support for Israeli banks and local payment methods",
-    "Proactive budget alerts before you exceed limits",
-    "AI financial advisor provides personalized guidance based on your actual data",
+    "Claude AI learns your unique spending patterns",
+    "Native support for Israeli banks and local payments",
+    "Proactive alerts before you exceed limits",
+    "AI advisor provides personalized guidance",
   ];
 
   if (!mounted) {
@@ -103,7 +136,7 @@ const WealthPage: React.FC = () => {
                 rel="noopener noreferrer"
                 className="gentle-button text-sm px-4 py-2 flex items-center space-x-2"
               >
-                <ExternalLink className="w-4 h-4" />
+                <ExternalLink className="w-4 h-4" aria-hidden="true" />
                 <span>Visit Live Site</span>
               </a>
             </div>
@@ -111,63 +144,66 @@ const WealthPage: React.FC = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="section-breathing pt-32">
-        <div className="container-content text-center">
-          <div className="animate-fade-in">
-            {/* Status Badge */}
-            <div className="breathing-glass inline-block px-6 py-3 mb-8">
-              <span className="text-emerald-300 font-medium">Live</span>
-            </div>
+      {/* Hero Section - Full viewport with gradient */}
+      <section className="min-h-screen flex items-center justify-center hero-gradient-bg pt-20">
+        <div className="container-content text-center relative z-10">
+          {/* Back link */}
+          <Link
+            href="/#portfolio"
+            className="text-slate-400 hover:text-white text-sm mb-8 inline-block transition-colors"
+          >
+            &larr; Back to Work
+          </Link>
 
-            {/* Large Icon */}
-            <div className="text-6xl md:text-8xl mb-8 animate-float">
-              {"\u{1F4B0}"}
-            </div>
+          {/* Large emoji with float animation */}
+          <div className="text-6xl md:text-8xl mb-6 animate-float">
+            {"\u{1F4B0}"}
+          </div>
 
-            {/* Title */}
-            <h1 className="display-lg spacing-comfortable text-gentle">
-              Wealth
-            </h1>
+          {/* Bold title */}
+          <h1 className="display-xl text-white mb-4">
+            Personal Finance, Simplified
+          </h1>
 
-            {/* Subtitle */}
-            <p className="body-xl text-slate-400 spacing-comfortable">
-              Personal Finance SaaS
-            </p>
+          {/* One powerful line */}
+          <p className="body-xl text-slate-300 max-w-xl mx-auto">
+            Clarity from financial chaos.
+          </p>
 
-            {/* Description */}
-            <p className="body-lg text-slate-300 max-w-2xl mx-auto spacing-generous leading-relaxed">
-              Complete financial tracking system with AI-powered categorization,
-              Israeli bank connections, budgeting, and goal tracking. Helps
-              users understand their spending patterns and make informed
-              financial decisions with an intelligent advisor.
-            </p>
+          {/* CTA Button */}
+          <div className="mt-8">
+            <a
+              href={liveLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="gentle-button inline-flex items-center space-x-3 text-lg px-8 py-4"
+            >
+              <ExternalLink className="w-5 h-5" aria-hidden="true" />
+              <span>Visit Live Site</span>
+            </a>
+          </div>
 
-            {/* CTA Button */}
-            <div className="spacing-comfortable">
-              <a
-                href={liveLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="gentle-button inline-flex items-center space-x-3 text-lg px-8 py-4"
-              >
-                <ExternalLink className="w-6 h-6" />
-                <span>Visit Live Site</span>
-              </a>
-            </div>
+          {/* Scroll indicator */}
+          <div className="mt-16 animate-bounce">
+            <ChevronDown className="w-6 h-6 text-slate-500 mx-auto" />
           </div>
         </div>
       </section>
 
       {/* The Challenge Section */}
-      <section className="section-breathing">
+      <section
+        ref={challengeReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          challengeReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-content">
-          <h2 className="heading-xl text-center spacing-generous">
-            The Challenge
-          </h2>
+          <h2 className="heading-xl text-center mb-12">The Challenge</h2>
           <div className="contemplative-card p-6 md:p-8">
             <p className="body-lg text-slate-300 mb-6">
-              Personal finance tools often fail Israeli users in key ways:
+              Personal finance tools fail Israeli users:
             </p>
             <ul className="space-y-4">
               {challenges.map((challenge, index) => (
@@ -182,14 +218,19 @@ const WealthPage: React.FC = () => {
       </section>
 
       {/* The Solution Section */}
-      <section className="section-breathing">
+      <section
+        ref={solutionReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          solutionReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-content">
-          <h2 className="heading-xl text-center spacing-generous">
-            The Solution
-          </h2>
+          <h2 className="heading-xl text-center mb-12">The Solution</h2>
           <div className="contemplative-card p-6 md:p-8">
             <p className="body-lg text-slate-300 mb-6">
-              Wealth brings intelligent, localized financial management:
+              Intelligent, localized financial management:
             </p>
             <ul className="space-y-4">
               {solutions.map((solution, index) => (
@@ -204,26 +245,33 @@ const WealthPage: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section className="section-breathing">
+      <section
+        ref={featuresReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          featuresReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-content">
-          <h2 className="heading-xl text-center spacing-generous">
-            Key Features
-          </h2>
+          <h2 className="heading-xl text-center mb-12">Key Features</h2>
 
           <div className="grid md:grid-cols-2 gap-8">
             {features.map((feature, index) => (
               <div
                 key={feature.title}
-                className="animate-fade-in"
-                style={{ animationDelay: `${index * 200}ms` }}
+                style={{ transitionDelay: `${index * 100}ms` }}
+                className={`contemplative-card p-6 md:p-8 transition-all duration-500 ${
+                  featuresReveal.isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
               >
-                <div className="contemplative-card p-6 md:p-8">
-                  <div className="text-3xl md:text-4xl mb-6">{feature.icon}</div>
-                  <h3 className="heading-lg mb-4">{feature.title}</h3>
-                  <p className="text-slate-300 leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
+                <div className="text-3xl md:text-4xl mb-6">{feature.icon}</div>
+                <h3 className="heading-lg mb-4">{feature.title}</h3>
+                <p className="text-slate-300 leading-relaxed">
+                  {feature.description}
+                </p>
               </div>
             ))}
           </div>
@@ -231,14 +279,26 @@ const WealthPage: React.FC = () => {
       </section>
 
       {/* Tech Stack Section */}
-      <section className="section-breathing">
+      <section
+        ref={techReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          techReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-content text-center">
-          <h2 className="heading-xl spacing-comfortable">Tech Stack</h2>
+          <h2 className="heading-xl mb-8">Tech Stack</h2>
           <div className="flex flex-wrap justify-center gap-3">
-            {techStack.map((tech) => (
+            {techStack.map((tech, index) => (
               <span
                 key={tech}
-                className="px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-lg text-slate-300"
+                style={{ transitionDelay: `${index * 100}ms` }}
+                className={`px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-lg text-slate-300 transition-all duration-500 ${
+                  techReveal.isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
               >
                 {tech}
               </span>
@@ -247,15 +307,30 @@ const WealthPage: React.FC = () => {
         </div>
       </section>
 
+      {/* View Next Project */}
+      <div className="text-center mb-16">
+        <Link
+          href="/projects/ai-research-pipeline"
+          className="text-slate-400 hover:text-white transition-colors"
+        >
+          Next: AI Research Pipeline &rarr;
+        </Link>
+      </div>
+
       {/* CTA Section */}
-      <section className="section-breathing">
+      <section
+        ref={ctaReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          ctaReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-narrow text-center">
           <div className="contemplative-card p-8 md:p-12">
-            <h2 className="heading-xl spacing-comfortable">
-              Ready to Take Control?
-            </h2>
-            <p className="body-lg text-slate-300 spacing-comfortable">
-              Start understanding your finances with AI-powered insights.
+            <h2 className="heading-xl mb-6">Ready to Take Control?</h2>
+            <p className="body-lg text-slate-300 mb-8">
+              AI-powered insights for your finances.
             </p>
             <a
               href={liveLink}
@@ -263,7 +338,7 @@ const WealthPage: React.FC = () => {
               rel="noopener noreferrer"
               className="gentle-button inline-flex items-center space-x-3"
             >
-              <ExternalLink className="w-5 h-5" />
+              <ExternalLink className="w-5 h-5" aria-hidden="true" />
               <span>Visit Live Site</span>
             </a>
           </div>

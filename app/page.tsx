@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Mail, Github, Star } from "lucide-react";
+import { Mail, Github } from "lucide-react";
 import { Navigation } from "@/app/components/Navigation";
 import { Footer } from "@/app/components/Footer";
 import { PortfolioCard } from "@/app/components/PortfolioCard";
@@ -38,6 +38,7 @@ export default function HomePage() {
   const step1 = useScrollReveal();
   const step2 = useScrollReveal();
   const step3 = useScrollReveal();
+  const ctaReveal = useScrollReveal();
 
   return (
     <main id="main-content" className="bg-[#0a0f1a] min-h-screen">
@@ -46,20 +47,26 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="section-breathing pt-32 hero-gradient-bg">
         <div className="container-content text-center">
-          {/* Headline */}
+          {/* Headline with staggered word reveal */}
           <h1 className="display-xl text-white mb-6">
-            <span className="text-gentle">Intention.</span>{" "}
-            <span className="text-gentle">Clarity.</span>{" "}
-            <span className="text-gentle">Results.</span>
+            <span className="hero-word" style={{ animationDelay: '0.1s' }}>
+              <span className="text-gentle">Intention.</span>
+            </span>{" "}
+            <span className="hero-word" style={{ animationDelay: '0.3s' }}>
+              <span className="text-gentle">Clarity.</span>
+            </span>{" "}
+            <span className="hero-word" style={{ animationDelay: '0.5s' }}>
+              <span className="text-gentle">Results.</span>
+            </span>
           </h1>
 
-          {/* Subheadline */}
-          <p className="body-xl text-slate-300 max-w-2xl mx-auto mb-10">
+          {/* Subheadline - fades in after hero words */}
+          <p className="body-xl text-slate-300 max-w-2xl mx-auto mb-10 hero-subline" style={{ animationDelay: '0.8s' }}>
             Research systems. Business tools. AI pipelines.
           </p>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          {/* CTAs - fade in after subline */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 hero-ctas" style={{ animationDelay: '1.0s' }}>
             <a
               href="#portfolio"
               className="inline-flex items-center justify-center px-6 py-3 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium transition-all duration-300 hover:bg-purple-500/20 hover:border-purple-400/50"
@@ -84,8 +91,8 @@ export default function HomePage() {
             description="Real systems, deployed and running. Each project showcases end-to-end development: architecture, implementation, and deployment."
           />
           <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-            {portfolioProjects.map((project) => (
-              <PortfolioCard key={project.id} project={project} />
+            {portfolioProjects.map((project, index) => (
+              <PortfolioCard key={project.id} project={project} index={index} />
             ))}
           </div>
         </div>
@@ -143,32 +150,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonial Section */}
-      <section id="testimonials" className="section-breathing">
-        <div className="container-narrow">
-          <div className="text-center py-8">
-            {/* Stars */}
-            <div className="flex justify-center gap-1 mb-4">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
-              ))}
-            </div>
-
-            {/* Quote */}
-            <blockquote className="body-lg text-slate-400 italic mb-4">
-              "Ahiya is an excellent statistician. He delivered precise results quickly and clearly."
-            </blockquote>
-
-            {/* Attribution */}
-            <p className="text-slate-500 text-sm">
-              — Michal Schriber, Head of Department, Herzog College
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="section-breathing">
+      {/* Contact/CTA Section with scroll reveal */}
+      <section
+        id="contact"
+        ref={ctaReveal.ref}
+        className={`section-breathing transition-all duration-700 ${
+          ctaReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}
+      >
         <div className="container-narrow">
           <div className="contemplative-card p-8 md:p-12 text-center">
             <h2 className="heading-xl text-white mb-4">Let's Build</h2>
@@ -179,7 +168,7 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
                 href="mailto:ahiya.butman@gmail.com"
-                className="inline-flex items-center justify-center px-6 py-3 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium transition-all duration-300 hover:bg-purple-500/20 hover:border-purple-400/50"
+                className="cta-magnetic inline-flex items-center justify-center px-6 py-3 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium"
               >
                 <Mail className="w-5 h-5 mr-2" aria-hidden="true" />
                 Get in Touch

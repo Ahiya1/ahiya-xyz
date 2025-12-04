@@ -1,8 +1,34 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Sparkles, Wallet, BarChart3, FlaskConical } from "lucide-react";
+
+// Custom hook for scroll-triggered fade-in
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isVisible };
+}
 
 // Project visual configs - refined color palette
 const projectVisuals: Record<string, {
@@ -58,14 +84,23 @@ export interface PortfolioProject {
 
 export interface PortfolioCardProps {
   project: PortfolioProject;
+  index?: number;
 }
 
-export function PortfolioCard({ project }: PortfolioCardProps) {
+export function PortfolioCard({ project, index = 0 }: PortfolioCardProps) {
   const visuals = projectVisuals[project.id] || defaultVisuals;
+  const { ref, isVisible } = useScrollReveal();
+  const delay = index * 100; // 100ms stagger between cards
 
   return (
     <Link href={project.detailUrl}>
-      <div className="group relative h-full">
+      <div
+        ref={ref}
+        style={{ transitionDelay: `${delay}ms` }}
+        className={`group relative h-full transition-all duration-600 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}
+      >
         {/* Glow effect on hover */}
         <div
           className="absolute -inset-0.5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"

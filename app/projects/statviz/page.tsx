@@ -1,12 +1,45 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ChevronDown } from "lucide-react";
+
+// Custom hook for scroll-triggered fade-in
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isVisible };
+}
 
 const StatVizPage: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
+
+  // Scroll reveal hooks for each section
+  const challengeReveal = useScrollReveal();
+  const solutionReveal = useScrollReveal();
+  const featuresReveal = useScrollReveal();
+  const techReveal = useScrollReveal();
+  const ctaReveal = useScrollReveal();
 
   useEffect(() => {
     setMounted(true);
@@ -17,45 +50,45 @@ const StatVizPage: React.FC = () => {
   const features = [
     {
       icon: "\u{1F527}",
-      title: "Admin Panel for Project Management",
+      title: "Admin Panel",
       description:
-        "Comprehensive administrative dashboard for managing projects, user access, and report distribution. Streamlined workflow for statistical consultants.",
+        "Comprehensive dashboard for managing projects, user access, and report distribution.",
     },
     {
       icon: "\u{1F512}",
-      title: "Password-Protected Student Access",
+      title: "Secure Access",
       description:
-        "Secure login system ensuring only authorized students can access their assigned reports. Individual credentials for each project participant.",
+        "Password-protected login ensuring only authorized students access their reports.",
     },
     {
       icon: "\u{1F4CA}",
-      title: "Interactive HTML Reports + DOCX",
+      title: "Interactive Reports",
       description:
-        "Dual format delivery with interactive HTML visualizations for exploration and downloadable DOCX documents for offline review and printing.",
+        "Dual format delivery: interactive HTML visualizations plus downloadable DOCX.",
     },
     {
       icon: "\u{1F5E8}",
-      title: "Hebrew RTL Support",
+      title: "Hebrew RTL",
       description:
-        "Full right-to-left layout support for Hebrew content, ensuring proper text rendering and natural reading experience for Israeli users.",
+        "Full right-to-left layout support for natural Hebrew reading experience.",
     },
   ];
 
   const techStack = ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "JWT"];
 
   const challenges = [
-    "Traditional report delivery via email is insecure and untracked",
-    "Students lose access to reports or forward them inappropriately",
-    "No central system for consultants to manage multiple projects",
-    "Hebrew RTL content breaks in standard document viewers",
+    "Email delivery is insecure and untracked",
+    "Students lose access or forward inappropriately",
+    "No central system for managing multiple projects",
+    "Hebrew RTL breaks in standard document viewers",
   ];
 
   const solutions = [
-    "Password-protected individual access ensures only authorized students view reports",
-    "Centralized admin panel for project and user management",
+    "Password-protected individual access",
+    "Centralized admin panel for project management",
     "Interactive HTML reports with embedded visualizations",
-    "Full Hebrew RTL support for natural reading experience",
-    "Dual format delivery (HTML + DOCX) for flexibility",
+    "Full Hebrew RTL support",
+    "Dual format delivery (HTML + DOCX)",
   ];
 
   if (!mounted) {
@@ -104,63 +137,66 @@ const StatVizPage: React.FC = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="section-breathing pt-32">
-        <div className="container-content text-center">
-          <div className="animate-fade-in">
-            {/* Status Badge */}
-            <div className="breathing-glass inline-block px-6 py-3 mb-8">
-              <span className="text-emerald-300 font-medium">Live</span>
-            </div>
+      {/* Hero Section - Full viewport with gradient */}
+      <section className="min-h-screen flex items-center justify-center hero-gradient-bg pt-20">
+        <div className="container-content text-center relative z-10">
+          {/* Back link */}
+          <Link
+            href="/#portfolio"
+            className="text-slate-400 hover:text-white text-sm mb-8 inline-block transition-colors"
+          >
+            &larr; Back to Work
+          </Link>
 
-            {/* Large Icon */}
-            <div className="text-6xl md:text-8xl mb-8 animate-float">
-              {"\u{1F4C8}"}
-            </div>
+          {/* Large emoji with float animation */}
+          <div className="text-6xl md:text-8xl mb-6 animate-float">
+            {"\u{1F4CA}"}
+          </div>
 
-            {/* Title */}
-            <h1 className="display-lg spacing-comfortable text-gentle">
-              StatViz
-            </h1>
+          {/* Bold title */}
+          <h1 className="display-xl text-white mb-4">
+            Statistical Analysis, Visualized
+          </h1>
 
-            {/* Subtitle */}
-            <p className="body-xl text-slate-400 spacing-comfortable">
-              Statistical Reports Platform
-            </p>
+          {/* One powerful line */}
+          <p className="body-xl text-slate-300 max-w-xl mx-auto">
+            Complex data made clear and beautiful.
+          </p>
 
-            {/* Description */}
-            <p className="body-lg text-slate-300 max-w-2xl mx-auto spacing-generous leading-relaxed">
-              Secure B2B platform for delivering interactive statistical reports
-              to academic students. Features password-protected access, admin
-              panel for project management, and full Hebrew RTL support for the
-              Israeli market.
-            </p>
+          {/* CTA Button */}
+          <div className="mt-8">
+            <a
+              href={liveLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="gentle-button inline-flex items-center space-x-3 text-lg px-8 py-4"
+            >
+              <ExternalLink className="w-5 h-5" aria-hidden="true" />
+              <span>Visit Live Site</span>
+            </a>
+          </div>
 
-            {/* CTA Button */}
-            <div className="spacing-comfortable">
-              <a
-                href={liveLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="gentle-button inline-flex items-center space-x-3 text-lg px-8 py-4"
-              >
-                <ExternalLink className="w-6 h-6" aria-hidden="true" />
-                <span>Visit Live Site</span>
-              </a>
-            </div>
+          {/* Scroll indicator */}
+          <div className="mt-16 animate-bounce">
+            <ChevronDown className="w-6 h-6 text-slate-500 mx-auto" />
           </div>
         </div>
       </section>
 
       {/* The Challenge Section */}
-      <section className="section-breathing">
+      <section
+        ref={challengeReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          challengeReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-content">
-          <h2 className="heading-xl text-center spacing-generous">
-            The Challenge
-          </h2>
+          <h2 className="heading-xl text-center mb-12">The Challenge</h2>
           <div className="contemplative-card p-6 md:p-8">
             <p className="body-lg text-slate-300 mb-6">
-              Delivering statistical reports to academic students presents unique challenges:
+              Statistical report delivery breaks down:
             </p>
             <ul className="space-y-4">
               {challenges.map((challenge, index) => (
@@ -175,14 +211,19 @@ const StatVizPage: React.FC = () => {
       </section>
 
       {/* The Solution Section */}
-      <section className="section-breathing">
+      <section
+        ref={solutionReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          solutionReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-content">
-          <h2 className="heading-xl text-center spacing-generous">
-            The Solution
-          </h2>
+          <h2 className="heading-xl text-center mb-12">The Solution</h2>
           <div className="contemplative-card p-6 md:p-8">
             <p className="body-lg text-slate-300 mb-6">
-              StatViz provides a secure, centralized platform for report delivery:
+              A secure, centralized platform:
             </p>
             <ul className="space-y-4">
               {solutions.map((solution, index) => (
@@ -197,26 +238,33 @@ const StatVizPage: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section className="section-breathing">
+      <section
+        ref={featuresReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          featuresReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-content">
-          <h2 className="heading-xl text-center spacing-generous">
-            Key Features
-          </h2>
+          <h2 className="heading-xl text-center mb-12">Key Features</h2>
 
           <div className="grid md:grid-cols-2 gap-8">
             {features.map((feature, index) => (
               <div
                 key={feature.title}
-                className="animate-fade-in"
-                style={{ animationDelay: `${index * 200}ms` }}
+                style={{ transitionDelay: `${index * 100}ms` }}
+                className={`contemplative-card p-6 md:p-8 transition-all duration-500 ${
+                  featuresReveal.isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
               >
-                <div className="contemplative-card p-6 md:p-8">
-                  <div className="text-3xl md:text-4xl mb-6">{feature.icon}</div>
-                  <h3 className="heading-lg mb-4">{feature.title}</h3>
-                  <p className="text-slate-300 leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
+                <div className="text-3xl md:text-4xl mb-6">{feature.icon}</div>
+                <h3 className="heading-lg mb-4">{feature.title}</h3>
+                <p className="text-slate-300 leading-relaxed">
+                  {feature.description}
+                </p>
               </div>
             ))}
           </div>
@@ -224,14 +272,26 @@ const StatVizPage: React.FC = () => {
       </section>
 
       {/* Tech Stack Section */}
-      <section className="section-breathing">
+      <section
+        ref={techReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          techReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-content text-center">
-          <h2 className="heading-xl spacing-comfortable">Tech Stack</h2>
+          <h2 className="heading-xl mb-8">Tech Stack</h2>
           <div className="flex flex-wrap justify-center gap-3">
-            {techStack.map((tech) => (
+            {techStack.map((tech, index) => (
               <span
                 key={tech}
-                className="px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-lg text-slate-300"
+                style={{ transitionDelay: `${index * 100}ms` }}
+                className={`px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-lg text-slate-300 transition-all duration-500 ${
+                  techReveal.isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
               >
                 {tech}
               </span>
@@ -240,14 +300,30 @@ const StatVizPage: React.FC = () => {
         </div>
       </section>
 
+      {/* View Next Project */}
+      <div className="text-center mb-16">
+        <Link
+          href="/projects/mirror-of-dreams"
+          className="text-slate-400 hover:text-white transition-colors"
+        >
+          Next: Mirror of Dreams &rarr;
+        </Link>
+      </div>
+
       {/* CTA Section */}
-      <section className="section-breathing">
+      <section
+        ref={ctaReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          ctaReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-narrow text-center">
           <div className="contemplative-card p-8 md:p-12">
-            <h2 className="heading-xl spacing-comfortable">Ready to Explore?</h2>
-            <p className="body-lg text-slate-300 spacing-comfortable">
-              See how StatViz delivers statistical reports with elegance and
-              security.
+            <h2 className="heading-xl mb-6">Ready to Explore?</h2>
+            <p className="body-lg text-slate-300 mb-8">
+              Statistical reports delivered with elegance and security.
             </p>
             <a
               href={liveLink}

@@ -228,6 +228,77 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   MICRO-INTERACTIONS - Selection and link animations
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+::selection {
+  background: rgba(168, 85, 247, 0.3);
+  color: white;
+}
+
+.link-animate {
+  position: relative;
+}
+
+.link-animate::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s ease;
+}
+
+.link-animate:hover::after {
+  width: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HERO ANIMATIONS - Staggered word reveal
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.hero-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: word-reveal 0.6s ease forwards;
+}
+
+.hero-subline {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: word-reveal 0.6s ease forwards;
+}
+
+.hero-ctas {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: word-reveal 0.6s ease forwards;
+}
+
+@keyframes word-reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CTA MAGNETIC BUTTON - Enhanced hover effect
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.cta-magnetic {
+  transition: all 0.3s ease;
+}
+
+.cta-magnetic:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 40px rgba(168, 85, 247, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
    ANIMATIONS - Gentle and natural
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -395,5 +466,14 @@ body::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .hero-word,
+  .hero-subline,
+  .hero-ctas,
+  .reveal-item {
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
 }

@@ -1,0 +1,48 @@
+plan_id: plan-5
+name: "Irresistible Presence"
+created_at: "2025-12-04T11:45:00Z"
+status: PLANNED
+complexity: MEDIUM
+total_iterations: 1
+
+iterations:
+  - iteration_id: 7
+    local_id: 1
+    vision: "Make site magnetic - staggered animations, remove testimonial, alive project pages"
+    status: PENDING
+    builders:
+      - builder_id: 1
+        scope: "Homepage enhancements + animations"
+        files:
+          - app/page.tsx
+          - app/globals.css
+          - app/components/PortfolioCard.tsx
+          - app/components/Footer.tsx
+      - builder_id: 2
+        scope: "Project pages transformation"
+        files:
+          - app/projects/ai-research-pipeline/page.tsx
+          - app/projects/statviz/page.tsx
+          - app/projects/mirror-of-dreams/page.tsx
+          - app/projects/wealth/page.tsx
+
+exploration_summary:
+  homepage:
+    existing_animations: ["gentle-drift", "soft-float", "fade-in-up", "gradient-shift"]
+    existing_patterns: ["useScrollReveal hook", "IntersectionObserver"]
+    new_needed: ["hero word stagger", "portfolio card stagger", "CTA reveal", "micro-interactions"]
+    remove: ["testimonial section"]
+
+  project_pages:
+    structure: "Consistent across all 4 pages"
+    current_animations: "Mount-only, no scroll triggers"
+    needed: ["scroll reveals", "full-viewport hero", "gradient background", "section staggering"]
+
+  risk_level: LOW
+  estimated_complexity: MEDIUM
+
+notes:
+  - Two builders can run in parallel (independent file sets)
+  - CSS foundation already exists
+  - All animations use GPU-accelerated properties
+  - Reduced motion support built-in

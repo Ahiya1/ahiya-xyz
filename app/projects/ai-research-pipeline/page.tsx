@@ -1,8 +1,35 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronDown } from "lucide-react";
+
+// Custom hook for scroll-triggered fade-in
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isVisible };
+}
 
 interface SampleNarrative {
   id: string;
@@ -23,6 +50,15 @@ interface SampleNarrative {
 const AIResearchPipelinePage: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [activeNarrative, setActiveNarrative] = useState(0);
+
+  // Scroll reveal hooks for each section
+  const challengeReveal = useScrollReveal();
+  const solutionReveal = useScrollReveal();
+  const samplesReveal = useScrollReveal();
+  const capabilitiesReveal = useScrollReveal();
+  const useCasesReveal = useScrollReveal();
+  const techReveal = useScrollReveal();
+  const ctaReveal = useScrollReveal();
 
   useEffect(() => {
     setMounted(true);
@@ -166,10 +202,22 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
   ];
 
   const capabilities = [
-    "Factorial design variables (any combination)",
-    "Output formats (structured data, narratives)",
-    "Integration options (n8n workflows, API)",
-    "Quality controls and validation",
+    {
+      title: "Factorial Design Variables",
+      description: "Any combination of demographics",
+    },
+    {
+      title: "Output Formats",
+      description: "Structured data or narratives",
+    },
+    {
+      title: "Integration Options",
+      description: "n8n workflows, API",
+    },
+    {
+      title: "Quality Controls",
+      description: "Built-in validation",
+    },
   ];
 
   const useCases = [
@@ -206,7 +254,7 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
 
   return (
     <div className="min-h-screen bg-[#0a0f1a] text-white relative overflow-hidden">
-      {/* Navigation - NO external link */}
+      {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0f1a]/80 backdrop-blur-sm">
         <div className="container-wide">
           <div className="flex items-center justify-between h-16">
@@ -239,44 +287,53 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
         </div>
       </nav>
 
-      {/* Hero Section - Different badge */}
-      <section className="section-breathing pt-32">
-        <div className="container-content text-center">
-          <div className="animate-fade-in">
-            {/* Custom Solution Badge */}
-            <div className="breathing-glass inline-block px-6 py-3 mb-8">
-              <span className="text-amber-300 font-medium">Custom Solution</span>
-            </div>
+      {/* Hero Section - Full viewport with gradient */}
+      <section className="min-h-screen flex items-center justify-center hero-gradient-bg pt-20">
+        <div className="container-content text-center relative z-10">
+          {/* Back link */}
+          <Link
+            href="/#portfolio"
+            className="text-slate-400 hover:text-white text-sm mb-8 inline-block transition-colors"
+          >
+            &larr; Back to Work
+          </Link>
 
-            <div className="text-6xl md:text-8xl mb-8 animate-float">
-              {"\u{1F9E0}"}
-            </div>
+          {/* Large emoji with float animation */}
+          <div className="text-6xl md:text-8xl mb-6 animate-float">
+            {"\u{1F52C}"}
+          </div>
 
-            <h1 className="display-lg spacing-comfortable text-gentle">
-              AI Research Pipeline
-            </h1>
+          {/* Bold title */}
+          <h1 className="display-xl text-white mb-4">
+            AI-Powered Academic Research
+          </h1>
 
-            <p className="body-xl text-slate-400 spacing-comfortable">
-              Factorial Design Research Tool
-            </p>
+          {/* One powerful line */}
+          <p className="body-xl text-slate-300 max-w-xl mx-auto">
+            From raw sources to publication-ready insights. Automatically.
+          </p>
 
-            <p className="body-lg text-purple-300 max-w-2xl mx-auto spacing-generous leading-relaxed italic">
-              &ldquo;Culturally nuanced, emotionally authentic research responses at
-              scale&rdquo;
-            </p>
+          {/* Scroll indicator */}
+          <div className="mt-16 animate-bounce">
+            <ChevronDown className="w-6 h-6 text-slate-500 mx-auto" />
           </div>
         </div>
       </section>
 
       {/* The Challenge Section */}
-      <section className="section-breathing">
+      <section
+        ref={challengeReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          challengeReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-content">
-          <h2 className="heading-xl text-center spacing-generous">
-            The Challenge
-          </h2>
+          <h2 className="heading-xl text-center mb-12">The Challenge</h2>
           <div className="contemplative-card p-6 md:p-8">
             <p className="body-lg text-slate-300 mb-6">
-              Traditional survey research faces significant challenges:
+              Traditional survey research hits walls:
             </p>
             <ul className="space-y-4">
               {challenges.map((challenge, index) => (
@@ -291,14 +348,19 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       </section>
 
       {/* The Solution Section */}
-      <section className="section-breathing">
+      <section
+        ref={solutionReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          solutionReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-content">
-          <h2 className="heading-xl text-center spacing-generous">
-            The Solution
-          </h2>
+          <h2 className="heading-xl text-center mb-12">The Solution</h2>
           <div className="contemplative-card p-6 md:p-8">
             <p className="body-lg text-slate-300 mb-6">
-              AI-powered response generation that understands cultural context:
+              AI-powered generation with cultural intelligence:
             </p>
             <ul className="space-y-4">
               {solutions.map((solution, index) => (
@@ -312,14 +374,19 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
         </div>
       </section>
 
-      {/* Sample Outputs Section - CRITICAL */}
-      <section className="section-breathing">
+      {/* Sample Outputs Section */}
+      <section
+        ref={samplesReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          samplesReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-wide">
-          <h2 className="heading-xl text-center spacing-comfortable">
-            Sample Outputs
-          </h2>
+          <h2 className="heading-xl text-center mb-4">Sample Outputs</h2>
           <p className="text-center text-slate-400 mb-8">
-            See the cultural nuance and emotional authenticity
+            Cultural nuance. Emotional authenticity.
           </p>
 
           {/* Tab Navigation */}
@@ -385,18 +452,31 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       </section>
 
       {/* Technical Capabilities Section */}
-      <section className="section-breathing">
+      <section
+        ref={capabilitiesReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          capabilitiesReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-content">
-          <h2 className="heading-xl text-center spacing-generous">
-            Technical Capabilities
-          </h2>
+          <h2 className="heading-xl text-center mb-12">Capabilities</h2>
           <div className="grid md:grid-cols-2 gap-6">
             {capabilities.map((capability, index) => (
-              <div key={index} className="contemplative-card p-6">
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 rounded-full bg-purple-400/60 mt-2 flex-shrink-0" />
-                  <span className="text-slate-300">{capability}</span>
-                </div>
+              <div
+                key={index}
+                style={{ transitionDelay: `${index * 100}ms` }}
+                className={`contemplative-card p-6 transition-all duration-500 ${
+                  capabilitiesReveal.isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
+              >
+                <h3 className="heading-lg text-purple-300 mb-2">
+                  {capability.title}
+                </h3>
+                <p className="text-slate-400">{capability.description}</p>
               </div>
             ))}
           </div>
@@ -404,14 +484,26 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       </section>
 
       {/* Use Cases Section */}
-      <section className="section-breathing">
+      <section
+        ref={useCasesReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          useCasesReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-content">
-          <h2 className="heading-xl text-center spacing-generous">Use Cases</h2>
+          <h2 className="heading-xl text-center mb-12">Use Cases</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {useCases.map((useCase, index) => (
               <div
                 key={index}
-                className="breathing-glass p-4 text-center text-slate-300"
+                style={{ transitionDelay: `${index * 100}ms` }}
+                className={`breathing-glass p-4 text-center text-slate-300 transition-all duration-500 ${
+                  useCasesReveal.isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
               >
                 {useCase}
               </div>
@@ -421,14 +513,26 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
       </section>
 
       {/* Tech Stack Section */}
-      <section className="section-breathing">
+      <section
+        ref={techReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          techReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-content text-center">
-          <h2 className="heading-xl spacing-comfortable">Tech Stack</h2>
+          <h2 className="heading-xl mb-8">Tech Stack</h2>
           <div className="flex flex-wrap justify-center gap-3">
-            {techStack.map((tech) => (
+            {techStack.map((tech, index) => (
               <span
                 key={tech}
-                className="px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-lg text-slate-300"
+                style={{ transitionDelay: `${index * 100}ms` }}
+                className={`px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-lg text-slate-300 transition-all duration-500 ${
+                  techReveal.isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
               >
                 {tech}
               </span>
@@ -437,16 +541,30 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
         </div>
       </section>
 
+      {/* View Next Project */}
+      <div className="text-center mb-16">
+        <Link
+          href="/projects/statviz"
+          className="text-slate-400 hover:text-white transition-colors"
+        >
+          Next: StatViz &rarr;
+        </Link>
+      </div>
+
       {/* Contact CTA Section */}
-      <section className="section-breathing">
+      <section
+        ref={ctaReveal.ref}
+        className={`py-24 transition-all duration-700 ${
+          ctaReveal.isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <div className="container-narrow text-center">
           <div className="contemplative-card p-8 md:p-12">
-            <h2 className="heading-xl spacing-comfortable">
-              Interested in Custom Research Generation?
-            </h2>
-            <p className="body-lg text-slate-300 spacing-comfortable">
-              This tool is available for custom research projects. Contact me to
-              discuss your requirements.
+            <h2 className="heading-xl mb-6">Need Custom Research Generation?</h2>
+            <p className="body-lg text-slate-300 mb-8">
+              This tool is available for custom research projects.
             </p>
             <a
               href="mailto:ahiya.butman@gmail.com"
