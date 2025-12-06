@@ -6,15 +6,12 @@ import { Navigation } from "@/app/components/Navigation";
 import { Footer } from "@/app/components/Footer";
 import {
   Target,
-  Search,
   FileText,
   Hammer,
-  GitMerge,
   Shield,
   RefreshCw,
   Zap,
   Eye,
-  Grid3X3,
   ChevronDown,
   Mail,
   ArrowDown,
@@ -22,109 +19,73 @@ import {
 
 // 2L Components
 import { TerminalAnimation } from "@/app/components/2l/TerminalAnimation";
-import { AgentVisualization } from "@/app/components/2l/AgentVisualization";
 import { LiveDashboard } from "@/app/components/2l/LiveDashboard";
-import { CodeGenDemo } from "@/app/components/2l/CodeGenDemo";
-import { SlashCommands } from "@/app/components/2l/SlashCommands";
 
-// Phase data for the pipeline
-const phases = [
+// 4 Steps data
+const steps = [
   {
     name: "Vision",
     icon: Target,
-    description: "Requirements crystallized into clear objectives",
+    description: "You describe what you need",
   },
   {
-    name: "Exploration",
-    icon: Search,
-    description: "Parallel agents analyze architecture and patterns",
-  },
-  {
-    name: "Planning",
+    name: "Plan",
     icon: FileText,
-    description: "Concrete tasks with file-level specifications",
+    description: "AI architects the solution",
   },
   {
-    name: "Building",
+    name: "Build",
     icon: Hammer,
-    description: "Multiple builders execute in parallel",
+    description: "Parallel agents execute",
   },
   {
-    name: "Integration",
-    icon: GitMerge,
-    description: "Outputs merged into cohesive codebase",
-  },
-  {
-    name: "Validation",
+    name: "Ship",
     icon: Shield,
-    description: "Automated testing against acceptance criteria",
-  },
-  {
-    name: "Healing",
-    icon: RefreshCw,
-    description: "Self-correcting loop for validation failures",
+    description: "Validated, tested, deployed",
   },
 ];
 
-// Agent types data
-const agents = [
+// The Promise - What You Get
+const promise = [
   {
-    name: "Explorers",
-    description: "Deep codebase analysis before any code is written",
-    icon: Search,
+    title: "Speed",
+    primary: "Days, not months",
+    secondary: "Parallel execution",
+    color: "#a78bfa",
   },
   {
-    name: "Planners",
-    description: "Concrete implementation plans with file specifications",
-    icon: FileText,
+    title: "Quality",
+    primary: "Self-healing validation",
+    secondary: "Automated testing",
+    color: "#22c55e",
   },
   {
-    name: "Builders",
-    description: "Parallel feature development with conflict awareness",
-    icon: Hammer,
-  },
-  {
-    name: "Integrators",
-    description: "Systematic merge of parallel work streams",
-    icon: GitMerge,
-  },
-  {
-    name: "Validators",
-    description: "Automated acceptance testing and quality gates",
-    icon: Shield,
-  },
-  {
-    name: "Healers",
-    description: "Self-correcting fixes when issues arise",
-    icon: RefreshCw,
+    title: "Visibility",
+    primary: "Real-time progress",
+    secondary: "Full audit trail",
+    color: "#60a5fa",
   },
 ];
 
-// Benefits data
-const benefits = [
+// What Makes 2L Different
+const differentiators = [
   {
-    title: "Weeks, Not Months",
+    title: "Self-Healing",
     description:
-      "Parallel agent execution compresses timelines. Multiple features built simultaneously. What takes weeks with traditional approaches ships in days.",
+      "Validation fails? System fixes itself. Up to 3 healing rounds with zero manual intervention.",
+    icon: RefreshCw,
+  },
+  {
+    title: "Parallel Execution",
+    description:
+      "Multiple features built simultaneously. What takes weeks with traditional approaches ships in days.",
     icon: Zap,
   },
   {
-    title: "Validation at Every Phase",
+    title: "Audit Trail",
     description:
-      "Quality gates between every phase transition. No code moves forward without passing automated checks. Self-healing handles edge cases automatically.",
-    icon: Shield,
-  },
-  {
-    title: "Full Audit Trail",
-    description:
-      "Every agent action logged. Every decision traceable. Real-time dashboard shows exactly what's happening. You never wonder where your project stands.",
+      "Every decision logged and traceable. You never wonder where your project stands.",
     icon: Eye,
-  },
-  {
-    title: "Patterns Enforced Across Builders",
-    description:
-      "All builders follow the same patterns document. No style drift. No architectural inconsistencies. Code that reads like one developer wrote it.",
-    icon: Grid3X3,
   },
 ];
 
@@ -155,17 +116,17 @@ const technicalItems = [
 export default function TwoLPage() {
   const [mounted, setMounted] = useState<boolean>(false);
   const [openItem, setOpenItem] = useState<string | null>(null);
-  const [activePhase, setActivePhase] = useState(0);
+  const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Pipeline phase cycling animation
+  // Steps cycling animation
   useEffect(() => {
     if (!mounted) return;
     const interval = setInterval(() => {
-      setActivePhase((prev) => (prev + 1) % phases.length);
+      setActiveStep((prev) => (prev + 1) % steps.length);
     }, 2000);
     return () => clearInterval(interval);
   }, [mounted]);
@@ -183,18 +144,18 @@ export default function TwoLPage() {
     <main id="main-content" className="bg-[#0a0f1a] min-h-screen">
       <Navigation />
 
-      {/* Hero Section */}
+      {/* Section 1: Hero */}
       <section className="section-breathing pt-32 hero-gradient-bg">
         <div className="container-content text-center">
           <h1 className="display-xl text-white mb-6">
             <span className="hero-word" style={{ animationDelay: "0.1s" }}>
-              <span className="text-gentle">AI-Orchestrated</span>
+              <span className="text-gentle">Ship Complete Systems</span>
             </span>{" "}
             <span className="hero-word" style={{ animationDelay: "0.3s" }}>
-              <span className="text-white">Development</span>
+              <span className="text-white">in Days,</span>
             </span>{" "}
             <span className="hero-word" style={{ animationDelay: "0.5s" }}>
-              <span className="text-white">at Enterprise Scale</span>
+              <span className="text-white">Not Months</span>
             </span>
           </h1>
 
@@ -202,9 +163,8 @@ export default function TwoLPage() {
             className="body-xl text-slate-300 max-w-3xl mx-auto mb-10 hero-subline"
             style={{ animationDelay: "0.8s" }}
           >
-            From vision to validated system in days, not months. 2L is my
-            proprietary multi-agent framework that accelerates complex builds
-            without sacrificing quality.
+            2L coordinates AI agents to build, validate, and deploy your project
+            faster than traditional development.
           </p>
 
           <div
@@ -212,10 +172,10 @@ export default function TwoLPage() {
             style={{ animationDelay: "1.0s" }}
           >
             <a
-              href="#pipeline"
+              href="#watch-build"
               className="inline-flex items-center justify-center px-6 py-3 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium transition-all duration-300 hover:bg-purple-500/20 hover:border-purple-400/50"
             >
-              See How It Works
+              Watch It Build
               <ArrowDown className="w-4 h-4 ml-2" />
             </a>
             <a
@@ -228,201 +188,137 @@ export default function TwoLPage() {
         </div>
       </section>
 
-      {/* Terminal Animation Section */}
-      <section className="section-breathing section-reveal section-reveal-1">
+      {/* Section 2: Watch a Complete Build */}
+      <section
+        id="watch-build"
+        className="section-breathing section-reveal section-reveal-1"
+      >
         <div className="container-wide">
           <div className="text-center mb-12">
-            <h2 className="display-lg text-white mb-4">Watch 2L in Action</h2>
+            <h2 className="display-lg text-white mb-4">
+              Watch a Complete Build
+            </h2>
             <p className="body-lg text-slate-400 max-w-2xl mx-auto">
-              A real 2L session building this very page. Multiple agents working in parallel,
-              validating, and shipping.
+              A simulated 2L session building a customer portal. Multiple agents
+              working in parallel, validating, and shipping.
             </p>
           </div>
           <TerminalAnimation />
+          <div className="mt-12">
+            <LiveDashboard />
+          </div>
         </div>
       </section>
 
-      {/* Recursive Showcase - Built with 2L */}
+      {/* Section 3: The Promise - What You Get */}
       <section className="section-breathing section-reveal section-reveal-2">
         <div className="container-wide">
-          <div className="text-center mb-8">
-            <h2 className="display-lg text-white mb-4">
-              You're Looking at 2L's Work Right Now
-            </h2>
-            <p className="body-lg text-slate-400 max-w-2xl mx-auto">
-              This entire portfolio was built using 2L. Not a demo. Actual proof.
-            </p>
+          <div className="text-center mb-12">
+            <h2 className="display-lg text-white mb-4">What You Get</h2>
           </div>
-          <LiveDashboard />
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {promise.map((item) => (
+              <div
+                key={item.title}
+                className="contemplative-card p-8 text-center"
+              >
+                <h3
+                  className="text-2xl font-semibold mb-3"
+                  style={{ color: item.color }}
+                >
+                  {item.title}
+                </h3>
+                <p className="text-xl text-white font-medium mb-2">
+                  {item.primary}
+                </p>
+                <p className="text-slate-400">{item.secondary}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Pipeline Section */}
-      <section id="pipeline" className="section-breathing section-reveal section-reveal-3">
+      {/* Section 4: How It Works - Four Steps */}
+      <section
+        id="pipeline"
+        className="section-breathing section-reveal section-reveal-3"
+      >
         <div className="container-wide">
           <div className="text-center mb-12">
-            <h2 className="display-lg text-white mb-4">The 2L Pipeline</h2>
-            <p className="body-lg text-slate-400 max-w-2xl mx-auto">
-              2L coordinates specialized AI agents through a structured
-              pipeline. Each phase has clear inputs, outputs, and quality gates.
-              Nothing ships without validation.
-            </p>
+            <h2 className="display-lg text-white mb-4">Four Steps to Shipped</h2>
           </div>
 
-          {/* Pipeline Phases */}
+          {/* Steps Layout */}
           <div className="relative">
-            {/* Connection line with animated gradient flow */}
-            <div className="hidden lg:block absolute top-7 left-[7%] right-[7%] h-0.5 bg-purple-500/20">
+            {/* Connection line */}
+            <div className="hidden md:block absolute top-7 left-[12%] right-[12%] h-0.5 bg-purple-500/20">
               <div className="absolute inset-0 pipeline-line-animated" />
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6 lg:gap-4">
-              {phases.map((phase, index) => (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6">
+              {steps.map((step, index) => (
                 <div
-                  key={phase.name}
+                  key={step.name}
                   className="relative flex flex-col items-center text-center"
                 >
-                  {/* Circle with icon - active phase has pulse animation */}
+                  {/* Circle with icon */}
                   <div
-                    className={`w-14 h-14 rounded-full bg-purple-500/10 border border-purple-400/30 flex items-center justify-center mb-3 relative z-10 bg-[#0a0f1a] transition-all duration-300 ${
-                      activePhase === index ? 'pipeline-phase-active border-purple-400/60' : ''
+                    className={`w-14 h-14 rounded-full bg-purple-500/10 border border-purple-400/30 flex items-center justify-center mb-4 relative z-10 bg-[#0a0f1a] transition-all duration-300 ${
+                      activeStep === index
+                        ? "pipeline-phase-active border-purple-400/60"
+                        : ""
                     }`}
                   >
-                    <phase.icon className={`w-6 h-6 transition-colors duration-300 ${
-                      activePhase === index ? 'text-purple-200' : 'text-purple-300'
-                    }`} />
+                    <step.icon
+                      className={`w-6 h-6 transition-colors duration-300 ${
+                        activeStep === index ? "text-purple-200" : "text-purple-300"
+                      }`}
+                    />
                   </div>
-                  <h3 className={`text-sm font-medium mb-1 transition-colors duration-300 ${
-                    activePhase === index ? 'text-purple-200' : 'text-white'
-                  }`}>
-                    {phase.name}
+                  <h3
+                    className={`text-lg font-medium mb-2 transition-colors duration-300 ${
+                      activeStep === index ? "text-purple-200" : "text-white"
+                    }`}
+                  >
+                    {step.name}
                   </h3>
-                  <p className="text-xs text-slate-500 leading-relaxed">
-                    {phase.description}
-                  </p>
+                  <p className="text-sm text-slate-400">{step.description}</p>
                 </div>
               ))}
             </div>
           </div>
-
-          {/* Self-Healing Callout */}
-          <div className="mt-12 max-w-2xl mx-auto">
-            <div className="contemplative-card p-6 text-center">
-              <RefreshCw className="w-8 h-8 text-purple-400 mx-auto mb-4" />
-              <h3 className="heading-lg text-white mb-2">Self-Healing Loop</h3>
-              <p className="text-slate-400 text-sm">
-                When validation fails, the system doesn't stop. A healing agent
-                diagnoses issues, implements fixes, and re-validates. Up to 3
-                healing rounds per failure. No manual intervention required.
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* Agent Visualization */}
+      {/* Section 5: What Makes 2L Different */}
       <section className="section-breathing section-reveal section-reveal-4">
         <div className="container-wide">
-          <div className="text-center mb-8">
+          <div className="text-center mb-12">
             <h2 className="display-lg text-white mb-4">
-              Agents Working in Parallel
+              Not Just Code Generation
             </h2>
           </div>
-          <AgentVisualization />
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {differentiators.map((item) => (
+              <div
+                key={item.title}
+                className="contemplative-card card-lift-premium p-6"
+              >
+                <div className="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-400/30 flex items-center justify-center mb-4">
+                  <item.icon className="w-5 h-5 text-purple-300" />
+                </div>
+                <h3 className="heading-lg text-white mb-3">{item.title}</h3>
+                <p className="text-slate-400 text-sm">{item.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Agent Types Section */}
+      {/* Section 6: Under the Hood */}
       <section className="section-breathing section-reveal section-reveal-5">
-        <div className="container-wide">
-          <div className="text-center mb-12">
-            <h2 className="display-lg text-white mb-4">
-              Specialized Agents, Coordinated Results
-            </h2>
-            <p className="body-lg text-slate-400 max-w-2xl mx-auto">
-              Each agent type has a specific role in the pipeline. Working in
-              parallel, they deliver results faster than traditional
-              development.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {agents.map((agent, index) => (
-              <div key={agent.name} className="contemplative-card card-lift-premium p-6">
-                <div className={`w-12 h-12 rounded-full bg-purple-500/10 border border-purple-400/30 flex items-center justify-center mb-4 icon-float icon-float-delay-${index % 3}`}>
-                  <agent.icon className="w-5 h-5 text-purple-300" />
-                </div>
-                <h3 className="heading-lg text-white mb-2">{agent.name}</h3>
-                <p className="text-slate-400 text-sm">{agent.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits Section */}
-      <section className="section-breathing section-reveal section-reveal-6">
-        <div className="container-wide">
-          <div className="text-center mb-12">
-            <h2 className="display-lg text-white mb-4">
-              Why This Matters for Your Project
-            </h2>
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-6">
-            {benefits.map((benefit) => (
-              <div key={benefit.title} className="contemplative-card card-lift-premium p-6">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-400/30 flex items-center justify-center flex-shrink-0">
-                    <benefit.icon className="w-5 h-5 text-purple-300" />
-                  </div>
-                  <div>
-                    <h3 className="heading-lg text-white mb-2">
-                      {benefit.title}
-                    </h3>
-                    <p className="text-slate-400 text-sm">
-                      {benefit.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Slash Commands Showcase */}
-      <section className="section-breathing section-reveal section-reveal-7">
-        <div className="container-wide">
-          <div className="text-center mb-8">
-            <h2 className="display-lg text-white mb-4">
-              The Developer Interface
-            </h2>
-            <p className="body-lg text-slate-400 max-w-2xl mx-auto">
-              Simple commands, powerful orchestration.
-            </p>
-          </div>
-          <SlashCommands />
-        </div>
-      </section>
-
-      {/* Code Generation Demo */}
-      <section className="section-breathing section-reveal section-reveal-8">
-        <div className="container-wide">
-          <div className="text-center mb-8">
-            <h2 className="display-lg text-white mb-4">
-              AI Writing Code
-            </h2>
-            <p className="body-lg text-slate-400 max-w-2xl mx-auto">
-              Watch a builder agent write component code in real-time.
-            </p>
-          </div>
-          <CodeGenDemo />
-        </div>
-      </section>
-
-      {/* Technical Depth Section */}
-      <section className="section-breathing section-reveal section-reveal-9">
         <div className="container-content">
           <div className="text-center mb-12">
             <h2 className="display-lg text-white mb-4">Under the Hood</h2>
@@ -472,8 +368,8 @@ export default function TwoLPage() {
         </div>
       </section>
 
-      {/* Final CTA Section */}
-      <section className="section-breathing section-reveal section-reveal-10">
+      {/* Section 7: Final CTA */}
+      <section className="section-breathing section-reveal section-reveal-6">
         <div className="container-narrow">
           <div className="contemplative-card p-8 md:p-12 text-center">
             <h2 className="heading-xl text-white mb-4">

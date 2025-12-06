@@ -1,0 +1,142 @@
+# Master Plan: Plan-12 Production Polish & Undeniable 2L Page
+# Generated: 2025-12-06
+# Complexity: MEDIUM
+
+plan_id: plan-12
+created_at: 2025-12-06T14:30:00Z
+status: PLANNED
+total_iterations: 1
+
+strategy: |
+  Single iteration focused on restructuring the 2L page.
+  Fixes 1 and 2 (precision wording, navigation circle) are already complete.
+  Main work is 2L page restructure from 11 sections to 7 sections.
+
+  Key changes:
+  - Merge Terminal + Dashboard into unified demo
+  - Remove redundant sections (AgentViz, AgentTypes, SlashCommands, CodeGenDemo)
+  - Add new "What Makes 2L Different" section
+  - Replace meta-circular content with "customer-portal" hypothetical B2B project
+  - Simplify Pipeline from 7 phases to 4 steps
+
+iterations:
+  - iteration_id: 1
+    global_iteration: 13
+    name: "2L Page B2B Restructure"
+    vision: "Transform 2L page into undeniable B2B value proposition"
+    scope: |
+      P0 (Critical):
+      - Restructure app/2l/page.tsx from 11 to 7 sections
+      - Update TerminalAnimation with "customer-portal" content
+      - Merge LiveDashboard into unified demo experience
+      - Remove AgentVisualization, SlashCommands, CodeGenDemo imports
+
+      P1 (Important):
+      - New Hero: "Ship Complete Systems in Days, Not Months"
+      - New "The Promise" section (Speed/Quality/Visibility)
+      - New "How It Works" (4 steps: Vision/Plan/Build/Ship)
+      - New "What Makes 2L Different" section
+
+      P2 (Enhancement):
+      - Keep Under the Hood accordion unchanged
+      - Keep CTA with minor copy update
+      - Ensure no repetition of concepts
+    status: PENDING
+    dependencies: []
+
+# Builder assignments for iteration 13
+builders:
+  - builder_id: 1
+    name: "Terminal Demo Transformation"
+    files:
+      - /home/ahiya/Ahiya/2L/Prod/ahiya-xyz/app/components/2l/TerminalAnimation.tsx
+    task: |
+      Update terminal animation to show "customer-portal" B2B demo:
+
+      New sequence:
+      $ /2l-mvp customer-portal
+      [Vision] Customer portal with auth, dashboard, API
+      [Exploring] Analyzing requirements...
+      [Planning] 3 parallel builders assigned
+        → Builder-1: Authentication system
+        → Builder-2: Dashboard components
+        → Builder-3: REST API endpoints
+      [Building] Executing in parallel...
+      [Validating] Running 47 tests...
+      [Complete] All tests passing. Ready to deploy.
+
+      Remove all references to "plan-9", "ahiya-xyz", or meta-circular content.
+
+  - builder_id: 2
+    name: "2L Page Restructure"
+    files:
+      - /home/ahiya/Ahiya/2L/Prod/ahiya-xyz/app/2l/page.tsx
+    task: |
+      Major restructure of 2L page from 11 sections to 7:
+
+      REMOVE imports for: AgentVisualization, CodeGenDemo, SlashCommands
+      REMOVE data arrays: agents (6 cards), benefits (old structure)
+
+      NEW SECTION ORDER:
+      1. Hero - "Ship Complete Systems in Days, Not Months"
+         Subhead: "2L coordinates AI agents to build, validate, and deploy your project faster than traditional development."
+
+      2. Watch a Complete Build (unified demo)
+         - TerminalAnimation component
+         - Below: 4-column metrics (same as LiveDashboard but inline, showing customer-portal metrics)
+
+      3. The Promise - "What You Get"
+         - 3-column grid: Speed | Quality | Visibility
+         - Speed: "Days, not months" / "Parallel execution"
+         - Quality: "Self-healing validation" / "Automated testing"
+         - Visibility: "Real-time progress" / "Full audit trail"
+
+      4. How It Works - "Four Steps to Shipped"
+         - 4 horizontal steps (replace 7 phases):
+         1. Vision - "You describe what you need"
+         2. Plan - "AI architects the solution"
+         3. Build - "Parallel agents execute"
+         4. Ship - "Validated, tested, deployed"
+
+      5. What Makes 2L Different - "Not Just Code Generation"
+         - 3 cards:
+         1. Self-Healing: "Validation fails? System fixes itself."
+         2. Parallel Execution: "Multiple features built simultaneously"
+         3. Audit Trail: "Every decision logged and traceable"
+
+      6. Under the Hood - KEEP accordion as-is
+
+      7. CTA - KEEP, minor copy update
+
+  - builder_id: 3
+    name: "Cleanup & Verification"
+    files:
+      - /home/ahiya/Ahiya/2L/Prod/ahiya-xyz/app/components/2l/LiveDashboard.tsx
+    task: |
+      LiveDashboard component is still needed for the unified demo.
+      Update it to show "customer-portal" metrics instead of "ahiya-xyz" metrics:
+
+      New metrics:
+      - "3" - Parallel Builders (was Plans Completed)
+      - "47" - Tests Passing (was Iterations Shipped)
+      - "4" - Hours to Deploy (was Agents Spawned)
+      - "1" - Unified Codebase (was Validation Passes)
+
+      Update the header badge:
+      - Remove "This site was built with 2L"
+      - Change to: "Build in Progress: customer-portal"
+
+      Update footer:
+      - Remove "Real metrics from building this portfolio site"
+      - Change to: "Simulated build - actual 2L projects follow this flow"
+
+parallel_builders: [1, 3]
+sequential_builders: [2]  # Builder 2 depends on Builder 1 for terminal changes
+
+validation_criteria:
+  - TypeScript compilation passes
+  - ESLint passes
+  - Build succeeds
+  - 2L page has exactly 7 main sections
+  - No meta-circular "this page" references
+  - "customer-portal" appears in demo content

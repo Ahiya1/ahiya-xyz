@@ -354,10 +354,10 @@ const MirrorOfDreamsPage: React.FC = () => {
 
   // Next Project data
   const nextProject: NextProject = {
-    href: "/projects/statviz",
-    emoji: "\u{1F4CA}",
-    title: "StatViz",
-    subtitle: "Data Visualization Dashboard"
+    href: "/projects/selahreach",
+    emoji: "\u{1F4E7}",
+    title: "SelahReach",
+    subtitle: "AI-Powered Outreach Automation"
   };
 
   const features = [

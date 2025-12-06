@@ -529,10 +529,10 @@ const SelahReachPage: React.FC = () => {
 
   // Next Project data
   const nextProject: NextProject = {
-    href: "/projects/ai-research-pipeline",
-    emoji: "\u{1F52C}",
-    title: "AI Research Pipeline",
-    subtitle: "AI-Powered Academic Research"
+    href: "/projects/statviz",
+    emoji: "\u{1F4CA}",
+    title: "StatViz",
+    subtitle: "Statistical Analysis, Visualized"
   };
 
   const features = [

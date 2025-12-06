@@ -63,7 +63,7 @@ export default function HomePage() {
 
           {/* Subheadline - fades in after hero words */}
           <p className="body-xl text-slate-300 max-w-2xl mx-auto mb-10 hero-subline" style={{ animationDelay: '0.8s' }}>
-            Precision-engineered systems delivered in weeks, not months.
+            Precise systems delivered in weeks, not months.
           </p>
 
           {/* CTAs - fade in after subline */}

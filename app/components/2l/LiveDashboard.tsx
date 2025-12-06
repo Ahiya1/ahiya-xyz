@@ -32,32 +32,31 @@ function useCountUp(target: number, duration = 2000) {
   return { count, start, hasStarted };
 }
 
-// Dashboard metrics - real values from this project
+// Dashboard metrics - customer-portal build simulation
 const dashboardMetrics = [
   {
-    label: "Plans Completed",
-    value: 8,
+    label: "Parallel Builders",
+    value: 3,
     suffix: "",
     color: "#a78bfa", // purple
   },
   {
-    label: "Iterations Shipped",
-    value: 10,
+    label: "Tests Passing",
+    value: 47,
     suffix: "",
-    color: "#818cf8", // indigo
+    color: "#22c55e", // green
   },
   {
-    label: "Agents Spawned",
-    value: 206,
-    suffix: "+",
+    label: "Hours to Deploy",
+    value: 4,
+    suffix: "h",
     color: "#60a5fa", // blue
   },
   {
-    label: "Validation Passes",
-    value: 10,
-    suffix: "/10",
-    isRatio: true,
-    color: "#22c55e", // green
+    label: "Unified Codebase",
+    value: 1,
+    suffix: "",
+    color: "#818cf8", // indigo
   },
 ];
 
@@ -70,12 +69,12 @@ export function LiveDashboard({ className = "" }: LiveDashboardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Count-up hooks for each metric
-  const plansCount = useCountUp(8, 1500);
-  const iterationsCount = useCountUp(10, 1800);
-  const agentsCount = useCountUp(206, 2200);
-  const validationCount = useCountUp(10, 1600);
+  const buildersCount = useCountUp(3, 1500);
+  const testsCount = useCountUp(47, 1800);
+  const hoursCount = useCountUp(4, 2200);
+  const codebaseCount = useCountUp(1, 1600);
 
-  const counts = [plansCount, iterationsCount, agentsCount, validationCount];
+  const counts = [buildersCount, testsCount, hoursCount, codebaseCount];
 
   // Intersection Observer for scroll-triggered animation
   useEffect(() => {
@@ -109,7 +108,7 @@ export function LiveDashboard({ className = "" }: LiveDashboardProps) {
             <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-500" />
           </span>
           <span className="text-sm font-medium text-green-400">
-            This site was built with 2L
+            Build in Progress: customer-portal
           </span>
         </div>
       </div>
@@ -154,7 +153,7 @@ export function LiveDashboard({ className = "" }: LiveDashboardProps) {
       {/* Optional: Stats summary line */}
       <div className="mt-6 text-center">
         <p className="text-sm text-slate-500">
-          Real metrics from building this portfolio site
+          Simulated build - actual 2L projects follow this flow
         </p>
       </div>
     </div>

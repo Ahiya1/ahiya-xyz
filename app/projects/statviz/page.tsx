@@ -463,10 +463,10 @@ const StatVizPage: React.FC = () => {
 
   // Next Project
   const nextProject: NextProject = {
-    href: "/projects/mirror-of-dreams",
-    emoji: "\u{1F319}",
-    title: "Mirror of Dreams",
-    subtitle: "AI Companion for Life Aspirations"
+    href: "/projects/ai-research-pipeline",
+    emoji: "\u{1F52C}",
+    title: "AI Research Pipeline",
+    subtitle: "AI-Powered Academic Research"
   };
 
   const features = [

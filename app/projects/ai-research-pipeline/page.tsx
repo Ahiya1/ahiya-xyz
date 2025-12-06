@@ -652,10 +652,10 @@ In the end, I left at 17 because the physical and mental pressure became unbeara
 
   // Next Project
   const nextProject: NextProject = {
-    href: "/projects/statviz",
-    emoji: "\u{1F4CA}",
-    title: "StatViz",
-    subtitle: "Statistical Analysis, Visualized"
+    href: "/projects/mirror-of-dreams",
+    emoji: "\u{1F319}",
+    title: "Mirror of Dreams",
+    subtitle: "AI Companion for Life Aspirations"
   };
 
   const formatKey = (key: string): string => {
