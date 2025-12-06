@@ -1082,3 +1082,114 @@ html {
 }
 
 /* ========== END PLAN-11 Immersive Project World Animations ========== */
+
+/* ========== PLAN-13: Agent Cards Command Center ========== */
+
+/* Subtle breathing animation for agent cards */
+@keyframes agent-card-breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.015);
+  }
+}
+
+.agent-card-breathe {
+  animation: agent-card-breathe 4s ease-in-out infinite;
+}
+
+/* Expanded card state enhancement */
+.agent-card-expanded {
+  transform: scale(1.02);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .agent-card-breathe {
+    animation: none;
+  }
+
+  .agent-card-expanded {
+    transform: none;
+  }
+}
+
+/* ========== END PLAN-13 Agent Cards ========== */
+
+/* ========== BUILDER-2 PLAN-13: Pipeline Visualization ========== */
+
+/* Pipeline node base styling */
+.pipeline-node {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Pipeline node active state - pulse and enhanced glow */
+.pipeline-node-active {
+  animation: pipeline-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pipeline-pulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.08);
+    filter: brightness(1.2);
+  }
+}
+
+/* Pipeline connection line base */
+.pipeline-line {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated gradient flow for connection lines */
+.pipeline-line-animated {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(168, 85, 247, 0.6) 25%,
+    rgba(34, 211, 216, 0.6) 50%,
+    rgba(96, 165, 250, 0.6) 75%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: pipeline-flow 2s linear infinite;
+}
+
+@keyframes pipeline-flow {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Vertical line flow for mobile layout */
+@keyframes line-flow-vertical {
+  0% {
+    background-position: 0 -200%;
+  }
+  100% {
+    background-position: 0 200%;
+  }
+}
+
+/* Reduced motion support for pipeline animations */
+@media (prefers-reduced-motion: reduce) {
+  .pipeline-node-active {
+    animation: none;
+  }
+
+  .pipeline-line-animated {
+    animation: none;
+    background: rgba(168, 85, 247, 0.3);
+  }
+}
+
+/* ========== END BUILDER-2 PLAN-13 ========== */

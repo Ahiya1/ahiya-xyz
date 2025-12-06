@@ -1,0 +1,302 @@
+# Master Plan: Plan-13 2L Page Rigor Restored
+# Generated: 2025-12-06
+# Complexity: MEDIUM
+
+plan_id: plan-13
+created_at: 2025-12-06T15:15:00Z
+status: PLANNED
+total_iterations: 1
+
+strategy: |
+  Single iteration with 5 parallel builders to restore technical rigor to 2L page.
+
+  Key deliverables:
+  1. InvoiceFlowDemo - 3-phase demo with output reveal
+  2. PipelineVisualization - Full 7-phase animated pipeline
+  3. AgentCards - Beautiful "command center" agent grid
+  4. BuiltBy2LBadge - Subtle proof with real metrics
+  5. Page restructure - 8 sections in new order
+
+iterations:
+  - iteration_id: 1
+    global_iteration: 14
+    name: "Rigor Restored with Visual Wow"
+    vision: "Transform 2L page into technically impressive showcase"
+    scope: |
+      P0 (Critical):
+      - Create InvoiceFlowDemo.tsx with 3-phase terminal animation
+      - Create PipelineVisualization.tsx with 7 animated phases
+      - Create AgentCards.tsx with glowing card grid
+      - Restructure app/2l/page.tsx to 8 sections
+
+      P1 (Important):
+      - Create BuiltBy2LBadge.tsx with real metrics
+      - Add CSS animations for agent glows and pipeline flow
+      - InvoiceFlow output reveal (beautiful landing page preview)
+
+      P2 (Enhancement):
+      - Connection lines between agents on hover
+      - Self-healing loop visualization
+      - Mobile-responsive card stacking
+    status: PENDING
+    dependencies: []
+
+builders:
+  - builder_id: 1
+    name: "InvoiceFlow Demo"
+    files:
+      - /home/ahiya/Ahiya/2L/Prod/ahiya-xyz/app/components/2l/InvoiceFlowDemo.tsx
+    task: |
+      Create the InvoiceFlowDemo component showing a complete product build.
+
+      Three phases with terminal animation:
+
+      PHASE 1 - Vision:
+      ```
+      $ /2l-vision
+
+      [Vision] InvoiceFlow - Modern invoicing for freelancers
+        • Hero section with value prop
+        • Features grid (3 benefits)
+        • Pricing table (3 tiers)
+        • Testimonials section
+        • Call-to-action footer
+
+      Vision created: .2L/plan-1/vision.md
+      ```
+
+      PHASE 2 - Planning:
+      ```
+      $ /2l-plan
+
+      [Exploring] 3 master explorers analyzing...
+        → Explorer-1: Component architecture
+        → Explorer-2: Design system
+        → Explorer-3: Content structure
+
+      [Planning] Master plan created
+        → 5 parallel builders assigned
+        → 47 components identified
+      ```
+
+      PHASE 3 - Building:
+      ```
+      $ /2l-mvp
+
+      [Building] 5 builders in parallel...
+        → Builder-1: Hero ████████░░ 80%
+        → Builder-2: Features ██████████ 100% ✓
+        → Builder-3: Pricing ███████░░░ 70%
+        → Builder-4: Testimonials ██████████ 100% ✓
+        → Builder-5: Footer ████████░░ 85%
+
+      [Validating] TypeScript ✓ ESLint ✓ Build ✓
+
+      [Complete] InvoiceFlow ready • 47 components • 0 errors
+      ```
+
+      FINAL: Output reveal showing beautiful InvoiceFlow landing page preview
+      - Browser chrome frame
+      - Hero: "Get Paid Faster with Beautiful Invoices"
+      - Gradient purple/blue design
+      - Success badge: "Built by 2L in 4m 23s"
+
+      Use state machine for phase transitions.
+      Animate progress bars independently.
+      Make it IMPRESSIVE for B2B clients.
+
+  - builder_id: 2
+    name: "Pipeline Visualization"
+    files:
+      - /home/ahiya/Ahiya/2L/Prod/ahiya-xyz/app/components/2l/PipelineVisualization.tsx
+    task: |
+      Create the 7-phase pipeline visualization replacing the 4-step version.
+
+      Seven phases:
+      1. Vision (Target icon) - "Describe what you need"
+      2. Exploration (Search icon) - "Analyze the landscape"
+      3. Planning (FileText icon) - "Architect the solution"
+      4. Building (Hammer icon) - "Execute in parallel"
+      5. Integration (GitMerge icon) - "Merge with precision"
+      6. Validation (Shield icon) - "Verify quality gates"
+      7. Healing (RefreshCw icon) - "Self-correct if needed"
+
+      Visual treatment:
+      - Horizontal flow on desktop, vertical on mobile
+      - Glowing circular nodes with icons
+      - Animated connection lines between phases
+      - Active phase pulses (cycle through on interval)
+      - Self-healing loop: Arrow from Validation back to Healing back to Validation
+
+      CSS classes for animations:
+      - pipeline-node-active: pulse glow
+      - pipeline-line-flow: gradient animation along lines
+      - pipeline-healing-loop: curved arrow animation
+
+      Make it feel like a mission control display.
+
+  - builder_id: 3
+    name: "Agent Cards"
+    files:
+      - /home/ahiya/Ahiya/2L/Prod/ahiya-xyz/app/components/2l/AgentCards.tsx
+    task: |
+      Create beautiful Agent Cards for the "Under the Hood" section.
+
+      7 agent types with accurate descriptions:
+
+      1. Master Explorers
+         - Icon: Telescope/Search with rays
+         - Glow: Cyan (#22d3d8)
+         - Role: "Strategic analysis before any code"
+         - Detail: Spawn 2-4 based on complexity. Focus: Architecture, Dependencies, UX, Performance.
+
+      2. Explorers
+         - Icon: Search/Magnifier
+         - Glow: Cyan lighter (#67e8f9)
+         - Role: "Deep codebase analysis per iteration"
+         - Detail: 2-3 per iteration. Map patterns, structures, integration points.
+
+      3. Planners
+         - Icon: FileText/Blueprint
+         - Glow: Purple (#a78bfa)
+         - Role: "Architect with precision"
+         - Detail: Creates 4 artifacts: overview, tech-stack, patterns, builder-tasks.
+
+      4. Builders
+         - Icon: Hammer
+         - Glow: Green (#22c55e)
+         - Role: "Parallel feature development"
+         - Detail: 2-5 in parallel. Can SPLIT if too complex. Follow patterns.md.
+
+      5. Integrators
+         - Icon: GitMerge
+         - Glow: Blue (#60a5fa)
+         - Role: "Systematic merge of parallel work"
+         - Detail: Zone-based integration. Up to 3 rounds if conflicts.
+
+      6. Validators
+         - Icon: Shield/CheckCircle
+         - Glow: Gold (#fbbf24)
+         - Role: "Honest quality assessment"
+         - Detail: 5-tier: PASS, UNCERTAIN, PARTIAL, INCOMPLETE, FAIL. 80% confidence rule.
+
+      7. Healers
+         - Icon: RefreshCw/Heart
+         - Glow: Orange (#f97316)
+         - Role: "Self-correcting when things fail"
+         - Detail: Healing explorers analyze root causes. Fix by category. Up to 2 rounds.
+
+      Visual treatment:
+      - Dark cards with colored glow on hover
+      - Icon has matching glow color
+      - Click/tap to expand details
+      - Subtle breathing animation on cards
+      - Grid layout: 3 columns desktop, 2 tablet, 1 mobile
+
+      CSS for glows:
+      ```css
+      .agent-card-cyan { box-shadow: 0 0 30px rgba(34, 211, 216, 0.3); }
+      .agent-card-purple { box-shadow: 0 0 30px rgba(167, 139, 250, 0.3); }
+      .agent-card-green { box-shadow: 0 0 30px rgba(34, 197, 94, 0.3); }
+      .agent-card-blue { box-shadow: 0 0 30px rgba(96, 165, 250, 0.3); }
+      .agent-card-gold { box-shadow: 0 0 30px rgba(251, 191, 36, 0.3); }
+      .agent-card-orange { box-shadow: 0 0 30px rgba(249, 115, 22, 0.3); }
+      ```
+
+      Make it feel like a command center display.
+
+  - builder_id: 4
+    name: "Built By 2L Badge"
+    files:
+      - /home/ahiya/Ahiya/2L/Prod/ahiya-xyz/app/components/2l/BuiltBy2LBadge.tsx
+    task: |
+      Create a subtle "Built by 2L" proof badge.
+
+      Design:
+      ```
+      ┌──────────────────────────────────────────────────────┐
+      │  ✨ This site was built using 2L                     │
+      │  12 plans • 13 iterations • 200+ agents spawned     │
+      │  [View the build history →]                          │
+      └──────────────────────────────────────────────────────┘
+      ```
+
+      Visual treatment:
+      - Glass morphism card (bg-white/5, backdrop-blur)
+      - Purple border glow (subtle)
+      - Sparkle icon (✨)
+      - Real metrics (can be hardcoded for now, or read from config)
+      - Optional link to dashboard/history
+
+      NOT screaming. Subtle confidence.
+      Positioned after the demo section.
+
+  - builder_id: 5
+    name: "Page Restructure & CSS"
+    files:
+      - /home/ahiya/Ahiya/2L/Prod/ahiya-xyz/app/2l/page.tsx
+      - /home/ahiya/Ahiya/2L/Prod/ahiya-xyz/app/globals.css
+    task: |
+      Restructure the 2L page to 8 sections and add new CSS animations.
+
+      NEW SECTION ORDER:
+      1. Hero (keep current headline)
+      2. InvoiceFlow Demo - "Watch 2L Build a Complete Product"
+         Use <InvoiceFlowDemo /> component
+      3. Built by 2L Badge
+         Use <BuiltBy2LBadge /> component
+         Small, subtle, after demo
+      4. The Pipeline - "Seven Phases, Zero Guesswork"
+         Use <PipelineVisualization /> component
+         Replace current 4-step version
+      5. The Promise (keep current 3-column)
+      6. What Makes 2L Different (keep current)
+      7. Under the Hood - "The Agent Architecture"
+         Use <AgentCards /> component
+         Replace current accordion
+      8. CTA (keep current)
+
+      IMPORTS to add:
+      - InvoiceFlowDemo
+      - PipelineVisualization
+      - AgentCards
+      - BuiltBy2LBadge
+
+      IMPORTS to remove:
+      - Remove 'steps' array (replaced by PipelineVisualization)
+      - Keep 'promise' and 'differentiators' arrays
+      - Keep 'technicalItems' for potential future use
+
+      CSS ANIMATIONS to add to globals.css:
+      ```css
+      /* Agent card glows */
+      .agent-glow-cyan { ... }
+      .agent-glow-purple { ... }
+      .agent-glow-green { ... }
+      .agent-glow-blue { ... }
+      .agent-glow-gold { ... }
+      .agent-glow-orange { ... }
+
+      /* Pipeline animations */
+      @keyframes pipeline-pulse { ... }
+      @keyframes pipeline-flow { ... }
+
+      /* Card breathing */
+      @keyframes agent-breathe {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.02); }
+      }
+      ```
+
+parallel_builders: [1, 2, 3, 4]
+sequential_builders: [5]  # Builder 5 depends on components from 1-4
+
+validation_criteria:
+  - TypeScript compilation passes
+  - ESLint passes
+  - Build succeeds
+  - 2L page has 8 sections
+  - InvoiceFlow demo shows 3 phases + output
+  - Pipeline shows 7 phases with animations
+  - Agent cards show 7 agents with glows
+  - "Built by 2L" badge is visible but subtle
