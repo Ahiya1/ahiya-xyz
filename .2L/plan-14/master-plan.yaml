@@ -1,0 +1,300 @@
+plan_id: plan-14
+name: Ahiya Analytics
+created_at: 2025-12-07T10:45:00Z
+status: PLANNED
+total_iterations: 2
+
+strategy: |
+  Build a comprehensive privacy-respecting analytics system in 2 iterations.
+
+  Iteration 1 establishes the complete foundation: database, tracking middleware,
+  admin authentication, and basic dashboard layout. Everything depends on data flowing.
+
+  Iteration 2 builds all dashboard views with visualizations: overview metrics with
+  charts, acquisition analytics, page performance, visitor insights with world map,
+  and real-time live feed.
+
+  Key technical decisions:
+  - Vercel Postgres with raw SQL (no Prisma - simpler for this scope)
+  - jose for JWT session auth (Edge compatible)
+  - Vercel Edge geo for location (free, built-in)
+  - recharts for visualizations
+  - react-simple-maps for world map
+  - SWR polling (5s) for real-time (no WebSockets)
+  - Server Components where possible, Client Components for interactivity
+
+master_exploration:
+  completed: true
+  explorer_count: 3
+  complexity: MEDIUM
+  key_findings:
+    - Greenfield analytics layer on mature Next.js 16 portfolio
+    - No existing database, auth, or middleware - clean slate
+    - Strong design system to follow (contemplative-card, purple accents, dark theme)
+    - 8 MVP features with clear dependency chain
+    - Estimated 18-26 hours total
+
+iterations:
+  - iteration_id: 1
+    global_iteration: 14
+    name: "Foundation & Tracking"
+    vision: "Complete invisible tracking capturing every visit with secure admin access"
+    scope: |
+      DATABASE SETUP:
+      - Vercel Postgres integration
+      - page_views table with all required fields
+      - Proper indexes for query performance
+
+      TRACKING MIDDLEWARE:
+      - middleware.ts at project root
+      - Capture: path, referrer, UTM params, user-agent, geo
+      - Parse device type, browser, OS from user-agent
+      - Generate session_id and visitor_hash
+      - Async non-blocking write to API route
+      - <50ms latency target
+
+      ADMIN AUTHENTICATION:
+      - /admin/login page with password form
+      - jose JWT session in httpOnly cookie
+      - Admin layout with auth check
+      - Logout functionality
+      - Rate limiting on login (5 attempts)
+
+      API ROUTES:
+      - POST /api/analytics/track - record page view
+      - GET /api/analytics/overview - basic metrics
+      - POST /api/auth/login - authenticate
+      - POST /api/auth/logout - clear session
+
+      ADMIN LAYOUT:
+      - Sidebar navigation structure
+      - AdminLayout wrapper with auth gate
+      - AdminNav component with icons
+      - Basic shell ready for dashboard content
+
+    builder_count: 4
+    builders:
+      - id: 1
+        name: "Database & Tracking API"
+        tasks:
+          - Create lib/db.ts with Vercel Postgres connection
+          - Create database schema (page_views table)
+          - Build POST /api/analytics/track route
+          - Add proper indexes and types
+
+      - id: 2
+        name: "Tracking Middleware"
+        tasks:
+          - Create middleware.ts at project root
+          - Extract path, referrer, UTM params
+          - Parse user-agent for device/browser/OS
+          - Generate session_id and visitor_hash
+          - Fire async POST to track API
+          - Configure matcher to exclude static files
+
+      - id: 3
+        name: "Admin Authentication"
+        tasks:
+          - Create lib/auth.ts with jose JWT functions
+          - Build POST /api/auth/login route with rate limiting
+          - Build POST /api/auth/logout route
+          - Create /admin/login/page.tsx with styled form
+          - Handle error states and validation
+
+      - id: 4
+        name: "Admin Layout & Navigation"
+        tasks:
+          - Create app/admin/layout.tsx with auth gate
+          - Create AdminSidebar.tsx component
+          - Create AdminHeader.tsx component
+          - Build navigation items with icons
+          - Create placeholder /admin/page.tsx
+          - Style to match site design system
+
+    dependencies: []
+    status: PENDING
+
+  - iteration_id: 2
+    global_iteration: 15
+    name: "Dashboard & Insights"
+    vision: "Instant insights at your fingertips with beautiful visualizations"
+    scope: |
+      DASHBOARD COMPONENTS:
+      - MetricCard with sparkline and trend indicator
+      - MetricGrid for 4-column layout
+      - TimeRangeSelector (Today/7d/30d/90d)
+      - ChartContainer with loading states
+      - DataTable with sorting
+      - LiveFeed for real-time activity
+      - EmptyState and SkeletonLoader
+
+      OVERVIEW DASHBOARD (/admin):
+      - 4 key metrics: Views, Visitors, Bounce Rate, Avg Duration
+      - Traffic trend chart (recharts Line/Area)
+      - Top pages mini-table
+      - Top sources mini-chart
+
+      REAL-TIME VIEW (/admin/realtime):
+      - "X people on site now" counter
+      - Live activity feed (last 30 min)
+      - 5-second SWR polling
+      - Animated entry for new visits
+      - Color-coded by referrer type
+
+      PAGES ANALYTICS (/admin/pages):
+      - Sortable table: Page, Views, Uniques, Bounce, Time, Entry%, Exit%
+      - Click to expand detailed view
+      - Filter/search functionality
+
+      ACQUISITION (/admin/acquisition):
+      - Traffic sources pie/donut chart
+      - Top referrers table
+      - UTM campaign breakdown table
+      - Filter by source type
+
+      VISITOR INSIGHTS (/admin/visitors):
+      - World map with visitor locations (react-simple-maps)
+      - Device breakdown horizontal bar chart
+      - Browser/OS distribution charts
+      - Country/city top 10 table
+
+      EXPORT (/admin/export):
+      - Date range selection
+      - CSV download functionality
+      - Raw data and aggregated options
+
+      API ROUTES:
+      - GET /api/analytics/overview (with time range)
+      - GET /api/analytics/pages
+      - GET /api/analytics/acquisition
+      - GET /api/analytics/visitors
+      - GET /api/analytics/realtime
+      - GET /api/analytics/export
+
+    builder_count: 5
+    builders:
+      - id: 1
+        name: "Dashboard Core & Metrics"
+        tasks:
+          - Install recharts, swr dependencies
+          - Create MetricCard component with sparkline
+          - Create MetricGrid component
+          - Create TimeRangeSelector component
+          - Build GET /api/analytics/overview route
+          - Build /admin/page.tsx overview dashboard
+          - Add trend calculations and formatting
+
+      - id: 2
+        name: "Real-Time Feed"
+        tasks:
+          - Create LiveFeed component with animations
+          - Build GET /api/analytics/realtime route
+          - Implement SWR polling (5s interval)
+          - Build /admin/realtime/page.tsx
+          - Add visitor count with pulsing indicator
+          - Color-code entries by referrer type
+
+      - id: 3
+        name: "Pages Analytics"
+        tasks:
+          - Create DataTable component with sorting
+          - Build GET /api/analytics/pages route
+          - Build /admin/pages/page.tsx
+          - Add search/filter functionality
+          - Calculate per-page metrics (bounce, time, entry/exit)
+
+      - id: 4
+        name: "Acquisition & Visitors"
+        tasks:
+          - Install react-simple-maps, d3-geo, topojson-client
+          - Create WorldMap component
+          - Create pie/bar chart components
+          - Build GET /api/analytics/acquisition route
+          - Build GET /api/analytics/visitors route
+          - Build /admin/acquisition/page.tsx
+          - Build /admin/visitors/page.tsx
+
+      - id: 5
+        name: "Export & Polish"
+        tasks:
+          - Build GET /api/analytics/export route (CSV generation)
+          - Build /admin/export/page.tsx
+          - Create SkeletonLoader components
+          - Create EmptyState components
+          - Add loading states throughout
+          - Mobile responsive polish
+          - Final styling consistency pass
+
+    dependencies:
+      - iteration: 1
+        reason: "Requires database with data and admin auth"
+    status: PENDING
+
+environment_variables:
+  required:
+    - name: POSTGRES_URL
+      description: Vercel Postgres connection string (auto-configured)
+    - name: ADMIN_PASSWORD
+      description: Password for admin dashboard access
+    - name: SESSION_SECRET
+      description: Secret for JWT signing (32+ chars)
+
+dependencies_to_install:
+  production:
+    - "@vercel/postgres"
+    - "recharts"
+    - "react-simple-maps"
+    - "jose"
+    - "ua-parser-js"
+    - "swr"
+    - "d3-geo"
+    - "topojson-client"
+  dev:
+    - "@types/react-simple-maps"
+    - "@types/topojson-client"
+
+file_structure:
+  new_files:
+    - middleware.ts
+    - lib/db.ts
+    - lib/auth.ts
+    - app/api/analytics/track/route.ts
+    - app/api/analytics/overview/route.ts
+    - app/api/analytics/pages/route.ts
+    - app/api/analytics/acquisition/route.ts
+    - app/api/analytics/visitors/route.ts
+    - app/api/analytics/realtime/route.ts
+    - app/api/analytics/export/route.ts
+    - app/api/auth/login/route.ts
+    - app/api/auth/logout/route.ts
+    - app/admin/layout.tsx
+    - app/admin/page.tsx
+    - app/admin/login/page.tsx
+    - app/admin/realtime/page.tsx
+    - app/admin/pages/page.tsx
+    - app/admin/acquisition/page.tsx
+    - app/admin/visitors/page.tsx
+    - app/admin/export/page.tsx
+    - app/admin/components/AdminSidebar.tsx
+    - app/admin/components/AdminHeader.tsx
+    - app/admin/components/MetricCard.tsx
+    - app/admin/components/MetricGrid.tsx
+    - app/admin/components/TimeRangeSelector.tsx
+    - app/admin/components/ChartContainer.tsx
+    - app/admin/components/DataTable.tsx
+    - app/admin/components/LiveFeed.tsx
+    - app/admin/components/WorldMap.tsx
+    - app/admin/components/EmptyState.tsx
+    - app/admin/components/SkeletonLoader.tsx
+
+  modified_files:
+    - package.json (add dependencies)
+    - app/globals.css (add admin styles)
+
+success_criteria:
+  - Every page view tracked with full context (referrer, UTM, device, geo)
+  - Dashboard loads in <1 second
+  - 100% UTM-tagged visits properly attributed
+  - Real-time feed updates within 5 seconds
+  - Mobile responsive on all admin pages
+  - No tracking impact on site performance (<50ms)
