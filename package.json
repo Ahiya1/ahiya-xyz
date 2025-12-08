@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "generate:pdf": "npx tsx scripts/generate-capabilities-pdf.tsx",
-    "prebuild": "npm run generate:pdf",
+    "generate:cv-pdf": "npx tsx scripts/generate-cv-pdf.tsx",
+    "prebuild": "npm run generate:pdf && npm run generate:cv-pdf",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
