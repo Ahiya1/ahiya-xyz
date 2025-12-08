@@ -321,6 +321,13 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
+  // Skip tracking for vulnerability scanner probes
+  // These are automated bots looking for PHP/ASP exploits that don't exist on Next.js
+  const path = request.nextUrl.pathname;
+  if (/\.(php|asp|aspx|cgi|pl|env|git|sql|bak|old|config|ini|log)$/i.test(path)) {
+    return response;
+  }
+
   // Get or create session ID
   const { sessionId, isNew } = getOrCreateSessionId(request);
 
