@@ -1,0 +1,57 @@
+plan_id: plan-15
+created_at: 2025-12-08T20:40:00Z
+status: PLANNED
+total_iterations: 1
+
+strategy: |
+  Single-iteration implementation of the hidden CV page.
+  This is a SIMPLE complexity project requiring:
+  - CV page creation (typography-forward, no navigation)
+  - Footer modification (subtle availability signal)
+  - PDF generation script (following capabilities pattern)
+  - SEO exclusion (robots.ts + page metadata)
+
+  Key architectural decisions from exploration:
+  1. NO Navigation component on CV page (intentionally hidden)
+  2. Config-driven availability status in lib/cv-config.ts
+  3. PDF generated at build time via prebuild script
+  4. Footer signal appears on ALL pages (shared Footer component)
+
+iterations:
+  - iteration_id: 1
+    global_iteration: 16
+    name: "Hidden CV Interface Implementation"
+    vision: "Complete implementation of /cv route with all features"
+    scope: |
+      ## Builder 1: CV Page & Config
+      - Create lib/cv-config.ts with availability status
+      - Create app/cv/page.tsx with all sections:
+        - Vision/positioning statement
+        - Systems proof (4 projects)
+        - Operational scope
+        - Availability status with indicator
+        - Contact email link
+        - PDF download link
+      - Add page-level noindex metadata
+      - Use existing design system (typography, colors, spacing)
+      - NO Navigation component (intentional)
+      - Minimal custom footer (just ahiya.xyz link)
+
+      ## Builder 2: Footer & SEO Integration
+      - Modify app/components/Footer.tsx
+        - Add availability signal line above existing content
+        - "Select part-time availability for systems roles."
+        - text-slate-600, text-xs, hover:text-slate-500
+      - Create app/robots.ts to exclude /cv from indexing
+
+      ## Builder 3: PDF Generator
+      - Create scripts/generate-cv-pdf.tsx
+        - Follow generate-capabilities-pdf.tsx pattern
+        - Include: header, vision, systems proof, scope, availability, contact
+        - Output to public/ahiya-cv.pdf
+      - Update package.json scripts:
+        - Add "generate:cv-pdf" command
+        - Update prebuild to include CV PDF generation
+    status: PENDING
+    dependencies: []
+    builder_count: 3

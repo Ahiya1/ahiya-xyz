@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 // Custom hook for scroll-triggered fade-in
 function useScrollReveal() {
@@ -39,6 +40,12 @@ export function Footer() {
       }`}
     >
       <div className="container-content">
+        <Link
+          href="/cv"
+          className="block text-center text-slate-600 text-xs mb-3 hover:text-slate-500 transition-colors"
+        >
+          Select part-time availability for systems roles.
+        </Link>
         <p className="text-center text-slate-500 text-sm mb-1">
           Ahiya — Systems Architect
         </p>
