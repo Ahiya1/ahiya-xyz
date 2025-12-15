@@ -4,6 +4,7 @@
  */
 
 export { TextShimmer } from "./TextShimmer";
+export { HoverWords } from "./HoverWords";
 export { HeroBreathing } from "./HeroBreathing";
 export { SectionReveal } from "./SectionReveal";
 export type { SectionRevealVariant } from "./SectionReveal";

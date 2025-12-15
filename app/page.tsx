@@ -11,7 +11,7 @@ import { Testimonials } from "@/app/components/Testimonials";
 import { MagneticButton } from "@/app/components/reactive";
 import { portfolioProjects } from "@/app/data/portfolio";
 import {
-  TextShimmer,
+  HoverWords,
   HeroBreathing,
   SectionReveal,
   ConnectedAnimationsProvider,
@@ -26,21 +26,13 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="section-breathing pt-32 hero-gradient-bg">
         <div className="container-content text-center">
-          {/* Headline with breathing animation and periodic shimmer */}
+          {/* Headline with breathing animation and word hover effects */}
           <HeroBreathing>
-            <TextShimmer intervalMs={9000} durationMs={1500}>
-              <h1 className="display-xl text-white mb-6">
-                <span className="hero-word" style={{ animationDelay: "0.1s" }}>
-                  <span className="text-gentle">Intention.</span>
-                </span>{" "}
-                <span className="hero-word" style={{ animationDelay: "0.3s" }}>
-                  <span className="text-gentle">Clarity.</span>
-                </span>{" "}
-                <span className="hero-word" style={{ animationDelay: "0.5s" }}>
-                  <span className="text-gentle">Results.</span>
-                </span>
-              </h1>
-            </TextShimmer>
+            <h1 className="display-xl text-white mb-6">
+              <HoverWords effects={["glow", "lift", "color"]} className="text-gentle">
+                Intention. Clarity. Results.
+              </HoverWords>
+            </h1>
           </HeroBreathing>
 
           {/* Subheadline - fades in after hero words */}
