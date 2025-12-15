@@ -112,6 +112,18 @@ export async function GET(request: NextRequest) {
         ) single_page_sessions ON pv.session_id = single_page_sessions.session_id
         WHERE pv.created_at >= ${startDateStr}
         GROUP BY pv.path
+      ),
+
+      -- Time on page from events table (real data)
+      time_on_page AS (
+        SELECT
+          page_path,
+          AVG(event_value) / 1000 as avg_seconds
+        FROM events
+        WHERE event_category = 'engagement'
+          AND event_action = 'time_on_page'
+          AND created_at >= ${startDateStr}
+        GROUP BY page_path
       )
 
       SELECT
@@ -123,6 +135,7 @@ export async function GET(request: NextRequest) {
         COALESCE(xp.exit_count, 0) as exit_count,
         COALESCE(bs.bounced_sessions, 0) as bounced_sessions,
         ts.count as total_sessions_period,
+        COALESCE(top.avg_seconds, 0) as avg_time_on_page,
         -- Entry rate: percentage of total sessions that started on this page
         CASE
           WHEN ts.count > 0 THEN ROUND(100.0 * COALESCE(ep.entry_count, 0) / ts.count, 1)
@@ -142,6 +155,7 @@ export async function GET(request: NextRequest) {
       LEFT JOIN entry_pages ep ON ps.path = ep.path
       LEFT JOIN exit_pages xp ON ps.path = xp.path
       LEFT JOIN bounce_sessions bs ON ps.path = bs.path
+      LEFT JOIN time_on_page top ON ps.path = top.page_path
       CROSS JOIN total_sessions ts
       ORDER BY ps.views DESC
       LIMIT 100
@@ -153,7 +167,7 @@ export async function GET(request: NextRequest) {
       views: Number(row.views) || 0,
       uniqueVisitors: Number(row.unique_visitors) || 0,
       bounceRate: Number(row.bounce_rate) || 0,
-      avgTimeOnPage: 0, // Placeholder - requires time tracking per page
+      avgTimeOnPage: Math.round(Number(row.avg_time_on_page) || 0),
       entryRate: Number(row.entry_rate) || 0,
       exitRate: Number(row.exit_rate) || 0,
     }));

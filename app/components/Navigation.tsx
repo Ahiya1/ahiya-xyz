@@ -5,6 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
+import { ScrollProgressBar } from "@/app/components/choreography";
+
 interface NavItem {
   label: string;
   href: string;
@@ -49,6 +51,8 @@ export function Navigation() {
     <>
       {/* Navigation Bar */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0f1a]/80 backdrop-blur-sm">
+        {/* Scroll Progress Indicator */}
+        <ScrollProgressBar />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-purple-500 focus:text-white focus:rounded-lg"

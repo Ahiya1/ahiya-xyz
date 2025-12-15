@@ -25,6 +25,12 @@ export const springPresets = {
 
   /** Tilt - for 3D card rotation */
   tilt: { stiffness: 200, damping: 20, mass: 0.3 } as SpringOptions,
+
+  /** Reveal - for scroll-triggered section reveals */
+  reveal: { stiffness: 100, damping: 20, mass: 0.8 } as SpringOptions,
+
+  /** Cascade - for sequential item animations */
+  cascade: { stiffness: 80, damping: 15, mass: 0.5 } as SpringOptions,
 } as const;
 
 /**

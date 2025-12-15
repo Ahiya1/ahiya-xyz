@@ -11,6 +11,7 @@ import {
   Users,
   Download,
   ArrowLeft,
+  BarChart2,
 } from "lucide-react";
 
 const navItems = [
@@ -19,6 +20,7 @@ const navItems = [
   { href: "/admin/pages", label: "Pages", icon: FileText },
   { href: "/admin/acquisition", label: "Acquisition", icon: TrendingUp },
   { href: "/admin/visitors", label: "Visitors", icon: Users },
+  { href: "/admin/engagement", label: "Engagement", icon: BarChart2 },
   { href: "/admin/export", label: "Export", icon: Download },
 ];
 

@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Mail, Github, Grid, Workflow, FileText, Download } from "lucide-react";
 
@@ -11,39 +10,15 @@ import { SectionHeading } from "@/app/components/SectionHeading";
 import { Testimonials } from "@/app/components/Testimonials";
 import { MagneticButton } from "@/app/components/reactive";
 import { portfolioProjects } from "@/app/data/portfolio";
-
-// Custom hook for scroll-triggered fade-in
-function useScrollReveal() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  return { ref, isVisible };
-}
+import {
+  TextShimmer,
+  HeroBreathing,
+  SectionReveal,
+  ConnectedAnimationsProvider,
+  ConnectedCard,
+} from "@/app/components/choreography";
 
 export default function HomePage() {
-  const step1 = useScrollReveal();
-  const step2 = useScrollReveal();
-  const step3 = useScrollReveal();
-  const ctaReveal = useScrollReveal();
-
   return (
     <main id="main-content" className="bg-[#0a0f1a] min-h-screen">
       <Navigation />
@@ -51,26 +26,36 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="section-breathing pt-32 hero-gradient-bg">
         <div className="container-content text-center">
-          {/* Headline with staggered word reveal */}
-          <h1 className="display-xl text-white mb-6">
-            <span className="hero-word" style={{ animationDelay: '0.1s' }}>
-              <span className="text-gentle">Intention.</span>
-            </span>{" "}
-            <span className="hero-word" style={{ animationDelay: '0.3s' }}>
-              <span className="text-gentle">Clarity.</span>
-            </span>{" "}
-            <span className="hero-word" style={{ animationDelay: '0.5s' }}>
-              <span className="text-gentle">Results.</span>
-            </span>
-          </h1>
+          {/* Headline with breathing animation and periodic shimmer */}
+          <HeroBreathing>
+            <TextShimmer intervalMs={9000} durationMs={1500}>
+              <h1 className="display-xl text-white mb-6">
+                <span className="hero-word" style={{ animationDelay: "0.1s" }}>
+                  <span className="text-gentle">Intention.</span>
+                </span>{" "}
+                <span className="hero-word" style={{ animationDelay: "0.3s" }}>
+                  <span className="text-gentle">Clarity.</span>
+                </span>{" "}
+                <span className="hero-word" style={{ animationDelay: "0.5s" }}>
+                  <span className="text-gentle">Results.</span>
+                </span>
+              </h1>
+            </TextShimmer>
+          </HeroBreathing>
 
           {/* Subheadline - fades in after hero words */}
-          <p className="body-xl text-slate-300 max-w-2xl mx-auto mb-10 hero-subline" style={{ animationDelay: '0.8s' }}>
+          <p
+            className="body-xl text-slate-300 max-w-2xl mx-auto mb-10 hero-subline"
+            style={{ animationDelay: "0.8s" }}
+          >
             AI-powered systems delivered in weeks, not months.
           </p>
 
           {/* CTAs - fade in after subline */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 hero-ctas" style={{ animationDelay: '1.0s' }}>
+          <div
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 hero-ctas"
+            style={{ animationDelay: "1.0s" }}
+          >
             <MagneticButton pullStrength={0.4}>
               <a
                 href="#portfolio"
@@ -156,75 +141,96 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Portfolio Section */}
+      {/* Portfolio Section with fan-in animation */}
       <section id="portfolio" className="section-breathing">
         <div className="container-wide">
           <SectionHeading
             title="Selected Work"
             description="Real systems, deployed and running. Each project showcases end-to-end development: architecture, implementation, and deployment."
           />
-          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-            {portfolioProjects.map((project, index) => (
-              <PortfolioCard key={project.id} project={project} index={index} />
-            ))}
-          </div>
+          <SectionReveal variant="fan-in">
+            <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+              <ConnectedAnimationsProvider>
+                {portfolioProjects.map((project, index) => (
+                  <ConnectedCard key={project.id} index={index}>
+                    <SectionReveal.Item
+                      index={index}
+                      totalItems={portfolioProjects.length}
+                      variant="fan-in"
+                    >
+                      <PortfolioCard project={project} index={index} />
+                    </SectionReveal.Item>
+                  </ConnectedCard>
+                ))}
+              </ConnectedAnimationsProvider>
+            </div>
+          </SectionReveal>
         </div>
       </section>
 
-      {/* How I Work Section */}
+      {/* How I Work Section with cascade animation */}
       <section id="how-i-work" className="section-breathing">
         <div className="container-content">
-          <h2 className="display-lg text-white text-center mb-12">How I Work</h2>
+          <h2 className="display-lg text-white text-center mb-12">
+            How I Work
+          </h2>
 
-          {/* Three Steps */}
-          <div className="grid sm:grid-cols-3 gap-8 max-w-4xl mx-auto mb-8">
-            <div
-              ref={step1.ref}
-              className={`text-center transition-all duration-700 ${
-                step1.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-            >
-              <div className="text-4xl mb-4">&#127919;</div>
-              <h3 className="heading-lg text-white mb-3">Define</h3>
-              <p className="text-slate-400">
-                I align on requirements. You see the architecture before development begins.
-              </p>
+          {/* Three Steps with cascade reveal */}
+          <SectionReveal variant="cascade">
+            <div className="grid sm:grid-cols-3 gap-8 max-w-4xl mx-auto mb-8">
+              <SectionReveal.Item index={0} variant="cascade">
+                <div className="text-center">
+                  <div className="text-4xl mb-4">&#127919;</div>
+                  <h3 className="heading-lg text-white mb-3">Define</h3>
+                  <p className="text-slate-400">
+                    I align on requirements. You see the architecture before
+                    development begins.
+                  </p>
+                </div>
+              </SectionReveal.Item>
+              <SectionReveal.Item index={1} variant="cascade">
+                <div className="text-center">
+                  <div className="text-4xl mb-4">&#9889;</div>
+                  <h3 className="heading-lg text-white mb-3">Build</h3>
+                  <p className="text-slate-400">
+                    Parallel agents accelerate delivery. You stay informed. No
+                    surprises.
+                  </p>
+                </div>
+              </SectionReveal.Item>
+              <SectionReveal.Item index={2} variant="cascade">
+                <div className="text-center">
+                  <div className="text-4xl mb-4">&#128640;</div>
+                  <h3 className="heading-lg text-white mb-3">Launch</h3>
+                  <p className="text-slate-400">
+                    Production-ready. Documented. Supported.
+                  </p>
+                </div>
+              </SectionReveal.Item>
             </div>
-            <div
-              ref={step2.ref}
-              className={`text-center transition-all duration-700 delay-150 ${
-                step2.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-            >
-              <div className="text-4xl mb-4">&#9889;</div>
-              <h3 className="heading-lg text-white mb-3">Build</h3>
-              <p className="text-slate-400">
-                Parallel agents accelerate delivery. You stay informed. No surprises.
-              </p>
-            </div>
-            <div
-              ref={step3.ref}
-              className={`text-center transition-all duration-700 delay-300 ${
-                step3.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-            >
-              <div className="text-4xl mb-4">&#128640;</div>
-              <h3 className="heading-lg text-white mb-3">Launch</h3>
-              <p className="text-slate-400">
-                Production-ready. Documented. Supported.
-              </p>
-            </div>
-          </div>
+          </SectionReveal>
 
           {/* 2L Mention */}
           <p className="text-center text-slate-500 text-sm">
-            Powered by <Link href="/2l" className="text-gentle hover:underline">2L</Link> — my AI orchestration framework.{" "}
-            <Link href="/2l" className="text-purple-400 hover:text-purple-300 transition-colors">Learn how it works</Link>
+            Powered by{" "}
+            <Link href="/2l" className="text-gentle hover:underline">
+              2L
+            </Link>{" "}
+            — my AI orchestration framework.{" "}
+            <Link
+              href="/2l"
+              className="text-purple-400 hover:text-purple-300 transition-colors"
+            >
+              Learn how it works
+            </Link>
           </p>
 
           {/* Pricing Mention */}
           <p className="text-center text-slate-500 text-sm mt-4">
-            <Link href="/pricing" className="text-slate-400 hover:text-white transition-colors">
+            <Link
+              href="/pricing"
+              className="text-slate-400 hover:text-white transition-colors"
+            >
               Transparent pricing starting at $2,500
             </Link>
           </p>
@@ -234,51 +240,49 @@ export default function HomePage() {
       {/* Testimonials Section */}
       <Testimonials />
 
-      {/* Contact/CTA Section with scroll reveal */}
-      <section
-        id="contact"
-        ref={ctaReveal.ref}
-        className={`section-breathing transition-all duration-700 ${
-          ctaReveal.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}
-      >
+      {/* Contact/CTA Section with scale-glow reveal */}
+      <section id="contact" className="section-breathing">
         <div className="container-narrow">
-          <div className="contemplative-card p-8 md:p-12 text-center">
-            <h2 className="heading-xl text-white mb-4">Let's Build</h2>
-            <p className="body-lg text-slate-400 mb-8">
-              I respond within 24 hours.
-            </p>
+          <SectionReveal variant="scale-glow">
+            <SectionReveal.Item variant="scale-glow">
+              <div className="contemplative-card p-8 md:p-12 text-center">
+                <h2 className="heading-xl text-white mb-4">Let's Build</h2>
+                <p className="body-lg text-slate-400 mb-8">
+                  I respond within 24 hours.
+                </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <MagneticButton pullStrength={0.4}>
-                <a
-                  href="https://cal.com/ahiya-butman-tigupi/discovery-call"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="cta-magnetic inline-flex items-center justify-center px-6 py-3 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium"
-                  data-track-click="footer_discovery_call"
-                  data-track-conversion="booking_intent"
-                >
-                  <Mail className="w-5 h-5 mr-2" aria-hidden="true" />
-                  Book Discovery Call
-                  <span className="sr-only">(opens in new tab)</span>
-                </a>
-              </MagneticButton>
-              <MagneticButton pullStrength={0.3}>
-                <a
-                  href="https://github.com/Ahiya1"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center px-6 py-3 border border-white/10 rounded-xl text-slate-300 font-medium transition-all duration-300 hover:bg-white/5 hover:border-white/20"
-                  data-track-click="footer_github"
-                >
-                  <Github className="w-5 h-5 mr-2" aria-hidden="true" />
-                  GitHub
-                  <span className="sr-only">(opens in new tab)</span>
-                </a>
-              </MagneticButton>
-            </div>
-          </div>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <MagneticButton pullStrength={0.4}>
+                    <a
+                      href="https://cal.com/ahiya-butman-tigupi/discovery-call"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cta-magnetic inline-flex items-center justify-center px-6 py-3 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium"
+                      data-track-click="footer_discovery_call"
+                      data-track-conversion="booking_intent"
+                    >
+                      <Mail className="w-5 h-5 mr-2" aria-hidden="true" />
+                      Book Discovery Call
+                      <span className="sr-only">(opens in new tab)</span>
+                    </a>
+                  </MagneticButton>
+                  <MagneticButton pullStrength={0.3}>
+                    <a
+                      href="https://github.com/Ahiya1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center px-6 py-3 border border-white/10 rounded-xl text-slate-300 font-medium transition-all duration-300 hover:bg-white/5 hover:border-white/20"
+                      data-track-click="footer_github"
+                    >
+                      <Github className="w-5 h-5 mr-2" aria-hidden="true" />
+                      GitHub
+                      <span className="sr-only">(opens in new tab)</span>
+                    </a>
+                  </MagneticButton>
+                </div>
+              </div>
+            </SectionReveal.Item>
+          </SectionReveal>
         </div>
       </section>
 

@@ -244,7 +244,7 @@ export default function PagesAnalyticsPage() {
       {/* Footer info */}
       {!isLoading && data && data.data.length > 0 && (
         <p className="text-xs text-slate-500 text-center">
-          Data refreshes automatically every 30 seconds. Avg Time is a placeholder - requires additional time tracking.
+          Data refreshes automatically every 30 seconds. Avg Time is calculated from engagement events.
         </p>
       )}
     </div>
