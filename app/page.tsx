@@ -29,7 +29,7 @@ export default function HomePage() {
           {/* Headline with breathing animation and word hover effects */}
           <HeroBreathing>
             <h1 className="display-xl text-white mb-6">
-              <HoverWords effects={["intention", "clarity", "results"]} className="text-gentle">
+              <HoverWords className="text-gentle">
                 Intention. Clarity. Results.
               </HoverWords>
             </h1>
