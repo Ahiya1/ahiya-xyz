@@ -167,9 +167,14 @@ describe("ConversionFunnel", () => {
 
       render(<ConversionFunnel data={zeroConversionData} />);
 
-      // Find the overall conversion rate text (0%)
-      const overallRate = screen.getByText("0%");
-      expect(overallRate).toHaveClass("text-slate-400");
+      // Find the overall conversion section
+      const overallSection = screen.getByText("Overall Conversion").closest("div");
+      expect(overallSection).toBeInTheDocument();
+
+      // The 0% rate should be a sibling span with gray color class and font-semibold
+      const rateElement = overallSection?.querySelector("span.text-lg.font-semibold.text-slate-400");
+      expect(rateElement).toBeInTheDocument();
+      expect(rateElement?.textContent).toBe("0%");
     });
   });
 
