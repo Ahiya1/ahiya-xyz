@@ -1,65 +1,111 @@
 "use client";
 
-import { motion, type TargetAndTransition } from "framer-motion";
+import { motion } from "framer-motion";
+import { useState } from "react";
 import { useReducedMotion } from "@/app/hooks/useReducedMotion";
 
-type HoverEffect = "glow" | "lift" | "color" | "scale" | "blur-reveal";
+type HoverEffect = "intention" | "clarity" | "results";
 
 interface HoverWordsProps {
   children: string;
-  /** Effects to cycle through for each word */
+  /** Effects to apply to each word (in order) */
   effects?: HoverEffect[];
   /** Base className for all words */
   className?: string;
 }
 
-interface EffectVariant {
-  initial: TargetAndTransition;
-  hover: TargetAndTransition;
+/**
+ * Intention: Focused, intensifying glow - like concentrating energy
+ */
+function IntentionWord({ word }: { word: string }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.span
+      className="inline-block cursor-default relative"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      animate={{
+        textShadow: isHovered
+          ? "0 0 30px rgba(168, 85, 247, 0.9), 0 0 60px rgba(168, 85, 247, 0.5), 0 0 90px rgba(168, 85, 247, 0.3)"
+          : "0 0 0px rgba(168, 85, 247, 0)",
+      }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+    >
+      {word}
+    </motion.span>
+  );
 }
 
-const effectVariants: Record<HoverEffect, EffectVariant> = {
-  glow: {
-    initial: { textShadow: "0 0 0px rgba(168, 85, 247, 0)" },
-    hover: {
-      textShadow: "0 0 20px rgba(168, 85, 247, 0.8), 0 0 40px rgba(168, 85, 247, 0.4)",
-    },
-  },
-  lift: {
-    initial: { y: 0, scale: 1 },
-    hover: { y: -6, scale: 1.02 },
-  },
-  color: {
-    initial: { opacity: 1 },
-    hover: {
-      opacity: 1,
-      textShadow: "0 0 30px rgba(99, 102, 241, 0.9), 0 0 60px rgba(99, 102, 241, 0.5)",
-    },
-  },
-  scale: {
-    initial: { scale: 1 },
-    hover: { scale: 1.08 },
-  },
-  "blur-reveal": {
-    initial: { filter: "blur(0px)", opacity: 1 },
-    hover: { filter: "blur(0px)", opacity: 1, scale: 1.02 },
-  },
+/**
+ * Clarity: Blur-to-sharp effect - like a lens focusing
+ */
+function ClarityWord({ word }: { word: string }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.span
+      className="inline-block cursor-default"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      animate={{
+        filter: isHovered ? "blur(0px)" : "blur(0px)",
+        textShadow: isHovered
+          ? "0 0 1px rgba(255, 255, 255, 0.9), 0 0 2px rgba(255, 255, 255, 0.5)"
+          : "0 0 0px rgba(255, 255, 255, 0)",
+        letterSpacing: isHovered ? "0.02em" : "0em",
+      }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      whileHover={{ scale: 1.02 }}
+    >
+      {word}
+    </motion.span>
+  );
+}
+
+/**
+ * Results: Underline draws in - like achievement/completion
+ */
+function ResultsWord({ word }: { word: string }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <span
+      className="inline-block cursor-default relative"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {word}
+      <motion.span
+        className="absolute bottom-[0.1em] left-0 right-0 h-[0.08em] bg-gradient-to-r from-purple-500 via-indigo-500 to-purple-500 origin-left"
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: isHovered ? 1 : 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      />
+    </span>
+  );
+}
+
+const wordComponents: Record<HoverEffect, React.FC<{ word: string }>> = {
+  intention: IntentionWord,
+  clarity: ClarityWord,
+  results: ResultsWord,
 };
 
 /**
- * HoverWords splits text into individual words with unique hover effects.
- * Each word gets a different effect from the effects array (cycles through).
+ * HoverWords splits text into individual words with semantic hover effects.
+ * Each effect is designed to match the meaning of the word.
  *
  * Usage:
  * ```tsx
- * <HoverWords effects={["glow", "lift", "color"]}>
+ * <HoverWords effects={["intention", "clarity", "results"]}>
  *   Intention. Clarity. Results.
  * </HoverWords>
  * ```
  */
 export function HoverWords({
   children,
-  effects = ["glow", "lift", "color"],
+  effects = ["intention", "clarity", "results"],
   className = "",
 }: HoverWordsProps) {
   const prefersReducedMotion = useReducedMotion();
@@ -73,19 +119,13 @@ export function HoverWords({
     <span className={className}>
       {words.map((word, index) => {
         const effect = effects[index % effects.length];
-        const variants = effectVariants[effect];
+        const WordComponent = wordComponents[effect];
 
         return (
-          <motion.span
-            key={`${word}-${index}`}
-            className="inline-block cursor-default"
-            initial={variants.initial}
-            whileHover={variants.hover}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-          >
-            {word}
+          <span key={`${word}-${index}`}>
+            <WordComponent word={word} />
             {index < words.length - 1 && "\u00A0"}
-          </motion.span>
+          </span>
         );
       })}
     </span>
