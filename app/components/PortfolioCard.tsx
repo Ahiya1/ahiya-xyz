@@ -12,6 +12,18 @@ function useScrollReveal() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    // Always show on small screens or when IntersectionObserver isn't available
+    if (typeof window === "undefined") return;
+
+    const element = ref.current;
+    const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
+    const supportsObserver = "IntersectionObserver" in window;
+
+    if (!supportsObserver || isSmallScreen) {
+      setIsVisible(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -22,11 +34,17 @@ function useScrollReveal() {
       { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    if (element) {
+      observer.observe(element);
     }
 
-    return () => observer.disconnect();
+    // Fallback: ensure cards become visible even if the observer never fires
+    const timeoutId = window.setTimeout(() => setIsVisible(true), 1200);
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(timeoutId);
+    };
   }, []);
 
   return { ref, isVisible };
