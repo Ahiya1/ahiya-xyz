@@ -2,6 +2,9 @@ import "./globals.css";
 import { Inter, Crimson_Text } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 
+import { AmbientLayer } from "@/app/components/ambient";
+import { TrackingProvider } from "@/app/components/TrackingProvider";
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -114,7 +117,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <AmbientLayer />
+        <TrackingProvider>
+          {children}
+        </TrackingProvider>
+      </body>
     </html>
   );
 }

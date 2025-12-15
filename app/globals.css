@@ -1193,3 +1193,119 @@ html {
 }
 
 /* ========== END BUILDER-2 PLAN-13 ========== */
+
+/* ========== PLAN-17 ITERATION-18: Ambient Particles ========== */
+
+/* Particle float animation - varied movement with opacity changes */
+@keyframes particle-float {
+  0%, 100% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.15;
+  }
+  25% {
+    transform: translateY(-15vh) translateX(3vw) scale(1.05);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translateY(-30vh) translateX(-2vw) scale(0.95);
+    opacity: 0.2;
+  }
+  75% {
+    transform: translateY(-15vh) translateX(4vw) scale(1.02);
+    opacity: 0.22;
+  }
+}
+
+/* Particle CSS classes */
+.ambient-particle-float {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: particle-float var(--particle-duration, 20s) ease-in-out infinite;
+  animation-delay: var(--particle-delay, 0s);
+}
+
+/* Speed variants for particles */
+.ambient-particle-slow { --particle-duration: 25s; }
+.ambient-particle-medium { --particle-duration: 20s; }
+.ambient-particle-fast { --particle-duration: 15s; }
+
+/* ========== PLAN-17 ITERATION-18: Floating Orbs ========== */
+
+/* Orb drift animation - slow atmospheric movement */
+@keyframes orb-drift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.15;
+  }
+  33% {
+    transform: translate(20px, -30px) scale(1.05);
+    opacity: 0.2;
+  }
+  66% {
+    transform: translate(-15px, 20px) scale(0.98);
+    opacity: 0.12;
+  }
+}
+
+/* Floating orb base styling */
+.floating-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  filter: blur(80px);
+  animation: orb-drift var(--orb-duration, 25s) ease-in-out infinite;
+}
+
+/* Orb color variants */
+.floating-orb-purple {
+  background: rgba(168, 85, 247, 0.4);
+}
+
+.floating-orb-cyan {
+  background: rgba(34, 211, 238, 0.3);
+}
+
+.floating-orb-pink {
+  background: rgba(236, 72, 153, 0.3);
+}
+
+/* ========== PLAN-17 ITERATION-18: Enhanced Breathing Gradient ========== */
+
+/* Override existing hero gradient animation - faster and more visible */
+.hero-gradient-bg-enhanced::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(168, 85, 247, 0.12) 0%,
+    rgba(139, 92, 246, 0.08) 25%,
+    rgba(99, 102, 241, 0.10) 50%,
+    rgba(168, 85, 247, 0.06) 75%,
+    rgba(139, 92, 246, 0.12) 100%
+  );
+  background-size: 200% 200%;
+  animation: gradient-shift 10s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ========== PLAN-17 ITERATION-18: Reduced Motion Support ========== */
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-particle-float,
+  .floating-orb {
+    animation: none;
+    /* Show static visible state */
+    opacity: 0.15;
+  }
+
+  .hero-gradient-bg-enhanced::before {
+    animation: none;
+  }
+}
+
+/* ========== END PLAN-17 ITERATION-18 ========== */

@@ -1,7 +1,7 @@
-current_plan: plan-16
-global_iteration_counter: 17
-current_iteration: 17
-current_phase: complete
+current_plan: plan-17
+global_iteration_counter: 18
+current_iteration: 18
+current_phase: visioned
 plans:
 - plan_id: plan-1
   name: ahiya.xyz Business Transformation
@@ -167,3 +167,15 @@ plans:
     status: COMPLETE
     commit: 3fe7e03
     tag: 2l-plan-16-iter-17-prod
+- plan_id: plan-17
+  name: The Living Site
+  status: PLANNED
+  mode: production
+  created_at: '2025-12-15T17:00:00Z'
+  vision_file: .2L/plan-17/vision.md
+  master_plan_file: .2L/plan-17/master-plan.yaml
+  description: Transform the site into a breathing organism. Ambient particles, breathing gradients, magnetic CTAs, 3D card tilts, animated icons, choreographed reveals, continuous hero breathing. Plus enhanced analytics with scroll depth, real time-on-page, click tracking, and conversion funnels.
+  master_exploration:
+    num_explorers: 5
+    complexity_level: COMPLEX
+  total_iterations: 3

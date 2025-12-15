@@ -1,0 +1,162 @@
+plan_id: plan-17
+created_at: "2025-12-15T18:30:00Z"
+status: PLANNED
+mode: production
+total_iterations: 3
+
+strategy: |
+  Transform ahiya.xyz from static portfolio to "undeniably alive" site through three focused iterations.
+
+  The strategy separates animation foundation from behavioral tracking to:
+  1. Validate performance impact of animations before adding tracking overhead
+  2. Allow visual iteration on animations independently
+  3. Build analytics infrastructure on stable animation layer
+
+  Performance is the critical constraint - Lighthouse >90 is non-negotiable.
+  All animations must respect prefers-reduced-motion (existing pattern in codebase).
+
+  Key architectural decisions:
+  - CSS @keyframes for continuous/ambient animations (particles, gradients, breathing)
+  - Framer Motion for interactive animations (magnetic CTAs, 3D tilt, page transitions)
+  - Client-side event batching (3-second intervals) to minimize API load
+  - No new dependencies - leverage existing framer-motion
+
+iterations:
+  - iteration_id: 1
+    global_iteration: 18
+    name: "Ambient Foundation + Analytics Infrastructure"
+    vision: "Establish the living background layer that makes the site feel alive, plus the analytics foundation for behavioral tracking"
+    scope: |
+      ANIMATION FOUNDATION:
+      - AmbientParticles component (15-20 CSS-animated particles, no blur)
+      - BreathingGradient enhancement (speed up from 25s to 8-12s cycles)
+      - FloatingOrbs component (2-4 large blurred orbs in corners)
+      - New CSS keyframes in globals.css for particles and breathing
+      - Integrate ambient layer on homepage and all pages via root layout
+      - Full prefers-reduced-motion support
+
+      ANALYTICS INFRASTRUCTURE:
+      - Events database table with schema + indexes
+      - /api/analytics/event POST endpoint with validation and rate limiting
+      - Client-side tracking library (/lib/tracking.ts) with:
+        - Event batching (3-second intervals)
+        - sendBeacon for page unload
+        - DNT (Do Not Track) support
+      - useScrollDepthTracker hook (25/50/75/100% milestones)
+      - Integrate scroll tracking on all public pages
+
+      SUCCESS CRITERIA:
+      - Homepage has floating particles and breathing gradient
+      - Particles visible across all public pages
+      - Lighthouse Performance score >85
+      - Events table receiving scroll depth data
+      - 60fps animation performance (no jank)
+      - prefers-reduced-motion respected
+
+    status: PENDING
+    dependencies: []
+    features: ["1-Particles", "2-Gradient", "3-Orbs", "15-ScrollTracking", "19-EventsSchema", "20-TrackingLibrary"]
+    estimated_hours: 7
+    risk_level: MEDIUM
+
+  - iteration_id: 2
+    global_iteration: 19
+    name: "Reactive Interactions + Behavioral Tracking"
+    vision: "Make the site respond to user presence with magnetic CTAs, 3D card tilts, and complete behavioral tracking"
+    scope: |
+      REACTIVE ANIMATIONS:
+      - MagneticButton component with Framer Motion spring physics
+      - TiltCard component with 3D perspective transforms
+      - AnimatedIcon components for portfolio cards (hover + idle animations)
+      - Interactive testimonial cards with subtle 3D tilt
+      - Apply magnetic effect to all CTAs across pages
+      - Apply 3D tilt to all portfolio cards and testimonials
+
+      BEHAVIORAL TRACKING:
+      - useTimeOnPage hook with Visibility API (real engagement time)
+      - useClickTracker for CTA and element click tracking
+      - Cal.com conversion tracking integration
+      - Integrate tracking on homepage, pricing, project pages, CV
+
+      SUCCESS CRITERIA:
+      - CTAs visibly pull toward cursor on proximity
+      - Portfolio cards tilt smoothly in 3D on hover
+      - All CTAs tracked across pages
+      - Real time-on-page data replacing placeholder 45s
+      - Cal.com button clicks and embed opens tracked
+      - Lighthouse Performance score >85
+      - Mobile graceful degradation (no cursor effects)
+
+    status: PENDING
+    dependencies: [1]
+    features: ["4-MagneticCTA", "5-3DTilt", "6-AnimatedIcons", "7-Testimonials", "16-TimeTracking", "17-ClickTracking", "18-ConversionTracking"]
+    estimated_hours: 7
+    risk_level: MEDIUM
+
+  - iteration_id: 3
+    global_iteration: 20
+    name: "Choreography + Dashboard + Polish"
+    vision: "Orchestrated reveal animations, continuous hero life, and complete admin dashboard with engagement metrics"
+    scope: |
+      CHOREOGRAPHED ANIMATIONS:
+      - TextShimmer component for hero headline (periodic shimmer effect)
+      - Varied SectionReveal variants (fan-in for portfolio, cascade for How I Work)
+      - ConnectedAnimations for group awareness (non-hovered cards recede)
+      - HeroBreathing component (subtle 1.0->1.005->1.0 scale cycle)
+      - ScrollProgressBar in navigation
+      - Page transitions with Framer Motion AnimatePresence (if performance allows)
+
+      ADMIN DASHBOARD:
+      - New "Engagement" tab in admin sidebar
+      - Engagement page with:
+        - MetricCards for scroll depth, time on page, engagement score
+        - ConversionFunnel visualization (pageview -> scroll -> CTA -> Cal.com)
+        - Top clicked elements table
+        - Scroll depth distribution chart
+      - Engagement score calculation (scroll 30% + time 40% + interactions 30%)
+      - Update Pages table with real time-on-page data
+
+      SUCCESS CRITERIA:
+      - Hero headline shimmers periodically (every 8-10s)
+      - 4+ distinct reveal styles on homepage
+      - Hero has continuous subtle breathing animation
+      - Scroll progress visible in navigation
+      - Engagement tab visible and populated in admin
+      - Funnel visualization showing full conversion path
+      - Engagement score calculated and displayed
+      - Lighthouse Performance score >90
+
+    status: PENDING
+    dependencies: [1, 2]
+    features: ["8-SectionReveals", "9-TextShimmer", "10-ConnectedAnimations", "11-HeroBreathing", "12-PageTransitions", "14-ScrollProgress", "21-EngagementDashboard", "22-EngagementScore"]
+    estimated_hours: 7
+    risk_level: LOW-MEDIUM
+
+notes: |
+  DEFERRED FEATURES (out of scope for initial delivery):
+  - #13 Cursor Trail - Marked as "Should-Have" in vision, defer to future iteration
+  - Advanced A/B testing - Mentioned as out of scope in vision
+
+  PERFORMANCE GATES:
+  - Between iterations: Verify Lighthouse >85
+  - Before final delivery: Verify Lighthouse >90
+  - Throughout: 60fps animations, no visible jank
+
+  MOBILE STRATEGY:
+  - Reduce particle count from 20 to 10
+  - Disable cursor-based effects (magnetic, 3D tilt)
+  - Keep ambient layer (particles, gradients) but simpler
+  - Touch feedback on CTAs (scale on tap)
+
+  TESTING REQUIREMENTS:
+  - Unit tests for tracking library (event batching, DNT support)
+  - Integration tests for /api/analytics/event endpoint
+  - Visual testing on real mobile devices
+  - Reduced motion preference testing
+
+  EXPLORER RECOMMENDATIONS INCORPORATED:
+  - Explorer 1: 3-iteration structure, animation component hierarchy
+  - Explorer 2: 2-iteration proposal merged (animations first, then analytics)
+  - Explorer 3: Page-by-page integration priorities, mobile degradation strategy
+  - Explorer 4: Events schema, batching pattern, funnel queries
+  - Explorer 5: CSS vs JS split, performance gates, bundle size monitoring
