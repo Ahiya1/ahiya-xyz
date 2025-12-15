@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
+
+import { MagneticButton } from "@/app/components/reactive";
 import { cvConfig, getMailtoUrl } from "@/lib/cv-config";
 
 export default function CVPage() {
@@ -111,12 +113,15 @@ export default function CVPage() {
           {/* Contact */}
           <div className="text-center">
             <h3 className="heading-lg text-white mb-4">Contact</h3>
-            <a
-              href={getMailtoUrl()}
-              className="text-xl text-purple-400 hover:text-purple-300 transition-colors"
-            >
-              {cvConfig.contactEmail}
-            </a>
+            <MagneticButton pullStrength={0.4}>
+              <a
+                href={getMailtoUrl()}
+                className="text-xl text-purple-400 hover:text-purple-300 transition-colors"
+                data-track-click="cv_email"
+              >
+                {cvConfig.contactEmail}
+              </a>
+            </MagneticButton>
             <p className="text-slate-600 text-sm mt-3">
               {cvConfig.copy.contactSupportText}
             </p>
@@ -124,13 +129,16 @@ export default function CVPage() {
 
           {/* PDF Download */}
           <p className="text-center text-slate-600 text-xs mt-12">
-            <a
-              href="/ahiya-cv.pdf"
-              download
-              className="hover:text-slate-500 transition-colors underline"
-            >
-              {cvConfig.copy.pdfDownloadText}
-            </a>
+            <MagneticButton pullStrength={0.3}>
+              <a
+                href="/ahiya-cv.pdf"
+                download
+                className="hover:text-slate-500 transition-colors underline"
+                data-track-click="cv_pdf_download"
+              >
+                {cvConfig.copy.pdfDownloadText}
+              </a>
+            </MagneticButton>
           </p>
         </div>
       </section>

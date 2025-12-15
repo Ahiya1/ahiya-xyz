@@ -3,10 +3,12 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { Check, Calendar, ArrowRight } from "lucide-react";
+
 import { Navigation } from "@/app/components/Navigation";
 import { Footer } from "@/app/components/Footer";
 import { UrgencyBadge } from "@/app/components/UrgencyBadge";
 import { CalcomEmbed } from "@/app/components/CalcomEmbed";
+import { MagneticButton } from "@/app/components/reactive";
 import { serviceTiers, launchPricingConfig } from "@/app/data/pricing";
 
 export default function PricingPage() {
@@ -59,6 +61,7 @@ export default function PricingPage() {
                     : ""
                 }`}
                 style={{ transitionDelay: `${index * 100}ms` }}
+                data-track-click={`pricing_tier:${tier.id}`}
               >
                 {tier.highlighted && (
                   <span className="inline-block px-3 py-1 text-xs font-medium text-purple-400 bg-purple-500/10 rounded-full mb-4">
@@ -115,13 +118,16 @@ export default function PricingPage() {
       {/* Back to Portfolio */}
       <section className="section-breathing">
         <div className="container-content text-center">
-          <Link
-            href="/#portfolio"
-            className="inline-flex items-center gap-2 text-slate-400 hover:text-purple-300 transition-colors"
-          >
-            <ArrowRight className="w-4 h-4 rotate-180" />
-            Back to Portfolio
-          </Link>
+          <MagneticButton pullStrength={0.3}>
+            <Link
+              href="/#portfolio"
+              className="inline-flex items-center gap-2 text-slate-400 hover:text-purple-300 transition-colors"
+              data-track-click="pricing:back_to_portfolio"
+            >
+              <ArrowRight className="w-4 h-4 rotate-180" />
+              Back to Portfolio
+            </Link>
+          </MagneticButton>
         </div>
       </section>
 

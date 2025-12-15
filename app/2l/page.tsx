@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Navigation } from "@/app/components/Navigation";
-import { Footer } from "@/app/components/Footer";
 import {
   RefreshCw,
   Zap,
@@ -11,6 +9,10 @@ import {
   Mail,
   ArrowDown,
 } from "lucide-react";
+
+import { Navigation } from "@/app/components/Navigation";
+import { Footer } from "@/app/components/Footer";
+import { MagneticButton } from "@/app/components/reactive";
 
 // 2L Components - New in Plan-13
 import { InvoiceFlowDemo } from "@/app/components/2l/InvoiceFlowDemo";
@@ -109,19 +111,25 @@ export default function TwoLPage() {
             className="flex flex-col sm:flex-row items-center justify-center gap-4 hero-ctas"
             style={{ animationDelay: "1.0s" }}
           >
-            <a
-              href="#watch-build"
-              className="inline-flex items-center justify-center px-6 py-3 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium transition-all duration-300 hover:bg-purple-500/20 hover:border-purple-400/50"
-            >
-              Watch It Build
-              <ArrowDown className="w-4 h-4 ml-2" />
-            </a>
-            <a
-              href="#case-study"
-              className="inline-flex items-center justify-center px-6 py-3 border border-white/10 rounded-xl text-slate-300 font-medium transition-all duration-300 hover:bg-white/5 hover:border-white/20"
-            >
-              View Case Study
-            </a>
+            <MagneticButton pullStrength={0.4}>
+              <a
+                href="#watch-build"
+                className="inline-flex items-center justify-center px-6 py-3 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium transition-all duration-300 hover:bg-purple-500/20 hover:border-purple-400/50"
+                data-track-click="twol_watch_build"
+              >
+                Watch It Build
+                <ArrowDown className="w-4 h-4 ml-2" />
+              </a>
+            </MagneticButton>
+            <MagneticButton pullStrength={0.3}>
+              <a
+                href="#case-study"
+                className="inline-flex items-center justify-center px-6 py-3 border border-white/10 rounded-xl text-slate-300 font-medium transition-all duration-300 hover:bg-white/5 hover:border-white/20"
+                data-track-click="twol_view_case_study"
+              >
+                View Case Study
+              </a>
+            </MagneticButton>
           </div>
         </div>
       </section>
@@ -246,19 +254,26 @@ export default function TwoLPage() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href="mailto:ahiya.butman@gmail.com"
-                className="cta-magnetic inline-flex items-center justify-center px-6 py-3 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium"
-              >
-                <Mail className="w-5 h-5 mr-2" aria-hidden="true" />
-                Get in Touch
-              </a>
-              <Link
-                href="/capabilities"
-                className="inline-flex items-center justify-center px-6 py-3 border border-white/10 rounded-xl text-slate-300 font-medium transition-all duration-300 hover:bg-white/5 hover:border-white/20"
-              >
-                View Capabilities
-              </Link>
+              <MagneticButton pullStrength={0.4}>
+                <a
+                  href="mailto:ahiya.butman@gmail.com"
+                  className="cta-magnetic inline-flex items-center justify-center px-6 py-3 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium"
+                  data-track-click="twol_get_in_touch"
+                  data-track-conversion="contact_intent"
+                >
+                  <Mail className="w-5 h-5 mr-2" aria-hidden="true" />
+                  Get in Touch
+                </a>
+              </MagneticButton>
+              <MagneticButton pullStrength={0.3}>
+                <Link
+                  href="/capabilities"
+                  className="inline-flex items-center justify-center px-6 py-3 border border-white/10 rounded-xl text-slate-300 font-medium transition-all duration-300 hover:bg-white/5 hover:border-white/20"
+                  data-track-click="twol_view_capabilities"
+                >
+                  View Capabilities
+                </Link>
+              </MagneticButton>
             </div>
           </div>
         </div>
