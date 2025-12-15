@@ -16,6 +16,7 @@
     "outreach:send": "npx tsx scripts/agency-outreach.ts --send"
   },
   "dependencies": {
+    "@calcom/embed-react": "^1.5.3",
     "@react-pdf/renderer": "^4.3.1",
     "@tailwindcss/postcss": "^4.1.10",
     "@vercel/postgres": "^0.10.0",

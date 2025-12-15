@@ -1,0 +1,64 @@
+plan_id: plan-16
+created_at: "2025-12-15T15:30:00Z"
+status: PLANNED
+mode: production
+total_iterations: 1
+
+strategy: |
+  Single iteration approach for tightly coupled conversion optimization features.
+  All 7 features (testimonials, AI emphasis, pricing page, Cal.com embed,
+  urgency element, navigation, CTAs) are interdependent and should be built together.
+
+  Build order:
+  1. Data files (testimonials, pricing, availability)
+  2. Reusable components (UrgencyBadge, CalcomEmbed)
+  3. Testimonials section for homepage
+  4. Pricing page with Cal.com embed
+  5. Navigation update
+  6. Homepage integration (AI emphasis, pricing mention, CTA updates)
+  7. Polish and responsive testing
+
+complexity_assessment:
+  level: MEDIUM
+  features: 7
+  integrations: 1 (Cal.com)
+  estimated_duration: "6-10 hours"
+  risk_level: LOW
+
+master_exploration:
+  num_explorers: 3
+  reports:
+    - master-explorer-1-report.md  # Architecture
+    - master-explorer-2-report.md  # Dependencies
+    - master-explorer-3-report.md  # UX & Integration
+
+iterations:
+  - iteration_id: 1
+    global_iteration: 17
+    name: "Landing Page Conversion Optimization"
+    vision: |
+      Add testimonials, pricing page with Cal.com embed, urgency elements,
+      AI/Agent emphasis, and update all CTAs for seamless booking flow.
+    scope: |
+      ## Features
+      1. Testimonials Section (3 quotes on homepage)
+      2. AI/Agent Integration Emphasis (hero + messaging)
+      3. Dedicated Pricing Page (/pricing)
+      4. Cal.com Embed Integration
+      5. Urgency Element (availability messaging)
+      6. Navigation Update (add Pricing link)
+      7. CTA Updates (all point to Cal.com booking)
+
+      ## Technical Requirements
+      - Install @calcom/embed-react
+      - Create data files for testimonials, pricing, availability
+      - Follow existing design patterns (contemplative-card, scroll reveals)
+      - Mobile responsive
+      - Match premium aesthetic
+
+      ## Cal.com Details
+      - URL: cal.com/ahiya-butman-tigupi/discovery-call
+      - Event: Discovery Call (30 min)
+      - Location: Google Meet
+    status: PENDING
+    dependencies: []

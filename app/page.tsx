@@ -7,6 +7,7 @@ import { Navigation } from "@/app/components/Navigation";
 import { Footer } from "@/app/components/Footer";
 import { PortfolioCard } from "@/app/components/PortfolioCard";
 import { SectionHeading } from "@/app/components/SectionHeading";
+import { Testimonials } from "@/app/components/Testimonials";
 import { portfolioProjects } from "@/app/data/portfolio";
 
 // Custom hook for scroll-triggered fade-in
@@ -63,7 +64,7 @@ export default function HomePage() {
 
           {/* Subheadline - fades in after hero words */}
           <p className="body-xl text-slate-300 max-w-2xl mx-auto mb-10 hero-subline" style={{ animationDelay: '0.8s' }}>
-            Precise systems delivered in weeks, not months.
+            AI-powered systems delivered in weeks, not months.
           </p>
 
           {/* CTAs - fade in after subline */}
@@ -74,12 +75,12 @@ export default function HomePage() {
             >
               See the Work
             </a>
-            <a
-              href="#contact"
+            <Link
+              href="/pricing"
               className="inline-flex items-center justify-center px-6 py-3 border border-white/10 rounded-xl text-slate-300 font-medium transition-all duration-300 hover:bg-white/5 hover:border-white/20"
             >
               Let's Build
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -123,13 +124,13 @@ export default function HomePage() {
               Download PDF
             </a>
 
-            <a
-              href="#contact"
+            <Link
+              href="/pricing"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium transition-all duration-300 hover:bg-purple-500/20 hover:border-purple-400/50"
             >
               <Mail className="w-4 h-4" />
               Get in Touch
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -199,8 +200,18 @@ export default function HomePage() {
             Powered by <Link href="/2l" className="text-gentle hover:underline">2L</Link> — my AI orchestration framework.{" "}
             <Link href="/2l" className="text-purple-400 hover:text-purple-300 transition-colors">Learn how it works</Link>
           </p>
+
+          {/* Pricing Mention */}
+          <p className="text-center text-slate-500 text-sm mt-4">
+            <Link href="/pricing" className="text-slate-400 hover:text-white transition-colors">
+              Transparent pricing starting at $2,500
+            </Link>
+          </p>
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <Testimonials />
 
       {/* Contact/CTA Section with scroll reveal */}
       <section
@@ -219,11 +230,14 @@ export default function HomePage() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
-                href="mailto:ahiya.butman@gmail.com"
+                href="https://cal.com/ahiya-butman-tigupi/discovery-call"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="cta-magnetic inline-flex items-center justify-center px-6 py-3 bg-purple-500/10 border border-purple-400/30 rounded-xl text-slate-200 font-medium"
               >
                 <Mail className="w-5 h-5 mr-2" aria-hidden="true" />
-                Get in Touch
+                Book Discovery Call
+                <span className="sr-only">(opens in new tab)</span>
               </a>
               <a
                 href="https://github.com/Ahiya1"

@@ -1,4 +1,4 @@
-current_plan: plan-15
+current_plan: plan-16
 global_iteration_counter: 16
 current_iteration: 16
 current_phase: complete
@@ -151,3 +151,14 @@ plans:
   master_exploration:
     num_explorers: 2
     complexity_level: SIMPLE
+- plan_id: plan-16
+  name: Landing Page Conversion Optimization
+  status: PLANNED
+  mode: production
+  created_at: '2025-12-15T14:50:00Z'
+  vision_file: .2L/plan-16/vision.md
+  master_plan_file: .2L/plan-16/master-plan.yaml
+  description: Add testimonials, emphasize AI/Agent expertise, create dedicated pricing page with launch pricing, add urgency elements. Goal - convert more visitors to discovery calls.
+  master_exploration:
+    num_explorers: 3
+    complexity_level: MEDIUM
