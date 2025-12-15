@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { type ReactNode } from "react";
+import { type ReactNode, useState, useEffect } from "react";
 
 interface TemplateProps {
   children: ReactNode;
@@ -17,9 +17,20 @@ interface TemplateProps {
  */
 export default function Template({ children }: TemplateProps) {
   const pathname = usePathname();
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  // Only enable transitions after hydration to prevent SSR flash
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   // Skip transitions for admin routes to avoid dashboard disruption
   if (pathname.startsWith("/admin")) {
+    return <>{children}</>;
+  }
+
+  // Before hydration, render without opacity animation to prevent invisible content
+  if (!isHydrated) {
     return <>{children}</>;
   }
 
