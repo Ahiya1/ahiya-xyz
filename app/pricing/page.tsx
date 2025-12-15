@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Suspense } from "react";
 import Link from "next/link";
 import { Check, Calendar, ArrowRight } from "lucide-react";
 import { Navigation } from "@/app/components/Navigation";
@@ -9,50 +9,7 @@ import { UrgencyBadge } from "@/app/components/UrgencyBadge";
 import { CalcomEmbed } from "@/app/components/CalcomEmbed";
 import { serviceTiers, launchPricingConfig } from "@/app/data/pricing";
 
-// Custom hook for scroll-triggered fade-in
-function useScrollReveal() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  return { ref, isVisible };
-}
-
 export default function PricingPage() {
-  const [mounted, setMounted] = useState(false);
-  const tiersReveal = useScrollReveal();
-  const bookingReveal = useScrollReveal();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Loading state for hydration
-  if (!mounted) {
-    return (
-      <div className="min-h-screen bg-[#0a0f1a] flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-purple-400/30 border-t-purple-400 rounded-full animate-spin" />
-      </div>
-    );
-  }
-
   return (
     <main id="main-content" className="bg-[#0a0f1a] min-h-screen">
       <Navigation />
@@ -91,12 +48,7 @@ export default function PricingPage() {
 
       {/* Service Tiers Grid */}
       <section className="section-breathing">
-        <div
-          ref={tiersReveal.ref}
-          className={`container-wide transition-all duration-700 ${
-            tiersReveal.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
+        <div className="container-wide section-reveal-1">
           <div className="grid md:grid-cols-2 gap-6 md:gap-8">
             {serviceTiers.map((tier, index) => (
               <div
@@ -139,13 +91,7 @@ export default function PricingPage() {
       </section>
 
       {/* Cal.com Embed Section */}
-      <section
-        id="book"
-        ref={bookingReveal.ref}
-        className={`section-breathing transition-all duration-700 ${
-          bookingReveal.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
-      >
+      <section id="book" className="section-breathing section-reveal-2">
         <div className="container-content">
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-purple-500/10 border border-purple-400/30 rounded-full text-purple-300 text-sm">

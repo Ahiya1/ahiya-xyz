@@ -13,6 +13,12 @@ export interface Testimonial {
   role: string;
   organization: string;
   type: "institutional" | "corporate" | "personal";
+  logo: {
+    type: "emoji" | "text";
+    value: string;
+    gradient: string;
+  };
+  project: string;
 }
 
 export const testimonials: Testimonial[] = [
@@ -24,24 +30,42 @@ export const testimonials: Testimonial[] = [
     role: "Head of Department",
     organization: "Herzog College",
     type: "institutional",
+    project: "StatViz",
+    logo: {
+      type: "text",
+      value: "HC",
+      gradient: "from-blue-500 to-indigo-600",
+    },
   },
   {
     id: "hit",
     quote:
       "The AI results were comprehensive and aligned with our purpose. Exactly what we needed",
-    author: "HIT",
-    role: "Research Team",
+    author: "Research Team",
+    role: "",
     organization: "Holon Institute of Technology",
     type: "corporate",
+    project: "AI Research Pipeline",
+    logo: {
+      type: "text",
+      value: "HIT",
+      gradient: "from-emerald-500 to-teal-600",
+    },
   },
   {
     id: "mirror-user",
     quote:
       "The app helped me connect to my aspirations in a transitional period in my life",
-    author: "Mirror of Dreams user",
-    role: "User",
-    organization: "",
+    author: "Early User",
+    role: "",
+    organization: "Mirror of Dreams",
     type: "personal",
+    project: "Mirror of Dreams",
+    logo: {
+      type: "emoji",
+      value: "🪞",
+      gradient: "from-purple-500 to-pink-600",
+    },
   },
 ];
 
