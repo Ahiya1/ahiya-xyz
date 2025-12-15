@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { useReducedMotion } from "@/app/hooks/useReducedMotion";
 
 type HoverEffect = "intention" | "clarity" | "results";
@@ -15,48 +14,19 @@ interface HoverWordsProps {
 }
 
 /**
- * Intention: Focused, intensifying glow - like concentrating energy
+ * Intention: Focused energy - subtle scale + brightness
+ * Conveys concentration and deliberate focus
  */
 function IntentionWord({ word }: { word: string }) {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <motion.span
-      className="inline-block cursor-default relative"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      animate={{
-        textShadow: isHovered
-          ? "0 0 30px rgba(168, 85, 247, 0.9), 0 0 60px rgba(168, 85, 247, 0.5), 0 0 90px rgba(168, 85, 247, 0.3)"
-          : "0 0 0px rgba(168, 85, 247, 0)",
-      }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-    >
-      {word}
-    </motion.span>
-  );
-}
-
-/**
- * Clarity: Blur-to-sharp effect - like a lens focusing
- */
-function ClarityWord({ word }: { word: string }) {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <motion.span
       className="inline-block cursor-default"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      animate={{
-        filter: isHovered ? "blur(0px)" : "blur(0px)",
-        textShadow: isHovered
-          ? "0 0 1px rgba(255, 255, 255, 0.9), 0 0 2px rgba(255, 255, 255, 0.5)"
-          : "0 0 0px rgba(255, 255, 255, 0)",
-        letterSpacing: isHovered ? "0.02em" : "0em",
+      style={{ filter: "brightness(1)" }}
+      whileHover={{
+        scale: 1.05,
+        filter: "brightness(1.2)",
       }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
     >
       {word}
     </motion.span>
@@ -64,25 +34,42 @@ function ClarityWord({ word }: { word: string }) {
 }
 
 /**
- * Results: Underline draws in - like achievement/completion
+ * Clarity: Sharp and clear - crisp scale with subtle lift
+ * Conveys precision and sharpness
  */
-function ResultsWord({ word }: { word: string }) {
-  const [isHovered, setIsHovered] = useState(false);
-
+function ClarityWord({ word }: { word: string }) {
   return (
-    <span
-      className="inline-block cursor-default relative"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <motion.span
+      className="inline-block cursor-default"
+      whileHover={{
+        scale: 1.03,
+        y: -2,
+        filter: "contrast(1.1) brightness(1.1)",
+      }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
     >
       {word}
-      <motion.span
-        className="absolute bottom-[0.1em] left-0 right-0 h-[0.08em] bg-gradient-to-r from-purple-500 via-indigo-500 to-purple-500 origin-left"
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: isHovered ? 1 : 0 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
+    </motion.span>
+  );
+}
+
+/**
+ * Results: Achievement - underline draws in from left
+ * Conveys completion and accomplishment
+ */
+function ResultsWord({ word }: { word: string }) {
+  return (
+    <motion.span
+      className="inline-block cursor-default relative group"
+      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
+    >
+      {word}
+      {/* Underline that draws in on hover */}
+      <span
+        className="absolute -bottom-1 left-0 w-full h-[3px] bg-gradient-to-r from-purple-400 to-pink-400 rounded-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"
       />
-    </span>
+    </motion.span>
   );
 }
 
@@ -95,6 +82,10 @@ const wordComponents: Record<HoverEffect, React.FC<{ word: string }>> = {
 /**
  * HoverWords splits text into individual words with semantic hover effects.
  * Each effect is designed to match the meaning of the word.
+ *
+ * - Intention: Brightens + scales (focusing energy)
+ * - Clarity: Lifts + sharpens (precision)
+ * - Results: Underline draws in (achievement)
  *
  * Usage:
  * ```tsx
