@@ -1,0 +1,148 @@
+plan_id: plan-18
+created_at: "2025-12-16T22:50:00Z"
+status: PLANNED
+mode: production
+total_iterations: 1
+
+vision: |
+  The Eternal Construction - a living canvas background animation for the 2L page.
+  Lines converge, structures emerge, architecture crystallizes.
+  Not decoration, but truth made visible.
+
+strategy: |
+  Single iteration approach - all features are tightly coupled (nodes feed lines
+  feed connections feed structures). Splitting would create artificial boundaries.
+
+  The codebase has zero Canvas 2D implementations currently - this will establish
+  patterns for future canvas work. Existing AmbientLayer provides positioning pattern.
+
+  5 builders working in sequence:
+  - Builder 1 creates canvas foundation (critical path)
+  - Builder 2-4 implement node/line/connection systems
+  - Builder 5 handles integration and polish
+
+complexity_assessment:
+  rating: MEDIUM-COMPLEX
+  features_identified: 12
+  estimated_hours: 14-20
+  risks:
+    - Performance at 60fps (MEDIUM - mitigated by object pooling)
+    - Structure detection complexity (MEDIUM - keep simple)
+    - Memory leaks (MEDIUM - strict object pooling)
+
+iterations:
+  - iteration_id: 1
+    global_iteration: 21
+    name: "The Eternal Construction"
+    vision: "Living canvas animation for 2L page - nodes, lines, connections, structures in eternal loop"
+    scope: |
+      MVP (Must-Have):
+      1. Fixed Canvas Background - full viewport, z-0, proper DOM order
+      2. Node System - spawn, drift, fade (20-40 nodes, 15-30s lifespan)
+      3. Line System - purposeful extension with easing (10-20 lines, 2-4s travel)
+      4. Connection Logic - lock-in detection, 300ms pulse
+      5. Structure System - 3+ connected nodes, 10-20s persistence
+      6. Eternal Loop - continuous spawning/despawning, balanced density
+
+      Polish (Should-Have):
+      7. Reduced motion support (respect prefers-reduced-motion)
+      8. Mobile optimization (reduced density)
+      9. Performance optimization (object pooling, visibility throttling)
+
+      Optional (Could-Have):
+      10. Mouse interaction (subtle line attraction)
+
+      Performance Budget:
+      - 60fps target
+      - <5% CPU
+      - <20MB memory
+      - <50KB bundle size
+    status: PENDING
+    dependencies: []
+
+    builder_breakdown:
+      - builder_id: 1
+        name: "Canvas Foundation + Animation Loop"
+        scope: |
+          - Create EternalConstruction component structure
+          - Canvas setup with DPR handling
+          - requestAnimationFrame loop with delta time
+          - ResizeObserver with debouncing
+          - Visibility-based throttling (IntersectionObserver)
+          - Reduced motion detection hook
+          - Base types and constants
+        output: "Working canvas that clears each frame, ready for content"
+
+      - builder_id: 2
+        name: "Node System"
+        scope: |
+          - Node type definition and state management
+          - Spawn logic with random positioning
+          - Gentle drift movement (velocity-based)
+          - Lifecycle phases: spawning -> active -> fading
+          - Density management (20-40 concurrent nodes)
+          - Object pooling for nodes
+          - Node rendering (glowing points)
+        output: "Floating glowing nodes that appear, drift, and fade"
+
+      - builder_id: 3
+        name: "Line System"
+        scope: |
+          - Line type definition and state management
+          - Line spawning from node to target node
+          - Smooth eased extension (easeOutCubic)
+          - Gradient rendering (dim origin to bright destination)
+          - Travel timing (2-4 seconds)
+          - Concurrent limit (10-20 lines)
+          - Line rendering with gradients
+        output: "Purposeful lines extending between nodes"
+
+      - builder_id: 4
+        name: "Connection & Structure System"
+        scope: |
+          - Connection detection (line reaches target)
+          - Connection pulse effect (300ms brightness)
+          - Line lock-in state transition
+          - Structure detection (3+ interconnected nodes)
+          - Structure lifecycle (10-20 second persistence)
+          - Enhanced luminosity for structures
+          - Graceful structure fading
+        output: "Visual feedback on connections, persistent geometric structures"
+
+      - builder_id: 5
+        name: "Integration & Polish"
+        scope: |
+          - 2L page integration (import, DOM position)
+          - z-index coordination with existing AmbientLayer
+          - Mobile responsive adaptation (reduced density)
+          - Performance testing and optimization
+          - Final visual tuning (colors, opacities, timing)
+          - Optional: Mouse interaction influence
+          - Unit tests for pure functions
+        output: "Fully integrated, performant, tested animation"
+
+    test_requirements:
+      unit_tests:
+        - "Easing functions (easeOutCubic)"
+        - "Node lifecycle transitions"
+        - "Line progress calculations"
+        - "Connection detection logic"
+        - "Object pool acquire/release"
+      integration_tests:
+        - "Canvas mounts and unmounts cleanly"
+        - "Reduced motion support"
+        - "Visibility-based throttling"
+      performance_tests:
+        - "60fps under normal load"
+        - "Memory stability after 60 seconds"
+        - "CPU usage < 5%"
+
+    success_criteria:
+      - "Canvas renders behind all 2L page content"
+      - "20-40 nodes floating with gentle drift"
+      - "10-20 lines extending between nodes"
+      - "Connection pulse on line lock-in"
+      - "Structures persist 10-20 seconds"
+      - "60fps smooth animation"
+      - "Respects prefers-reduced-motion"
+      - "No janky transitions or memory leaks"

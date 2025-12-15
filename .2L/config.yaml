@@ -194,8 +194,13 @@ plans:
     tag: 2l-plan-17-iter-20-prod
 - plan_id: plan-18
   name: The Eternal Construction
-  status: VISIONED
+  status: IN_PROGRESS
   mode: production
   created_at: '2025-12-16T22:30:00Z'
   vision_file: .2L/plan-18/vision.md
+  master_plan_file: .2L/plan-18/master-plan.yaml
   description: Living background animation for the 2L page. Lines converge, structures emerge, architecture crystallizes. Not decoration — truth. This is what 2L does, made visible. Agents as trajectories, convergence as recognition, architecture as crystallized purpose.
+  master_exploration:
+    num_explorers: 2
+    complexity_level: MEDIUM-COMPLEX
+  total_iterations: 1

@@ -13,12 +13,14 @@ import {
 import { Navigation } from "@/app/components/Navigation";
 import { Footer } from "@/app/components/Footer";
 import { MagneticButton } from "@/app/components/reactive";
+import { useReducedMotion } from "@/app/hooks/useReducedMotion";
 
 // 2L Components - New in Plan-13
 import { InvoiceFlowDemo } from "@/app/components/2l/InvoiceFlowDemo";
 import { PipelineVisualization } from "@/app/components/2l/PipelineVisualization";
 import { AgentCards } from "@/app/components/2l/AgentCards";
 import { BuiltBy2LBadge } from "@/app/components/2l/BuiltBy2LBadge";
+import { EternalConstruction } from "@/app/components/2l/EternalConstruction";
 
 // The Promise - What You Get (KEPT)
 const promise = [
@@ -66,6 +68,7 @@ const differentiators = [
 
 export default function TwoLPage() {
   const [mounted, setMounted] = useState<boolean>(false);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     setMounted(true);
@@ -82,6 +85,9 @@ export default function TwoLPage() {
 
   return (
     <main id="main-content" className="bg-[#0a0f1a] min-h-screen">
+      {/* EternalConstruction canvas animation - only render if not reduced motion */}
+      {!prefersReducedMotion && <EternalConstruction />}
+
       <Navigation />
 
       {/* Section 1: Hero (KEPT) */}
