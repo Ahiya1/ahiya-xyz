@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, type Variants, useInView } from "framer-motion";
-import { useRef, type ReactNode, type CSSProperties } from "react";
+import { useRef, useState, useEffect, type ReactNode, type CSSProperties } from "react";
 import { useReducedMotion } from "@/app/hooks/useReducedMotion";
 import { springPresets } from "@/lib/animation-utils";
 
@@ -125,8 +125,20 @@ export function SectionReveal({
   style,
 }: SectionRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  // Use amount instead of margin for more reliable mobile triggering
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
   const prefersReducedMotion = useReducedMotion();
+  const [forceVisible, setForceVisible] = useState(false);
+
+  // Fallback: force visibility after 2 seconds if intersection observer fails
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isInView) {
+        setForceVisible(true);
+      }
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [isInView]);
 
   // If reduced motion is preferred, render without animation
   if (prefersReducedMotion) {
@@ -137,6 +149,8 @@ export function SectionReveal({
     );
   }
 
+  const shouldShow = isInView || forceVisible;
+
   return (
     <motion.div
       ref={ref}
@@ -144,7 +158,7 @@ export function SectionReveal({
       style={style}
       variants={containerVariants[variant]}
       initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
+      animate={shouldShow ? "visible" : "hidden"}
     >
       {children}
     </motion.div>
