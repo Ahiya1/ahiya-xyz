@@ -190,6 +190,8 @@ plans:
     tag: 2l-plan-17-iter-19-prod
   iteration_20:
     status: COMPLETE
+    commit: 74f0805
+    tag: 2l-plan-17-iter-20-prod
 - plan_id: plan-18
   name: The Eternal Construction
   status: VISIONED
