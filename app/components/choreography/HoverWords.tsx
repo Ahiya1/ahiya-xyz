@@ -26,16 +26,19 @@ const effectVariants: Record<HoverEffect, EffectVariant> = {
     },
   },
   lift: {
-    initial: { y: 0 },
-    hover: { y: -4 },
+    initial: { y: 0, scale: 1 },
+    hover: { y: -6, scale: 1.02 },
   },
   color: {
-    initial: { color: "inherit" },
-    hover: { color: "#a855f7" },
+    initial: { opacity: 1 },
+    hover: {
+      opacity: 1,
+      textShadow: "0 0 30px rgba(99, 102, 241, 0.9), 0 0 60px rgba(99, 102, 241, 0.5)",
+    },
   },
   scale: {
     initial: { scale: 1 },
-    hover: { scale: 1.05 },
+    hover: { scale: 1.08 },
   },
   "blur-reveal": {
     initial: { filter: "blur(0px)", opacity: 1 },
