@@ -28,6 +28,17 @@ import { GET } from "./route";
 import { verifyAdminToken } from "@/lib/auth";
 import { sql } from "@vercel/postgres";
 
+// Helper to create mock QueryResult with required properties
+function mockQueryResult<T>(rows: T[]) {
+  return {
+    rows,
+    command: "SELECT",
+    rowCount: rows.length,
+    oid: 0,
+    fields: [],
+  };
+}
+
 describe("GET /api/admin/engagement", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -69,50 +80,26 @@ describe("GET /api/admin/engagement", () => {
 
   describe("happy path", () => {
     beforeEach(() => {
-      // Setup mock SQL responses
-      const mockSqlResponse = {
-        rows: [
-          { avg_scroll: 65 },
-        ],
-      };
-
-      const mockTimeResponse = {
-        rows: [{ avg_seconds: 45, sessions: 100 }],
-      };
-
-      const mockFunnelResponse = {
-        rows: [
-          { page_views: 1000, scroll_50: 600, cta_clicks: 150, cal_opens: 30 },
-        ],
-      };
-
-      const mockScrollDistResponse = {
-        rows: [
-          { milestone: "25%", sessions: 200, percentage: 20 },
-          { milestone: "50%", sessions: 300, percentage: 30 },
-          { milestone: "75%", sessions: 300, percentage: 30 },
-          { milestone: "100%", sessions: 200, percentage: 20 },
-        ],
-      };
-
-      const mockTopClicksResponse = {
-        rows: [
-          { label: "hero_cta", category: "CTA", count: 100, page_path: "/" },
-          {
-            label: "pricing_starter",
-            category: "CTA",
-            count: 50,
-            page_path: "/pricing",
-          },
-        ],
-      };
-
-      const mockSparklineResponse = {
-        rows: [
-          { date: "2024-01-01", scroll: 60, sessions: 50 },
-          { date: "2024-01-02", scroll: 65, sessions: 55 },
-        ],
-      };
+      // Setup mock SQL responses using helper for proper QueryResult type
+      const mockSqlResponse = mockQueryResult([{ avg_scroll: 65 }]);
+      const mockTimeResponse = mockQueryResult([{ avg_seconds: 45, sessions: 100 }]);
+      const mockFunnelResponse = mockQueryResult([
+        { page_views: 1000, scroll_50: 600, cta_clicks: 150, cal_opens: 30 },
+      ]);
+      const mockScrollDistResponse = mockQueryResult([
+        { milestone: "25%", sessions: 200, percentage: 20 },
+        { milestone: "50%", sessions: 300, percentage: 30 },
+        { milestone: "75%", sessions: 300, percentage: 30 },
+        { milestone: "100%", sessions: 200, percentage: 20 },
+      ]);
+      const mockTopClicksResponse = mockQueryResult([
+        { label: "hero_cta", category: "CTA", count: 100, page_path: "/" },
+        { label: "pricing_starter", category: "CTA", count: 50, page_path: "/pricing" },
+      ]);
+      const mockSparklineResponse = mockQueryResult([
+        { date: "2024-01-01", scroll: 60, sessions: 50 },
+        { date: "2024-01-02", scroll: 65, sessions: 55 },
+      ]);
 
       // Mock sql to return different results for different queries
       let callCount = 0;
@@ -125,10 +112,10 @@ describe("GET /api/admin/engagement", () => {
           mockTopClicksResponse, // top clicks
           mockSqlResponse, // prev scroll depth
           mockTimeResponse, // prev time on page
-          { rows: [{ sessions: 80 }] }, // prev sessions
+          mockQueryResult([{ sessions: 80 }]), // prev sessions
           mockSparklineResponse, // sparkline
         ];
-        return Promise.resolve(responses[callCount++] || { rows: [] });
+        return Promise.resolve(responses[callCount++] || mockQueryResult([]));
       });
     });
 
@@ -271,7 +258,7 @@ describe("GET /api/admin/engagement", () => {
   describe("edge cases", () => {
     it("should handle empty data gracefully", async () => {
       // Mock empty responses
-      vi.mocked(sql).mockResolvedValue({ rows: [] });
+      vi.mocked(sql).mockResolvedValue(mockQueryResult([]));
 
       const request = new NextRequest(
         "http://localhost/api/admin/engagement?range=7d"
@@ -287,9 +274,9 @@ describe("GET /api/admin/engagement", () => {
     });
 
     it("should handle null values in database response", async () => {
-      vi.mocked(sql).mockResolvedValue({
-        rows: [{ avg_scroll: null, avg_seconds: null, sessions: null }],
-      });
+      vi.mocked(sql).mockResolvedValue(
+        mockQueryResult([{ avg_scroll: null, avg_seconds: null, sessions: null }])
+      );
 
       const request = new NextRequest(
         "http://localhost/api/admin/engagement?range=7d"
@@ -308,17 +295,17 @@ describe("GET /api/admin/engagement", () => {
       let callCount = 0;
       vi.mocked(sql).mockImplementation(() => {
         const responses = [
-          { rows: [{ avg_scroll: 70 }] }, // current scroll
-          { rows: [{ avg_seconds: 50, sessions: 100 }] }, // current time
-          { rows: [{ page_views: 1000, scroll_50: 600, cta_clicks: 150, cal_opens: 30 }] },
-          { rows: [] }, // scroll dist
-          { rows: [] }, // top clicks
-          { rows: [{ avg_scroll: 50 }] }, // prev scroll (lower)
-          { rows: [{ avg_seconds: 30, sessions: 60 }] }, // prev time (lower)
-          { rows: [{ sessions: 60 }] }, // prev sessions (lower)
-          { rows: [] }, // sparkline
+          mockQueryResult([{ avg_scroll: 70 }]), // current scroll
+          mockQueryResult([{ avg_seconds: 50, sessions: 100 }]), // current time
+          mockQueryResult([{ page_views: 1000, scroll_50: 600, cta_clicks: 150, cal_opens: 30 }]),
+          mockQueryResult([]), // scroll dist
+          mockQueryResult([]), // top clicks
+          mockQueryResult([{ avg_scroll: 50 }]), // prev scroll (lower)
+          mockQueryResult([{ avg_seconds: 30, sessions: 60 }]), // prev time (lower)
+          mockQueryResult([{ sessions: 60 }]), // prev sessions (lower)
+          mockQueryResult([]), // sparkline
         ];
-        return Promise.resolve(responses[callCount++] || { rows: [] });
+        return Promise.resolve(responses[callCount++] || mockQueryResult([]));
       });
 
       const request = new NextRequest(
@@ -336,17 +323,17 @@ describe("GET /api/admin/engagement", () => {
       let callCount = 0;
       vi.mocked(sql).mockImplementation(() => {
         const responses = [
-          { rows: [{ avg_scroll: 40 }] }, // current scroll (lower)
-          { rows: [{ avg_seconds: 30, sessions: 50 }] }, // current time
-          { rows: [{ page_views: 500, scroll_50: 300, cta_clicks: 75, cal_opens: 15 }] },
-          { rows: [] }, // scroll dist
-          { rows: [] }, // top clicks
-          { rows: [{ avg_scroll: 70 }] }, // prev scroll (higher)
-          { rows: [{ avg_seconds: 60, sessions: 100 }] }, // prev time (higher)
-          { rows: [{ sessions: 100 }] }, // prev sessions (higher)
-          { rows: [] }, // sparkline
+          mockQueryResult([{ avg_scroll: 40 }]), // current scroll (lower)
+          mockQueryResult([{ avg_seconds: 30, sessions: 50 }]), // current time
+          mockQueryResult([{ page_views: 500, scroll_50: 300, cta_clicks: 75, cal_opens: 15 }]),
+          mockQueryResult([]), // scroll dist
+          mockQueryResult([]), // top clicks
+          mockQueryResult([{ avg_scroll: 70 }]), // prev scroll (higher)
+          mockQueryResult([{ avg_seconds: 60, sessions: 100 }]), // prev time (higher)
+          mockQueryResult([{ sessions: 100 }]), // prev sessions (higher)
+          mockQueryResult([]), // sparkline
         ];
-        return Promise.resolve(responses[callCount++] || { rows: [] });
+        return Promise.resolve(responses[callCount++] || mockQueryResult([]));
       });
 
       const request = new NextRequest(
