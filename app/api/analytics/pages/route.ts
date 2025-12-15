@@ -162,7 +162,7 @@ export async function GET(request: NextRequest) {
     `;
 
     // Transform and sort results
-    let pages: PageMetrics[] = result.rows.map((row) => ({
+    const pages: PageMetrics[] = result.rows.map((row) => ({
       path: String(row.path),
       views: Number(row.views) || 0,
       uniqueVisitors: Number(row.unique_visitors) || 0,
